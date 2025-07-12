@@ -1,0 +1,29 @@
+$clr1: #ce2e6c;
+$clr2: #4f3a65;
+$clr3: #574f7d;
+$clr4: #95adbe;
+$clr5: #dff0ea;
+$clr6: #fff;
+$clr7: #222;
+
+$gray1: #ddd;
+$gray2: #aaa;
+$gray3: #777;
+$gray4: #333;
+
+// rgba(0, 0, 0, 0)
+// Airbnb colors
+$primary-font-black: rgb(34, 34, 34);
+$secondary-font-gray: rgb(106, 106, 106);
+$primary-pink: rgb(255, 56, 92);
+$primary-hover-gray: rgb(221, 221, 221);
+$secondary-background-gray: linear-gradient(
+  180deg,
+  #ffffff 39.9%,
+  #f8f8f8 100%
+);
+
+// Breakpoints
+$mobile-breakpoint: 460px;
+$narrow-breakpoint: 720px;
+$normal-breakpoint: 960px;

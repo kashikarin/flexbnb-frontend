@@ -1,0 +1,105 @@
+.app-header {
+  min-height: 5rem;
+  background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
+  nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    gap: 1em;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    letter-spacing: 0.2px;
+
+    a {
+      color: $secondary-font-gray;
+    }
+    .active {
+      font-weight: 600;
+      color: $primary-font-black;
+    }
+    a {
+      position: relative;
+      padding-bottom: 4px;
+      text-decoration: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: $primary-font-black;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+
+      &.active::after {
+        transform: scaleX(1);
+      }
+    }
+    a.active:hover {
+      text-decoration: none;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 1.4em;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: $primary-pink;
+      // margin-inline-end: 2em;
+      &.active {
+        border-color: $primary-pink;
+      }
+    }
+    .nav-links-container {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+
+    button {
+      margin-inline-end: 0;
+    }
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-inline-start: auto;
+    color: $clr1;
+
+    .score {
+      padding: 8px;
+      background-color: $clr2;
+      border-radius: 50%;
+      margin: 10px;
+
+      color: $clr6;
+    }
+
+    img {
+      width: 32px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+    }
+
+    .btn-link {
+      color: $clr2;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .app-header {
+    .logo {
+      span {
+        display: none;
+      }
+    }
+  }
+}

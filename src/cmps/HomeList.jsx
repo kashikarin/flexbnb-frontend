@@ -1,5 +1,5 @@
 import { userService } from '../services/user'
-import { homePreview } from './HomePreview'
+import { HomePreview } from './HomePreview'
 
 export function HomeList({ homes, onRemoveHome, onUpdatehome }) {
   function shouldShowActionBtns(home) {
@@ -15,7 +15,7 @@ export function HomeList({ homes, onRemoveHome, onUpdatehome }) {
       <ul className='list'>
         {homes.map((home) => (
           <li key={home._id}>
-            <homePreview home={home} />
+            <HomePreview home={home} />
             {shouldShowActionBtns(home) && (
               <div className='actions'>
                 <button onClick={() => onUpdatehome(home)}>Edit</button>

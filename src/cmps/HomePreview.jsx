@@ -8,7 +8,7 @@ export function HomePreview({ home }) {
       </header>
 
       <p>
-        Speed: <span>{home.speed.toLocaleString()} Km/h</span>
+        Speed: <span>{home.speed?.toLocaleString()} Km/h</span>
       </p>
       {home.owner && (
         <p>

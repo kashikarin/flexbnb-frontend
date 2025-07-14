@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+// import 'slick-carousel/slick/slick.css'
+// import 'slick-carousel/slick/slick-theme.css'
 
 import {
   loadHomes,
@@ -15,6 +17,9 @@ import { userService } from '../services/user'
 
 import { HomeList } from '../cmps/HomeList'
 import { HomeFilter } from '../cmps/HomeFilter'
+import { Slider } from '../cmps/Slider.jsx'
+import { MultiCarousel } from '../cmps/MultiCarousel.jsx'
+import Carousel from 'react-multi-carousel'
 
 export function HomeIndex() {
   const [filterBy, setFilterBy] = useState(homeService.getDefaultFilter())
@@ -62,12 +67,14 @@ export function HomeIndex() {
 
   return (
     <main className='home-index'>
-      <header>
-        <h2>Homes</h2>
+      <Slider />
+      {/* <MultiCarousel /> */}
+      {/*<header>
+         <h2>Homes</h2>
         {userService.getLoggedinUser() && (
           <button onClick={onAddHome}>Add a Home</button>
         )}
-      </header>
+      </header> */}
       <HomeFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
       <HomeList
         homes={homes}

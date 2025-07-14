@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-export function homePreview({ home }) {
+export function HomePreview({ home }) {
   return (
     <article className='preview'>
       <header>

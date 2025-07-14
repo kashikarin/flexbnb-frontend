@@ -12,6 +12,7 @@ export function HomeDetails() {
 
   useEffect(() => {
     loadHome(homeId)
+    console.log('homeId:', homeId)
   }, [homeId])
 
   async function onAddHomeMsg(homeId) {

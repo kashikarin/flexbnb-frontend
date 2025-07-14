@@ -419,9 +419,7 @@ function _createHome() {
     home.likedByUsers.push(user)
   }  
   
-  return {
-    home
-  }
+  return home
 }
 function _createHomes() {
 

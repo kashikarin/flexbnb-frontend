@@ -26,12 +26,13 @@ export function AppHeader() {
           <FaAirbnb />
           <span>flexbnb</span>
         </NavLink>
-        <div className='nav-links-container'>
+       
+        {/* <div className='nav-links-container'>
           <NavLink to='/about'>About</NavLink>
           <NavLink to='/home'>Homes</NavLink>
           <NavLink to='/chat'>Chat</NavLink>
           <NavLink to='/review'>Review</NavLink>
-        </div>
+        </div> */}
         {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
 
         {!user && (
@@ -51,6 +52,24 @@ export function AppHeader() {
           </div>
         )}
       </nav>
+      <search className=''>
+          <div className='search-bar-container'>
+            <div className='inner-section'>hi</div>
+            <div className='inner-section'>how</div>
+            <div className='inner-section'>you</div>
+            <div className='inner-section'>doin'?
+              <div className='search-btn-section'>
+                <button className='search-button'></button>
+              </div>
+            </div>
+            {/* <div>
+              <div>
+                
+              </div>
+            </div> */}
+            
+          </div>
+      </search>
     </header>
   )
 }

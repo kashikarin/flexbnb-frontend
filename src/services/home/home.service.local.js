@@ -8,6 +8,7 @@ export const homeService = {
   save,
   remove,
   addHomeMsg,
+  getAverageReviewRate
 }
 
 
@@ -361,17 +362,22 @@ async function addHomeMsg(homeId, txt) {
   return msg
 }
 
-function getImageUrl() {
+function _getImageUrl() {
   return `https://picsum.photos/200?random=${Math.random()}`
 }
 
+async function getAverageReviewRate(homeId) {
+  const home = await getById(homeId)
+  let avg = home.reviews.reduce((sum, review) => sum + review.rate, 0) / home.reviews.length
+  return avg.toFixed(2)
+}
 function _createHome() {
   let city = gCities[getRandomIntInclusive(0, gCities.length - 1)]
   let name = makeLorem(15)
   const home = getEmptyHome(name, city)
   home._id = makeId()
-  home.type = gHomeTypes[getRandomIntInclusive(0, gHomeTypes[length - 1])]
-  home.imageUrls = [getImageUrl(), getImageUrl(), getImageUrl(), getImageUrl()]
+  home.type = gHomeTypes[getRandomIntInclusive(0, gHomeTypes.length - 1)]
+  home.imageUrls = [_getImageUrl(), _getImageUrl(), _getImageUrl(), _getImageUrl()]
   home.price = getRandomIntInclusive(500, 2000)
   home.summary = makeLorem(getRandomIntInclusive(25, 200))
   home.capacity = getRandomIntInclusive(1, 10)
@@ -383,7 +389,7 @@ function _createHome() {
   home.host = {
     _id: 'u101',
     fullname: 'Hosty Hosterson',
-    imageURL: getImageUrl()
+    imageURL: _getImageUrl()
   }
   switch(city) {
     case 'barcelona':
@@ -407,7 +413,7 @@ function _createHome() {
     let by = {
       _id: 'u102',
       fullname: 'Sue Percritical',
-      imageURL: getImageUrl()
+      imageURL: _getImageUrl()
     } 
     let review = {id, txt, rate, by}
     home.reviews.push(review)

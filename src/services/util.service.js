@@ -6,6 +6,7 @@ export const utilService = {
   debounce,
   saveToStorage,
   loadFromStorage,
+  capitalizeStr
 }
 // consider use npm for id maker
 export function makeId(length = 6) {
@@ -95,4 +96,8 @@ export function saveToStorage(key, value) {
 export function loadFromStorage(key) {
   const data = localStorage.getItem(key)
   return data ? JSON.parse(data) : undefined
+}
+
+export function capitalizeStr(str){
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }

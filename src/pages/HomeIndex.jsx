@@ -76,11 +76,11 @@ export function HomeIndex() {
         )}
       </header> */}
       <HomeFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-      <HomeList
+      {/* <HomeList
         homes={homes}
         onRemoveHome={onRemoveHome}
         onUpdateHome={onUpdateHome}
-      />
+      /> */}
     </main>
   )
 }

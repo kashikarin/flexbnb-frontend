@@ -1,10 +1,11 @@
-.home-preview {
-  a {
-    color: $clr4;
-    padding: 0;
-  }
-  p {
-    margin-block: 0 0.2rem;
-    font-size: 0.85em;
+.home-preview-container {
+  display: flex;
+  flex-direction: column; //save this as a variable - var(--card-layout_flex-direction)
+  gap: 1rem; //save this as a variable - var(--card-layout_big_gap)
+  border-radius: 20px; //save this as var(--corner-radius-xlarge20)
+  .home-preview-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem; //save this as a variable - var(--card-layout_small_gap)
   }
 }

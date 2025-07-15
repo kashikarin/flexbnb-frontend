@@ -1,12 +1,16 @@
 .app-header {
   min-height: 5rem;
+  max-height: 200px;
   background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
+  padding-bottom: 2.5rem;
+  padding-top: 1rem;
+  gap: 2.5rem;
   nav {
     display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    gap: 1em;
+    gap: 2em;
     font-family: 'Montserrat', sans-serif;
     font-size: 0.9em;
     letter-spacing: 0.2px;
@@ -57,16 +61,168 @@
         border-color: $primary-pink;
       }
     }
+
+    .logo.active::after {
+      transform: none;
+      content: none;
+    }
+
+
     .nav-links-container {
       display: flex;
       align-items: center;
       gap: 1em;
     }
 
+  
+
     button {
       margin-inline-end: 0;
     }
+
   }
+search{
+  .search-bar-container
+    {
+      width: 100%;
+      max-width: 850px;
+      min-width: 729px;
+      height: 66px;
+      margin: 0 auto;
+      position:relative;
+      display: flex;
+      align-items: center;
+      border-radius: 32px;
+      box-sizing:border-box;
+      color:rgb(34, 34, 34);
+      column-gap:12px;
+      font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+      font-size: 14px;
+      line-break:strict;
+      line-height:20.02px;
+      row-gap:12px;
+      text-size-adjust:100%;
+      unicode-bidi:isolate;
+      -webkit-font-smoothinganti:aliased;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background-color:rgb(255, 255, 255);
+
+      > div{
+        position00:absolute;
+        box-sizing:border-box;
+        display:block;
+        height:66px;
+        left:0px;
+        top:0px;
+        z-index00:-3;
+        width: 100%;
+        background-color:rgb(255, 255, 255);
+        border-radius:100px;
+        color:rgb(34, 34, 34);
+        font-family:Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+        font-size:14px;
+        line-break:strict;
+        line-height:20.02px;
+        opacity:1;
+        text-size-adjust:100%;
+        unicode-bidi:isolate;
+        -webkit-font-smoothing:antialiased;
+        
+
+        > div{
+          align-items:center;
+          background-attachment:scroll;
+          background-clip:border-box;
+          background-color:rgba(0, 0, 0, 0);
+          background-image:none;
+          background-origin:padding-box;
+          background-position-x:0%;
+          background-position-y:0%;
+          background-repeat:repeat;
+          background-size:auto;
+          border-radius:32px;
+          box-sizing: border-box;
+          color:rgb(34, 34, 34);
+          column-gap:2px;
+          display:grid;
+          font-family:Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+          font-size:14px;
+          grid-template-columns:minmax(0, 2fr) 1px minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 2fr);
+          height:66px;
+          line-break:strict;
+          line-height:20.02px;
+          opacity:1;
+          row-gap:2px;
+          text-size-adjust:100%;
+          transform:none;
+          unicode-bidi:isolate;
+          width:100%;
+          -webkit-font-smoothing:antialiased;
+        }
+        
+       }
+
+      .inner-section{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 1.75rem;
+        height: 100%;
+        border-radius: 32px;
+        user-select: none;
+        color:rgb(34, 34, 34);
+        cursor:pointer;
+
+       
+        &:not(:last-of-type)::after {
+          content: '';
+          position: absolute;
+          top: 14px;
+          right: calc(-0.25rem / 2);
+          height: 36px;
+          width: 1px;
+          background-color: $divider-color;
+          transition: background-color 0.2s;
+        } 
+        
+        &:hover{
+          background-color: $gray5;
+        }
+
+        &:hover::after{
+          background-color: transparent;
+        }
+
+      }
+
+      .search-btn-section
+      {
+        position:absolute;
+        box-sizing:border-box;
+        display:block;
+        height:68px;
+        padding-bottom:10px;
+        padding-left:10px;
+        padding-right:10px;
+        padding-top:10px;
+        right:0px;
+        width:68px;
+        z-index:2;
+      }
+      .search-button{
+        box-sizing:border-box;
+        background-color: $primary-pink;
+        display:inline-block;
+        height:48px;
+        margin:0px;
+        padding:0;
+        width:48px;
+        border-radius: 100%;
+      }
+      
+    }
+}
 
   .user-info {
     display: flex;
@@ -93,6 +249,8 @@
       color: $clr2;
     }
   }
+
+ 
 }
 @media (max-width: 768px) {
   .app-header {

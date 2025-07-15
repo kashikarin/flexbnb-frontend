@@ -3,17 +3,16 @@
   flex-wrap: nowrap;
   justify-content: center;
   flex-direction: column;
+  gap: 0.5rem;
   align-items: center;
   cursor: pointer;
-  min-width: 80px;
-  &:hover {
-    transform: scale(1.05); // Slight zoom on hover
-  }
+  min-width: 64px;
 
   & span {
     font-size: 0.8rem;
     color: $secondary-font-gray;
-    transition: color 0.3s ease;
+    transition: color;
+    line-height: 1rem;
     position: relative;
 
     &::after {
@@ -21,23 +20,29 @@
       position: absolute;
       bottom: -4px;
       left: 0;
-      height: 2px;
-      width: 0%;
+      height: 1px;
+      opacity: 0;
+      width: 100%;
       background-color: $primary-font-black;
-      transition: width 0.3s ease;
+      transition: opacity;
     }
   }
 
   &:hover span::after {
-    width: 100%;
+    opacity: 0.5;
   }
 
   & img {
     width: 1.5rem;
-    transition: transform 0.3s ease;
+    transition: opacity;
+    opacity: 0.6;
   }
 
   &:hover img {
-    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  &:hover span {
+    color: $primary-font-black;
   }
 }

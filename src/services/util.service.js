@@ -99,5 +99,17 @@ export function loadFromStorage(key) {
 }
 
 export function capitalizeStr(str){
+  if (!str) return
   return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+export function getExistingProperties(obj) {
+    const truthyObj = {}
+    for (const key in obj) {
+        const val = obj[key]
+        if (val || typeof val === 'boolean') {
+            truthyObj[key] = val
+        }
+    }
+    return truthyObj
 }

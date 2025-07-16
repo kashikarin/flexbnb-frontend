@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
+import {useEffectUpdate} from '../customHooks/useEffectUpdate.js'
 
 export function HomeFilter({ filterBy, onSetFilterBy }) {
   const [filterToEdit, setFilterToEdit] = useState(structuredClone(filterBy))
 
-  useEffect(() => {
+  useEffectUpdate(() => {
     onSetFilterBy(filterToEdit)
   }, [filterToEdit])
 
@@ -27,13 +28,8 @@ export function HomeFilter({ filterBy, onSetFilterBy }) {
   }
 
   function clearFilter() {
-    setFilterToEdit({ ...filterToEdit, txt: '', minSpeed: '', maxPrice: '' })
+    setFilterToEdit({ ...filterToEdit, capacity: '', type: '', minPrice: '', maxPrice: '', amenities: [], bedRoomsCount: "", bedsCount: "", bathCount: ''})
   }
-
-  function clearSort() {
-    setFilterToEdit({ ...filterToEdit, sortField: '', sortDir: '' })
-  }
-
   return (
     <section className='home-filter'>
       <h3>Filter:</h3>
@@ -112,9 +108,6 @@ export function HomeFilter({ filterBy, onSetFilterBy }) {
           />
         </label>
       </div>
-      <button className='btn-clear' onClick={clearSort}>
-        Clear
-      </button>
     </section>
   )
 }

@@ -7,8 +7,11 @@ export const homeService = {
   getById,
   save,
   remove,
+  getDefaultFilter,
   addHomeMsg,
-  getAverageReviewRate
+  getFilterFromSearchParams,
+  getAverageReviewRate, 
+  getMaxHomePrice
 }
 
 
@@ -270,42 +273,44 @@ const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
 
 _createHomes()
 
-async function query(filterBy = { txt: '', price: 0 }) {
-  var homes = await storageService.query(STORAGE_KEY)
-  const { txt, minSpeed, maxPrice, sortField, sortDir } = filterBy
+async function query(filterBy = getDefaultFilter()) {
+  try {
+    var homes = await storageService.query(STORAGE_KEY)
+    // const maxHomePrice = await getMaxHomePrice(filter)
+    const {city, capacity, type, minPrice, maxPrice, amenities, bedRoomsCount, bedsCount, bathCount} = filterBy
 
-  if (txt) {
-    const regex = new RegExp(filterBy.txt, 'i')
-    homes = homes.filter(
-      (home) => regex.test(home.vendor) || regex.test(home.description)
-    )
-  }
-  if (minSpeed) {
-    homes = homes.filter((home) => home.speed <= minSpeed)
-  }
-  if (maxPrice) {
-    homes = homes.filter((home) => home.price <= maxPrice)
-  }
-  if (sortField === 'vendor' || sortField === 'owner') {
-    homes.sort(
-      (home1, home2) =>
-        home1[sortField].localeCompare(home2[sortField]) * +sortDir
-    )
-  }
-  if (sortField === 'price' || sortField === 'speed') {
-    homes.sort(
-      (home1, home2) => (home1[sortField] - home2[sortField]) * +sortDir
-    )
-  }
-
-  homes = homes.map(({ _id, vendor, price, speed, owner }) => ({
-    _id,
-    vendor,
-    price,
-    speed,
-    owner,
-  }))
+    if (city) {
+      homes = homes.filter(home => home.loc.city.toLowercase().includes(city.toLowerCase()))
+    }
+    if (capacity) {
+      homes = homes.filter(home => home.capacity >= capacity)
+    }
+    if (type) {
+      homes = homes.filter(home => home.type.toLowerCase().includes(type.toLowerCase()))
+    }
+    if (minPrice) {
+      homes = homes.filter(home => home.price >= minPrice )
+    }
+    if (maxPrice !== "") {
+      homes = homes.filter(home => home.price <= maxPrice)
+    }
+    if (amenities?.length) {
+      homes = homes.filter(home => amenities.every(amenity => home.amenities.includes(amenity)))
+    }
+    if (bedRoomsCount) {
+      homes = homes.filter(home => home.bedRoomsCount >= bedRoomsCount)
+    }
+    if (bedsCount) {
+      homes = homes.filter(home => home.bedRoomsCount >= bedsCount)
+    }
+    if (bathCount) {
+      homes = homes.filter(home => home.bathCount >= bathCount)
+    }
   return homes
+  } catch(err) {
+    console.error('Oops', err)
+    throw err
+  }  
 }
 
 function getById(homeId) {
@@ -345,6 +350,37 @@ function getEmptyHome(name = '', labels = [], amenities = []) {
              labels, 
              amenities
            }
+}
+
+function getDefaultFilter(){
+  return {city: '', 
+          capacity: 0, 
+          type: '', 
+          minPrice: 0, 
+          maxPrice: '', 
+          amenities: [], 
+          bedRoomsCount: 0, 
+          bedsCount: 0, 
+          bathCount: 0
+        }
+}
+
+function getFilterFromSearchParams(searchParams) {
+    const defaultFilter = getDefaultFilter()
+    const filterBy = {}
+    for (const field in defaultFilter) {
+        filterBy[field] = searchParams.get(field) || ''
+    }
+    return filterBy
+}
+
+async function getMaxHomePrice(filterBy){
+  const homes = await query(filterBy)
+  let maxPrice = 0
+  for (let i=0; i<homes.length; i++) {
+    maxPrice = Math.max(homes[i].price, maxPrice)
+  }
+  return maxPrice
 }
 
 async function addHomeMsg(homeId, txt) {

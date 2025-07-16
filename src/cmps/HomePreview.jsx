@@ -10,12 +10,16 @@ export function HomePreview({ home }) {
   const imgRef = useRef(null)
   const lastIdx = Math.min(firstIdx, home.imageUrls.length - 1)
 
-  function onPrevClick() {
+  function onPrevClick(ev) {
+    ev.preventDefault()
+    ev.stopPropagation()
     if (firstIdx === 0) return
     setFirstIdx((prev) => Math.max(0, prev - 1))
   }
 
-  function onNextClick() {
+  function onNextClick(ev) {
+    ev.preventDefault()
+    ev.stopPropagation()
     if (firstIdx + 1 >= home.imageUrls.length) return
     setFirstIdx((prev) => Math.min(prev + 1, home.imageUrls.length - 1))
   }
@@ -65,14 +69,14 @@ export function HomePreview({ home }) {
               <div className="images-slider-buttons-container">
                 <div className="images-slider-btn-left">
                   {firstIdx > 0 && (
-                    <button onClick={onPrevClick} className='images-slider-btn left'>
+                    <button onClick={(ev) => onPrevClick(ev)} className='images-slider-btn left'>
                         <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg" />
                     </button>
                   )}
                 </div>
                 <div className="images-slider-btn-right">
                   {lastIdx < home.imageUrls.length - 1 && (
-                    <button onClick={onNextClick} className='images-slider-btn right'>
+                    <button onClick={(ev) => onNextClick(ev)} className='images-slider-btn right'>
                         <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg" />
                     </button>
                   )}

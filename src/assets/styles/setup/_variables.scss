@@ -10,7 +10,7 @@ $gray1: #ddd;
 $gray2: #aaa;
 $gray3: #777;
 $gray4: #333;
-$gray5: #EBEBEB;
+$gray5: #ebebeb;
 
 $divider-color: #e0e0e0;
 
@@ -25,6 +25,15 @@ $secondary-background-gray: linear-gradient(
   #ffffff 39.9%,
   #f8f8f8 100%
 );
+
+// font sizes
+$font-size-xxs: 0.625rem; // 10px
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px
+$font-size-md: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-xl: 1.25rem; // 20px
+$font-size-xxl: 1.5rem; // 24px
 
 // Breakpoints
 $mobile-breakpoint: 460px;

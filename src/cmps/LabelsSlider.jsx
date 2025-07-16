@@ -135,7 +135,6 @@ const labels = [
   },
 ]
 export function LabelsSlider() {
-  
   const getShowCountByScreen = () => {
     const width = window.innerWidth
     if (width < 480) return 3
@@ -151,7 +150,7 @@ export function LabelsSlider() {
   const [firstIdx, setFirstIdx] = useState(0)
   const [showCount, setShowCount] = useState(getShowCountByScreen())
   const itemRef = useRef(null)
-  
+
   useEffect(() => {
     const handleResize = () => setShowCount(getShowCountByScreen())
     window.addEventListener('resize', handleResize)
@@ -159,11 +158,11 @@ export function LabelsSlider() {
   }, [])
 
   useEffect(() => {
-  if (itemRef.current) {
-    const width = itemRef.current.getBoundingClientRect().width
-    setItemWidth(width + 16) 
-  }
-}, [showCount])
+    if (itemRef.current) {
+      const width = itemRef.current.getBoundingClientRect().width
+      setItemWidth(width + 16)
+    }
+  }, [showCount])
 
   const lastIdx = Math.min(firstIdx + showCount - 1, labels.length - 1)
 
@@ -178,37 +177,44 @@ export function LabelsSlider() {
 
   return (
     <section className='labels-slider-container full'>
-      <div className="labels-slider-grid-area">
-          <div className="labels-slider-wrapper">
-          <div className="labels-slider-track" 
-              style={{ '--translate-x-labels': `${-firstIdx * (itemWidth || 96)}px` }}
+      <div className='labels-slider-grid-area'>
+        <div className='labels-slider-wrapper'>
+          <div
+            className='labels-slider-track'
+            style={{
+              '--translate-x-labels': `${-firstIdx * (itemWidth || 96)}px`,
+            }}
           >
             {labels.map((label, idx) => (
-              <div className='labels-slider-item' ref={firstIdx === 0 && idx === 0 ? itemRef : null} key={idx}>
-                <LabelPreview  label={label} />
+              <div
+                className='labels-slider-item'
+                ref={firstIdx === 0 && idx === 0 ? itemRef : null}
+                key={idx}
+              >
+                <LabelPreview label={label} />
               </div>
             ))}
           </div>
         </div>
       </div>
-       
-      
+
       <div className='labels-slider-buttons-container'>
-        <div className="labels-slider-btn-left">
+        <div className='labels-slider-btn-left'>
           {firstIdx > 0 && (
-          <button onClick={onPrevClick} className='labels-slider-btn left'>
-            <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg" />
-          </button>
-        )}
+            <button onClick={onPrevClick} className='labels-slider-btn left'>
+              <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg' />
+            </button>
+          )}
         </div>
-        <div className="labels-slider-btn-right">
+        <div className='labels-slider-btn-right'>
           {lastIdx < labels.length - 1 && (
-          <button onClick={onNextClick} className='labels-slider-btn right'>
-            <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg" />
-          </button>
-        )}
+            <button onClick={onNextClick} className='labels-slider-btn right'>
+              <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg' />
+            </button>
+          )}
         </div>
       </div>
+      {/* <span>filter</span> */}
     </section>
   )
 }

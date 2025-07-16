@@ -40,7 +40,7 @@ export function AppHeader() {
           <FaAirbnb />
           <span>flexbnb</span>
         </NavLink>
-       
+
         {/* <div className='nav-links-container'>
           <NavLink to='/about'>About</NavLink>
           <NavLink to='/home'>Homes</NavLink>

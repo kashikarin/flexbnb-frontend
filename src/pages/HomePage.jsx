@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 export function HomePage() {
+  
   return (
     <section>
       <h1>Home sweet Home</h1>
@@ -15,6 +16,7 @@ export function HomePage() {
         excepturi alias aperiam repudiandae soluta animi modi temporibus veniam
         vero eveniet nemo ipsa?
       </p>
+
       <Link to='/home'>Check Our homes!</Link>
     </section>
   )

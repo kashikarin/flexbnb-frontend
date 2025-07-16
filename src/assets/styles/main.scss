@@ -31,12 +31,15 @@
 @import 'cmps/AppHeader';
 @import 'cmps/AppFooter';
 @import 'cmps/UserMsg';
+@import 'cmps/HomeList';
+@import 'cmps/HomePreview';
 @import 'cmps/SearchBar.scss';
 
 @import 'cmps/homeFilter';
 @import 'cmps/ReviewEdit';
 @import 'cmps/ReviewList';
 @import 'cmps/ReviewPreview';
-@import 'cmps/LabelSection';
-@import 'cmps/LabelPreview.scss'; // @import "cmps/homeList";
+@import 'cmps/LabelsSlider';
+@import 'cmps/LabelPreview'; // @i
+@import 'cmps/FilterDropdown'; // ← תוסיף את זה
 // @import "cmps/homePreview";

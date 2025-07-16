@@ -1,4 +1,4 @@
-import { homeService } from '../services/home'
+import { homeService } from '../services/home/home.service.local'
 import { store } from './store'
 import {
   ADD_HOME,
@@ -7,6 +7,7 @@ import {
   SET_HOME,
   UPDATE_HOME,
   ADD_HOME_MSG,
+  SET_FILTERBY
 } from './home.reducer'
 
 export async function loadHomes(filterBy) {
@@ -72,6 +73,10 @@ export async function addHomeMsg(homeId, txt) {
   }
 }
 
+export function setFilterBy(filterBy) {
+  store.dispatch(getCmdSetFilterBy(filterBy))
+}
+
 // Command Creators:
 function getCmdSetHomes(homes) {
   return {
@@ -107,6 +112,13 @@ function getCmdAddHomeMsg(msg) {
   return {
     type: ADD_HOME_MSG,
     msg,
+  }
+}
+
+function getCmdSetFilterBy(filterBy) {
+  return {
+    type: SET_FILTERBY,
+    filterBy
   }
 }
 

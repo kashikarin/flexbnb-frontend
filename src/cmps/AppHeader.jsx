@@ -5,6 +5,7 @@ import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
+import { SearchBar } from './SearchBar'
 
 export function AppHeader() {
   const user = useSelector((storeState) => storeState.userModule.user)
@@ -65,8 +66,8 @@ export function AppHeader() {
           </div>
         )}
       </nav>
-      <search className=''>
-          {/* <div className='search-bar-container'> */}
+      <SearchBar isScrolled={isScrolled} />
+      {/* <search className=''>
           <div className={`search-bar-container ${isScrolled ? 'scrolled' : ''}`}>
             <div>
               <div className='inner-section'>
@@ -95,7 +96,7 @@ export function AppHeader() {
               </div>
             </div>
           </div>
-      </search>
+      </search> */}
     </header>
   )
 }

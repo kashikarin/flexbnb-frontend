@@ -1,4 +1,4 @@
-.labels-container {
+.labels-slider-container {
   position: sticky;
   top: 0;
   z-index: 100;
@@ -11,29 +11,29 @@
   position: relative;
 
 
-  .slider-grid-area {
+  .labels-slider-grid-area {
   grid-column: 2; // sits in the center column
   width: 100%;
   overflow: hidden;
   
 
-    .slider-wrapper {
+    .labels-slider-wrapper {
       width: 100%;
       max-width: 100vw;
       padding-block: 1.25rem;
     
 
-    .slider-track {
+    .labels-slider-track {
       display: flex;
       flex-direction: row;
       gap: 16px;
       will-change: transform;
       transition: transform 400ms ease-in-out;
-      transform: translate3d(var(--translate-x, 0), 0, 0);
+      transform: translate3d(var(--translate-x-labels, 0), 0, 0);
       width: max-content; 
       max-width: 100%;
 
-      .slider-item {
+      .labels-slider-item {
         flex: 0 0 clamp(64px, 10vw, 96px);
       }
 
@@ -41,7 +41,7 @@
       }
     }
   }
-  .label-buttons {
+  .labels-slider-buttons-container {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -51,22 +51,22 @@
     pointer-events: none;   
     // padding: 0 0.5rem;
 
-    .btn-left,
-    .btn-right {
+    .labels-slider-btn-left,
+    .labels-slider-btn-right {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       pointer-events: all;
     }
 
-    .btn-left {
+    .labels-slider-btn-left {
       left: 0.5rem;
     }
-    .btn-right {
+    .labels-slider-btn-right {
       right: 0.5rem;
     }
 
-    .label-btn {
+    .labels-slider-btn {
         // font-size: 1.5rem;
         color: $primary-font-black;
         // transition: color 0.3s ease;

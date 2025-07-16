@@ -134,7 +134,7 @@ const labels = [
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389302/categories/arctics_obddis.png',
   },
 ]
-export function Slider() {
+export function LabelsSlider() {
   
   const getShowCountByScreen = () => {
     const width = window.innerWidth
@@ -177,14 +177,14 @@ export function Slider() {
   }
 
   return (
-    <section className='labels-container full'>
-      <div className="slider-grid-area">
-          <div className="slider-wrapper">
-          <div className="slider-track" 
-              style={{ '--translate-x': `${-firstIdx * (itemWidth || 96)}px` }}
+    <section className='labels-slider-container full'>
+      <div className="labels-slider-grid-area">
+          <div className="labels-slider-wrapper">
+          <div className="labels-slider-track" 
+              style={{ '--translate-x-labels': `${-firstIdx * (itemWidth || 96)}px` }}
           >
             {labels.map((label, idx) => (
-              <div className='slider-item' ref={firstIdx === 0 && idx === 0 ? itemRef : null} key={idx}>
+              <div className='labels-slider-item' ref={firstIdx === 0 && idx === 0 ? itemRef : null} key={idx}>
                 <LabelPreview  label={label} />
               </div>
             ))}
@@ -193,17 +193,17 @@ export function Slider() {
       </div>
        
       
-      <div className='label-buttons'>
-        <div className="btn-left">
+      <div className='labels-slider-buttons-container'>
+        <div className="labels-slider-btn-left">
           {firstIdx > 0 && (
-          <button onClick={onPrevClick} className='label-btn left'>
+          <button onClick={onPrevClick} className='labels-slider-btn left'>
             <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg" />
           </button>
         )}
         </div>
-        <div className="btn-right">
+        <div className="labels-slider-btn-right">
           {lastIdx < labels.length - 1 && (
-          <button onClick={onNextClick} className='label-btn right'>
+          <button onClick={onNextClick} className='labels-slider-btn right'>
             <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg" />
           </button>
         )}

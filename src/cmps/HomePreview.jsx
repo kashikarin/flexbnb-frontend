@@ -10,12 +10,16 @@ export function HomePreview({ home }) {
   const containerRef = useRef(null)
   const lastIdx = Math.min(firstIdx, home.imageUrls.length - 1)
 
-  function onPrevClick() {
+  function onPrevClick(ev) {
+    ev.preventDefault()
+    ev.stopPropagation()
     if (firstIdx === 0) return
     setFirstIdx((prev) => Math.max(0, prev - 1))
   }
 
-  function onNextClick() {
+  function onNextClick(ev) {
+    ev.preventDefault()
+    ev.stopPropagation()
     if (firstIdx + 1 >= home.imageUrls.length) return
     setFirstIdx((prev) => Math.min(prev + 1, home.imageUrls.length - 1))
   }
@@ -84,52 +88,43 @@ export function HomePreview({ home }) {
   // console.log(-firstIdx * imgWidth)
 
   return (
-    // <a href={`/home/${home._id}`}>
-    <article className='home-preview-container' ref={containerRef}>
-      {/* <button className='home-like-btn'>Like</button> */}
-      <div className='home-preview-image-slider-container'>
-        <div className='home-preview-image-slider-wrapper'>
-          <div
-            className='home-preview-image-slider-track'
-            style={{ '--translate-x-images': `${-firstIdx * imgWidth}px` }}
-            // style={{ '--translate-x-images': `100px` }}
-          >
-            {home.imageUrls.map((imageUrl, idx) => (
-              <div
-                key={idx}
-                className='images-slider-item'
-                ref={firstIdx === 0 && idx === 0 ? imgRef : null}
-              >
-                <img src={imageUrl} alt={`${home.name} preview image`} />
+      <a className='home-preview-link' href={`/home/${home._id}`}>
+        <article className='home-preview-container'>
+          {/* <button className='home-like-btn'>Like</button> */}
+          <div className="home-preview-image-slider-container">
+              <div className='home-preview-image-slider-wrapper'>
+                <div className="home-preview-image-slider-track" style={{ '--translate-x-images': `${-firstIdx * (imgWidth)}px`}}>
+                  {home.imageUrls.map((imageUrl, idx) => (
+                    <div className="images-slider-item" ref={firstIdx === 0 && idx === 0 ? imgRef : null}>
+                      <img src={imageUrl} alt={`${home.name} preview image`} />
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+              <div className="images-slider-buttons-container">
+                <div className="images-slider-btn-left">
+                  {firstIdx > 0 && (
+                    <button onClick={(ev) => onPrevClick(ev)} className='images-slider-btn left'>
+                        <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg" />
+                    </button>
+                  )}
+                </div>
+                <div className="images-slider-btn-right">
+                  {lastIdx < home.imageUrls.length - 1 && (
+                    <button onClick={(ev) => onNextClick(ev)} className='images-slider-btn right'>
+                        <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg" />
+                    </button>
+                  )}
+                </div>
+              </div>
           </div>
+        <div className="home-preview-info-container">
+          <div>{`${capitalizeStr(home.type)} in ${capitalizeStr(home.loc.city)}`}</div>
+          <div>{getStayDatesStr()}</div>
+          <div>{`${home.price}$ for 3 nights`} · ★ 4.5</div>
         </div>
-        <div className='images-slider-buttons-container'>
-          <div className='images-slider-btn-left'>
-            {firstIdx > 0 && (
-              <button onClick={onPrevClick} className='images-slider-btn left'>
-                <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg' />
-              </button>
-            )}
-          </div>
-          <div className='images-slider-btn-right'>
-            {lastIdx < home.imageUrls.length - 1 && (
-              <button onClick={onNextClick} className='images-slider-btn right'>
-                <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg' />
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className='home-preview-info-container'>
-        <div>{`${capitalizeStr(home.type)} in ${capitalizeStr(
-          home.loc?.city
-        )}`}</div>
-        <div>{getStayDatesStr()}</div>
-        <div>{`${home.price}$ for 3 nights`} · ★ 4.5</div>
-      </div>
-    </article>
-    // </a>
+      </article>
+    </a>
+    
   )
 }

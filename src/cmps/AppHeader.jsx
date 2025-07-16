@@ -4,11 +4,22 @@ import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
-import searchIcon from '../assets/svgs/search-icon.svg'
+import { useEffect, useState } from 'react'
 
 export function AppHeader() {
   const user = useSelector((storeState) => storeState.userModule.user)
   const navigate = useNavigate()
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+      handleScroll() 
+  }, [])
+
+  function handleScroll() {
+    setIsScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }
 
   async function onLogout() {
     try {
@@ -21,7 +32,8 @@ export function AppHeader() {
   }
 
   return (
-    <header className='app-header main-container full'>
+    // <header className='app-header main-container full'>
+   <header className={`app-header ${isScrolled ? 'scrolled' : ''} main-container full`}>
       <nav className=''>
         <NavLink to='/' className='logo'>
           <FaAirbnb />
@@ -54,29 +66,30 @@ export function AppHeader() {
         )}
       </nav>
       <search className=''>
-          <div className='search-bar-container'>
+          {/* <div className='search-bar-container'> */}
+          <div className={`search-bar-container ${isScrolled ? 'scrolled' : ''}`}>
             <div>
               <div className='inner-section'>
-                <div className='sTitle'>Where</div>
-                <input className='input-content' type='search' placeholder='Search destination'></input>
+                <div className='sTitle'>{isScrolled ? 'Anywhere' : 'Where'}</div>
+                {!isScrolled && <input className='placeholder-content' type='search' placeholder='Search destination'></input>}
               </div>
               <div className="sep"></div>
               <div className='inner-section'>
-                <div className='sTitle'>Check in</div>
-                <input className='input-content' type='search' placeholder='Add dates'></input>
+                <div className='sTitle'>{isScrolled ? 'Anytime' : 'Check in'}</div>
+                {!isScrolled && <input className='placeholder-content' type='search' placeholder='Add dates'></input>}
               </div>
               <div className="sep"></div>
-              <div className='inner-section'>
+              {!isScrolled && <div className='inner-section'>
                 <div className='sTitle'>Check out</div>
-                <input className='input-content' type='search' placeholder='Add dates'></input>
-              </div>
-              <div className="sep"></div>
+                <input className='placeholder-content' type='search' placeholder='Add dates'></input>
+              </div>}
+              {!isScrolled && <div className="sep"></div>}
               <div className='inner-section'>
-                <div className='sTitle'>Who</div>
-                <input className='input-content' type='search' placeholder='Add guests'></input>
+                <div className='sTitle'>{isScrolled ? 'Add guests' : 'Who'}</div>
+                {!isScrolled && <input className='placeholder-content' type='search' placeholder='Add guests'></input>}
                 <div className='search-btn-section'>
                   <button className='search-button'>
-                    <div className='search-icon'  style={{ backgroundImage: `url(${searchIcon})` }}></div>
+                    <div className='search-icon'></div>
                   </button>
                 </div>
               </div>

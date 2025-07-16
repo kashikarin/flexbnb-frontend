@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { LabelPreview } from './LabelPreview'
+import { FilterDropdown } from './FilterDropdown'
 // import {ReactComponent as RightArrowIcon} from '../assets/svgs/arrow-right.svg?react'
 
 const labels = [
@@ -149,6 +150,7 @@ export function LabelsSlider() {
   const [itemWidth, setItemWidth] = useState(96)
   const [firstIdx, setFirstIdx] = useState(0)
   const [showCount, setShowCount] = useState(getShowCountByScreen())
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const itemRef = useRef(null)
 
   useEffect(() => {
@@ -214,7 +216,23 @@ export function LabelsSlider() {
           )}
         </div>
       </div>
-      {/* <span>filter</span> */}
+      <div
+        className='labels-slider-filter-container'
+        style={{ position: 'relative' }}
+      >
+        <button
+          className='labels-slider-filter-btn'
+          onClick={() => setIsFilterOpen(true)}
+        >
+          <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699388798/filterSvg_pvzh1i.svg' />
+          <span>Filters</span>
+        </button>
+
+        <FilterDropdown
+          isOpen={isFilterOpen}
+          onClose={() => setIsFilterOpen(false)}
+        />
+      </div>
     </section>
   )
 }

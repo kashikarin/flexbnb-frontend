@@ -11,11 +11,11 @@
   left: 0;
   margin-top: 10px;
   width: 100%;
-  background: rgb(177, 45, 45);
+  background: white;
   border-radius: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   padding: 1.5rem;
-  z-index: 10;
+  z-index: 1000000;
 
   h4 {
     margin-bottom: 1rem;

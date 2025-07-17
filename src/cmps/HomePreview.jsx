@@ -107,7 +107,6 @@ export function HomePreview({ home }) {
               ))}
             </div>
           </div>
-<<<<<<< HEAD
           <div className='images-slider-buttons-container'>
             <div className='images-slider-btn-left'>
               {firstIdx > 0 && (
@@ -137,12 +136,6 @@ export function HomePreview({ home }) {
           )}`}</p>
           <p>{getStayDatesStr()}</p>
           <p>{`${home.price}$ for 3 nights`} · ★ 4.5</p>
-=======
-        <div className="home-preview-info-container">
-          <div>{`${capitalizeStr(home.type)} in ${capitalizeStr(home.loc?.city)}`}</div>
-          <div>{getStayDatesStr()}</div>
-          <div>{`${home.price}$ for 3 nights`} · ★ 4.5</div>
->>>>>>> feature/home-preview
         </div>
       </article>
     </a>

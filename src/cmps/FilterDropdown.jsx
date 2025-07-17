@@ -21,7 +21,6 @@ export function FilterDropdown({ isOpen, onClose }) {
   return (
     <div className='modal-backdrop' onClick={onClose}>
       <div className='modal-container' onClick={(e) => e.stopPropagation()}>
-        {/* כאן יהיה התוכן */}
         <h2>Filters Modal</h2>
         <button onClick={onClose}>Close</button>
       </div>

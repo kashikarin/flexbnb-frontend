@@ -1,42 +1,65 @@
 import { useState } from 'react'
-import { WhereDropdown } from "./WhereDropdown";
+import { WhereDropdown } from './WhereDropdown'
 
 export function SearchBar({ isScrolled }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  
-  console.log (openedDropdown)
+
+  console.log(openedDropdown)
   return (
     <search className=''>
       <div className={`search-bar-container ${isScrolled ? 'scrolled' : ''}`}>
         <div>
           <div className='inner-section'>
             <div className='sTitle'>{isScrolled ? 'Anywhere' : 'Where'}</div>
-            {!isScrolled && <input className='placeholder-content' type='search' placeholder='Search destination'></input>}
+            {!isScrolled && (
+              <input
+                className='placeholder-content'
+                type='search'
+                placeholder='Search destination'
+              ></input>
+            )}
             <WhereDropdown
-              
               isOpen={openedDropdown === 'where'}
               onOpen={() => setOpenedDropdown('where')}
               onClose={() => setOpenedDropdown(null)}
             />
           </div>
-          <div className="sep"></div>
+          <div className='sep'></div>
           <div className='inner-section'>
             <div className='sTitle'>{isScrolled ? 'Anytime' : 'Check in'}</div>
-            {!isScrolled && <input className='placeholder-content' type='search' placeholder='Add dates'></input>}
+            {!isScrolled && (
+              <input
+                className='placeholder-content'
+                type='search'
+                placeholder='Add dates'
+              ></input>
+            )}
           </div>
-          <div className="sep"></div>
-          {!isScrolled && <div className='inner-section'>
-            <div className='sTitle'>Check out</div>
-            <input className='placeholder-content' type='search' placeholder='Add dates'></input>
-          </div>}
-          {!isScrolled && <div className="sep"></div>}
+          <div className='sep'></div>
+          {!isScrolled && (
+            <div className='inner-section'>
+              <div className='sTitle'>Check out</div>
+              <input
+                className='placeholder-content'
+                type='search'
+                placeholder='Add dates'
+              ></input>
+            </div>
+          )}
+          {!isScrolled && <div className='sep'></div>}
           <div className='inner-section'>
             <div className='sTitle'>{isScrolled ? 'Add guests' : 'Who'}</div>
-            {!isScrolled && <input className='placeholder-content' type='search' placeholder='Add guests'></input>}
+            {!isScrolled && (
+              <input
+                className='placeholder-content'
+                type='search'
+                placeholder='Add guests'
+              ></input>
+            )}
             <div className='search-btn-section'>
-                <button className='search-button'>
+              <button className='search-button'>
                 <div className='search-icon'></div>
-                </button>
+              </button>
             </div>
           </div>
         </div>

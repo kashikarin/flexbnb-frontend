@@ -8,7 +8,7 @@
   gap: 2rem;
   max-height: 200px;
 
-  &.scrolled{
+  &.scrolled {
     position: sticky;
   }
 
@@ -22,8 +22,6 @@
     font-size: 0.9em;
     letter-spacing: 0.2px;
 
-    
-  
     a {
       color: $secondary-font-gray;
     }
@@ -76,21 +74,16 @@
       content: none;
     }
 
-
     .nav-links-container {
       display: flex;
       align-items: center;
       gap: 1em;
     }
 
-  
-
     button {
       margin-inline-end: 0;
     }
-
   }
-
 
   .user-info {
     display: flex;
@@ -117,8 +110,6 @@
       color: $clr2;
     }
   }
-
- 
 }
 @media (max-width: 768px) {
   .app-header {

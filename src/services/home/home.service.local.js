@@ -662,7 +662,7 @@ function _createHomes() {
   let homes = utilService.loadFromStorage(STORAGE_KEY)
   if (!homes || !homes.length) {
     homes = []
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 40; i++) {
       const home = _createHome()
       homes.push(home)
     }

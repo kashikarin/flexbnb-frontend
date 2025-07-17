@@ -142,8 +142,8 @@ export function LabelsSlider() {
     if (width < 640) return 4
     if (width < 768) return 5
     if (width < 1024) return 7
-    if (width < 1280) return 9
-    return 14
+    if (width < 1280) return 13
+    return 13
   }
 
   const stepSize = 4

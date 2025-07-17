@@ -8,7 +8,6 @@ export function HomePreview({ home }) {
   const [imgWidth, setImgWidth] = useState(0)
   const imgRef = useRef(null)
   const containerRef = useRef(null)
-  const lastIdx = Math.min(firstIdx, home.imageUrls.length - 1)
 
   function onPrevClick(ev) {
     ev.preventDefault()
@@ -25,6 +24,9 @@ export function HomePreview({ home }) {
   }
 
   const getWidthByScreen = () => {
+    if (imgRef.current) {
+      return imgRef.current.getBoundingClientRect().width
+    }
     if (containerRef.current) {
       return containerRef.current.getBoundingClientRect().width
     }
@@ -37,6 +39,7 @@ export function HomePreview({ home }) {
       setImgWidth(width)
     }
 
+    // Initial calculation
     updateImageWidth()
 
     const handleResize = () => {
@@ -60,7 +63,7 @@ export function HomePreview({ home }) {
         resizeObserver.disconnect()
       }
     }
-  }, [])
+  }, [imgRef.current, containerRef.current])
 
   useEffect(() => {
     const updateImageWidth = () => {
@@ -69,9 +72,9 @@ export function HomePreview({ home }) {
     }
 
     // Small delay to ensure DOM is updated after component mount
-    const timeoutId = setTimeout(updateImageWidth, 50)
+    const timeoutId = setTimeout(updateImageWidth, 100)
     return () => clearTimeout(timeoutId)
-  }, [containerRef.current])
+  }, [home.imageUrls])
 
   function getStayDatesStr() {
     const today = new Date()
@@ -84,14 +87,21 @@ export function HomePreview({ home }) {
       ? `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
       : `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
   }
-  // console.log(imgWidth)
-  // console.log(-firstIdx * imgWidth)
+
+  console.log(
+    'imgWidth:',
+    imgWidth,
+    'firstIdx:',
+    firstIdx,
+    'translate:',
+    -firstIdx * imgWidth
+  )
 
   return (
     <a className='home-preview-link' href={`/home/${home._id}`}>
       <article className='home-preview-container'>
         {/* <button className='home-like-btn'>Like</button> */}
-        <div className='home-preview-image-slider-container'>
+        <div className='home-preview-image-slider-container' ref={containerRef}>
           <div className='home-preview-image-slider-wrapper'>
             <div
               className='home-preview-image-slider-track'
@@ -99,8 +109,9 @@ export function HomePreview({ home }) {
             >
               {home.imageUrls.map((imageUrl, idx) => (
                 <div
+                  key={idx}
                   className='images-slider-item'
-                  ref={firstIdx === 0 && idx === 0 ? imgRef : null}
+                  ref={idx === 0 ? imgRef : null}
                 >
                   <img src={imageUrl} alt={`${home.name} preview image`} />
                 </div>
@@ -119,7 +130,7 @@ export function HomePreview({ home }) {
               )}
             </div>
             <div className='images-slider-btn-right'>
-              {lastIdx < home.imageUrls.length - 1 && (
+              {firstIdx < home.imageUrls.length - 1 && (
                 <button
                   onClick={(ev) => onNextClick(ev)}
                   className='images-slider-btn right'
@@ -135,7 +146,10 @@ export function HomePreview({ home }) {
             home.loc.city
           )}`}</p>
           <p>{getStayDatesStr()}</p>
-          <p>{`${home.price}$ for 3 nights`} · ★ 4.5</p>
+          <p>
+            {<strong>{home.price}$</strong>}
+            {` for 3 nights`} · ★ 4.5
+          </p>
         </div>
       </article>
     </a>

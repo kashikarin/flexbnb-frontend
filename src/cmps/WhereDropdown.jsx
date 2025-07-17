@@ -38,22 +38,21 @@ export function WhereDropdown({ isOpen, onOpen, onClose }){
     ]
 
     console.log('isopen??? ', isOpen)
-    if (!isOpen) return null
-
     return (
-     <div className="where-dropdown-wrapper" ref={dropdownRef} onClick={onOpen}>
+      <div className="where-dropdown-wrapper" ref={dropdownRef}>
         {isOpen && (
-            <div className="dropdown-panel">
-                <h4>Suggested destinations</h4>
-                <ul>
-                    {suggestedPlaces.map((place, idx) => (
-                    <li key={idx} onClick={() => setSearchTxt(place)}>
-                        <strong>{place}</strong>
-                    </li>
-                    ))}
-                </ul>
-            </div>
+          <div className="dropdown-panel">
+            <h4>Suggested destinations</h4>
+            <ul>
+              {suggestedPlaces.map((place, idx) => (
+                <li key={idx} onClick={() => setSearchTxt(place.title)}>
+                  <strong>{place.title}</strong>
+                  <div className="subtitle">{place.subtitle}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
-    </div>
+      </div>
     )
 }

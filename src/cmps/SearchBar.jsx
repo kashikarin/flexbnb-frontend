@@ -4,6 +4,7 @@ import { WhereDropdown } from "./WhereDropdown";
 export function SearchBar({ isScrolled }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
   
+  console.log (openedDropdown)
   return (
     <search className=''>
       <div className={`search-bar-container ${isScrolled ? 'scrolled' : ''}`}>
@@ -12,6 +13,7 @@ export function SearchBar({ isScrolled }) {
             <div className='sTitle'>{isScrolled ? 'Anywhere' : 'Where'}</div>
             {!isScrolled && <input className='placeholder-content' type='search' placeholder='Search destination'></input>}
             <WhereDropdown
+              
               isOpen={openedDropdown === 'where'}
               onOpen={() => setOpenedDropdown('where')}
               onClose={() => setOpenedDropdown(null)}

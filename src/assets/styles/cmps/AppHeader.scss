@@ -8,10 +8,9 @@
   gap: 2.5rem;
   max-height: 200px;
 
-  // &.scrolled{
-  //   position: sticky;
-  //   transform: none;
-  // }
+  &.scrolled{
+    position: sticky;
+  }
 
   nav {
     display: flex;

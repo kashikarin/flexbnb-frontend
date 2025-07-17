@@ -24,10 +24,11 @@ export function RootCmp() {
   return (
     <div className='main-container'>
       <AppHeader />
-      <LabelsSlider />
+      
       <UserMsg />
 
       <main>
+        <LabelsSlider />
         <Routes>
           <Route path='' element={<HomePage />} />
           <Route path='about' element={<AboutUs />}>

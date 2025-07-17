@@ -410,7 +410,7 @@ export function HomeIndex() {
   // }
 
   return (
-    <main className='home-index-container'>
+    <section className='home-index-container'>
       {/* <LabelsSlider /> */}
       {/* <MultiCarousel /> */}
       {/*<header>
@@ -426,6 +426,6 @@ export function HomeIndex() {
         onUpdateHome={onUpdateHome}
       /> */}
       <HomeList homes={homes} />
-    </main>
+    </section>
   )
 }

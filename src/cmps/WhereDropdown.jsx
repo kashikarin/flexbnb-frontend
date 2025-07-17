@@ -38,7 +38,8 @@ export function WhereDropdown({ isOpen, onOpen, onClose }){
     ]
 
     console.log('isopen??? ', isOpen)
-    
+    if (!isOpen) return null
+
     return (
      <div className="where-dropdown-wrapper" ref={dropdownRef} onClick={onOpen}>
         {isOpen && (

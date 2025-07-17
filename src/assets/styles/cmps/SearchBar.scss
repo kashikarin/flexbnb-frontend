@@ -135,9 +135,9 @@
     }
 
     &.scrolled {
-        // position: absolute;
-        // left: 50%;
-        // transform: translateX(-50%);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
         top: 15px;
         max-width: 375px;
         min-width: 342px;

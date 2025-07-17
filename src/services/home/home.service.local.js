@@ -582,6 +582,11 @@ function _getImageUrl() {
   return selectedImages
 }
 
+function _getSingleImageUrl() {
+  const randomIndex = getRandomIntInclusive(0, images.length - 1)
+  return images[randomIndex].imgUrl
+}
+
 async function getAverageReviewRate(homeId) {
   const home = await getById(homeId)
   let avg =

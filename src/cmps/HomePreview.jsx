@@ -119,7 +119,7 @@ export function HomePreview({ home }) {
               </div>
           </div>
         <div className="home-preview-info-container">
-          <div>{`${capitalizeStr(home.type)} in ${capitalizeStr(home.loc.city)}`}</div>
+          <div>{`${capitalizeStr(home.type)} in ${capitalizeStr(home.loc?.city)}`}</div>
           <div>{getStayDatesStr()}</div>
           <div>{`${home.price}$ for 3 nights`} · ★ 4.5</div>
         </div>

@@ -33,7 +33,6 @@ export function AppHeader() {
   }
 
   return (
-    // <header className='app-header main-container full'>
    <header className={`app-header ${isScrolled ? 'scrolled' : ''} main-container full`}>
       <nav className=''>
         <NavLink to='/' className='logo'>

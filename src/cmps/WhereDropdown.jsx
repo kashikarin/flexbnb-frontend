@@ -1,12 +1,34 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setFilterBy } from '../store/stay.actions.js'
+import { setFilterBy } from '../store/home.actions.js'
+import { debounce} from '../services/util.service.js'
 
-export function WhereDropdown(){
+export function WhereDropdown({ isOpen, onOpen, onClose }){
 
+    const dispatch = useDispatch()
     const dropdownRef = useRef()
-    const [isOpen, setIsOpen] = useState(false)
+    const filterBy = useSelector(store => store.homeModule.filterBy)
+    const [searchTxt, setSearchTxt] = useState(filterBy.txt || '')
+   // const onSetFilterByDebounce = useRef(dispatch(debounce(setFilterBy({ ...filterBy, txt: searchTxt }), 400))).current
 
+    // useEffect(() => {
+    //     onSetFilterByDebounce(searchTxt)
+    // }, [searchTxt])
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (dropdownRef.current && !dropdownRef.current.contains(ev.target)) {
+        onClose?.()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const locations = [
+    'Tel Aviv', 'Eilat', 'Jerusalem'
+  ]
 
     const suggestedPlaces = [
         { title: 'Nearby', subtitle: "Find what's around you" },
@@ -15,7 +37,22 @@ export function WhereDropdown(){
         { title: 'Jerusalem, Israel', subtitle: 'For sights like Church of the Holy Sepulchre' },
     ]
 
-    return {
-       
-    }
+    console.log('isopen??? ', isOpen)
+    
+    return (
+     <div className="where-dropdown-wrapper" ref={dropdownRef} onClick={onOpen}>
+        {isOpen && (
+            <div className="dropdown-panel">
+                <h4>Suggested destinations</h4>
+                <ul>
+                    {suggestedPlaces.map((place, idx) => (
+                    <li key={idx} onClick={() => setSearchTxt(place)}>
+                        <strong>{place}</strong>
+                    </li>
+                    ))}
+                </ul>
+            </div>
+        )}
+    </div>
+    )
 }

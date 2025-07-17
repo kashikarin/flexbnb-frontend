@@ -135,85 +135,88 @@
     }
 
     &.scrolled {
-    top: 15px;
-    max-width: 375px;
-    min-width: 342px;
-    height: $search-bar-height-scroll;
-    border-radius: $search-bar-border-radius-scroll;
-
-    > div {
-        display:grid;
-        align-items:center;
-        border-radius:$search-bar-border-radius-scroll;
-        color:rgb(34, 34, 34);
-        height:$search-bar-height-scroll;
-        gap:2px;
-        font-size:14px;
-        grid-template-columns:minmax(0, 2fr) 1px minmax(0, 2fr) 1px minmax(0, 3fr);
-    }
-
-    .inner-section{
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 0 1rem;
-        height: 100%;
+        // position: absolute;
+        // left: 50%;
+        // transform: translateX(-50%);
+        top: 15px;
+        max-width: 375px;
+        min-width: 342px;
+        height: $search-bar-height-scroll;
         border-radius: $search-bar-border-radius-scroll;
-        box-sizing: border-box;
-    
-        &:not(:last-of-type)::after {
-        content: '';
-        position: absolute;
-        top: 10px;
-        right: calc(-0.25rem / 2);
-        height: 26px;
-        width: 1px;
-        background-color: $divider-color;
-        transition: background-color 0.1s;
-        } 
 
-        &:last-of-type{
-        align-items: start;
+        > div {
+            display:grid;
+            align-items:center;
+            border-radius:$search-bar-border-radius-scroll;
+            color:rgb(34, 34, 34);
+            height:$search-bar-height-scroll;
+            gap:2px;
+            font-size:14px;
+            grid-template-columns:minmax(0, 2fr) 1px minmax(0, 2fr) 1px minmax(0, 3fr);
         }
-    }
 
-    .sTitle
-    {
-        font-size: 14px;
-    }
-
-    .search-btn-section
-    {
-        position:absolute;
-        box-sizing:border-box;
-        display:block;
-        height:$search-bar-height-scroll;
-        padding:5px;
-        right:0px;
-        width:$search-bar-height-scroll;
-    }
-    
-    .search-button{
-        background-color: $primary-pink;
-        display:inline-block;
-        height: 32px;
-        margin:0px;
-        padding:0;
-        width:32px;
-        border-radius: 100%;
+        .inner-section{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0 1rem;
+            height: 100%;
+            border-radius: $search-bar-border-radius-scroll;
+            box-sizing: border-box;
         
+            &:not(:last-of-type)::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: calc(-0.25rem / 2);
+            height: 26px;
+            width: 1px;
+            background-color: $divider-color;
+            transition: background-color 0.1s;
+            } 
 
-        .search-icon{
-            width: 12px;
-            height: 12px;
-            background-image: url(../../svgs/search-icon.svg);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 100%;
+            &:last-of-type{
+            align-items: start;
+            }
         }
-    }
+
+        .sTitle
+        {
+            font-size: 14px;
+        }
+
+        .search-btn-section
+        {
+            position:absolute;
+            box-sizing:border-box;
+            display:block;
+            height:$search-bar-height-scroll;
+            padding:5px;
+            right:0px;
+            width:$search-bar-height-scroll;
+        }
+        
+        .search-button{
+            background-color: $primary-pink;
+            display:inline-block;
+            height: 32px;
+            margin:0px;
+            padding:0;
+            width:32px;
+            border-radius: 100%;
+            
+
+            .search-icon{
+                width: 12px;
+                height: 12px;
+                background-image: url(../../svgs/search-icon.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 100%;
+            }
+        }
 
     
     }

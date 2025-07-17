@@ -8,7 +8,13 @@ export const SET_FILTERBY = 'SET_FILTERBY'
 
 const initialState = {
   homes: [],
-  filterBy: {}
+  // filterBy: {}
+  filterBy: {
+  txt: 'Jerusalem',
+  checkIn: '',
+  checkOut: '',
+  guests: 0
+}
 
 }
 

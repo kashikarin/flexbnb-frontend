@@ -1,3 +1,13 @@
+// :root {
+//   --header-height: 200px;
+// }
+// .app-header.scrolled {
+//   --header-height: 100px;
+// }
+
 .main-container main {
   min-height: calc(100vh - 10rem);
+  // margin-top: var(--header-height);
+  // transition: margin-top 0.3s ease;
 }
+

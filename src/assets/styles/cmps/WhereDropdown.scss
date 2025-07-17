@@ -1,0 +1,53 @@
+.where-dropdown-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.dropdown-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 10px;
+  width: 100%;
+  background: rgb(177, 45, 45);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  z-index: 10;
+
+  h4 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #222;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 1rem;
+      cursor: pointer;
+
+      strong {
+        display: block;
+        font-size: 0.95rem;
+        color: #222;
+      }
+
+      p {
+        font-size: 0.85rem;
+        color: #717171;
+        margin: 0.2rem 0 0;
+      }
+
+      &:hover {
+        background-color: #f7f7f7;
+        border-radius: 10px;
+        padding: 0.5rem;
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { WhereDropdown } from "./WhereDropdown";
+import { ReactSVG } from 'react-svg'
 
 export function SearchBar({ isScrolled }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
@@ -47,7 +48,7 @@ export function SearchBar({ isScrolled }) {
             {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests'></input>}
             <div className='search-btn-section'>
                 <button className='search-button'>
-                <div className='search-icon'></div>
+                  <ReactSVG src="/svgs/search-icon.svg" />
                 </button>
             </div>
           </div>

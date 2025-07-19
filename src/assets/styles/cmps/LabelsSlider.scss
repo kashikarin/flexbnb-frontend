@@ -1,8 +1,8 @@
 .labels-slider-container {
   position: sticky;
-  z-index: 100;
-  top:0;
-  padding-block: 1.25rem;
+  z-index: 15;
+  top: 7rem;
+  // padding-block: 1.25rem;
   padding-inline: 35px;
   display: grid;
   grid-template-columns: 3rem 1fr 8rem;
@@ -14,13 +14,20 @@
 
   // Responsive adjustments
   @media (max-width: $narrow-breakpoint) {
-    padding-inline: 20px;
-    grid-template-columns: 0rem 1fr 5rem;
+    padding-inline: 15px;
+    grid-template-columns: 2rem 1fr 5rem;
   }
 
   @media (max-width: $mobile-breakpoint) {
-    padding-inline: 15px;
-    grid-template-columns: 0rem 1fr 4rem;
+    padding-inline: 10px;
+    grid-template-columns: 1.5rem 1fr 4rem;
+    top: 6rem; // קצת יותר נמוך במובייל
+  }
+
+  @media (max-width: $tablet-breakpoint) {
+    // הסרנו את display: none - עכשיו הקרוסלה תופיע בכל הגדלים
+    padding-inline: 10px;
+    grid-template-columns: 1.5rem 1fr 3.5rem;
   }
 
   .labels-slider-grid-area {
@@ -44,7 +51,11 @@
         max-width: 100%;
 
         .labels-slider-item {
-          flex: 0 0 clamp(64px, 10vw, 96px);
+          flex: 0 0 clamp(56px, 8vw, 128px);
+
+          @media (max-width: $mobile-breakpoint) {
+            flex: 0 0 clamp(52px, 12vw, 76px);
+          }
         }
       }
     }
@@ -61,12 +72,13 @@
     pointer-events: none;
 
     @media (max-width: $narrow-breakpoint) {
-      left: 20px;
-      right: 20px;
+      left: 15px;
+      right: 15px;
     }
 
     @media (max-width: $mobile-breakpoint) {
-      display: none;
+      left: 10px;
+      right: 10px;
     }
 
     .labels-slider-btn-left,

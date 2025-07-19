@@ -575,7 +575,7 @@ async function addHomeMsg(homeId, txt) {
 
 function _getImageUrl() {
   const selectedImages = []
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     const randomIndex = getRandomIntInclusive(0, images.length - 1)
     selectedImages.push(images[randomIndex].imgUrl)
   }

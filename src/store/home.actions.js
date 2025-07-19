@@ -7,7 +7,7 @@ import {
   SET_HOME,
   UPDATE_HOME,
   ADD_HOME_MSG,
-  SET_FILTERBY
+  SET_FILTERBY,
 } from './home.reducer'
 
 export async function loadHomes(filterBy) {
@@ -118,7 +118,7 @@ function getCmdAddHomeMsg(msg) {
 function getCmdSetFilterBy(filterBy) {
   return {
     type: SET_FILTERBY,
-    filterBy
+    filterBy,
   }
 }
 

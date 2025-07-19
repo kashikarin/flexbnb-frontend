@@ -23,6 +23,7 @@
 @import 'pages/TaskDetails';
 @import 'pages/LoginSignup';
 @import 'pages/Chat';
+@import 'pages/HomeDetails.scss';
 
 // Components
 @import 'cmps/list';
@@ -41,6 +42,6 @@
 @import 'cmps/ReviewList';
 @import 'cmps/ReviewPreview';
 @import 'cmps/LabelsSlider';
-@import 'cmps/LabelPreview'; // @i
-@import 'cmps/FilterDropdown'; // ← תוסיף את זה
-// @import "cmps/homePreview";
+@import 'cmps/LabelPreview';
+@import 'cmps/FilterDropdown';
+@import 'cmps/icons.scss';

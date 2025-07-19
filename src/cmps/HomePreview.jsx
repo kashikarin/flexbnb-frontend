@@ -1,11 +1,18 @@
+import { FaHeart, FaRegHeart } from 'react-icons/fa'
+
 import { Link } from 'react-router-dom'
 import { homeService } from '../services/home'
-import { capitalizeStr, utilService } from '../services/util.service'
+import {
+  capitalizeStr,
+  getAvgRating,
+  utilService,
+} from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
 
 export function HomePreview({ home }) {
   const [firstIdx, setFirstIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
+  const [isLiked, setIsLiked] = useState(false)
   const imgRef = useRef(null)
   const containerRef = useRef(null)
 
@@ -46,7 +53,6 @@ export function HomePreview({ home }) {
       updateImageWidth()
     }
 
-    // Use ResizeObserver for more accurate container size tracking
     let resizeObserver
     if (containerRef.current) {
       resizeObserver = new ResizeObserver(() => {
@@ -71,7 +77,6 @@ export function HomePreview({ home }) {
       setImgWidth(width)
     }
 
-    // Small delay to ensure DOM is updated after component mount
     const timeoutId = setTimeout(updateImageWidth, 100)
     return () => clearTimeout(timeoutId)
   }, [home.imageUrls])
@@ -88,18 +93,21 @@ export function HomePreview({ home }) {
       : `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
   }
 
-  console.log(
-    'imgWidth:',
-    imgWidth,
-    'firstIdx:',
-    firstIdx,
-    'translate:',
-    -firstIdx * imgWidth
-  )
+  function handleLike(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log('handleLike called')
+
+    setIsLiked((prev) => !prev)
+  }
 
   return (
-    <a className='home-preview-link' href={`/home/${home._id}`}>
+    <Link className='home-preview-link' to={`/home/${home._id}`}>
       <article className='home-preview-container'>
+        <div className='heart-icon-container' onClick={handleLike}>
+          <FaHeart className={`heart filled ${isLiked ? 'liked' : ''}`} />
+          <FaRegHeart className='heart outline' />
+        </div>
         {/* <button className='home-like-btn'>Like</button> */}
         <div className='home-preview-image-slider-container' ref={containerRef}>
           <div className='home-preview-image-slider-wrapper'>
@@ -142,16 +150,19 @@ export function HomePreview({ home }) {
           </div>
         </div>
         <div className='home-preview-info-container'>
-          <p>{`${capitalizeStr(home.type)} in ${capitalizeStr(
-            home.loc.city
-          )}`}</p>
+          <p>
+            {home.loc?.city
+              ? `${capitalizeStr(home.type)} in ${capitalizeStr(home.loc.city)}`
+              : capitalizeStr(home.type)}
+          </p>
+
           <p>{getStayDatesStr()}</p>
           <p>
-            {<strong>{home.price}$</strong>}
-            {` for 3 nights`} · ★ 4.5
+            {`${home.price}$`}
+            {` for 3 nights`} · ★ <span>{getAvgRating(home)}</span>
           </p>
         </div>
       </article>
-    </a>
+    </Link>
   )
 }

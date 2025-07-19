@@ -16,6 +16,7 @@
     max-width: 100vw;
     gap: 0.25rem;
     border-radius: 12px;
+    position: relative;
 
     &:hover {
       .images-slider-buttons-container {
@@ -153,41 +154,35 @@
       p {
         margin: 0;
         padding: 0;
-        line-height: 0.875rem;
+        color: $primary-font-black;
       }
 
       p:nth-child(1) {
-        font-size: 0.6875rem;
+        font-size: 0.875rem;
         font-weight: 600;
-        color: #222222;
         margin-bottom: 0.0625rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        line-height: 1.1;
+        line-height: 1.7;
       }
 
       p:nth-child(2) {
-        font-size: 0.6875rem;
-        font-weight: 400;
-        color: #717171;
         margin-bottom: 0.0625rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        line-height: 1.1;
       }
 
       p:nth-child(3) {
-        font-size: 0.6875rem;
+        line-height: 1;
+        // margin-top: 0.125rem;
+      }
+      p:nth-child(2),
+      p:nth-child(3) {
+        font-size: 0.8rem;
         font-weight: 400;
-        color: #222222;
-        line-height: 1.1;
-        margin-top: 0.125rem;
-        strong {
-          font-weight: 600;
-          color: #222222;
-        }
+        color: $secondary-font-gray;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

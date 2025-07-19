@@ -6,7 +6,9 @@ export const utilService = {
   debounce,
   saveToStorage,
   loadFromStorage,
-  capitalizeStr
+  capitalizeStr,
+  getAvgRating,
+  roundToDecimals,
 }
 // consider use npm for id maker
 export function makeId(length = 6) {
@@ -98,18 +100,30 @@ export function loadFromStorage(key) {
   return data ? JSON.parse(data) : undefined
 }
 
-export function capitalizeStr(str){
+export function capitalizeStr(str) {
   if (!str) return
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 export function getExistingProperties(obj) {
-    const truthyObj = {}
-    for (const key in obj) {
-        const val = obj[key]
-        if (val || typeof val === 'boolean') {
-            truthyObj[key] = val
-        }
+  const truthyObj = {}
+  for (const key in obj) {
+    const val = obj[key]
+    if (val || typeof val === 'boolean') {
+      truthyObj[key] = val
     }
-    return truthyObj
+  }
+  return truthyObj
+}
+export function getAvgRating(home) {
+  if (!home || !home.reviews || home.reviews.length === 0) return 0
+  console.log('home.reviews:', home.reviews)
+  const total = home.reviews.reduce((acc, review) => acc + review.rate, 0)
+  console.log('total:', total)
+  const average = total / home.reviews.length
+  return roundToDecimals(average, 1)
+}
+
+export function roundToDecimals(num, decimals = 2) {
+  return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals)
 }

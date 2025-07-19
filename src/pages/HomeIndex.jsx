@@ -1,9 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  loadHomes,
-  setFilterBy
-} from '../store/home.actions'
+import { loadHomes, setFilterBy } from '../store/home.actions'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { homeService } from '../services/home/'
 import { HomeList } from '../cmps/HomeList'
@@ -363,7 +360,7 @@ import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
 // ]
 
 export function HomeIndex() {
-  const filterBy = useSelector(state => state.homeModule.filterBy)
+  const filterBy = useSelector((state) => state.homeModule.filterBy)
   const homes = useSelector((state) => state.homeModule.homes)
 
   const setExistSearchParams = useFilterSearchParams()
@@ -411,7 +408,7 @@ export function HomeIndex() {
 
   return (
     <section className='home-index-container'>
-      {/* <LabelsSlider /> */}
+      <LabelsSlider />
       {/* <MultiCarousel /> */}
       {/*<header>
          <h2>Homes</h2>

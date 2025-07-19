@@ -8,14 +8,14 @@ export const SET_FILTERBY = 'SET_FILTERBY'
 
 const initialState = {
   homes: [],
+  home: null,
   // filterBy: {}
   filterBy: {
-  txt: 'Jerusalem',
-  checkIn: '',
-  checkOut: '',
-  guests: 0
-}
-
+    txt: '',
+    checkIn: '',
+    checkOut: '',
+    guests: 0,
+  },
 }
 
 export function homeReducer(state = initialState, action) {
@@ -24,9 +24,9 @@ export function homeReducer(state = initialState, action) {
     case SET_HOMES:
       newState = { ...state, homes: action.homes }
       break
-    // case SET_HOME:
-    //   newState = { ...state, home: action.home }
-    //   break
+    case SET_HOME:
+      newState = { ...state, home: action.home }
+      break
     // case REMOVE_HOME:
     //   const lastRemovedHome = state.homes.find(
     //     (home) => home._id === action.homeId
@@ -50,7 +50,10 @@ export function homeReducer(state = initialState, action) {
     //   }
     //   break
     case SET_FILTERBY:
-      newState = { ...state, filterBy: { ...state.filterBy, ...action.filterBy}}
+      newState = {
+        ...state,
+        filterBy: { ...state.filterBy, ...action.filterBy },
+      }
       break
     default:
   }

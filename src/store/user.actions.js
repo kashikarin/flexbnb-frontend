@@ -1,8 +1,7 @@
-import { userService } from '../services/user'
-import { socketService } from '../services/socket.service'
+import { userService } from '../services/user/user.service.local'
+// import { socketService } from '../services/socket.service'
 import { store } from '../store/store'
 
-import { showErrorMsg } from '../services/event-bus.service'
 import { LOADING_DONE, LOADING_START } from './system.reducer'
 import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER } from './user.reducer'
 
@@ -34,7 +33,7 @@ export async function login(credentials) {
             type: SET_USER,
             user
         })
-        socketService.login(user._id)
+        // socketService.login(user._id)
         return user
     } catch (err) {
         console.log('Cannot login', err)

@@ -6,6 +6,7 @@ import { logout } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
+import { ReactSVG } from 'react-svg'
 
 export function AppHeader() {
   const user = useSelector((storeState) => storeState.userModule.user)
@@ -39,31 +40,19 @@ export function AppHeader() {
           <FaAirbnb />
           <span>flexbnb</span>
         </NavLink>
-
+      
         {/* <div className='nav-links-container'>
           <NavLink to='/about'>About</NavLink>
           <NavLink to='/home'>Homes</NavLink>
           <NavLink to='/chat'>Chat</NavLink>
           <NavLink to='/review'>Review</NavLink>
         </div> */}
-        {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
-
-        {!user && (
-          <NavLink to='login' className='login-link'>
-            Login
-          </NavLink>
-        )}
-
-        {user && (
-          <div className='user-info'>
-            <Link to={`user/${user._id}`}>
-              {user.imgUrl && <img src={user.imgUrl} />}
-              {user.fullname}
-            </Link>
-            {/* <span className="score">{user.score?.toLocaleString()}</span> */}
-            <button onClick={onLogout}>logout</button>
-          </div>
-        )}
+        <div className="user-container">
+          <button className='user-menu-btn'>
+            <ReactSVG src="/svgs/hamburger-icon.svg" />
+            <ReactSVG src="/svgs/user-icon.svg" />
+          </button>
+        </div>
       </nav>
       <SearchBar isScrolled={isScrolled} />
     </header>

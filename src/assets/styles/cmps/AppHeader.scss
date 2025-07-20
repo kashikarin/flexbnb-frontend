@@ -83,6 +83,31 @@
     button {
       margin-inline-end: 0;
     }
+
+    .user-container {
+        justify-self: end;
+      .user-menu-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6.25rem;
+        border: 1px solid $primary-hover-gray;
+        height: 3rem;
+        width: 5.375rem;
+        gap: .625rem;
+        background-color:$clr6;
+        transition: box-shadow .2s ease;
+        .injected-svg {
+          width: 24px;
+          height: 24px;
+          display: block;
+          color: $gray3;
+        }
+        &:hover {
+          box-shadow: 0 2px 4px #0000002e;
+        }
+      }
+    }
   }
 
   .user-info {

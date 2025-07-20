@@ -9,13 +9,7 @@ export const SET_FILTERBY = 'SET_FILTERBY'
 const initialState = {
   homes: [],
   home: null,
-  // filterBy: {}
-  filterBy: {
-    txt: '',
-    checkIn: '',
-    checkOut: '',
-    guests: 0,
-  },
+  filterBy: {}
 }
 
 export function homeReducer(state = initialState, action) {

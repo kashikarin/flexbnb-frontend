@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {useEffectUpdate} from '../customHooks/useEffectUpdate.js'
 
 export function HomeFilter({ filterBy, onSetFilterBy }) {

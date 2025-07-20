@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { LabelPreview } from './LabelPreview'
 import { FilterDropdown } from './FilterDropdown'
+import { setFilterBy } from '../store/home.actions'
+import { useSelector } from 'react-redux'
+import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
+
 // import {ReactComponent as RightArrowIcon} from '../assets/svgs/arrow-right.svg?react'
 
 const labels = [
@@ -136,6 +140,9 @@ const labels = [
   },
 ]
 export function LabelsSlider() {
+  const filterBy = useSelector(state => state.homeModule.filterBy)
+
+
   const getShowCountByScreen = () => {
     const width = window.innerWidth
     if (width < 480) return 3
@@ -177,6 +184,12 @@ export function LabelsSlider() {
     setFirstIdx((prev) => Math.min(prev + stepSize, labels.length - showCount))
   }
 
+  function handleLabelClick(labelName){
+      let updatedFilter = structuredClone(filterBy)
+    setFilterBy({ ...filterBy, labels: [labelName] })
+  }
+
+  console.log(filterBy)
   return (
     <section className='labels-slider-container full'>
       <div className='labels-slider-grid-area'>
@@ -193,7 +206,7 @@ export function LabelsSlider() {
                 ref={firstIdx === 0 && idx === 0 ? itemRef : null}
                 key={idx}
               >
-                <LabelPreview label={label} />
+                <LabelPreview label={label} handleLabelClick={handleLabelClick}/>
               </div>
             ))}
           </div>

@@ -448,6 +448,7 @@ async function query(filterBy = getDefaultFilter()) {
       bedRoomsCount,
       bedsCount,
       bathCount,
+      labels
     } = filterBy
 
     if (city) {
@@ -472,6 +473,11 @@ async function query(filterBy = getDefaultFilter()) {
     if (amenities?.length) {
       homes = homes.filter((home) =>
         amenities.every((amenity) => home.amenities.includes(amenity))
+      )
+    }
+    if (labels?.length) {
+      homes = homes.filter((home) =>
+        labels.every((label) => home.labels.includes(label))
       )
     }
     if (bedRoomsCount) {
@@ -537,6 +543,7 @@ function getDefaultFilter() {
     bedRoomsCount: 0,
     bedsCount: 0,
     bathCount: 0,
+    labels: []
   }
 }
 

@@ -1,15 +1,13 @@
 import { useState } from "react"
 import { useEffectUpdate } from "../customHooks/useEffectUpdate"
 
-export function LabelPreview({ label, filterBy, onSetFilterBy }) {
-  const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-  console.log('render')
-  function handleClick(event){
-      console.log('clicked')
-  }
+export function LabelPreview({ label, handleLabelClick }) {
+  
+  
+
 
   return (
-    <div className='label-preview' onClick={handleClick} onClickCapture={() => console.log('LABEL capture')}>
+    <div className='label-preview' onClick={()=> handleLabelClick(label.name)}>
       <img src={label.imgUrl} alt={label.name} />
       <span>{label.name}</span>
     </div>

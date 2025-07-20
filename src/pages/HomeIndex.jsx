@@ -10,6 +10,8 @@ import { HomeList } from '../cmps/HomeList'
 import { HomeFilter } from '../cmps/HomeFilter'
 import { LabelsSlider } from '../cmps/LabelsSlider.jsx'
 import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
+import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
+
 
 export function HomeIndex() {
   const filterBy = useSelector(state => state.homeModule.filterBy)
@@ -17,7 +19,7 @@ export function HomeIndex() {
 
   const setExistSearchParams = useFilterSearchParams()
 
-  useEffect(() => {
+  useEffectUpdate(() => {
     loadHomes(filterBy)
     setExistSearchParams(filterBy)
   }, [filterBy])

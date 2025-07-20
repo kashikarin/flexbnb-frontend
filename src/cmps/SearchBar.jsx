@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { WhereDropdown } from "./WhereDropdown";
+import { WhereDropdown } from './WhereDropdown'
 import { ReactSVG } from 'react-svg'
 
 export function SearchBar({ isScrolled }) {
@@ -20,40 +20,62 @@ export function SearchBar({ isScrolled }) {
   }
 
   return (
-    <search className=''>
-      <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}>
-        <div>
-          <div onClick={handleWhereClick} className='inner-section'>
-            <div className='sTitle' >{scrolled ? 'Anywhere' : 'Where'}</div>
-            {!scrolled && <input className='placeholder-content' type='search' placeholder='Search destination'></input>}
-            <WhereDropdown
-              isOpen={openedDropdown === 'where'}
-              onOpen={() => setOpenedDropdown('where')}
-              onClose={() => setOpenedDropdown(null)}
-            />
-          </div>
-          <div className="sep"></div>
+    <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}>
+      <div>
+        <div onClick={handleWhereClick} className='inner-section'>
+          <div className='sTitle'>{scrolled ? 'Anywhere' : 'Where'}</div>
+          {!scrolled && (
+            <input
+              className='placeholder-content'
+              type='search'
+              placeholder='Search destination'
+            ></input>
+          )}
+          <WhereDropdown
+            isOpen={openedDropdown === 'where'}
+            onOpen={() => setOpenedDropdown('where')}
+            onClose={() => setOpenedDropdown(null)}
+          />
+        </div>
+        <div className='sep'></div>
+        <div className='inner-section'>
+          <div className='sTitle'>{scrolled ? 'Anytime' : 'Check in'}</div>
+          {!scrolled && (
+            <input
+              className='placeholder-content'
+              type='search'
+              placeholder='Add dates'
+            ></input>
+          )}
+        </div>
+        <div className='sep'></div>
+        {!scrolled && (
           <div className='inner-section'>
-            <div className='sTitle'>{scrolled ? 'Anytime' : 'Check in'}</div>
-            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add dates'></input>}
-          </div>
-          <div className="sep"></div>
-          {!scrolled && <div className='inner-section'>
             <div className='sTitle'>Check out</div>
-            <input className='placeholder-content' type='search' placeholder='Add dates'></input>
-          </div>}
-          {!scrolled && <div className="sep"></div>}
-          <div className='inner-section'>
-            <div className='sTitle'>{isScrolled ? 'Add guests' : 'Who'}</div>
-            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests'></input>}
-            <div className='search-btn-section'>
-                <button className='search-button'>
-                  <ReactSVG src="/svgs/search-icon.svg" />
-                </button>
-            </div>
+            <input
+              className='placeholder-content'
+              type='search'
+              placeholder='Add dates'
+            ></input>
+          </div>
+        )}
+        {!scrolled && <div className='sep'></div>}
+        <div className='inner-section'>
+          <div className='sTitle'>{isScrolled ? 'Add guests' : 'Who'}</div>
+          {!scrolled && (
+            <input
+              className='placeholder-content'
+              type='search'
+              placeholder='Add guests'
+            ></input>
+          )}
+          <div className='search-btn-section'>
+            <button className='search-button'>
+              <ReactSVG src='/svgs/search-icon.svg' />
+            </button>
           </div>
         </div>
       </div>
-    </search>
+    </div>
   )
 }

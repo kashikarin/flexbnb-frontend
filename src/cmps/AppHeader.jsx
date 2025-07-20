@@ -21,7 +21,7 @@ export function AppHeader() {
   }, [])
   
   useEffect(() => {
-      handleScroll() 
+    handleScroll()
   }, [])
 
   function handleScroll() {
@@ -41,33 +41,36 @@ export function AppHeader() {
   }
 
   return (
-   <header className={`app-header ${isScrolled ? 'scrolled' : ''} main-container full`}>
-      {!isMobile && <section className="app-header-regular">
-        <nav className=''>
-          <NavLink to='/' className='logo'>
-            <FaAirbnb />
-            <span>flexbnb</span>
-          </NavLink>  
-        
-          {/* <div className='nav-links-container'>
-            <NavLink to='/about'>About</NavLink>
-            <NavLink to='/home'>Homes</NavLink>
-            <NavLink to='/chat'>Chat</NavLink>
-            <NavLink to='/review'>Review</NavLink>
-          </div> */}
-          <div className="user-container">
-            <button className='user-menu-btn'>
-              <ReactSVG src="/svgs/hamburger-icon.svg" />
-              <ReactSVG src="/svgs/user-icon.svg" />
-            </button>
+    <header
+      className={`app-header ${
+        isScrolled ? 'scrolled' : ''
+      } main-container full`}
+    >
+      <nav className=''>
+        <NavLink to='/' className='logo'>
+          <FaAirbnb />
+          <span>flexbnb</span>
+        </NavLink>
+        <SearchBar isScrolled={isScrolled} />
+        {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
+
+        {!user && (
+          <NavLink to='login' className='login-link'>
+            Login
+          </NavLink>
+        )}
+
+        {user && (
+          <div className='user-info'>
+            <Link to={`user/${user._id}`}>
+              {user.imgUrl && <img src={user.imgUrl} />}
+              {user.fullname}
+            </Link>
+            {/* <span className="score">{user.score?.toLocaleString()}</span> */}
+            <button onClick={onLogout}>logout</button>
           </div>
-        </nav>
-      </section>}
-      {isMobile && <section className="app-header-mobile">
-        
-      </section>}
-      
-      <SearchBar isScrolled={isScrolled} />
+        )}
+      </nav>
     </header>
   )
 }

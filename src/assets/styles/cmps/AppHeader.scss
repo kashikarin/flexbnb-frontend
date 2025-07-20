@@ -14,15 +14,18 @@
   }
 
   nav {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 1fr 1fr;
     width: 100%;
     align-items: center;
-    gap: 2em;
+
     font-family: 'Montserrat', sans-serif;
     font-size: 0.9em;
     letter-spacing: 0.2px;
-
+    & > :last-child {
+      grid-column: 3 / 4;
+    }
     a {
       color: $secondary-font-gray;
     }

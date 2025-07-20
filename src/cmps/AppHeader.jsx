@@ -9,10 +9,17 @@ import { SearchBar } from './SearchBar'
 import { ReactSVG } from 'react-svg'
 
 export function AppHeader() {
-  const user = useSelector((storeState) => storeState.userModule.user)
+  // const user = useSelector((storeState) => storeState.userModule.user)
   const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 580)
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 580)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  
   useEffect(() => {
       handleScroll() 
   }, [])
@@ -35,25 +42,31 @@ export function AppHeader() {
 
   return (
    <header className={`app-header ${isScrolled ? 'scrolled' : ''} main-container full`}>
-      <nav className=''>
-        <NavLink to='/' className='logo'>
-          <FaAirbnb />
-          <span>flexbnb</span>
-        </NavLink>
+      {!isMobile && <section className="app-header-regular">
+        <nav className=''>
+          <NavLink to='/' className='logo'>
+            <FaAirbnb />
+            <span>flexbnb</span>
+          </NavLink>  
+        
+          {/* <div className='nav-links-container'>
+            <NavLink to='/about'>About</NavLink>
+            <NavLink to='/home'>Homes</NavLink>
+            <NavLink to='/chat'>Chat</NavLink>
+            <NavLink to='/review'>Review</NavLink>
+          </div> */}
+          <div className="user-container">
+            <button className='user-menu-btn'>
+              <ReactSVG src="/svgs/hamburger-icon.svg" />
+              <ReactSVG src="/svgs/user-icon.svg" />
+            </button>
+          </div>
+        </nav>
+      </section>}
+      {isMobile && <section className="app-header-mobile">
+        
+      </section>}
       
-        {/* <div className='nav-links-container'>
-          <NavLink to='/about'>About</NavLink>
-          <NavLink to='/home'>Homes</NavLink>
-          <NavLink to='/chat'>Chat</NavLink>
-          <NavLink to='/review'>Review</NavLink>
-        </div> */}
-        <div className="user-container">
-          <button className='user-menu-btn'>
-            <ReactSVG src="/svgs/hamburger-icon.svg" />
-            <ReactSVG src="/svgs/user-icon.svg" />
-          </button>
-        </div>
-      </nav>
       <SearchBar isScrolled={isScrolled} />
     </header>
   )

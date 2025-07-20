@@ -649,9 +649,9 @@ function _createHome() {
     let txt = makeLorem(getRandomIntInclusive(10, 30))
     let rate = getRandomIntInclusive(0, 5)
     let by = {
-      _id: 'u102',
-      fullname: 'Sue Percritical',
-      imageURL: _getSingleImageUrl(),
+      _id: 'u101',
+      fullname: 'Justin Time',
+      imageURL: 'img/user/justin-img.jpg',
     }
     let review = { id, txt, rate, by }
     home.reviews.push(review)

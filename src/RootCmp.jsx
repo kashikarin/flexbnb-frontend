@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router'
 
 import { userService } from './services/user'
@@ -19,8 +19,14 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { LabelsSlider } from './cmps/LabelsSlider.jsx'
+import { initDemoUser } from './store/user.actions.js'
 
 export function RootCmp() {
+  
+  useEffect(()=>{
+    initDemoUser()
+  }, [])
+
   return (
     <div className='main-container'>
       <AppHeader />

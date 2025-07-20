@@ -1,4 +1,6 @@
 import { storageService } from '../async-storage.service'
+import { homeService } from '../home/home.service.local'
+
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
@@ -11,6 +13,8 @@ export const userService = {
     remove,
     update,
     getLoggedinUser,
+    getUserReviews,
+    createDemoUser
 }
 
 function getUsers() {
@@ -37,18 +41,15 @@ async function update({ _id, score }) {
     return user
 }
 
-async function login(userCred) {
+async function login(credentials) {
     const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
+    const user = users.find(user => user.username === credentials.username)
 
     if (user) return _saveLocalUser(user)
 }
 
-async function signup(userCred) {
-    if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
-    userCred.score = 10000
-
-    const user = await storageService.post('user', userCred)
+async function signup(newUser) {
+    const user = await storageService.post('user', newUser)
     return _saveLocalUser(user)
 }
 
@@ -61,9 +62,31 @@ function getLoggedinUser() {
 }
 
 function _saveLocalUser(user) {
-    user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score, isAdmin : user.isAdmin }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+    localStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user)) // only for the demo-user phase, delete later in the backend phase
     return user
+}
+
+async function getUserReviews(userId){
+    const homes = await homeService.query()
+    return homes.reduce((acc, home) => {
+        let homeReviews = (home.reviews || []).filter(review => review.by._id === userId)
+        acc.push(...homeReviews)
+        return acc
+    }, [])
+}
+
+async function createDemoUser(){
+    const demoUser = {
+        _id: 'u101',
+        fullname: 'Justin Time',
+        imgUrl: '/img/user/justin-img.jpg',
+        username: 'just_in_time',
+        password: 'bieber123',
+    }
+    demoUser.reviews = await getUserReviews(demoUser._id)
+    localStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(demoUser))
+    return demoUser 
 }
 
 // To quickly create an admin user, uncomment the next line

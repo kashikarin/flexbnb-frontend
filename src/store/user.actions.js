@@ -41,14 +41,14 @@ export async function login(credentials) {
     }
 }
 
-export async function signup(credentials) {
+export async function signup(signingUpUser) {
     try {
-        const user = await userService.signup(credentials)
+        const user = await userService.signup(signingUpUser)
         store.dispatch({
             type: SET_USER,
             user
         })
-        socketService.login(user)
+        // socketService.login(user)
         return user
     } catch (err) {
         console.log('Cannot signup', err)
@@ -63,7 +63,7 @@ export async function logout() {
             type: SET_USER,
             user: null
         })
-        socketService.logout()
+        // socketService.logout()
     } catch (err) {
         console.log('Cannot logout', err)
         throw err
@@ -79,3 +79,14 @@ export async function loadUser(userId) {
         console.log('Cannot load user', err)
     }
 }
+
+export async function initDemoUser() {
+    try {
+        const user = await userService.createDemoUser()
+        const signedUpUser = await signup(user)
+        store.dispatch({type: SET_USER, user: signedUpUser})
+    }catch(err){
+        console.error('user actions => cannot signup and/or login user', err)
+    }
+}
+    

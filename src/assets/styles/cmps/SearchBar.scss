@@ -23,6 +23,9 @@
   background-color: rgb(255, 255, 255);
   border: 2px solid #ececec;
 
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+
   > div {
     display: grid;
     align-items: center;
@@ -130,8 +133,7 @@
     //   background-size: 100%;
     // }
 
-    .injected-svg
-    {
+    .injected-svg {
       width: 24px;
       height: 24px;
       display: block;
@@ -139,10 +141,10 @@
   }
 
   &.scrolled {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 15px;
+    // position: absolute;
+    // left: 50%;
+    // transform: translateX(-50%);
+    // top: 15px;
     max-width: 375px;
     min-width: 342px;
     height: $search-bar-height-scroll;

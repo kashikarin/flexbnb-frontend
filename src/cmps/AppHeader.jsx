@@ -13,7 +13,7 @@ export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
-      handleScroll() 
+    handleScroll()
   }, [])
 
   function handleScroll() {
@@ -33,19 +33,17 @@ export function AppHeader() {
   }
 
   return (
-   <header className={`app-header ${isScrolled ? 'scrolled' : ''} main-container full`}>
+    <header
+      className={`app-header ${
+        isScrolled ? 'scrolled' : ''
+      } main-container full`}
+    >
       <nav className=''>
         <NavLink to='/' className='logo'>
           <FaAirbnb />
           <span>flexbnb</span>
         </NavLink>
-
-        {/* <div className='nav-links-container'>
-          <NavLink to='/about'>About</NavLink>
-          <NavLink to='/home'>Homes</NavLink>
-          <NavLink to='/chat'>Chat</NavLink>
-          <NavLink to='/review'>Review</NavLink>
-        </div> */}
+        <SearchBar isScrolled={isScrolled} />
         {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
 
         {!user && (
@@ -65,7 +63,6 @@ export function AppHeader() {
           </div>
         )}
       </nav>
-      <SearchBar isScrolled={isScrolled} />
     </header>
   )
 }

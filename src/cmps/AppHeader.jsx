@@ -40,13 +40,13 @@ export function AppHeader() {
   }
 
   useEffect(() => {
-    if (!loggedInUser) loadLoggedInUser()
-  }, [loggedInUser])
+    loadLoggedInUser()
+  }, [])
 
   async function loadLoggedInUser(){
     const loggedInUser = await userService.getLoggedinUser()
     if (loggedInUser) {
-      dispatch({type: SET_LOGGEDINUSER, loggedInUser})
+      dispatch({type: SET_LOGGEDINUSER, user: loggedInUser})
     }
   }
 

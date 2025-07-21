@@ -8,7 +8,10 @@ import {
   UPDATE_HOME,
   ADD_HOME_MSG,
   SET_FILTERBY,
+  ADD_USER_LIKE,
+  REMOVE_USER_LIKE
 } from './home.reducer'
+import { userService } from '../services/user/user.service.local'
 
 export async function loadHomes(filterBy) {
   try {
@@ -59,6 +62,32 @@ export async function updateHome(home) {
   } catch (err) {
     console.log('Cannot save home', err)
     throw err
+  }
+}
+
+export async function addUserLike(homeId) {
+  try {
+      let home = await homeService.getById(homeId)
+      const loggedInUser = store.getState().userModule.loggedInUser
+      home.likedByUsers = [ ...home.likedByUsers, loggedInUser._id ]
+      await homeService.save(home)
+      store.dispatch({type: ADD_USER_LIKE, homeId})
+  } catch(err){
+      console.log('Cannot add user like', err)
+      throw err
+  }
+}
+
+export async function removeUserLike(homeId) {
+  try {
+      let home = await homeService.getById(homeId)
+      const loggedInUser = store.getState().userModule.loggedInUser
+      home.likedByUsers = home.likedByUsers.filter(userId => userId !== loggedInUser._id)
+      await homeService.save(home)
+      store.dispatch({type: REMOVE_USER_LIKE, homeId})
+  } catch(err){
+      console.log('Cannot remove user like', err)
+      throw err
   }
 }
 

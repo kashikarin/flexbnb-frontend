@@ -9,7 +9,6 @@ import { LabelsSlider } from '../cmps/LabelsSlider.jsx'
 import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
-
 export function HomeIndex() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const homes = useSelector((state) => state.homeModule.homes)
@@ -59,7 +58,7 @@ export function HomeIndex() {
 
   return (
     <section className='home-index-container'>
-      <LabelsSlider />
+      {/* <LabelsSlider /> */}
       {/* <MultiCarousel /> */}
       {/*<header>
          <h2>Homes</h2>

@@ -140,8 +140,7 @@ const labels = [
   },
 ]
 export function LabelsSlider() {
-  const filterBy = useSelector(state => state.homeModule.filterBy)
-
+  const filterBy = useSelector((state) => state.homeModule.filterBy)
 
   const getShowCountByScreen = () => {
     const width = window.innerWidth
@@ -184,8 +183,8 @@ export function LabelsSlider() {
     setFirstIdx((prev) => Math.min(prev + stepSize, labels.length - showCount))
   }
 
-  function handleLabelClick(labelName){
-      let updatedFilter = structuredClone(filterBy)
+  function handleLabelClick(labelName) {
+    let updatedFilter = structuredClone(filterBy)
     setFilterBy({ ...filterBy, labels: [labelName] })
   }
 
@@ -206,7 +205,10 @@ export function LabelsSlider() {
                 ref={firstIdx === 0 && idx === 0 ? itemRef : null}
                 key={idx}
               >
-                <LabelPreview label={label} handleLabelClick={handleLabelClick}/>
+                <LabelPreview
+                  label={label}
+                  handleLabelClick={handleLabelClick}
+                />
               </div>
             ))}
           </div>
@@ -233,7 +235,7 @@ export function LabelsSlider() {
         className='labels-slider-filter-container'
         style={{ position: 'relative' }}
       >
-        <button
+        {/* <button
           className='labels-slider-filter-btn'
           onClick={() => setIsFilterOpen(true)}
         >
@@ -244,7 +246,7 @@ export function LabelsSlider() {
         <FilterDropdown
           isOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
-        />
+        /> */}
       </div>
     </section>
   )

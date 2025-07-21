@@ -5,6 +5,20 @@ import { ReactSVG } from 'react-svg'
 export function SearchBar({ isScrolled }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
   const [scrolled, setScrolled] = useState(isScrolled)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      const width = window.innerWidth
+      setIsMobile(width <= 820)
+    }
+
+    // Set initial state
+    handleResize()
+
+    window.addEventListener('resize', handleResize, { passive: true })
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     setScrolled(isScrolled)
@@ -14,9 +28,22 @@ export function SearchBar({ isScrolled }) {
     if (scrolled) setOpenedDropdown(null)
   }, [scrolled])
 
+  useEffect(() => {
+    // Close dropdown when clicking outside
+    function handleClickOutside(event) {
+      if (openedDropdown && !event.target.closest('.search-bar-container')) {
+        setOpenedDropdown(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [openedDropdown])
+
   function handleWhereClick() {
-    if (scrolled) setScrolled(false)
-    setOpenedDropdown('where')
+    // Don't expand SearchBar on mobile
+    if (scrolled && !isMobile) setScrolled(false)
+    setOpenedDropdown(openedDropdown === 'where' ? null : 'where')
   }
 
   return (

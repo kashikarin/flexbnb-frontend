@@ -6,29 +6,39 @@ import { logout } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
-import { ReactSVG } from 'react-svg'
+import { LabelsSlider } from './LabelsSlider'
 
 export function AppHeader() {
   // const user = useSelector((storeState) => storeState.userModule.user)
   const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 580)
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 580)
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-  
-  useEffect(() => {
-    handleScroll()
-  }, [])
+    function handleScroll() {
+      setIsScrolled(window.scrollY > 20)
+    }
 
-  function handleScroll() {
+    function handleResize() {
+      const width = window.innerWidth
+      setIsSmallScreen(width <= 820)
+    }
+
+    // Set initial state
     setIsScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }
+    handleResize()
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  // Combine scroll and small screen conditions
+  const shouldShowScrolledStyle = isScrolled || isSmallScreen
 
   async function onLogout() {
     try {
@@ -43,15 +53,15 @@ export function AppHeader() {
   return (
     <header
       className={`app-header ${
-        isScrolled ? 'scrolled' : ''
-      } main-container full`}
+        shouldShowScrolledStyle ? 'scrolled' : ''
+      }  full`}
     >
       <nav className=''>
         <NavLink to='/' className='logo'>
           <FaAirbnb />
           <span>flexbnb</span>
         </NavLink>
-        <SearchBar isScrolled={isScrolled} />
+        <SearchBar isScrolled={shouldShowScrolledStyle} />
         {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
 
         {!user && (
@@ -70,6 +80,7 @@ export function AppHeader() {
             <button onClick={onLogout}>logout</button>
           </div>
         )}
+        {/* <LabelsSlider /> */}
       </nav>
     </header>
   )

@@ -1,4 +1,5 @@
 .home-details-container {
+  font-family: 'Airbnb Cereal App Medium', sans-serif;
   display: grid;
   grid-template-columns: 1em 1fr 1em;
   margin-top: 5rem;
@@ -72,10 +73,13 @@
     padding-block-start: 20px;
     padding-block-end: 20px;
     display: grid;
+    gap: 3em;
     grid-template-columns: repeat(3, auto);
-    // border-bottom: 1px solid $secondary-font-gray;
+    grid-template-rows: auto auto auto;
+
     .home-details-mid {
       grid-column: span 2 / span 2;
+      grid-row: span 2 / span 2;
     }
     h2 {
       color: $primary-font-black;
@@ -96,6 +100,8 @@
       }
     }
     .rare-modal {
+      position: sticky;
+      top: 15rem;
       display: flex;
       gap: 0.5rem;
       flex-direction: row;
@@ -107,6 +113,9 @@
       margin-block-start: 1em;
       box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
       padding: 1em 0.5rem;
+      grid-column: 3 / 4;
+      grid-row: 1;
+      z-index: 5; // הורדתי את ה-z-index כדי שיהיה מתחת ל-nav
       .diamond-icon {
         font-size: 1.5em;
         color: $primary-pink;
@@ -119,6 +128,10 @@
       }
     }
     .home-highlights {
+      margin-block-start: 40px;
+      padding-block-end: 40px;
+      border-bottom: 1px solid #e0e0e0;
+
       & > article {
         display: grid;
         grid-template-columns: 56px auto;
@@ -127,7 +140,8 @@
         .home-highlights-icon {
           grid-column: 1;
           grid-row: 1;
-          width: 24px;
+          width: 32px;
+          height: 32px;
         }
         h4 {
           color: $primary-font-black;
@@ -139,6 +153,74 @@
           font-size: 0.875em;
           margin: 0;
         }
+      }
+    }
+    .home-details-description {
+      border-bottom: 1px solid #e0e0e0;
+      margin-block-start: 40px;
+      padding-block-end: 40px;
+      h3 {
+        color: $primary-font-black;
+        font-size: 1.15em;
+        margin: 0;
+      }
+      p {
+        font-size: 0.875em;
+        color: $secondary-font-gray;
+        margin-block-start: 0.5em;
+      }
+    }
+    .home-details-facilities-list {
+      color: $primary-font-black;
+      padding-block-start: 40px;
+
+      .amenities-list {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+
+        .amenity-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid #f0f0f0;
+
+          .amenity-icon {
+            font-size: 1.2rem;
+            color: $secondary-font-gray;
+            flex-shrink: 0;
+          }
+
+          span {
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+
+    .google-maps {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e0e0e0;
+
+      h3 {
+        color: $primary-font-black;
+        // font-size: 1.5em;
+        // margin: 0 0 2rem 0;
+        // text-align: center;
+      }
+
+      div:first-child {
+        height: 500px;
+        width: 100%;
+        border-radius: 20px;
+        // overflow: hidden;
       }
     }
   }

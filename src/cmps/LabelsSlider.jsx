@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { LabelPreview } from './LabelPreview'
-import { FilterDropdown } from './FilterDropdown'
-import { setFilterBy } from '../store/home.actions'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
-
-// import {ReactComponent as RightArrowIcon} from '../assets/svgs/arrow-right.svg?react'
+import { setFilterBy } from '../store/home.actions'
+import { LabelPreview } from './LabelPreview'
 
 const labels = [
   {
@@ -141,46 +137,79 @@ const labels = [
 ]
 export function LabelsSlider() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const sliderRef = useRef(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
-  const getShowCountByScreen = () => {
-    const width = window.innerWidth
-    if (width < 480) return 3
-    if (width < 640) return 4
-    if (width < 768) return 5
-    if (width < 1024) return 7
-    if (width < 1280) return 13
-    return 13
+  const checkScrollPosition = () => {
+    if (sliderRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current
+      setCanScrollLeft(scrollLeft > 0)
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1)
+    }
   }
 
-  const stepSize = 4
-  const [itemWidth, setItemWidth] = useState(96)
-  const [firstIdx, setFirstIdx] = useState(0)
-  const [showCount, setShowCount] = useState(getShowCountByScreen())
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const itemRef = useRef(null)
-
   useEffect(() => {
-    const handleResize = () => setShowCount(getShowCountByScreen())
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    checkScrollPosition()
+    const slider = sliderRef.current
+    if (slider) {
+      slider.addEventListener('scroll', checkScrollPosition)
+      return () => slider.removeEventListener('scroll', checkScrollPosition)
+    }
   }, [])
 
-  useEffect(() => {
-    if (itemRef.current) {
-      const width = itemRef.current.getBoundingClientRect().width
-      setItemWidth(width + 16)
+  const scrollSlider = (direction) => {
+    if (sliderRef.current) {
+      const scrollAmount = 200
+      const targetScroll =
+        direction === 'left'
+          ? sliderRef.current.scrollLeft - scrollAmount
+          : sliderRef.current.scrollLeft + scrollAmount
+
+      sliderRef.current.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth',
+      })
     }
-  }, [showCount])
-
-  const lastIdx = Math.min(firstIdx + showCount - 1, labels.length - 1)
-
-  function onPrevClick() {
-    if (firstIdx === 0) return
-    setFirstIdx((prev) => Math.max(0, prev - stepSize))
   }
-  function onNextClick() {
-    if (firstIdx + showCount >= labels.length) return
-    setFirstIdx((prev) => Math.min(prev + stepSize, labels.length - showCount))
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true)
+    setStartX(e.pageX - sliderRef.current.offsetLeft)
+    setScrollLeft(sliderRef.current.scrollLeft)
+    sliderRef.current.style.cursor = 'grabbing'
+  }
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true)
+    setStartX(e.touches[0].pageX - sliderRef.current.offsetLeft)
+    setScrollLeft(sliderRef.current.scrollLeft)
+  }
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return
+    e.preventDefault()
+    const x = e.pageX - sliderRef.current.offsetLeft
+    const walk = (x - startX) * 2
+    sliderRef.current.scrollLeft = scrollLeft - walk
+  }
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return
+    const x = e.touches[0].pageX - sliderRef.current.offsetLeft
+    const walk = (x - startX) * 2
+    sliderRef.current.scrollLeft = scrollLeft - walk
+  }
+
+  const handleDragEnd = () => {
+    setIsDragging(false)
+    if (sliderRef.current) {
+      sliderRef.current.style.cursor = 'grab'
+    }
   }
 
   function handleLabelClick(labelName) {
@@ -188,23 +217,23 @@ export function LabelsSlider() {
     setFilterBy({ ...filterBy, labels: [labelName] })
   }
 
-  console.log(filterBy)
   return (
     <section className='labels-slider-container full'>
       <div className='labels-slider-grid-area'>
         <div className='labels-slider-wrapper'>
           <div
+            ref={sliderRef}
             className='labels-slider-track'
-            style={{
-              '--translate-x-labels': `${-firstIdx * (itemWidth || 96)}px`,
-            }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleDragEnd}
           >
             {labels.map((label, idx) => (
-              <div
-                className='labels-slider-item'
-                ref={firstIdx === 0 && idx === 0 ? itemRef : null}
-                key={idx}
-              >
+              <div className='labels-slider-item' key={idx}>
                 <LabelPreview
                   label={label}
                   handleLabelClick={handleLabelClick}
@@ -217,16 +246,30 @@ export function LabelsSlider() {
 
       <div className='labels-slider-buttons-container'>
         <div className='labels-slider-btn-left'>
-          {firstIdx > 0 && (
-            <button onClick={onPrevClick} className='labels-slider-btn left'>
-              <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg' />
+          {canScrollLeft && (
+            <button
+              onClick={() => scrollSlider('left')}
+              className='labels-slider-btn left'
+              aria-label='Scroll left'
+            >
+              <img
+                src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg'
+                alt='Previous'
+              />
             </button>
           )}
         </div>
         <div className='labels-slider-btn-right'>
-          {lastIdx < labels.length - 1 && (
-            <button onClick={onNextClick} className='labels-slider-btn right'>
-              <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg' />
+          {canScrollRight && (
+            <button
+              onClick={() => scrollSlider('right')}
+              className='labels-slider-btn right'
+              aria-label='Scroll right'
+            >
+              <img
+                src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg'
+                alt='Next'
+              />
             </button>
           )}
         </div>
@@ -235,18 +278,7 @@ export function LabelsSlider() {
         className='labels-slider-filter-container'
         style={{ position: 'relative' }}
       >
-        {/* <button
-          className='labels-slider-filter-btn'
-          onClick={() => setIsFilterOpen(true)}
-        >
-          <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699388798/filterSvg_pvzh1i.svg' />
-          <span>Filters</span>
-        </button>
-
-        <FilterDropdown
-          isOpen={isFilterOpen}
-          onClose={() => setIsFilterOpen(false)}
-        /> */}
+        {}
       </div>
     </section>
   )

@@ -7,6 +7,66 @@ import {
 } from '../util.service'
 
 const STORAGE_KEY = 'home'
+
+const gHomeTypes = ['House', 'Apartment', 'Condo', 'Villa']
+const gAmenities = [
+  'TV',
+  'Kitchen',
+  'Wifi',
+  'Smoking allowed',
+  'Pets allowed',
+  'Cooking basics',
+  'Free parking on premises',
+  'Air conditioning',
+  'Heating',
+  'Washer',
+  'Dryer',
+  'Pool',
+  'Hot tub',
+  'Gym',
+  'Beach access',
+  'Balcony',
+  'Garden',
+  'BBQ grill',
+  'Fireplace',
+  'Piano',
+  'Game room',
+  'Office space',
+  'Baby crib',
+  'High chair',
+  'Security cameras',
+]
+
+const amenityIcons = {
+  TV: 'MdTv',
+  Kitchen: 'MdKitchen',
+  Wifi: 'MdWifi',
+  'Smoking allowed': 'MdSmokingRooms',
+  'Pets allowed': 'MdPets',
+  'Cooking basics': 'MdRestaurantMenu',
+  'Free parking on premises': 'MdLocalParking',
+  'Air conditioning': 'MdAcUnit',
+  Heating: 'MdThermostat',
+  Washer: 'MdLocalLaundryService',
+  Dryer: 'MdDryCleaning',
+  Pool: 'MdPool',
+  'Hot tub': 'MdHotTub',
+  Gym: 'MdFitnessCenter',
+  'Beach access': 'MdBeachAccess',
+  Balcony: 'MdBalcony',
+  Garden: 'MdLocalFlorist',
+  'BBQ grill': 'MdOutdoorGrill',
+  Fireplace: 'MdFireplace',
+  Piano: 'MdPiano',
+  'Game room': 'MdSportsEsports',
+  'Office space': 'MdWork',
+  'Baby crib': 'MdChildCare',
+  'High chair': 'MdChair',
+  'Security cameras': 'MdSecurity',
+}
+
+export const getAmenityIcon = (amenity) => amenityIcons[amenity] || 'MdHome'
+
 export const homeService = {
   query,
   getById,
@@ -17,19 +77,10 @@ export const homeService = {
   getFilterFromSearchParams,
   getAverageReviewRate,
   getMaxHomePrice,
+  getAmenityIcon,
 }
 
 window.cs = homeService
-const gHomeTypes = ['House', 'Apartment', 'Condo', 'Villa']
-const gAmenities = [
-  'TV',
-  'Kiten',
-  'Wifi',
-  'Smoking allowed',
-  'Pets allowed',
-  'Cooking basics',
-  'Free parking on premises',
-]
 const images = [
   {
     id: 1,
@@ -448,7 +499,7 @@ async function query(filterBy = getDefaultFilter()) {
       bedRoomsCount,
       bedsCount,
       bathCount,
-      labels
+      labels,
     } = filterBy
 
     if (city) {
@@ -543,7 +594,7 @@ function getDefaultFilter() {
     bedRoomsCount: 0,
     bedsCount: 0,
     bathCount: 0,
-    labels: []
+    labels: [],
   }
 }
 
@@ -614,12 +665,10 @@ function _createHome() {
   home.bedRoomsCount = Math.floor(home.capacity / 2)
   home.bedsCount = getRandomIntInclusive(home.bedRoomsCount, home.capacity)
   home.bathCount = getRandomIntInclusive(1, 2)
-  ;(home.amenities = [
-    gAmenities[getRandomIntInclusive(0, gAmenities.length - 1)],
-  ]),
-    gAmenities[getRandomIntInclusive(0, gAmenities.length - 1)],
-    gAmenities[getRandomIntInclusive(0, gAmenities.length - 1)],
-    gAmenities[getRandomIntInclusive(0, gAmenities.length - 1)]
+
+  const shuffledAmenities = [...gAmenities].sort(() => Math.random() - 0.5)
+  home.amenities = shuffledAmenities.slice(0, 10)
+
   home.labels = [
     gHomeLabels[getRandomIntInclusive(0, gHomeLabels.length - 1)],
     gHomeLabels[getRandomIntInclusive(0, gAmenities.length - 1)],

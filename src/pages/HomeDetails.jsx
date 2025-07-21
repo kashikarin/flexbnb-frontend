@@ -6,16 +6,78 @@ import { Link } from 'react-router-dom'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadHome, addHomeMsg } from '../store/home.actions'
 import { getAvgRating } from '../services/util.service'
+import { getAmenityIcon } from '../services/home/home.service.local'
 import { FaHeart, FaStar } from 'react-icons/fa'
-import { CiHeart } from 'react-icons/ci'
+import { CiCalendarDate, CiHeart } from 'react-icons/ci'
 import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
-
+import { LuBedDouble } from 'react-icons/lu'
+import { PiDoorOpenThin } from 'react-icons/pi'
+import {
+  MdTv,
+  MdKitchen,
+  MdWifi,
+  MdSmokingRooms,
+  MdPets,
+  MdRestaurantMenu,
+  MdLocalParking,
+  MdAcUnit,
+  MdThermostat,
+  MdLocalLaundryService,
+  MdDryCleaning,
+  MdPool,
+  MdHotTub,
+  MdFitnessCenter,
+  MdBeachAccess,
+  MdBalcony,
+  MdLocalFlorist,
+  MdOutdoorGrill,
+  MdFireplace,
+  MdPiano,
+  MdSportsEsports,
+  MdWork,
+  MdChildCare,
+  MdChair,
+  MdSecurity,
+  MdHome,
+} from 'react-icons/md'
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
+const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 export function HomeDetails() {
   const { homeId } = useParams()
   const home = useSelector((storeState) => storeState.homeModule.home)
 
+  const iconComponents = {
+    MdTv,
+    MdKitchen,
+    MdWifi,
+    MdSmokingRooms,
+    MdPets,
+    MdRestaurantMenu,
+    MdLocalParking,
+    MdAcUnit,
+    MdThermostat,
+    MdLocalLaundryService,
+    MdDryCleaning,
+    MdPool,
+    MdHotTub,
+    MdFitnessCenter,
+    MdBeachAccess,
+    MdBalcony,
+    MdLocalFlorist,
+    MdOutdoorGrill,
+    MdFireplace,
+    MdPiano,
+    MdSportsEsports,
+    MdWork,
+    MdChildCare,
+    MdChair,
+    MdSecurity,
+    MdHome,
+  }
+
   useEffect(() => {
+    console.log('home:', home)
     loadHome(homeId)
     console.log('homeId:', homeId)
   }, [homeId])
@@ -88,12 +150,64 @@ export function HomeDetails() {
               </div>
               <section className='home-highlights'>
                 <article>
-                  <FaBuildingCircleCheck className='home-highlights-icon ' />
+                  <PiDoorOpenThin className='home-highlights-icon ' />
                   <h4>Self check-in</h4>
                   <p>Check yourself in with the lockbox.</p>
                 </article>
+                <article>
+                  <LuBedDouble className='home-highlights-icon ' />
+                  <h4>Room in a home</h4>
+                  <p>Your own room in a home, plus access to shared spaces.</p>
+                </article>
+                <article>
+                  <CiCalendarDate className='home-highlights-icon ' />
+                  <h4>Free cancellation before Jul 27</h4>
+                  <p>Get a full refund if you change your mind.</p>
+                </article>
+              </section>
+              <section className='home-details-description'>
+                <h3>About this place</h3>
+                <p>{home.summary}</p>
+              </section>
+              <section className='home-details-facilities-list'>
+                <h3>What this place offers</h3>
+                <ul className='amenities-list'>
+                  {home.amenities.map((amenity, idx) => {
+                    const iconName = getAmenityIcon(amenity)
+                    const IconComponent = iconComponents[iconName]
+                    return (
+                      <li key={idx} className='amenity-item'>
+                        <IconComponent className='amenity-icon' />
+                        <span>{amenity}</span>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </section>
+
+              <section className='google-maps'>
+                <h3>Where you'll be</h3>
+                <APIProvider apiKey={API_KEY}>
+                  <Map
+                    defaultZoom={13}
+                    center={{
+                      lat: home.loc.lat,
+                      lng: home.loc.lng,
+                    }}
+                    gestureHandling={'greedy'}
+                    disableDefaultUI={false}
+                    style={{ height: '400px', width: '100%' }}
+                  />
+                  <Marker
+                    position={{ lat: home.loc.lat, lng: home.loc.lng }}
+                    clickable={true}
+                    onClick={() => alert('marker was clicked!')}
+                    title={'clickable google.maps.Marker'}
+                  />
+                </APIProvider>
               </section>
             </div>
+
             <aside className='rare-modal'>
               <IoDiamond className='diamond-icon' />
               <p>Rare find! This place is usually booked</p>

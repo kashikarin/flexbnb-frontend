@@ -74,7 +74,7 @@ export function AppHeader() {
             {/* <button onClick={onLogout}>logout</button> */}
           </div>
         )}
-        {/* {<LabelsSlider />} */}
+        {<LabelsSlider />}
       </nav>
     </header>
   )

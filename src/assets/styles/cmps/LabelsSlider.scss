@@ -1,8 +1,9 @@
 .labels-slider-container {
   position: sticky;
-  z-index: 15;
-  top: 7rem;
-  // padding-block: 1.25rem;
+  grid-column: 1 /4;
+  z-index: 5;
+  top: 5rem;
+  padding-block-end: 1rem;
   padding-inline: 35px;
   display: grid;
   grid-template-columns: 3rem 1fr 8rem;
@@ -12,7 +13,6 @@
 
   // background-color: white;
 
-  // Responsive adjustments
   @media (max-width: $narrow-breakpoint) {
     padding-inline: 15px;
     grid-template-columns: 2rem 1fr 5rem;
@@ -21,17 +21,16 @@
   @media (max-width: $mobile-breakpoint) {
     padding-inline: 10px;
     grid-template-columns: 1.5rem 1fr 4rem;
-    top: 6rem; // קצת יותר נמוך במובייל
+    top: 6rem;
   }
 
   @media (max-width: $tablet-breakpoint) {
-    // הסרנו את display: none - עכשיו הקרוסלה תופיע בכל הגדלים
     padding-inline: 10px;
     grid-template-columns: 1.5rem 1fr 3.5rem;
   }
 
   .labels-slider-grid-area {
-    grid-column: 2; // sits in the center column
+    grid-column: 2;
     width: 100%;
     overflow: hidden;
 
@@ -44,17 +43,33 @@
         display: flex;
         flex-direction: row;
         gap: 1rem;
-        will-change: transform;
-        transition: transform 400ms ease-in-out;
-        transform: translate3d(var(--translate-x-labels, 0), 0, 0);
-        width: max-content;
-        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        cursor: grab;
+        user-select: none;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        &:active {
+          cursor: grabbing;
+        }
 
         .labels-slider-item {
           flex: 0 0 clamp(56px, 8vw, 128px);
+          pointer-events: auto;
 
           @media (max-width: $mobile-breakpoint) {
             flex: 0 0 clamp(52px, 12vw, 76px);
+          }
+
+          @media (max-width: 480px) {
+            flex: 0 0 clamp(48px, 15vw, 64px);
           }
         }
       }

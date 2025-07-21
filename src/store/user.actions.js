@@ -3,7 +3,7 @@ import { userService } from '../services/user/user.service.local'
 import { store } from '../store/store'
 
 import { LOADING_DONE, LOADING_START } from './system.reducer'
-import { REMOVE_USER, SET_LOGGEDINUSER, SET_USERS, SET_WATCHED_USER } from './user.reducer'
+import { REMOVE_USER, SET_LOGGEDINUSER, SET_USERS, SET_WATCHED_USER, ADD_LIKE_HOME, REMOVE_LIKE_HOME } from './user.reducer'
 
 export async function loadUsers() {
     try {
@@ -76,6 +76,33 @@ export async function loadUser(userId) {
         store.dispatch({ type: SET_WATCHED_USER, user })
     } catch (err) {
         console.error('Cannot load user', err)
+        throw err
+    }
+}
+
+export async function addLike(homeId){
+    try {
+        const loggedInUser = store.getState().userModule.loggedInUser
+        let user = await userService.getById(loggedInUser._id)
+        user.likedHomes = [ ...user.likedHomes, homeId]
+        await userService.update(user)
+        store.dispatch({type: ADD_LIKE_HOME, homeId})
+    } catch(err) {
+        console.error('Cannot add like', err)
+        throw err
+    }
+}
+
+export async function removeLike(homeId){
+    try {
+        const loggedInUser = store.getState().userModule.loggedInUser
+        let user = await userService.getById(loggedInUser._id)
+        user.likedHomes = user.likedHomes.filter(likedHome => likedHome !== homeId)
+        await userService.update(user)
+        store.dispatch({type: REMOVE_LIKE_HOME, homeId})
+    } catch(err) {
+        console.error('Cannot remove like', err)
+        throw err
     }
 }
 
@@ -88,3 +115,4 @@ export async function initUsers() {
     }
     
 }
+

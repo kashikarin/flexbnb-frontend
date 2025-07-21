@@ -6,6 +6,7 @@ export const UPDATE_HOME = 'UPDATE_HOME'
 export const ADD_HOME_MSG = 'ADD_HOME_MSG'
 export const SET_FILTERBY = 'SET_FILTERBY'
 
+
 const initialState = {
   homes: [],
   home: null,

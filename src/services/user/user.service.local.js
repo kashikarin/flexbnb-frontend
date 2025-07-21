@@ -30,16 +30,25 @@ function remove(userId) {
     return storageService.remove('user', userId)
 }
 
-async function update({ _id, score }) {
-    const user = await storageService.get('user', _id)
-    user.score = score
-    await storageService.put('user', user)
+// async function updateScore({ _id, score }) {
+//     const user = await storageService.get('user', _id)
+//     user.score = score
+//     await storageService.put('user', user)
 
-	// When admin updates other user's details, do not update loggedinUser
-    const loggedinUser = getLoggedinUser()
-    if (loggedinUser._id === user._id) _saveLocalUser(user)
+// 	// When admin updates other user's details, do not update loggedinUser
+//     const loggedinUser = getLoggedinUser()
+//     if (loggedinUser._id === user._id) _saveLocalUser(user)
 
-    return user
+//     return user
+// }
+
+async function update(userToUpdate) {
+    const user = await getById(userToUpdate._id)
+    const loggedInUser = await getLoggedinUser()
+    const updatedUser = await storageService.put('user', { ...user, ...userToUpdate })
+    if (loggedInUser._id === updatedUser._id) _saveLocalUser(updatedUser)
+    console.log("🚀 ~ update ~ getLoggedinUser():", getLoggedinUser())
+    return updatedUser
 }
 
 async function login(credentials) {

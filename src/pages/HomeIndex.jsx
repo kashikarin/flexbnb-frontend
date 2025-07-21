@@ -8,12 +8,13 @@ import { HomeFilter } from '../cmps/HomeFilter'
 import { LabelsSlider } from '../cmps/LabelsSlider.jsx'
 import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
+import { addLike, removeLike } from '../store/user.actions.js'
 
 export function HomeIndex() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const homes = useSelector((state) => state.homeModule.homes)
-  const users = useSelector(state => state.userModule.users)
-  console.log("🚀 ~ HomeIndex ~ users:", users)
+  const loggedInUser = useSelector(state => state.userModule.loggedInUser)
+  console.log("🚀 ~ HomeIndex ~ loggedInUser:", loggedInUser)
   const setExistSearchParams = useFilterSearchParams()
   
   useEffectUpdate(() => {
@@ -21,8 +22,20 @@ export function HomeIndex() {
     setExistSearchParams(filterBy)
   }, [filterBy])
 
-  function onToggleLike(){
+  async function onAddLike(homeId){
+    try {
+        await addLike(homeId)
+    } catch(err){
+        console.error('Failed to add like', err)
+    }  
+  }
 
+  async function onRemoveLike(homeId){
+    try {
+      await removeLike(homeId)
+    } catch(err){
+        console.error('Failed to remove like', err)
+    }
   }
 
   // function onSetFilterBy(filterBy) {
@@ -77,7 +90,7 @@ export function HomeIndex() {
         onRemoveHome={onRemoveHome}
         onUpdateHome={onUpdateHome}
       /> */}
-      <HomeList homes={homes} />
+      <HomeList homes={homes} likedHomes={loggedInUser?.likedHomes} onAddLike={onAddLike} onRemoveLike={onRemoveLike}/>
     </section>
   )
 }

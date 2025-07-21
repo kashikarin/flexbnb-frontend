@@ -8,11 +8,12 @@ import {
   utilService,
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
+import { useEffectUpdate } from '../customHooks/useEffectUpdate'
 
-export function HomePreview({ home }) {
+export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   const [firstIdx, setFirstIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
-  const [isLiked, setIsLiked] = useState(false)
+  const [isLiked, setIsLiked] = useState(isHomeLiked)
   const imgRef = useRef(null)
   const containerRef = useRef(null)
 
@@ -92,12 +93,16 @@ export function HomePreview({ home }) {
       ? `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
       : `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
   }
+  useEffectUpdate(()=>{
+    console.log("🚀 ~ useEffectUpdate ~ isLiked:", isLiked)
+    if (isLiked) onAddLike(home._id)
+    else onRemoveLike(home._id)
+  }, [isLiked])
 
   function handleLike(e) {
     e.preventDefault()
     e.stopPropagation()
     console.log('handleLike called')
-
     setIsLiked((prev) => !prev)
   }
 

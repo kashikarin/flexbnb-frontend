@@ -6,11 +6,14 @@ export const SET_USERS = 'SET_USERS'
 export const SET_SCORE = 'SET_SCORE'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_WATCHED_USER = 'SET_WATCHED_USER'
+export const ADD_LIKE_HOME = 'ADD_LIKE_HOME'
+export const REMOVE_LIKE_HOME = 'REMOVE_LIKE_HOME'
 
 
 const initialState = {
     loggedInUser: userService.getLoggedinUser(),
     users: [],
+
 }
 
 export function userReducer(state = initialState, action) {
@@ -35,6 +38,16 @@ export function userReducer(state = initialState, action) {
         case SET_SCORE:
             newState = { ...state, user: { ...state.user, score: action.score } }
             break
+        case ADD_LIKE_HOME:
+            const { loggedInUser } = state
+            newState = { ...state, 
+                            users: state.users?.map(user => user._id === loggedInUser._id ? {...user, likedHomes: [...user.likedHomes, action.homeId] } : user),
+                            loggedInUser: { ...state.loggedInUser, likedHomes: [...state.loggedInUser.likedHomes, action.homeId]}}
+        case REMOVE_LIKE_HOME:
+            newState = { ...state, 
+                            users: state.users?.map(user => user._id === loggedInUser._id ? {...user, likedHomes: user.likedHomes?.filter(likedHome => likedHome !== action.homeId) } : user),
+                            loggedInUser: { ...state.loggedInUser, likedHomes: state.loggedInUser?.likedHomes?.filter(likedHome => likedHome !== action.homeId)}
+                        }
         default:
     }
     // For debug:

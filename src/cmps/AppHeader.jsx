@@ -1,7 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
-import { logout } from '../store/user.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { initDemoUser } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
@@ -9,13 +8,12 @@ import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
-import { storageService } from '../services/async-storage.service'
 import { SET_USER } from '../store/user.reducer'
 
 
 export function AppHeader() {
   const dispatch = useDispatch()
-  const user = useSelector((storeState) => storeState.userModule.user)
+  // const user = useSelector((storeState) => storeState.userModule.user)
   const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)

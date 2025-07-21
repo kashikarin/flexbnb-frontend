@@ -86,7 +86,8 @@ async function getUserReviews(userId){
     }, [])
 }
 
-async function createDemoUser(){
+async function _createDemoUser(){
+    
     const demoUser = {
         _id: 'u101',
         fullname: 'Justin Time',
@@ -98,6 +99,18 @@ async function createDemoUser(){
     demoUser.reviews = await getUserReviews(demoUser._id)
     localStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(demoUser))
     return demoUser 
+}
+
+function _createUsers() {
+  let users = utilService.loadFromStorage('user')
+  if (!users || !users.length) {
+    users = []
+    for (let i = 0; i < 1; i++) {
+      const user = _createDemoUser()
+      users.push(user)
+    }
+    utilService.saveToStorage('user', users)
+  }
 }
 
 // To quickly create an admin user, uncomment the next line

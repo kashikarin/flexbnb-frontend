@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
+import { logout } from '../store/user.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { initDemoUser } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
@@ -9,26 +10,29 @@ import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
 
 export function AppHeader() {
-  // const user = useSelector((storeState) => storeState.userModule.user)
+  const user = useSelector((storeState) => storeState.userModule.user)
   const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 580)
+    const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
+    handleResize()
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-  
+
   useEffect(() => {
-      const onScroll = () => setIsScrolled(window.scrollY > 20)
-      window.addEventListener('scroll', handleScroll)
-      return () => window.removeEventListener('scroll', handleScroll)
+    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     initDemoUser()
   }, [])
+
+  const shouldShowScrolledStyle = isScrolled || isSmallScreen
 
   async function onLogout() {
     try {
@@ -64,13 +68,13 @@ export function AppHeader() {
           <div className='user-info'>
             <Link to={`user/${user._id}`}>
               {user.imgUrl && <img src={user.imgUrl} />}
-              {user.fullname}
+              {/* {user.fullname} */}
             </Link>
             {/* <span className="score">{user.score?.toLocaleString()}</span> */}
-            <button onClick={onLogout}>logout</button>
+            {/* <button onClick={onLogout}>logout</button> */}
           </div>
         )}
-        {/* <LabelsSlider /> */}
+        {/* {<LabelsSlider />} */}
       </nav>
     </header>
   )

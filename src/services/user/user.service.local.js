@@ -55,15 +55,25 @@ async function signup(newUser) {
 
 async function logout() {
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+    localStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
 }
 
-function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+async function getLoggedinUser() {
+    const user = JSON.parse(localStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    if (!user) return null
+
+    const users = await storageService.query('user') 
+    const userExists = users?.some(storedUser => storedUser._id === user._id)
+    console.log("🚀 ~ getLoggedinUser ~ userExists:", userExists) //karin - always make new id! fix the functins 
+    
+    if (!userExists) await storageService.post('user', user)
+    
+    return user
 }
 
 function _saveLocalUser(user) {
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-    localStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user)) // only for the demo-user phase, delete later in the backend phase
+    localStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user)) 
     return user
 }
 
@@ -76,17 +86,31 @@ async function getUserReviews(userId){
     }, [])
 }
 
-async function createDemoUser(){
+async function _createDemoUser(){
+    
     const demoUser = {
         _id: 'u101',
         fullname: 'Justin Time',
         imgUrl: '/img/user/justin-img.jpg',
         username: 'just_in_time',
         password: 'bieber123',
+        likedHomes: []
     }
     demoUser.reviews = await getUserReviews(demoUser._id)
     localStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(demoUser))
     return demoUser 
+}
+
+function _createUsers() {
+  let users = utilService.loadFromStorage('user')
+  if (!users || !users.length) {
+    users = []
+    for (let i = 0; i < 1; i++) {
+      const user = _createDemoUser()
+      users.push(user)
+    }
+    utilService.saveToStorage('user', users)
+  }
 }
 
 // To quickly create an admin user, uncomment the next line

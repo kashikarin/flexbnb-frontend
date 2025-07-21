@@ -1,16 +1,19 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
-import { logout } from '../store/user.actions'
+import { useSelector, useDispatch } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { initDemoUser } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
+import { userService } from '../services/user/user.service.local'
+import { SET_USER } from '../store/user.reducer'
+
 
 export function AppHeader() {
-  const user = useSelector((storeState) => storeState.userModule.user)
+  const dispatch = useDispatch()
+  // const user = useSelector((storeState) => storeState.userModule.user)
   const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -29,8 +32,18 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
-    initDemoUser()
+    loadLoggedInUser()
   }, [])
+
+  async function loadLoggedInUser(){
+    const loggedInUser = await userService.getLoggedinUser()
+    if (loggedInUser) {
+      dispatch({type: SET_USER, user: loggedInUser})
+    } else{
+      await initDemoUser()
+    }
+
+  }
 
   const shouldShowScrolledStyle = isScrolled || isSmallScreen
 

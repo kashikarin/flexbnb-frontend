@@ -1,20 +1,16 @@
 import { Link, NavLink } from 'react-router-dom'
-import { useNavigate } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { initDemoUser } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
-import { SET_USER } from '../store/user.reducer'
-
+import { SET_LOGGEDINUSER } from '../store/user.reducer'
+import { initUsers } from '../store/user.actions'
 
 export function AppHeader() {
   const dispatch = useDispatch()
-  // const user = useSelector((storeState) => storeState.userModule.user)
-  const navigate = useNavigate()
+  const loggedInUser = useSelector(state => state.userModule.loggedInUser)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
 
@@ -32,30 +28,29 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
-    loadLoggedInUser()
+    createInitialUsers()
   }, [])
+
+  async function createInitialUsers() {
+    try {
+        await initUsers() 
+    } catch (err) {
+        console.error('Error creating initial users:', err)
+    }
+  }
+
+  useEffect(() => {
+    if (!loggedInUser) loadLoggedInUser()
+  }, [loggedInUser])
 
   async function loadLoggedInUser(){
     const loggedInUser = await userService.getLoggedinUser()
     if (loggedInUser) {
-      dispatch({type: SET_USER, user: loggedInUser})
-    } else{
-      await initDemoUser()
+      dispatch({type: SET_LOGGEDINUSER, loggedInUser})
     }
-
   }
 
   const shouldShowScrolledStyle = isScrolled || isSmallScreen
-
-  async function onLogout() {
-    try {
-      await logout()
-      navigate('/')
-      showSuccessMsg(`Bye now`)
-    } catch (err) {
-      showErrorMsg('Cannot logout')
-    }
-  }
 
   return (
     <header
@@ -69,18 +64,18 @@ export function AppHeader() {
           <span>flexbnb</span>
         </NavLink>
         <SearchBar isScrolled={shouldShowScrolledStyle} />
-        {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
+        {loggedInUser?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
 
-        {!user && (
+        {!loggedInUser && (
           <NavLink to='login' className='login-link'>
             Login
           </NavLink>
         )}
 
-        {user && (
+        {loggedInUser && (
           <div className='user-info'>
-            <Link to={`user/${user._id}`}>
-              {user.imgUrl && <img src={user.imgUrl} />}
+            <Link to={`user/${loggedInUser._id}`}>
+              {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
               {/* {user.fullname} */}
             </Link>
             {/* <span className="score">{user.score?.toLocaleString()}</span> */}

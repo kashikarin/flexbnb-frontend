@@ -1,5 +1,6 @@
 import { storageService } from '../async-storage.service'
 import { homeService } from '../home/home.service.local'
+import { utilService } from '../util.service'
 
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
@@ -14,7 +15,7 @@ export const userService = {
     update,
     getLoggedinUser,
     getUserReviews,
-    createDemoUser
+    createUsers
 }
 
 function getUsers() {
@@ -64,7 +65,6 @@ async function getLoggedinUser() {
 
     const users = await storageService.query('user') 
     const userExists = users?.some(storedUser => storedUser._id === user._id)
-    console.log("🚀 ~ getLoggedinUser ~ userExists:", userExists) //karin - always make new id! fix the functins 
     
     if (!userExists) await storageService.post('user', user)
     
@@ -87,7 +87,6 @@ async function getUserReviews(userId){
 }
 
 async function _createDemoUser(){
-    
     const demoUser = {
         _id: 'u101',
         fullname: 'Justin Time',
@@ -97,19 +96,19 @@ async function _createDemoUser(){
         likedHomes: []
     }
     demoUser.reviews = await getUserReviews(demoUser._id)
-    localStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(demoUser))
-    return demoUser 
+    return _saveLocalUser(demoUser) 
 }
 
-function _createUsers() {
+async function createUsers() {
   let users = utilService.loadFromStorage('user')
   if (!users || !users.length) {
     users = []
     for (let i = 0; i < 1; i++) {
-      const user = _createDemoUser()
+      const user = await _createDemoUser()
       users.push(user)
     }
     utilService.saveToStorage('user', users)
+    return users
   }
 }
 

@@ -1,25 +1,24 @@
 import { userService } from '../services/user'
 
 
-export const SET_USER = 'SET_USER'
-export const SET_WATCHED_USER = 'SET_WATCHED_USER'
-export const REMOVE_USER = 'REMOVE_USER'
+export const SET_LOGGEDINUSER = 'SET_LOGGEDINUSER'
 export const SET_USERS = 'SET_USERS'
 export const SET_SCORE = 'SET_SCORE'
+export const REMOVE_USER = 'REMOVE_USER'
+export const SET_WATCHED_USER = 'SET_WATCHED_USER'
+
 
 const initialState = {
-    count: 10,
-    user: userService.getLoggedinUser(),
+    loggedInUser: userService.getLoggedinUser(),
     users: [],
-    watchedUser : null
 }
 
 export function userReducer(state = initialState, action) {
     var newState = state
     switch (action.type) {
 
-        case SET_USER:
-            newState = { ...state, user: action.user }
+        case SET_LOGGEDINUSER:
+            newState = { ...state, loggedInUser: action.user }
             break
         case SET_WATCHED_USER:
             newState = { ...state, watchedUser: action.user }

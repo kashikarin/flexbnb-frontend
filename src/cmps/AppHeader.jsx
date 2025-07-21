@@ -8,6 +8,7 @@ import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
+import { userService } from '../services/user'
 
 export function AppHeader() {
   const user = useSelector((storeState) => storeState.userModule.user)
@@ -29,8 +30,13 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
-    initDemoUser()
+    loadLoggedInUser()
   }, [])
+
+  function loadLoggedInUser(){
+    const loggedInUser = userService.getLoggedinUser()
+    if (!loggedInUser) initDemoUser()
+  }
 
   const shouldShowScrolledStyle = isScrolled || isSmallScreen
 

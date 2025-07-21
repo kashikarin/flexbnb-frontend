@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { logout } from '../store/user.actions'
+import { initDemoUser } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
@@ -21,14 +21,14 @@ export function AppHeader() {
   }, [])
   
   useEffect(() => {
-      handleScroll() 
+      const onScroll = () => setIsScrolled(window.scrollY > 20)
+      window.addEventListener('scroll', handleScroll)
+      return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  function handleScroll() {
-    setIsScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }
+  useEffect(()=>{
+    initDemoUser()
+  }, [])
 
   async function onLogout() {
     try {

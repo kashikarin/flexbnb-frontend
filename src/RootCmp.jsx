@@ -19,13 +19,10 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { LabelsSlider } from './cmps/LabelsSlider.jsx'
-import { initDemoUser } from './store/user.actions.js'
 
 export function RootCmp() {
   
-  useEffect(()=>{
-    initDemoUser()
-  }, [])
+
 
   return (
     <div className='main-container'>

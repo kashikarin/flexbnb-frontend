@@ -13,13 +13,18 @@ import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 export function HomeIndex() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const homes = useSelector((state) => state.homeModule.homes)
-
+  const users = useSelector(state => state.userModule.users)
+  console.log("🚀 ~ HomeIndex ~ users:", users)
   const setExistSearchParams = useFilterSearchParams()
-
+  
   useEffectUpdate(() => {
     loadHomes(filterBy)
     setExistSearchParams(filterBy)
   }, [filterBy])
+
+  function onToggleLike(){
+
+  }
 
   // function onSetFilterBy(filterBy) {
   //   setFilterBy(filterBy)

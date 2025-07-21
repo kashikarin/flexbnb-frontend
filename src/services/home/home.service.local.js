@@ -658,11 +658,6 @@ function _createHome() {
   }
   const likesCount = getRandomIntInclusive(0, 50)
   home.likedByUsers = []
-  for (let i = 0; i < likesCount; i++) {
-    const user = makeLorem(getRandomIntInclusive(1, 3))
-    home.likedByUsers.push(user)
-  }
-
   return home
 }
 function _createHomes() {

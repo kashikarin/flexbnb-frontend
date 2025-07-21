@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { loadHomes, setFilterBy } from '../store/home.actions'
+import { addUserLike, loadHomes, removeUserLike, setFilterBy } from '../store/home.actions'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { homeService } from '../services/home/'
 import { HomeList } from '../cmps/HomeList'
@@ -25,6 +25,7 @@ export function HomeIndex() {
   async function onAddLike(homeId){
     try {
         await addLike(homeId)
+        await addUserLike(homeId)
     } catch(err){
         console.error('Failed to add like', err)
     }  
@@ -33,6 +34,7 @@ export function HomeIndex() {
   async function onRemoveLike(homeId){
     try {
       await removeLike(homeId)
+      await removeUserLike(homeId)
     } catch(err){
         console.error('Failed to remove like', err)
     }

@@ -43,11 +43,13 @@ export function userReducer(state = initialState, action) {
             newState = { ...state, 
                             users: state.users?.map(user => user._id === loggedInUser._id ? {...user, likedHomes: [...user.likedHomes, action.homeId] } : user),
                             loggedInUser: { ...state.loggedInUser, likedHomes: [...state.loggedInUser.likedHomes, action.homeId]}}
+            break
         case REMOVE_LIKE_HOME:
             newState = { ...state, 
                             users: state.users?.map(user => user._id === loggedInUser._id ? {...user, likedHomes: user.likedHomes?.filter(likedHome => likedHome !== action.homeId) } : user),
                             loggedInUser: { ...state.loggedInUser, likedHomes: state.loggedInUser?.likedHomes?.filter(likedHome => likedHome !== action.homeId)}
                         }
+            break
         default:
     }
     // For debug:

@@ -505,27 +505,18 @@ async function remove(homeId) {
   await storageService.remove(STORAGE_KEY, homeId)
 }
 
-async function save(home) {
-  var savedHome
-  if (home._id) {
-    const homeToSave = {
-      _id: home._id,
-      price: home.price,
-      speed: home.speed,
+async function save(homeToSave) {
+  try {
+    if (homeToSave._id) {
+      const savedHome = await storageService.put(STORAGE_KEY, homeToSave)
+    } else {
+      const savedHome = await storageService.post(STORAGE_KEY, homeToSave)
     }
-    savedHome = await storageService.put(STORAGE_KEY, homeToSave)
-  } else {
-    const homeToSave = {
-      vendor: home.vendor,
-      price: home.price,
-      speed: home.speed,
-      // Later, owner is set by the backend
-      owner: userService.getLoggedinUser(),
-      msgs: [],
-    }
-    savedHome = await storageService.post(STORAGE_KEY, homeToSave)
-  }
-  return savedHome
+    return savedHome
+  } catch(err) {
+      console.error('Cannot save home', err)
+      throw err
+  }  
 }
 
 function getEmptyHome(name = '', labels = [], amenities = []) {

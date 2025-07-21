@@ -117,9 +117,7 @@ export function getExistingProperties(obj) {
 }
 export function getAvgRating(home) {
   if (!home || !home.reviews || home.reviews.length === 0) return 0
-  console.log('home.reviews:', home.reviews)
   const total = home.reviews.reduce((acc, review) => acc + review.rate, 0)
-  console.log('total:', total)
   const average = total / home.reviews.length
   return roundToDecimals(average, 1)
 }

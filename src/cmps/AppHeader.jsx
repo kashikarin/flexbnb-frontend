@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { logout } from '../store/user.actions'
+import { initDemoUser } from '../store/user.actions'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
@@ -15,30 +15,20 @@ export function AppHeader() {
   const [isSmallScreen, setIsSmallScreen] = useState(false)
 
   useEffect(() => {
-    function handleScroll() {
-      setIsScrolled(window.scrollY > 20)
-    }
-
-    function handleResize() {
-      const width = window.innerWidth
-      setIsSmallScreen(width <= 820)
-    }
-
-    // Set initial state
-    setIsScrolled(window.scrollY > 20)
-    handleResize()
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleResize, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-    }
+    const handleResize = () => setIsMobile(window.innerWidth < 580)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  
+  useEffect(() => {
+      const onScroll = () => setIsScrolled(window.scrollY > 20)
+      window.addEventListener('scroll', handleScroll)
+      return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Combine scroll and small screen conditions
-  const shouldShowScrolledStyle = isScrolled || isSmallScreen
+  useEffect(()=>{
+    initDemoUser()
+  }, [])
 
   async function onLogout() {
     try {

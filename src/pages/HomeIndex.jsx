@@ -13,13 +13,8 @@ import { addLike, removeLike } from '../store/user.actions.js'
 export function HomeIndex() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const homes = useSelector((state) => state.homeModule.homes)
-<<<<<<< HEAD
-  const users = useSelector((state) => state.userModule.users)
-  console.log('🚀 ~ HomeIndex ~ users:', users)
-=======
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
   console.log("🚀 ~ HomeIndex ~ loggedInUser:", loggedInUser)
->>>>>>> feature/like-homes
   const setExistSearchParams = useFilterSearchParams()
 
   useEffectUpdate(() => {
@@ -27,9 +22,6 @@ export function HomeIndex() {
     setExistSearchParams(filterBy)
   }, [filterBy])
 
-<<<<<<< HEAD
-  function onToggleLike() {}
-=======
   async function onAddLike(homeId){
     try {
         await addLike(homeId)
@@ -47,7 +39,6 @@ export function HomeIndex() {
         console.error('Failed to remove like', err)
     }
   }
->>>>>>> feature/like-homes
 
   // function onSetFilterBy(filterBy) {
   //   setFilterBy(filterBy)

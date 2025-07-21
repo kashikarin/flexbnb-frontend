@@ -19,13 +19,13 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { LabelsSlider } from './cmps/LabelsSlider.jsx'
+import { ScrollToTop } from './cmps/ScrollToTop.jsx'
+import { HomeList } from './cmps/HomeList.jsx'
 
 export function RootCmp() {
-  
-
-
   return (
     <div className='main-container'>
+      <ScrollToTop />
       <AppHeader />
 
       <UserMsg />
@@ -33,7 +33,8 @@ export function RootCmp() {
       <main>
         {/* <LabelsSlider /> */}
         <Routes>
-          <Route path='' element={<HomePage />} />
+          {/* <Route path='' element={<HomePage />} /> */}
+          <Route path='' element={<HomeIndex />} />
           <Route path='about' element={<AboutUs />}>
             <Route path='team' element={<AboutTeam />} />
             <Route path='vision' element={<AboutVision />} />

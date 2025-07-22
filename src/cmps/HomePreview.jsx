@@ -10,6 +10,7 @@ import { useRef, useState, useEffect } from 'react'
 export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   const [firstIdx, setFirstIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
+  const [isLiked, setIsLiked] = useState(isHomeLiked)
   const imgRef = useRef(null)
   const containerRef = useRef(null)
 
@@ -90,22 +91,39 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
       : `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
   }
 
+  useEffect(() => {
+  setIsLiked(isHomeLiked)
+}, [isHomeLiked])
+
   async function handleLike(e) {
     e.preventDefault()
     e.stopPropagation()
-    try {
-      if (isHomeLiked) await onRemoveLike(home._id)
-      else await onAddLike(home._id) 
-    } catch(err) {
-        console.error('Failed to toggle like', err)
-    }
+    const nextIsLiked = !isLiked
+    setIsLiked(nextIsLiked)
+      if (nextIsLiked) {
+        //user likes the home
+        try {
+          await onAddLike(home._id)
+        } catch(err) {
+            setIsLiked(false)
+            console.error('Failed to like the home', err)
+        }
+      } else {
+        //user dislikes the home
+        try {
+          await onRemoveLike(home._id)
+        } catch(err){
+            setIsLiked(true)
+            console.error('Faied to remove like', err)
+        }
+      }
   }
 
   return (
     <Link className='home-preview-link' to={`/home/${home._id}`}>
       <article className='home-preview-container'>
         <div className='heart-icon-container' onClick={handleLike}>
-          <FaHeart className={`heart filled ${isHomeLiked ? 'liked' : ''}`} />
+          <FaHeart className={`heart filled ${isLiked ? 'liked' : ''}`} />
           <FaRegHeart className='heart outline' />
         </div>
         {/* <button className='home-like-btn'>Like</button> */}

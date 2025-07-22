@@ -159,7 +159,7 @@ async function onAddLike(homeId){
   console.log('home:', home)
   return (
     <>
-      {home && (
+      {(home && loggedInUser) && (
         <div className='home-details-container'>
           <div className='home-details-header'>
             <h1>

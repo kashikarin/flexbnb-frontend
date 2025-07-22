@@ -97,7 +97,7 @@ export function HomeDetails() {
         <div className='home-details-container'>
           <div className='home-details-header'>
             <h1>
-              {home.type} in {home.loc.city}, {home.loc.country}
+              {home.type} in {home.loc?.city}, {home.loc?.country}
             </h1>
             <div className='home-details-flex'>
               <div className='home-details'>

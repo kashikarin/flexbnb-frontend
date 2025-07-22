@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadHome, addHomeMsg } from '../store/home.actions'
+import { loadHome, addHomeMsg, addUserLike, removeUserLike } from '../store/home.actions'
+import { addLike, removeLike } from '../store/user.actions'
 import { getAvgRating } from '../services/util.service'
 import { getAmenityIcon } from '../services/home/home.service.local'
 import { FaHeart, FaStar } from 'react-icons/fa'
@@ -42,11 +43,19 @@ import {
   MdHome,
 } from 'react-icons/md'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
+import { useEffectUpdate } from '../customHooks/useEffectUpdate'
+
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
+
 export function HomeDetails() {
   const { homeId } = useParams()
   const home = useSelector((storeState) => storeState.homeModule.home)
-
+  console.log("🚀 ~ HomeDetails ~ home:", home)
+  const loggedInUser = useSelector(state => state.userModule.loggedInUser)
+  console.log("🚀 ~ HomeDetails ~ loggedInUser:", loggedInUser)
+  const [isLiked, setIsLiked] = useState(null)
+  const isLikedBeenSynced = useRef(false)
+  // const isLikedUpdateCount = useRef(0)
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -77,10 +86,18 @@ export function HomeDetails() {
   }
 
   useEffect(() => {
-    console.log('home:', home)
-    loadHome(homeId)
-    console.log('homeId:', homeId)
+      console.log('home:', home)
+      loadHome(homeId)
+      console.log('homeId:', homeId)
   }, [homeId])
+
+  useEffectUpdate(()=>{
+    if (!home || !loggedInUser || isLikedBeenSynced.current) return
+    const liked = home.likedByUsers?.includes(loggedInUser._id)
+    console.log('isHomeLikedByUser', liked)
+    setIsLiked(liked)
+    isLikedBeenSynced.current = true
+  }, [loggedInUser, home])
 
   async function onAddHomeMsg(homeId) {
     try {
@@ -90,6 +107,55 @@ export function HomeDetails() {
       showErrorMsg('Cannot add home msg')
     }
   }
+
+  // useEffectUpdate(()=>{
+  //   isLikedUpdateCount.current = isLikedUpdateCount.current + 1
+  //   if (isLikedUpdateCount.current === 1) return
+  //   console.log("🚀 ~ useEffectUpdate ~ isLiked:", isLiked)
+  //   if (isLiked) onAddLike(homeId)
+  //   else onRemoveLike(homeId)
+  // }, [isLiked])
+
+  // function isHomeLikedByUser(){
+  //   return home?.likedByUsers?.includes(loggedInUser?._id)
+  // }
+  
+  async function handleHomeSave(e){
+    e.preventDefault()
+    e.stopPropagation()
+    if (!home || !loggedInUser || isLiked === null) return
+    const nextLike = !isLiked
+    setIsLiked(nextLike)
+    try {
+      if (nextLike) await onAddLike(homeId)
+      else await onRemoveLike(homeId)
+    } catch(err) {
+        console.error('Cannot toggle like', err)
+    }
+  }
+
+async function onAddLike(homeId){
+    try {
+        if (home.likedByUsers.includes(loggedInUser._id)) return
+        await addLike(homeId, loggedInUser._id)
+        await addUserLike(homeId, loggedInUser._id)
+        await loadHome(homeId)
+    } catch(err){
+        console.error('Failed to add like', err)
+    }  
+  }
+
+  async function onRemoveLike(homeId){
+    try {
+      if (!home.likedByUsers.includes(loggedInUser._id)) return
+      await removeLike(homeId, loggedInUser._id)
+      await removeUserLike(homeId)
+      await loadHome(homeId)
+    } catch(err){
+        console.error('Failed to remove like', err)
+    }
+  }
+
   console.log('home:', home)
   return (
     <>
@@ -116,9 +182,9 @@ export function HomeDetails() {
                   </span>
                 </div>
               </div>
-              <div className='home-details-heart'>
-                <FaHeart className='home-details-heart-icon' />
-                <span>Save</span>
+              <div className='home-details-heart' onClick={handleHomeSave}>
+                <FaHeart className={`home-details-heart-icon ${isLiked ? 'saved' : ''}`} />
+                <span>{isLiked ? "Saved" : "Save"}</span>
               </div>
             </div>
           </div>

@@ -557,11 +557,11 @@ async function remove(homeId) {
 async function save(homeToSave) {
   try {
     if (homeToSave._id) {
-      const savedHome = await storageService.put(STORAGE_KEY, homeToSave)
+      return await storageService.put(STORAGE_KEY, homeToSave)
     } else {
-      const savedHome = await storageService.post(STORAGE_KEY, homeToSave)
+      return await storageService.post(STORAGE_KEY, homeToSave)
     }
-    return savedHome
+    // return savedHome
   } catch(err) {
       console.error('Cannot save home', err)
       throw err

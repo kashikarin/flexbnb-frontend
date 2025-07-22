@@ -33,6 +33,13 @@
         display: flex;
         gap: 0.2rem;
         align-items: center;
+        cursor: pointer;
+        .home-details-heart-icon.saved{
+          color: $primary-pink;
+        }
+        &:hover {
+          background-color: #f7f7f7;
+        }
       }
     }
   }

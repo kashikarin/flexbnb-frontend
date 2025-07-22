@@ -18,7 +18,7 @@ export async function loadHomes(filterBy) {
     const homes = await homeService.query(filterBy)
     store.dispatch(getCmdSetHomes(homes))
   } catch (err) {
-    console.log('Cannot load homes', err)
+    console.error('Cannot load homes', err)
     throw err
   }
 }
@@ -28,7 +28,7 @@ export async function loadHome(homeId) {
     const home = await homeService.getById(homeId)
     store.dispatch(getCmdSetHome(home))
   } catch (err) {
-    console.log('Cannot load home', err)
+    console.error('Cannot load home', err)
     throw err
   }
 }
@@ -38,7 +38,7 @@ export async function removeHome(homeId) {
     await homeService.remove(homeId)
     store.dispatch(getCmdRemoveHome(homeId))
   } catch (err) {
-    console.log('Cannot remove home', err)
+    console.error('Cannot remove home', err)
     throw err
   }
 }
@@ -49,7 +49,7 @@ export async function addHome(home) {
     store.dispatch(getCmdAddHome(savedHome))
     return savedHome
   } catch (err) {
-    console.log('Cannot add home', err)
+    console.error('Cannot add home', err)
     throw err
   }
 }
@@ -60,7 +60,7 @@ export async function updateHome(home) {
     store.dispatch(getCmdUpdateHome(savedHome))
     return savedHome
   } catch (err) {
-    console.log('Cannot save home', err)
+    console.error('Cannot save home', err)
     throw err
   }
 }
@@ -69,11 +69,12 @@ export async function addUserLike(homeId) {
   try {
       let home = await homeService.getById(homeId)
       const loggedInUser = store.getState().userModule.loggedInUser
-      home.likedByUsers = [ ...home.likedByUsers, loggedInUser._id ]
+      const userId = loggedInUser._id
+      home.likedByUsers = [ ...home?.likedByUsers, loggedInUser?._id ]
       await homeService.save(home)
-      store.dispatch({type: ADD_USER_LIKE, homeId})
+      store.dispatch({type: ADD_USER_LIKE, homeId, userId})
   } catch(err){
-      console.log('Cannot add user like', err)
+      console.error('Cannot add user like', err)
       throw err
   }
 }
@@ -82,11 +83,12 @@ export async function removeUserLike(homeId) {
   try {
       let home = await homeService.getById(homeId)
       const loggedInUser = store.getState().userModule.loggedInUser
-      home.likedByUsers = home.likedByUsers.filter(userId => userId !== loggedInUser._id)
+      const userId = loggedInUser?._id
+      home.likedByUsers = home.likedByUsers?.filter(userId => userId !== loggedInUser?._id)
       await homeService.save(home)
-      store.dispatch({type: REMOVE_USER_LIKE, homeId})
+      store.dispatch({type: REMOVE_USER_LIKE, homeId, userId})
   } catch(err){
-      console.log('Cannot remove user like', err)
+      console.error('Cannot remove user like', err)
       throw err
   }
 }
@@ -97,7 +99,7 @@ export async function addHomeMsg(homeId, txt) {
     store.dispatch(getCmdAddHomeMsg(msg))
     return msg
   } catch (err) {
-    console.log('Cannot add home msg', err)
+    console.error('Cannot add home msg', err)
     throw err
   }
 }

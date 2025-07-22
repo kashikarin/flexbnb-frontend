@@ -56,16 +56,15 @@ export function homeReducer(state = initialState, action) {
       }
       break
     case ADD_USER_LIKE:
-      const loggedInUser = store.getState().userModule.loggedInUser
       newState = {
         ...state,
-        homes: state.homes?.map(home => home._id === action.homeId ? {...home, likedByUsers: [...home.likedByUsers, loggedInUser._id] } : home),
+        homes: state.homes?.map(home => home._id === action.homeId ? {...home, likedByUsers: [...home.likedByUsers, action.userId] } : home),
       }
       break
     case REMOVE_USER_LIKE:
       newState = {
         ...state,
-        homes: state.homes?.map(home => home._id === action.homeId ? { ...home, likedByUsers: home.likedByUsers?.filter(userId => userId !== loggedInUser._id)} : home)
+        homes: state.homes?.map(home => home._id === action.homeId ? { ...home, likedByUsers: home.likedByUsers?.filter(id => id !== action.userId)} : home)
       }
       break
     default:

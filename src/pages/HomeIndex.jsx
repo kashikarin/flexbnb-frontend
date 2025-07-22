@@ -24,7 +24,7 @@ export function HomeIndex() {
 
   async function onAddLike(homeId){
     try {
-        await addLike(homeId)
+        await addLike(homeId, loggedInUser._id)
         await addUserLike(homeId)
     } catch(err){
         console.error('Failed to add like', err)
@@ -33,7 +33,7 @@ export function HomeIndex() {
 
   async function onRemoveLike(homeId){
     try {
-      await removeLike(homeId)
+      await removeLike(homeId, loggedInUser._id)
       await removeUserLike(homeId)
     } catch(err){
         console.error('Failed to remove like', err)

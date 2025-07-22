@@ -80,26 +80,25 @@ export async function loadUser(userId) {
     }
 }
 
-export async function addLike(homeId){
+export async function addLike(homeId, userId){
     try {
-        const loggedInUser = store.getState().userModule.loggedInUser
-        let user = await userService.getById(loggedInUser._id)
+        const user = await userService.getById(userId)
         user.likedHomes = [ ...user.likedHomes, homeId]
         await userService.update(user)
-        store.dispatch({type: ADD_LIKE_HOME, homeId})
+        store.dispatch({type: ADD_LIKE_HOME, homeId, userId})
     } catch(err) {
         console.error('Cannot add like', err)
         throw err
     }
 }
 
-export async function removeLike(homeId){
+export async function removeLike(homeId, userId){
     try {
-        const loggedInUser = store.getState().userModule.loggedInUser
-        let user = await userService.getById(loggedInUser._id)
-        user.likedHomes = user.likedHomes.filter(likedHome => likedHome !== homeId)
+        const user = await userService.getById(userId)
+        if (!user || !user.likedHomes) return
+        user.likedHomes = user?.likedHomes?.filter(likedHome => likedHome !== homeId)
         await userService.update(user)
-        store.dispatch({type: REMOVE_LIKE_HOME, homeId})
+        store.dispatch({type: REMOVE_LIKE_HOME, homeId, userId})
     } catch(err) {
         console.error('Cannot remove like', err)
         throw err

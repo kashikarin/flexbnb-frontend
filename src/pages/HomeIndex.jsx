@@ -75,7 +75,10 @@ export function HomeIndex() {
   //     showErrorMsg('Cannot update home')
   //   }
   // }
-
+  const noResultsResponse = <div className="no-matches-response-container">
+                                <h1>No exact matches</h1>
+                                <p>Try changing or removing some of your filters or adjusting your search area.</p>
+                            </div>
   return (
     <section className='home-index-container'>
       {/* <LabelsSlider /> */}
@@ -92,7 +95,7 @@ export function HomeIndex() {
         onRemoveHome={onRemoveHome}
         onUpdateHome={onUpdateHome}
       /> */}
-      <HomeList homes={homes} likedHomes={loggedInUser?.likedHomes} onAddLike={onAddLike} onRemoveLike={onRemoveLike}/>
+      {(Array.isArray(homes) && homes.length === 0) ? noResultsResponse : <HomeList homes={homes} likedHomes={loggedInUser?.likedHomes} onAddLike={onAddLike} onRemoveLike={onRemoveLike}/>}
     </section>
   )
 }

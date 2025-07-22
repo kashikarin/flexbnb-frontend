@@ -4,7 +4,7 @@ import { HomePreview } from './HomePreview'
 export function HomeList({ homes, likedHomes, onAddLike, onRemoveLike }) {
   return (
     <ul className='home-list-container cards-container-narrow grid-layout'>
-      {!Array.isArray(homes) || homes.length === 0 ? (
+      {!homes? (
         <h1>Loading...</h1>
       ) : (
         homes.map((home) => (

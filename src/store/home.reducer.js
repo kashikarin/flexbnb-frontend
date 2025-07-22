@@ -13,7 +13,7 @@ export const REMOVE_USER_LIKE = 'REMOVE_USER_LIKE'
 
 
 const initialState = {
-  homes: [],
+  homes: null,
   home: null,
   filterBy: {}
 }

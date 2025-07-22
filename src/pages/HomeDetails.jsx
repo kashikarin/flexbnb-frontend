@@ -163,7 +163,7 @@ async function onAddLike(homeId){
         <div className='home-details-container'>
           <div className='home-details-header'>
             <h1>
-              {home.type} in {home.loc?.city}, {home.loc?.country}
+              {home.type} in {home.loc.city}, {home.loc.country}
             </h1>
             <div className='home-details-flex'>
               <div className='home-details'>
@@ -250,34 +250,33 @@ async function onAddLike(homeId){
                   })}
                 </ul>
               </section>
-
-              <section className='google-maps'>
-                <h3>Where you'll be</h3>
-                <APIProvider apiKey={API_KEY}>
-                  <Map
-                    defaultZoom={13}
-                    center={{
-                      lat: home.loc.lat,
-                      lng: home.loc.lng,
-                    }}
-                    gestureHandling={'greedy'}
-                    disableDefaultUI={false}
-                    style={{ height: '400px', width: '100%' }}
-                  />
-                  <Marker
-                    position={{ lat: home.loc.lat, lng: home.loc.lng }}
-                    clickable={true}
-                    onClick={() => alert('marker was clicked!')}
-                    title={'clickable google.maps.Marker'}
-                  />
-                </APIProvider>
-              </section>
             </div>
 
             <aside className='rare-modal'>
               <IoDiamond className='diamond-icon' />
               <p>Rare find! This place is usually booked</p>
             </aside>
+            <section className='google-maps'>
+              <h3>Where you'll be</h3>
+              <APIProvider apiKey={API_KEY}>
+                <Map
+                  defaultZoom={13}
+                  center={{
+                    lat: home.loc.lat,
+                    lng: home.loc.lng,
+                  }}
+                  gestureHandling={'greedy'}
+                  disableDefaultUI={false}
+                  style={{ height: '400px', width: '100%' }}
+                />
+                <Marker
+                  position={{ lat: home.loc.lat, lng: home.loc.lng }}
+                  clickable={true}
+                  onClick={() => alert('marker was clicked!')}
+                  title={'clickable google.maps.Marker'}
+                />
+              </APIProvider>
+            </section>
           </section>
         </div>
       )}

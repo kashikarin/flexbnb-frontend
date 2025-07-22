@@ -95,7 +95,9 @@ export function HomeIndex() {
         onRemoveHome={onRemoveHome}
         onUpdateHome={onUpdateHome}
       /> */}
-      {(Array.isArray(homes) && homes.length === 0) ? noResultsResponse : <HomeList homes={homes} likedHomes={loggedInUser?.likedHomes} onAddLike={onAddLike} onRemoveLike={onRemoveLike}/>}
+      {(!Array.isArray(homes) || !loggedInUser) ? 
+          <h1>Loading...</h1> :
+          <HomeList homes={homes} likedHomes={loggedInUser?.likedHomes} onAddLike={onAddLike} onRemoveLike={onRemoveLike}/>}
     </section>
   )
 }

@@ -22,11 +22,11 @@ export function CapacityDropdown({ isOpen, onClose }){
     }
 
     const timerId = setTimeout(()=>{
-        document.addEventListener('pointerdown ', handleClickOutside)
+        document.addEventListener('mousedown  ', handleClickOutside)
     }, 0)
     return () => {
         clearTimeout(timerId)
-        document.removeEventListener('pointerdown ', handleClickOutside)
+        document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
 

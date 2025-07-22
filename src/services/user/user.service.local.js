@@ -69,7 +69,7 @@ async function logout() {
 }
 
 async function getLoggedinUser() {
-    const user = JSON.parse(localStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    const user = JSON.parse(localStorage.getItem(STORAGE_KEY_LOGGEDIN_USER)) || JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
     if (!user) return null
 
     const users = await storageService.query('user') 

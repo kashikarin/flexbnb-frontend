@@ -11,7 +11,7 @@ export const REMOVE_LIKE_HOME = 'REMOVE_LIKE_HOME'
 
 
 const initialState = {
-    loggedInUser: userService.getLoggedinUser(),
+    loggedInUser: null,
     users: [],
 
 }

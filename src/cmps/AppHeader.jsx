@@ -28,19 +28,14 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
-    createInitialUsers()
-  }, [])
-
-  async function createInitialUsers() {
-    try {
-        await initUsers() 
-    } catch (err) {
-        console.error('Error creating initial users:', err)
-    }
-  }
-
-  useEffect(() => {
-    loadLoggedInUser()
+    (async function initAndLoadUsers(){
+      try {
+        await initUsers()
+        await loadLoggedInUser()
+      } catch(err) {
+          console.error('Cannot create or load users', err)
+      }
+    })()
   }, [])
 
   async function loadLoggedInUser(){

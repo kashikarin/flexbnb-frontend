@@ -37,7 +37,6 @@ export function WhereDropdown({ isOpen, onOpen, onClose }){
         { title: 'Jerusalem, Israel', subtitle: 'For sights like Church of the Holy Sepulchre' },
     ]
 
-    console.log('isopen??? ', isOpen)
     return (
       <div className="where-dropdown-wrapper" ref={dropdownRef}>
         {isOpen && (

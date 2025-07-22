@@ -1,10 +1,15 @@
 .where-dropdown-wrapper {
   position: relative;
-  width: 100%;
-  margin: 0;
+  width: calc((100% + 2 * 1.75rem)*1.5); // תופס את כל הרוחב כולל padding
+  margin-left: -1.75rem; // מבטל את ה-padding של inner-section
 }
 
+<<<<<<< HEAD
 .where-dropdown-panel {
+=======
+
+.dropdown-panel {
+>>>>>>> origin/main
   position: absolute;
   top: 100%;
   left: 0;

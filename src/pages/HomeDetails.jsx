@@ -50,12 +50,9 @@ const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 export function HomeDetails() {
   const { homeId } = useParams()
   const home = useSelector((storeState) => storeState.homeModule.home)
-  console.log("🚀 ~ HomeDetails ~ home:", home)
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
-  console.log("🚀 ~ HomeDetails ~ loggedInUser:", loggedInUser)
   const [isLiked, setIsLiked] = useState(null)
   const isLikedBeenSynced = useRef(false)
-  // const isLikedUpdateCount = useRef(0)
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -94,7 +91,6 @@ export function HomeDetails() {
   useEffectUpdate(()=>{
     if (!home || !loggedInUser || isLikedBeenSynced.current) return
     const liked = home.likedByUsers?.includes(loggedInUser._id)
-    console.log('isHomeLikedByUser', liked)
     setIsLiked(liked)
     isLikedBeenSynced.current = true
   }, [loggedInUser, home])
@@ -107,18 +103,6 @@ export function HomeDetails() {
       showErrorMsg('Cannot add home msg')
     }
   }
-
-  // useEffectUpdate(()=>{
-  //   isLikedUpdateCount.current = isLikedUpdateCount.current + 1
-  //   if (isLikedUpdateCount.current === 1) return
-  //   console.log("🚀 ~ useEffectUpdate ~ isLiked:", isLiked)
-  //   if (isLiked) onAddLike(homeId)
-  //   else onRemoveLike(homeId)
-  // }, [isLiked])
-
-  // function isHomeLikedByUser(){
-  //   return home?.likedByUsers?.includes(loggedInUser?._id)
-  // }
   
   async function handleHomeSave(e){
     e.preventDefault()

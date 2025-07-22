@@ -41,7 +41,7 @@ export function WhereDropdown({ isOpen, onOpen, onClose }){
     return (
       <div className="where-dropdown-wrapper" ref={dropdownRef}>
         {isOpen && (
-          <div className="dropdown-panel">
+          <div className="where-dropdown-panel">
             <h4>Suggested destinations</h4>
             <ul>
               {suggestedPlaces.map((place, idx) => (

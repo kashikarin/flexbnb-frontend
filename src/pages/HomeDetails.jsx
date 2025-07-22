@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { ReactSVG } from 'react-svg'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -44,6 +45,7 @@ import {
 } from 'react-icons/md'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate'
+import { ReservationModal } from '../cmps/ReservationModal'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -235,11 +237,11 @@ async function onAddLike(homeId){
                 </ul>
               </section>
             </div>
-
             <aside className='rare-modal'>
               <IoDiamond className='diamond-icon' />
               <p>Rare find! This place is usually booked</p>
             </aside>
+            <ReservationModal home={home}/>
             <section className='google-maps'>
               <h3>Where you'll be</h3>
               <APIProvider apiKey={API_KEY}>

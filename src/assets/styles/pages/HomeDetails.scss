@@ -108,7 +108,7 @@
     }
     .rare-modal {
       position: sticky;
-      top: 15rem;
+      top: 13rem;
       display: flex;
       gap: 0.5rem;
       flex-direction: row;
@@ -123,6 +123,7 @@
       grid-column: 3 / 4;
       grid-row: 1;
       z-index: 5; // הורדתי את ה-z-index כדי שיהיה מתחת ל-nav
+      width: clamp(240px, 22vw, 350px);
       .diamond-icon {
         font-size: 1.5em;
         color: $primary-pink;
@@ -133,6 +134,10 @@
         margin: 0;
         padding: 0;
       }
+    }
+    
+      }
+
     }
     .home-highlights {
       margin-block-start: 40px;
@@ -229,6 +234,4 @@
         border-radius: 20px;
         // overflow: hidden;
       }
-    }
   }
-}

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { ReactSVG } from 'react-svg'
@@ -53,8 +53,10 @@ export function HomeDetails() {
   const { homeId } = useParams()
   const home = useSelector((storeState) => storeState.homeModule.home)
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
-  const [isLiked, setIsLiked] = useState(null)
-  const isLikedBeenSynced = useRef(false)
+  const [isLiked, setIsLiked] = useState(() =>
+    loggedInUser?.likedHomes?.includes(homeId) ?? false
+)
+  
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -83,19 +85,25 @@ export function HomeDetails() {
     MdSecurity,
     MdHome,
   }
-
+  
   useEffect(() => {
       console.log('home:', home)
-      loadHome(homeId)
+      initHome(homeId)
       console.log('homeId:', homeId)
   }, [homeId])
 
-  useEffectUpdate(()=>{
-    if (!home || !loggedInUser || isLikedBeenSynced.current) return
-    const liked = home.likedByUsers?.includes(loggedInUser._id)
-    setIsLiked(liked)
-    isLikedBeenSynced.current = true
-  }, [loggedInUser, home])
+  useEffect(() => {
+  setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
+}, [loggedInUser?.likedHomes, homeId])
+
+  async function initHome(){
+    try {
+      await loadHome(homeId)
+    }catch(err){
+      console.error('Cannot init home', err)
+    }
+  }
+
 
   async function onAddHomeMsg(homeId) {
     try {
@@ -109,40 +117,32 @@ export function HomeDetails() {
   async function handleHomeSave(e){
     e.preventDefault()
     e.stopPropagation()
-    if (!home || !loggedInUser || isLiked === null) return
-    const nextLike = !isLiked
-    setIsLiked(nextLike)
+    if (!home || !loggedInUser) return
+    const nextLiked = !isLiked
+    setIsLiked(nextLiked)
     try {
-      if (nextLike) await onAddLike(homeId)
-      else await onRemoveLike(homeId)
+      if (nextLiked) {
+        await addLike(homeId, loggedInUser._id)
+        await addUserLike(homeId, loggedInUser._id)
+      } else {
+        await removeLike(homeId, loggedInUser._id)
+        await removeUserLike(homeId, loggedInUser._id)
+      }
+      await loadHome(homeId)
     } catch(err) {
         console.error('Cannot toggle like', err)
     }
   }
-
-async function onAddLike(homeId){
-    try {
-        if (home.likedByUsers.includes(loggedInUser._id)) return
-        await addLike(homeId, loggedInUser._id)
-        await addUserLike(homeId, loggedInUser._id)
-        await loadHome(homeId)
-    } catch(err){
-        console.error('Failed to add like', err)
-    }  
+ 
+  function getIsHomeLiked(){
+    if (!loggedInUser) return
+    return loggedInUser.likedHomes?.includes(homeId)
   }
 
-  async function onRemoveLike(homeId){
-    try {
-      if (!home.likedByUsers.includes(loggedInUser._id)) return
-      await removeLike(homeId, loggedInUser._id)
-      await removeUserLike(homeId)
-      await loadHome(homeId)
-    } catch(err){
-        console.error('Failed to remove like', err)
-    }
-  }
-
+  
   console.log('home:', home)
+  console.log("loggedInUser:", loggedInUser)
+
   return (
     <>
       {(home && loggedInUser) && (

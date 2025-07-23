@@ -65,12 +65,10 @@ export async function updateHome(home) {
   }
 }
 
-export async function addUserLike(homeId) {
+export async function addUserLike(homeId, userId) {
   try {
-      let home = await homeService.getById(homeId)
-      const loggedInUser = store.getState().userModule.loggedInUser
-      const userId = loggedInUser._id
-      home.likedByUsers = [ ...home?.likedByUsers, loggedInUser?._id ]
+      const home = await homeService.getById(homeId)
+      home.likedByUsers = [ ...home?.likedByUsers, userId ]
       await homeService.save(home)
       store.dispatch({type: ADD_USER_LIKE, homeId, userId})
   } catch(err){
@@ -79,12 +77,10 @@ export async function addUserLike(homeId) {
   }
 }
 
-export async function removeUserLike(homeId) {
+export async function removeUserLike(homeId, userId) {
   try {
-      let home = await homeService.getById(homeId)
-      const loggedInUser = store.getState().userModule.loggedInUser
-      const userId = loggedInUser?._id
-      home.likedByUsers = home.likedByUsers?.filter(userId => userId !== loggedInUser?._id)
+      const home = await homeService.getById(homeId)
+      home.likedByUsers = home.likedByUsers?.filter(id => id !== userId)
       await homeService.save(home)
       store.dispatch({type: REMOVE_USER_LIKE, homeId, userId})
   } catch(err){

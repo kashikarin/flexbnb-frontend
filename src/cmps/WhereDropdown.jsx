@@ -16,23 +16,6 @@ console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
     onUpdateFilterBy(cityFilterToEdit)
   }, [cityFilterToEdit])
 
-  useEffect(() => {
-    function handleClickOutside(ev) {
-      setTimeout(()=>{
-        const clickedOutsideDropdown = dropdownRef.current && !dropdownRef.current.contains(ev.target)
-        if (clickedOutsideDropdown) {
-          onClose?.()
-      }}, 0)
-      }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  const locations = [
-    'Tel Aviv-Yafo', 'London', 'Barcelona'
-  ]
-
     const suggestedPlaces = [
         // { title: 'Nearby', subtitle: "Find what's around you" },
         // { title: 'Eilat, Israel', subtitle: 'For a trip abroad' },
@@ -45,7 +28,6 @@ console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
     function handleClick(ev, city) {
       ev.preventDefault()
       ev.stopPropagation()
-      console.log('clicked')
       setCityFilterToEdit(prev => ({...prev, city}))
       onClose?.()
     }
@@ -54,7 +36,7 @@ console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
     return (
       <div className="where-dropdown-wrapper" ref={dropdownRef}>
         {isOpen && (
-          <div className="where-dropdown-panel">
+          <div className="where-dropdown-panel dropdown-wrapper">
             <h4>Suggested destinations</h4>
             <ul>
               {suggestedPlaces.map((place, idx) => (

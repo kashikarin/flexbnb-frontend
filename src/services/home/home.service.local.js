@@ -648,6 +648,7 @@ function _createHome() {
   home._id = makeId()
   home.type = gHomeTypes[getRandomIntInclusive(0, gHomeTypes.length - 1)]
   home.imageUrls = _getImageUrl()
+  home.petsAllowed = Math.random() > 0.5 ? true : false
   home.price = getRandomIntInclusive(500, 2000)
   home.summary = makeLorem(getRandomIntInclusive(25, 200))
   home.capacity = getRandomIntInclusive(1, 10)
@@ -664,8 +665,8 @@ function _createHome() {
   ]
   home.host = {
     _id: 'u101',
-    fullname: 'Hosty Hosterson',
-    imageURL: _getSingleImageUrl(),
+    fullname: 'Justin Time',
+    imageURL: '/img/user/justin-img.jpg',
   }
   switch (city) {
     case 'Barcelona':

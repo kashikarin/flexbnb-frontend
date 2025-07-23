@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { WhereDropdown } from './WhereDropdown'
 import { ReactSVG } from 'react-svg'
-import { debounce} from '../services/util.service.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { CapacityDropdown } from './CapacityDropdown.jsx'
 import { SET_FILTERBY } from '../store/home.reducer.js'
@@ -13,12 +12,9 @@ export function SearchBar({ isScrolled }) {
   const [activeButton, setActiveButton] = useState(null)
   const filterBy = useSelector(state => state.homeModule.filterBy)
   const dispatch = useDispatch()
-  const whereDropdownRef = useRef()
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+
   
-  function onUpdateFilterBy(filter) {
-      setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, ...filter}))
-  }
 
   useEffect(() => {
     function handleResize() {
@@ -44,22 +40,23 @@ export function SearchBar({ isScrolled }) {
   useEffect(() => {
     //Close dropdown when clicking outside
     function handleClickOutside(event) {
-      if (openedDropdown && !event.target.closest('.search-bar-container')) {
-        setOpenedDropdown(null)
-        //setActiveButton(null)
-      }
+  
+        const isInsideSearchBar = event.target.closest('.search-bar-container')
+        const isInsideAnyDropdown = event.target.closest('.dropdown-wrapper') || event.target.closest('.capacity-dropdown-container')
+        
+        if (openedDropdown && !isInsideSearchBar && !isInsideAnyDropdown) {
+          setOpenedDropdown(null)
+        }
     }
-    //
-    // function handleClickOutside(ev) {
-    //     if (wrapperRef.current && !wrapperRef.current.contains(ev.target)) {
-    //       setActiveButton(null)
-    //     }
-    //   }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
-
+  
+  function onUpdateFilterBy(filter) {
+        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, ...filter}))
+  }
+  
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
     if (scrolled && !isMobile) setScrolled(false)
@@ -74,16 +71,16 @@ export function SearchBar({ isScrolled }) {
   }
   function handleSubmit(ev) {
     ev.preventDefault()
+    ev.stopPropagation()
     dispatch({type: SET_FILTERBY, filterBy: filterByToEdit})
   }
-  const {city, capacity} = filterBy
   console.log(filterBy)
   return (
     <search className=''>
       {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
        <div className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${activeButton ? 'has-active' : ''}`}>
           <div>
-            <div ref={whereDropdownRef} onClick={()=>handleWhereClick('where')} className={`inner-section ${activeButton == 'where' ? 'active' : ''}`}>
+            <div onClick={()=>handleWhereClick('where')} className={`inner-section ${activeButton == 'where' ? 'active' : ''}`}>
             <div className='sTitle' >{scrolled ? 'Anywhere' : 'Where'}</div>
             {!scrolled && <input className='placeholder-content' onChange={onInputChange} type='search' placeholder='Search destination' value={filterByToEdit.city}></input>}
             <WhereDropdown
@@ -107,16 +104,21 @@ export function SearchBar({ isScrolled }) {
           {!scrolled && <div className="sep"></div>}
           <div onClick={()=>handleWhereClick('capacity')} className={`inner-section ${activeButton == 'capacity' ? 'active' : ''}`}>
             <div className='sTitle'>{scrolled ? 'Add guests' : 'Who'}</div>
-            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests'></input>}
+            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests' value={`${filterByToEdit.capacity} ${filterByToEdit.capacity > 1 ? "guests" : "guest"}`}/>}
             <CapacityDropdown 
-              isOpen={openedDropdown === 'capacity'}
+              isOpen={true}
               onOpen={()=>{setOpenedDropdown('capacity')}}
               onClose={() => setOpenedDropdown(null)}
               capacityFilter={filterBy.capacity || ''}
               onUpdateFilterBy={onUpdateFilterBy}
             />
             <div className='search-btn-section'>
-                <button className='search-button' onMouseDown={handleSubmit}>
+                <button className='search-button' onMouseDown={(e) => {
+                                                    e.stopPropagation()
+                                                    e.preventDefault()
+                                                  }} 
+                                                  onClick={handleSubmit}
+                                                >
                   <ReactSVG src="/svgs/search-icon.svg" />
                 </button>
             </div>

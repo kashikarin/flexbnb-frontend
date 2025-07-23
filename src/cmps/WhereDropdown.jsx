@@ -4,7 +4,7 @@ import { setFilterBy } from '../store/home.actions.js'
 import { debounce} from '../services/util.service.js'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
-export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onSetFilterBy, openerRef }){
+export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onSetFilterBy }){
 console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
 
     const dispatch = useDispatch()
@@ -63,7 +63,7 @@ console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
             <h4>Suggested destinations</h4>
             <ul>
               {suggestedPlaces.map((place, idx) => (
-                <li key={idx} onClick={(ev) => handleClick(ev, place.city)}>
+                <li key={idx} onPointerDown={(ev) => handleClick(ev, place.city)}>
                   <strong>{place.city}, {place.country}</strong>
                   <div className="subtitle">{place.subtitle}</div>
                 </li>

@@ -1,21 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { WhereDropdown } from './WhereDropdown'
 import { ReactSVG } from 'react-svg'
-import { useDispatch, useSelector } from 'react-redux'
-import { CapacityDropdown } from './CapacityDropdown.jsx'
-import { SET_FILTERBY } from '../store/home.reducer.js'
+import { useDispatch } from 'react-redux'
+import { debounce} from '../services/util.service.js'
 
 export function SearchBar({ isScrolled }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
   const [scrolled, setScrolled] = useState(isScrolled)
   const [isMobile, setIsMobile] = useState(false)
   const [activeButton, setActiveButton] = useState(null)
-  const filterBy = useSelector(state => state.homeModule.filterBy)
-  const dispatch = useDispatch()
-  const whereDropdownRef = useRef()
-  function onSetFilterBy(filterBy) {
-        dispatch({type: SET_FILTERBY, filterBy})
-  }
 
   useEffect(() => {
     function handleResize() {
@@ -31,7 +24,6 @@ export function SearchBar({ isScrolled }) {
   }, [])
 
   useEffect(() => {
-    console.log('scrolled toggled')
     setScrolled(isScrolled)
   }, [isScrolled])
 
@@ -63,38 +55,36 @@ export function SearchBar({ isScrolled }) {
     if (scrolled && !isMobile) setScrolled(false)
 
     //setOpenedDropdown(openedDropdown === 'where' ? null : 'where')
-    setOpenedDropdown((curr) => (curr === btName ? null : btName))
-    setActiveButton((curr) => (curr === btName ? null : btName))
-    // if (activeButton === btName) return
-    // setActiveButton(btName)
+    setOpenedDropdown(btName)
+    if (activeButton === btName) return
+    setActiveButton(btName)
   }
 
+   const dispatch = useDispatch()
 
-    // const debouncedSetTxt = useRef(
-    //     debounce((val) => dispatch(setSearchTxt(val)), 300)
-    //   ).current
+    const debouncedSetTxt = useRef(
+        debounce((val) => dispatch(setSearchTxt(val)), 300)
+      ).current
 
     function onInputChange(ev) {
         const val = ev.target.value
         debouncedSetTxt(val)
       }
-const {city, capacity} = filterBy
-console.log(filterBy)
+
   return (
     <search className=''>
       {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
        <div className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${activeButton ? 'has-active' : ''}`}>
           <div>
-            <div ref={whereDropdownRef} onClick={()=>handleWhereClick('where')} className={`inner-section ${activeButton == 'where' ? 'active' : ''}`}>
+            <div onClick={()=>handleWhereClick('where')} className={`inner-section ${activeButton == 'where' ? 'active' : ''}`}>
             <div className='sTitle' >{scrolled ? 'Anywhere' : 'Where'}</div>
-            {!scrolled && <input className='placeholder-content' onChange={onInputChange} type='search' placeholder='Search destination' value={city ? city : ""}></input>}
+            {!scrolled && <input className='placeholder-content' onChange={onInputChange} type='search' placeholder='Search destination'></input>}
             <WhereDropdown
-              isOpen={true}
+              isOpen={openedDropdown === 'where'}
               onOpen={() => setOpenedDropdown('where')}
               onClose={() => setOpenedDropdown(null)}
-              cityFilter={filterBy.city || ''}
+              cityFilter={setFilterBy.city || ''}
               onSetFilterBy={onSetFilterBy}
-              openerRef={whereDropdownRef}
             />
           </div>
           <div className="sep"></div>
@@ -108,7 +98,7 @@ console.log(filterBy)
             <input className='placeholder-content' type='search' placeholder='Add dates'></input>
           </div>}
           {!scrolled && <div className="sep"></div>}
-          <div onClick={()=>handleWhereClick('capacity')} className={`inner-section ${activeButton == 'capacity' ? 'active' : ''}`}>
+          <div onClick={()=>handleWhereClick('Who')} className={`inner-section ${activeButton == 'Who' ? 'active' : ''}`}>
             <div className='sTitle'>{scrolled ? 'Add guests' : 'Who'}</div>
             {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests'></input>}
             <div className='search-btn-section'>
@@ -116,11 +106,6 @@ console.log(filterBy)
                   <ReactSVG src="/svgs/search-icon.svg" />
                 </button>
             </div>
-            <CapacityDropdown 
-              isOpen={openedDropdown === 'capacity'}
-              onOpen={()=>{setOpenedDropdown('capacity')}}
-              onClose={() => setOpenedDropdown(null)}
-            />
           </div>
             {/* <div onClick={handleWhereClick} className='inner-section'>
               <div className='sTitle'>{scrolled ? 'Anywhere' : 'Where'}</div>

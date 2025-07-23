@@ -4,7 +4,7 @@ import { setFilterBy } from '../store/home.actions.js'
 import { debounce} from '../services/util.service.js'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
-export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onSetFilterBy }){
+export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFilterBy }){
 console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
 
     const dispatch = useDispatch()
@@ -17,15 +17,14 @@ console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
     // }, [searchTxt])
 
   useEffectUpdate(()=>{
-    onSetFilterBy(cityFilterToEdit)
+    onUpdateFilterBy(cityFilterToEdit)
   }, [cityFilterToEdit])
 
   useEffect(() => {
     function handleClickOutside(ev) {
       setTimeout(()=>{
         const clickedOutsideDropdown = dropdownRef.current && !dropdownRef.current.contains(ev.target)
-        const clickedOutsideOpener  = openerRef?.current && openerRef.current.contains(ev.target)
-        if (clickedOutsideDropdown && clickedOutsideOpener) {
+        if (clickedOutsideDropdown) {
           onClose?.()
       }}, 0)
       }

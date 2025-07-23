@@ -3,34 +3,37 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setFilterBy } from '../store/home.actions.js'
 import { debounce} from '../services/util.service.js'
 import { ReactSVG } from 'react-svg'
+import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
 
-export function CapacityDropdown({ isOpen, onClose, capacityFilter, onSetFilterBy }){
+export function CapacityDropdown({ isOpen, onClose, capacityFilter, onUpdateFilterBy }){
     const dispatch = useDispatch()
     const dropdownRef = useRef()
-    const filterBy = useSelector(store => store.homeModule.filterBy)
+    const [capacityFilterToEdit, setCapacityFilterToEdit] = useState({capacity: capacityFilter || ''})
+
     // const [searchTxt, setSearchTxt] = useState(filterBy.txt || '')
    // const onSetFilterByDebounce = useRef(dispatch(debounce(setFilterBy({ ...filterBy, txt: searchTxt }), 400))).current
 
     // useEffect(() => {
     //     onSetFilterByDebounce(searchTxt)
     // }, [searchTxt])
+    useEffectUpdate(()=>{
+        onUpdateFilterBy(capacityFilterToEdit)
+    }, [capacityFilterToEdit])
 
   useEffect(() => {
     function handleClickOutside(ev) {
+        setTimeout(()=>{
+            const clickedOutsideDropdown = dropdownRef.current && !dropdownRef.current.contains(ev.target)
+            if (clickedOutsideDropdown) {
+          onClose?.()
+    }}, 0)
       if (dropdownRef.current && !dropdownRef.current.contains(ev.target)) {
         onClose?.()
       }
     }
-
-    const timerId = setTimeout(()=>{
-        document.addEventListener('mousedown', handleClickOutside)
-    }, 0)
-    return () => {
-        clearTimeout(timerId)
-        document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
+    document.addEventListener('mousedown', handleClickOutside), 0
+    return () => document.removeEventListener('mousedown', handleClickOutside)}, [])
 
     
 

@@ -44,9 +44,11 @@ export function SearchBar({ isScrolled }) {
         const isInsideSearchBar = event.target.closest('.search-bar-container')
         const isInsideAnyDropdown = event.target.closest('.dropdown-wrapper') || event.target.closest('.capacity-dropdown-container')
         
-        if (openedDropdown && !isInsideSearchBar && !isInsideAnyDropdown) {
+      if (openedDropdown && !isInsideSearchBar && !isInsideAnyDropdown) {
+        setTimeout(() => {
           setOpenedDropdown(null)
-        }
+        }, 0)
+}
     }
 
     document.addEventListener('mousedown', handleClickOutside)
@@ -106,7 +108,7 @@ export function SearchBar({ isScrolled }) {
             <div className='sTitle'>{scrolled ? 'Add guests' : 'Who'}</div>
             {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests' value={`${filterByToEdit.capacity} ${filterByToEdit.capacity > 1 ? "guests" : "guest"}`}/>}
             <CapacityDropdown 
-              isOpen={true}
+              isOpen={openedDropdown === 'capacity'}
               onOpen={()=>{setOpenedDropdown('capacity')}}
               onClose={() => setOpenedDropdown(null)}
               capacityFilter={filterBy.capacity || ''}

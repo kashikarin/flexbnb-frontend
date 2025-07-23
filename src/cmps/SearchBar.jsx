@@ -113,6 +113,8 @@ export function SearchBar({ isScrolled }) {
               isOpen={openedDropdown === 'capacity'}
               onOpen={()=>{setOpenedDropdown('capacity')}}
               onClose={() => setOpenedDropdown(null)}
+              capacityFilter={filterBy.city || ''}
+              onSetFilterBy={onSetFilterBy}
             />
           </div>
             {/* <div onClick={handleWhereClick} className='inner-section'>

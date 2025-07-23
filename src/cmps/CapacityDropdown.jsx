@@ -5,7 +5,7 @@ import { debounce} from '../services/util.service.js'
 import { ReactSVG } from 'react-svg'
 
 
-export function CapacityDropdown({ isOpen, onClose }){
+export function CapacityDropdown({ isOpen, onClose, capacityFilter, onSetFilterBy }){
     const dispatch = useDispatch()
     const dropdownRef = useRef()
     const filterBy = useSelector(store => store.homeModule.filterBy)

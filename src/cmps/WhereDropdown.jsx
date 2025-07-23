@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setFilterBy } from '../store/home.actions.js'
-import { debounce} from '../services/util.service.js'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
 export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFilterBy }){
 console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
 
-    const dispatch = useDispatch()
     const dropdownRef = useRef()
     const [cityFilterToEdit, setCityFilterToEdit] = useState({city: cityFilter || ''})
    // const onSetFilterByDebounce = useRef(dispatch(debounce(setFilterBy({ ...filterBy, txt: searchTxt }), 400))).current

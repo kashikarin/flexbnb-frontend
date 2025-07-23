@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setFilterBy } from '../store/home.actions.js'
-import { debounce} from '../services/util.service.js'
 import { ReactSVG } from 'react-svg'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
 
 export function CapacityDropdown({ isOpen, onClose, capacityFilter, onUpdateFilterBy }){
-    const dispatch = useDispatch()
     const dropdownRef = useRef()
     const [capacityFilterToEdit, setCapacityFilterToEdit] = useState({capacity: capacityFilter || ''})
 
@@ -35,6 +31,14 @@ export function CapacityDropdown({ isOpen, onClose, capacityFilter, onUpdateFilt
     document.addEventListener('mousedown', handleClickOutside), 0
     return () => document.removeEventListener('mousedown', handleClickOutside)}, [])
 
+    function handleCapacityClick(ev, diff) {
+        ev.preventDefault()
+        ev.stopPropagation()
+        console.log('capacity clicked')
+        let currentCapacityFilter = Number(capacityFilterToEdit.capacity)
+        currentCapacityFilter = currentCapacityFilter + diff
+        setCapacityFilterToEdit({capacity: currentCapacityFilter})
+    }
     
 
     // console.log('isopen??? ', isOpen)
@@ -49,9 +53,13 @@ export function CapacityDropdown({ isOpen, onClose, capacityFilter, onUpdateFilt
                         <div>Age 18+</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
-                        <span>0</span>
-                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, -1)} disabled={capacityFilterToEdit.capacity <= 0}>
+                            <ReactSVG src='/svgs/minus-icon.svg'/>
+                        </button>
+                        <span>{capacityFilterToEdit.capacity || ''}</span>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, 1)}>
+                            <ReactSVG src='/svgs/plus-icon.svg'/>
+                        </button>
                     </div>
                 </div>
                 <div className="capacity-drowdown-category-row children">
@@ -60,9 +68,13 @@ export function CapacityDropdown({ isOpen, onClose, capacityFilter, onUpdateFilt
                         <div>Ages 2-17</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
-                        <span>0</span>
-                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, -1)} disabled={capacityFilterToEdit.capacity <= 0}>
+                            <ReactSVG src='/svgs/minus-icon.svg'/>
+                        </button>
+                        <span>{capacityFilterToEdit.capacity || ''}</span>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, 1)} >
+                            <ReactSVG src='/svgs/plus-icon.svg'/>
+                        </button>
                     </div>
                 </div>
                 <div className="capacity-drowdown-category-row infants">
@@ -71,9 +83,13 @@ export function CapacityDropdown({ isOpen, onClose, capacityFilter, onUpdateFilt
                         <div>Under 2</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
-                        <span>0</span>
-                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, -1)} disabled={capacityFilterToEdit.capacity <= 0}>
+                            <ReactSVG src='/svgs/minus-icon.svg'/>
+                        </button>
+                        <span>{capacityFilterToEdit.capacity || ''}</span>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, 1)}>
+                            <ReactSVG src='/svgs/plus-icon.svg'/>
+                        </button>
                     </div>
                 </div>
                 <div className="capacity-drowdown-category-row pets">
@@ -82,9 +98,13 @@ export function CapacityDropdown({ isOpen, onClose, capacityFilter, onUpdateFilt
                         <div>Bringing a service animal?</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
-                        <span>0</span>
-                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, -1)} disabled={capacityFilterToEdit.capacity <= 0}>
+                            <ReactSVG src='/svgs/minus-icon.svg'/>
+                        </button>
+                        <span>{capacityFilterToEdit.capacity || ''}</span>
+                        <button onMouseDown={(ev) => handleCapacityClick(ev, 1)}>
+                            <ReactSVG src='/svgs/plus-icon.svg'/>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,12 @@ import { ReactSVG } from 'react-svg'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadHome, addHomeMsg, addUserLike, removeUserLike } from '../store/home.actions'
+import {
+  loadHome,
+  addHomeMsg,
+  addUserLike,
+  removeUserLike,
+} from '../store/home.actions'
 import { addLike, removeLike } from '../store/user.actions'
 import { getAvgRating } from '../services/util.service'
 import { getAmenityIcon } from '../services/home/home.service.local'
@@ -46,17 +51,18 @@ import {
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate'
 import { ReservationModal } from '../cmps/ReservationModal'
+import { BuyingStepOneModal } from '../cmps/BuyingStepOneModal'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
 export function HomeDetails() {
   const { homeId } = useParams()
   const home = useSelector((storeState) => storeState.homeModule.home)
-  const loggedInUser = useSelector(state => state.userModule.loggedInUser)
-  const [isLiked, setIsLiked] = useState(() =>
-    loggedInUser?.likedHomes?.includes(homeId) ?? false
-)
-  
+  const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
+  const [isLiked, setIsLiked] = useState(
+    () => loggedInUser?.likedHomes?.includes(homeId) ?? false
+  )
+
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -85,25 +91,24 @@ export function HomeDetails() {
     MdSecurity,
     MdHome,
   }
-  
+
   useEffect(() => {
-      console.log('home:', home)
-      initHome(homeId)
-      console.log('homeId:', homeId)
+    console.log('home:', home)
+    initHome(homeId)
+    console.log('homeId:', homeId)
   }, [homeId])
 
   useEffect(() => {
-  setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
-}, [loggedInUser?.likedHomes, homeId])
+    setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
+  }, [loggedInUser?.likedHomes, homeId])
 
-  async function initHome(){
+  async function initHome() {
     try {
       await loadHome(homeId)
-    }catch(err){
+    } catch (err) {
       console.error('Cannot init home', err)
     }
   }
-
 
   async function onAddHomeMsg(homeId) {
     try {
@@ -113,8 +118,8 @@ export function HomeDetails() {
       showErrorMsg('Cannot add home msg')
     }
   }
-  
-  async function handleHomeSave(e){
+
+  async function handleHomeSave(e) {
     e.preventDefault()
     e.stopPropagation()
     if (!home || !loggedInUser) return
@@ -129,23 +134,22 @@ export function HomeDetails() {
         await removeUserLike(homeId, loggedInUser._id)
       }
       await loadHome(homeId)
-    } catch(err) {
-        console.error('Cannot toggle like', err)
+    } catch (err) {
+      console.error('Cannot toggle like', err)
     }
   }
- 
-  function getIsHomeLiked(){
+
+  function getIsHomeLiked() {
     if (!loggedInUser) return
     return loggedInUser.likedHomes?.includes(homeId)
   }
 
-  
-  console.log('home:', home)
-  console.log("loggedInUser:", loggedInUser)
+  // console.log('home:', home)
+  // console.log("loggedInUser:", loggedInUser)
 
   return (
     <>
-      {(home && loggedInUser) && (
+      {home && loggedInUser && (
         <div className='home-details-container'>
           <div className='home-details-header'>
             <h1>
@@ -169,8 +173,12 @@ export function HomeDetails() {
                 </div>
               </div>
               <div className='home-details-heart' onClick={handleHomeSave}>
-                <FaHeart className={`home-details-heart-icon ${isLiked ? 'saved' : ''}`} />
-                <span>{isLiked ? "Saved" : "Save"}</span>
+                <FaHeart
+                  className={`home-details-heart-icon ${
+                    isLiked ? 'saved' : ''
+                  }`}
+                />
+                <span>{isLiked ? 'Saved' : 'Save'}</span>
               </div>
             </div>
           </div>
@@ -241,28 +249,28 @@ export function HomeDetails() {
               <IoDiamond className='diamond-icon' />
               <p>Rare find! This place is usually booked</p>
             </aside>
-            <ReservationModal home={home}/>
-            <section className='google-maps'>
-              <h3>Where you'll be</h3>
-              <APIProvider apiKey={API_KEY}>
-                <Map
-                  defaultZoom={13}
-                  center={{
-                    lat: home.loc.lat,
-                    lng: home.loc.lng,
-                  }}
-                  gestureHandling={'greedy'}
-                  disableDefaultUI={false}
-                  style={{ height: '400px', width: '100%' }}
-                />
-                <Marker
-                  position={{ lat: home.loc.lat, lng: home.loc.lng }}
-                  clickable={true}
-                  onClick={() => alert('marker was clicked!')}
-                  title={'clickable google.maps.Marker'}
-                />
-              </APIProvider>
-            </section>
+            <ReservationModal home={home} />
+          </section>
+          <section className='google-maps'>
+            <h3>Where you'll be</h3>
+            <APIProvider apiKey={API_KEY}>
+              <Map
+                defaultZoom={13}
+                center={{
+                  lat: home.loc.lat,
+                  lng: home.loc.lng,
+                }}
+                gestureHandling={'greedy'}
+                disableDefaultUI={false}
+                style={{ height: '400px', width: '100%' }}
+              />
+              <Marker
+                position={{ lat: home.loc.lat, lng: home.loc.lng }}
+                clickable={true}
+                onClick={() => alert('marker was clicked!')}
+                title={'clickable google.maps.Marker'}
+              />
+            </APIProvider>
           </section>
         </div>
       )}

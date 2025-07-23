@@ -1,179 +1,186 @@
+.reservation-selection-guest-dropdown-wrapper {
+  width: 100%;
+  display: block;
+  position: relative;
+}
 .reservation-section {
-      grid-column: 3 / 4;
-      grid-row: 1;
-      align-self: start;
-      position: sticky;
-      top: 17rem;
-      margin-top: 6rem; 
+  grid-column: 3 / 4;
+  grid-row: 1;
+  align-self: start;
+  position: sticky;
+  top: 17rem;
+  margin-top: 6rem;
 
-      .reservation-container {
-        
-        width: clamp(240px, 22vw, 350px);
-        min-width: 240px;
-        border-radius: .75rem;
-        border: 1px solid $primary-hover-gray;
-        box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0;
-        padding: 1.5rem;
-        margin-inline-start: 6rem;
-        z-index: 4;
+  .reservation-container {
+    width: clamp(240px, 22vw, 350px);
+    min-width: 240px;
+    border-radius: 0.75rem;
+    border: 1px solid $primary-hover-gray;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0;
+    padding: 1.5rem;
+    margin-inline-start: 6rem;
+    z-index: 4;
 
-        .reservation-details {
-          display: grid;
-          grid-auto-flow: row;
+    .reservation-details {
+      display: grid;
+      grid-auto-flow: row;
 
-          .reservation-header {
-            display: flex;
-            justify-content: space-between;
-            margin-block-end: 1.5rem;
-            line-height: 1.25rem;
-            align-items: end;
-            .reservation-header-price-container {
-              span:nth-child(1) {
-                font-size: 1.375rem;
-                font-weight: 700;
-                color: $clr7;
-              }
-              span:nth-child(2) {
-                font-size: 1.2rem;
-                color: $clr7;
-              }
-            }
+      .reservation-header {
+        display: flex;
+        justify-content: space-between;
+        margin-block-end: 1.5rem;
+        line-height: 1.25rem;
+        align-items: end;
+        .reservation-header-price-container {
+          span:nth-child(1) {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: $clr7;
           }
-          .reservation-selection {
-            border: 1px solid gray;
-            border-radius: 0.5rem;
-            margin-bottom: 15px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto;
-            width: 100%;
-            cursor: pointer;
-        
-            .reservation-selection-date-checkin {
-                position: relative;
-                padding: 26px 12px 10px;
-                grid-column: 1;
-                grid-row: 1;
-                font-size: 14px;
-                border-inline-end: 1px solid gray;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-                div:nth-child(1) {
-                  position: absolute;
-                  top: 12px;
-                  right: 12px;
-                  left: 12px;
-                  font-size: .625rem;
-                }
-                div:nth-child(2) {
-                  color: $clr7;
-                }
-              }
-              .reservation-selection-date-checkout {
-                grid-column: 2;
-                grid-row: 1;
-                padding: 26px 12px 10px;
-                position: relative;
-                font-size: 14px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-
-                div:nth-child(1) {
-                  position: absolute;
-                  top: 12px;
-                  right: 12px;
-                  left: 12px;
-                  font-size: .625rem;
-                }
-                div:nth-child(2) {
-                  color: $clr7;
-                }
-              }
-            }
-            .reservation-selection-guest-container {
-              grid-column: 1 / -1;
-              grid-row: 2;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              border-top: 1px solid gray;
-              padding: 12px 12px 10px;
-
-              .reservation-selection-guest-container-guests {
-                position: relative;
-                font-size: 14px;  
-                padding-top: 18px;  
-
-                div:nth-child(1) {
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  font-size: .625rem;
-                }
-                div:nth-child(2) {
-                  color: $clr7;
-                  line-height: 1;
-                }
-              }
-              .injected-svg {
-                width: 24px;
-                height: 24px;
-                display: block;
-                fill: currentColor;
-                color: black;
-                transition: width 0.3s ease, height 0.3s ease;
-                flex-shrink: 0;
-              }
-            }
-            &>span {
-              text-align: center;
-              font-size: 0.9rem;
-            }
-            .reservation-summary-information-container {
-              padding-block-start: 1rem;
-              .cost-breakdown-container {
-                display: flex;
-                flex-direction: column;
-                
-                .reservation-summary-row {
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  font-size: 1rem;
-                  line-height: 2;
-                  span:nth-child(1) {
-                    text-decoration: underline;
-                  }
-                }
-                .reservation-summary-row.total {
-                  font-weight: 700;
-                  padding-block-start: 1rem;
-                  border-top: 1px solid gray;
-                  margin-block-start: 1.5rem;
-                  span:nth-child(1) {
-                    text-decoration: none;
-                  }
-                }
-                
-              }
-            }
-            & > button {
-              width: 100%;
-              padding: 14px;
-              margin-block: .4rem;
-              font-size: 16px;
-              font-weight: 700;
-              background: linear-gradient(90deg, #e00b41, #c21c54);
-              color: $clr5;
-              border-radius: 1.5rem;
-              border: 1px solid $primary-hover-gray;
-              transition: background-color .5s ease-in-out, box-shadow .5s ease-in-out;
+          span:nth-child(2) {
+            font-size: 1.2rem;
+            color: $clr7;
           }
-          }
-          
         }
       }
+      .reservation-selection {
+        border: 1px solid gray;
+        border-radius: 0.5rem;
+        margin-bottom: 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        width: 100%;
+        cursor: pointer;
+
+        .reservation-selection-date-checkin {
+          position: relative;
+          padding: 26px 12px 10px;
+          grid-column: 1;
+          grid-row: 1;
+          font-size: 14px;
+          border-inline-end: 1px solid gray;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          div:nth-child(1) {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            left: 12px;
+            font-size: 0.625rem;
+          }
+          div:nth-child(2) {
+            color: $clr7;
+          }
+        }
+        .reservation-selection-date-checkout {
+          grid-column: 2;
+          grid-row: 1;
+          padding: 26px 12px 10px;
+          position: relative;
+          font-size: 14px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          div:nth-child(1) {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            left: 12px;
+            font-size: 0.625rem;
+          }
+          div:nth-child(2) {
+            color: $clr7;
+          }
+        }
+      }
+      .reservation-selection-guest-container {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        border-top: 1px solid gray;
+        padding: 12px 12px 10px;
+        width: 100%;
+
+        .reservation-selection-guest-container-guests {
+          position: relative;
+          font-size: 14px;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          div:nth-child(1) {
+            font-size: 0.625rem;
+            color: $clr7;
+            margin-bottom: 2px;
+            position: static;
+          }
+          div:nth-child(2) {
+            color: $clr7;
+            line-height: 1.2;
+            font-size: 1rem;
+          }
+        }
+        .injected-svg {
+          width: 24px;
+          height: 24px;
+          display: block;
+          fill: currentColor;
+          color: black;
+          transition: width 0.3s ease, height 0.3s ease;
+          flex-shrink: 0;
+        }
+      }
+      & > span {
+        text-align: center;
+        font-size: 0.9rem;
+      }
+      .reservation-summary-information-container {
+        padding-block-start: 1rem;
+        .cost-breakdown-container {
+          display: flex;
+          flex-direction: column;
+
+          .reservation-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            line-height: 2;
+            span:nth-child(1) {
+              text-decoration: underline;
+            }
+          }
+          .reservation-summary-row.total {
+            font-weight: 700;
+            padding-block-start: 1rem;
+            border-top: 1px solid gray;
+            margin-block-start: 1.5rem;
+            span:nth-child(1) {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      & > button {
+        width: 100%;
+        padding: 14px;
+        margin-block: 0.4rem;
+        font-size: 16px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #e00b41, #c21c54);
+        color: $clr5;
+        border-radius: 1.5rem;
+        border: 1px solid $primary-hover-gray;
+        transition: background-color 0.5s ease-in-out,
+          box-shadow 0.5s ease-in-out;
+      }
+    }
+  }
+}

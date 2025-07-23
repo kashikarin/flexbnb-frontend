@@ -1,0 +1,184 @@
+.buying-modal-step-one {
+  position: fixed !important;
+  inset: 0 !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 99999 !important;
+
+  > div {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 3rem;
+    width: 90vw;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+    h3 {
+      color: $primary-font-black;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+
+      &:first-child {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    > p {
+      color: $secondary-font-gray;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+  }
+
+  .reservation-details {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    .reservation-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      .reservation-date-guest,
+      .reservation-price-details {
+        h3 {
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+          color: $primary-font-black;
+        }
+
+        p {
+          margin-bottom: 0.75rem;
+          color: $secondary-font-gray;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          & :first-child {
+            font-weight: 600;
+            color: $primary-font-black;
+          }
+        }
+      }
+
+      .reservation-price-details {
+        .price-amount,
+        .service-fee {
+          p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+          }
+        }
+
+        .total {
+          border-top: 1px solid $secondary-font-gray;
+          padding-top: 1rem;
+          margin-top: 1rem;
+
+          p {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: $primary-font-black;
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+
+    .property-image {
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .property-info {
+        margin-top: 0.75rem;
+
+        h4 {
+          font-size: 1rem;
+          font-weight: 600;
+          color: $primary-font-black;
+          margin-bottom: 0.25rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+          color: $secondary-font-gray;
+        }
+      }
+    }
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    button {
+      flex: 1;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.back-btn {
+        background-color: $secondary-font-gray;
+        // color: $primary-font-black;
+        border: 1px solid #ddd;
+
+        &:hover {
+          background-color: #e8e8e8;
+          color: $primary-font-black;
+        }
+      }
+
+      &.confirm-btn {
+        background-color: $primary-pink;
+        color: white;
+        border: none;
+
+        &:hover {
+          background-color: darken($primary-pink, 5%);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    > div {
+      padding: 2rem;
+      margin: 1rem;
+      width: calc(100vw - 2rem);
+    }
+
+    .reservation-details {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+
+      .property-image {
+        order: -1;
+      }
+    }
+
+    .modal-actions {
+      flex-direction: column-reverse;
+    }
+  }
+}

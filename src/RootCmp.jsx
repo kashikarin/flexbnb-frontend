@@ -21,6 +21,7 @@ import { Signup } from './pages/Signup.jsx'
 import { LabelsSlider } from './cmps/LabelsSlider.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
 import { HomeList } from './cmps/HomeList.jsx'
+import { BuyingStepOneModal } from './cmps/BuyingStepOneModal.jsx'
 
 export function RootCmp() {
   return (
@@ -31,10 +32,10 @@ export function RootCmp() {
       <UserMsg />
 
       <main>
-        {/* <LabelsSlider /> */}
         <Routes>
           {/* <Route path='' element={<HomePage />} /> */}
           <Route path='' element={<HomeIndex />} />
+
           <Route path='about' element={<AboutUs />}>
             <Route path='team' element={<AboutTeam />} />
             <Route path='vision' element={<AboutVision />} />

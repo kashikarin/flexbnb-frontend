@@ -2,41 +2,60 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilterBy } from '../store/home.actions.js'
 import { debounce} from '../services/util.service.js'
+import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
-export function WhereDropdown({ isOpen, onOpen, onClose }){
+export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onSetFilterBy, openerRef }){
+console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
 
     const dispatch = useDispatch()
     const dropdownRef = useRef()
-    const filterBy = useSelector(store => store.homeModule.filterBy)
-    const [searchTxt, setSearchTxt] = useState(filterBy.txt || '')
+    const [cityFilterToEdit, setCityFilterToEdit] = useState({city: cityFilter || ''})
    // const onSetFilterByDebounce = useRef(dispatch(debounce(setFilterBy({ ...filterBy, txt: searchTxt }), 400))).current
 
     // useEffect(() => {
     //     onSetFilterByDebounce(searchTxt)
     // }, [searchTxt])
 
+  useEffectUpdate(()=>{
+    onSetFilterBy(cityFilterToEdit)
+  }, [cityFilterToEdit])
+
   useEffect(() => {
     function handleClickOutside(ev) {
-      if (dropdownRef.current && !dropdownRef.current.contains(ev.target)) {
-        onClose?.()
+      setTimeout(()=>{
+        const clickedOutsideDropdown = dropdownRef.current && !dropdownRef.current.contains(ev.target)
+        const clickedOutsideOpener  = openerRef?.current && openerRef.current.contains(ev.target)
+        if (clickedOutsideDropdown && clickedOutsideOpener) {
+          onClose?.()
+      }}, 0)
       }
-    }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
   const locations = [
-    'Tel Aviv', 'Eilat', 'Jerusalem'
+    'Tel Aviv-Yafo', 'London', 'Barcelona'
   ]
 
     const suggestedPlaces = [
-        { title: 'Nearby', subtitle: "Find what's around you" },
-        { title: 'Eilat, Israel', subtitle: 'For a trip abroad' },
-        { title: 'Tel Aviv-Yafo, Israel', subtitle: 'Popular beach destination' },
-        { title: 'Jerusalem, Israel', subtitle: 'For sights like Church of the Holy Sepulchre' },
+        // { title: 'Nearby', subtitle: "Find what's around you" },
+        // { title: 'Eilat, Israel', subtitle: 'For a trip abroad' },
+        { city: 'Tel Aviv-Yafo', country: 'Israel', subtitle: 'Popular beach destination' },
+        { city: 'London', country: 'United Kingdom', subtitle: 'bla bla bla'},
+        { city: 'Barcelona', country: 'Spain', subtitle: 'bla bla bla'},
+        // { title: 'Jerusalem, Israel', subtitle: 'For sights like Church of the Holy Sepulchre' },
     ]
 
+    function handleClick(ev, city) {
+      ev.preventDefault()
+      ev.stopPropagation()
+      console.log('clicked')
+      setCityFilterToEdit(prev => ({...prev, city}))
+      onClose?.()
+    }
+    
+    console.log(cityFilterToEdit)
     return (
       <div className="where-dropdown-wrapper" ref={dropdownRef}>
         {isOpen && (
@@ -44,8 +63,8 @@ export function WhereDropdown({ isOpen, onOpen, onClose }){
             <h4>Suggested destinations</h4>
             <ul>
               {suggestedPlaces.map((place, idx) => (
-                <li key={idx} onClick={() => setSearchTxt(place.title)}>
-                  <strong>{place.title}</strong>
+                <li key={idx} onClick={(ev) => handleClick(ev, place.city)}>
+                  <strong>{place.city}, {place.country}</strong>
                   <div className="subtitle">{place.subtitle}</div>
                 </li>
               ))}

@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilterBy } from '../store/home.actions.js'
 import { debounce} from '../services/util.service.js'
+import { ReactSVG } from 'react-svg'
+
 
 export function CapacityDropdown({ isOpen, onClose }){
     const dispatch = useDispatch()
@@ -22,7 +24,7 @@ export function CapacityDropdown({ isOpen, onClose }){
     }
 
     const timerId = setTimeout(()=>{
-        document.addEventListener('mousedown  ', handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside)
     }, 0)
     return () => {
         clearTimeout(timerId)
@@ -32,7 +34,7 @@ export function CapacityDropdown({ isOpen, onClose }){
 
     
 
-    console.log('isopen??? ', isOpen)
+    // console.log('isopen??? ', isOpen)
     return (
       <div className="capacity-dropdown-wrapper" ref={dropdownRef}>
         {isOpen && (
@@ -44,9 +46,9 @@ export function CapacityDropdown({ isOpen, onClose }){
                         <div>Age 18+</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled>-</button>
+                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
                         <span>0</span>
-                        <button>+</button>
+                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
                     </div>
                 </div>
                 <div className="capacity-drowdown-category-row children">
@@ -55,9 +57,9 @@ export function CapacityDropdown({ isOpen, onClose }){
                         <div>Ages 2-17</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled>-</button>
+                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
                         <span>0</span>
-                        <button>+</button>
+                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
                     </div>
                 </div>
                 <div className="capacity-drowdown-category-row infants">
@@ -66,9 +68,9 @@ export function CapacityDropdown({ isOpen, onClose }){
                         <div>Under 2</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled>-</button>
+                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
                         <span>0</span>
-                        <button>+</button>
+                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
                     </div>
                 </div>
                 <div className="capacity-drowdown-category-row pets">
@@ -77,9 +79,9 @@ export function CapacityDropdown({ isOpen, onClose }){
                         <div>Bringing a service animal?</div>
                     </div>
                     <div className="category-row-user-action">
-                        <button disabled>-</button>
+                        <button disabled><ReactSVG src='/svgs/minus-icon.svg'/></button>
                         <span>0</span>
-                        <button>+</button>
+                        <button><ReactSVG src='/svgs/plus-icon.svg'/></button>
                     </div>
                 </div>
             </div>

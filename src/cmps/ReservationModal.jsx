@@ -5,7 +5,9 @@ import { CapacityDropdown } from "./CapacityDropdown"
 
 export function ReservationModal({home}){
   const [openedDropdown, setOpenedDropdown] = useState(null)  
+  const [dropdownWidth, setDropdownWidth] = useState(0)
   const dropdownWrapperRef = useRef(null)
+  const selectionRef = useRef(null)
   useEffect(() => {
     // Close dropdown when clicking outside
     function handleClickOutside(event) {
@@ -17,6 +19,12 @@ export function ReservationModal({home}){
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
+
+  useEffect(() => {
+  if (selectionRef.current) {
+    setDropdownWidth(selectionRef.current.offsetWidth)
+  }
+}, [])
 
   function handleCapacityClick(e) {
     e.stopPropagation()
@@ -32,7 +40,7 @@ export function ReservationModal({home}){
                       <span>{`${home.price}$ `}</span><span>night</span>
                     </div>
                   </div>
-                  <div className="reservation-selection">
+                  <div className="reservation-selection" ref={selectionRef}>
                     <div className="reservation-selection-date-checkin">
                       <div>CHECK-IN</div> 
                       <div>Add date</div>

@@ -233,7 +233,7 @@ const images = [
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663437272/e2id7kpaglrrdug3i6if.jpg',
   },
 ]
-const gCities = ['Barcelona', 'Tel Aviv', 'London']
+const gCities = ['Barcelona', 'Tel Aviv-Yafo', 'London']
 const gLocs = [
   {
     country: 'Spain',
@@ -318,7 +318,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.12765,
     lng: 34.800638,
     address: 'Meir Feinstein 53, St. Tel Aviv, israel 4704356',
@@ -326,7 +326,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.061736,
     lng: 34.774502,
     address: '5 Levontin St, Tel Aviv-Yafo, 6578103, Israel',
@@ -334,7 +334,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.092983923188854, 
     lng: 34.80936063667095,
     address: 'HaMarganit St, Ramat Gan 5253527, Israel',
@@ -342,7 +342,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.03976354351422,
     lng: 34.7483905544995,
     address: '11 Toulouse St, Tel Aviv–Yafo 6806546, Israel',
@@ -350,7 +350,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.11131,
     lng: 34.790462,
     address: 'Yehuda Burla St, Tel Aviv-Yafo, 6946032, Israel',
@@ -358,7 +358,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.116403,
     lng: 34.779574,
     address: 'Yitzhak Artsi St, Tel Aviv-Yafo, 6946032, Israel',
@@ -366,7 +366,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.121798123471685,
     lng: 34.82136409770465,
     address: '17A KKL Boulevard, Tel Aviv–Yafo 6946032, Israel',
@@ -374,7 +374,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.1110305739916,
     lng: 34.76577,
     address: '17 Kehilat Lviv St, Tel Aviv–Yafo 5259408, Israel',
@@ -382,7 +382,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.05044172410385,
     lng: 34.780419816592065,
     address: '77 Chakmei Yisrael St, Tel Aviv–Yafo 6775393, Israel',
@@ -390,7 +390,7 @@ const gLocs = [
   {
     country: 'Israel',
     countryCode: 'IL',
-    city: 'Tel Aviv',
+    city: 'Tel Aviv-Yafo',
     lat: 32.111274,
     lng: 34.8192,
     address: 'Kehilat Resistencia St, Tel Aviv-Yafo, 4704356, Israel',
@@ -502,7 +502,7 @@ async function query(filterBy = getDefaultFilter()) {
 
     if (city) {
       homes = homes.filter((home) =>
-        home.loc.city.toLowercase().includes(city.toLowerCase())
+        home.loc.city.toLowerCase().includes(city.toLowerCase())
       )
     }
     if (capacity) {
@@ -671,7 +671,7 @@ function _createHome() {
     case 'Barcelona':
       home.loc = gLocs[getRandomIntInclusive(0, 9)]
       break
-    case 'Tel Aviv':
+    case 'Tel Aviv-Yafo':
       home.loc = gLocs[getRandomIntInclusive(10, 19)]
       break
     case 'London':

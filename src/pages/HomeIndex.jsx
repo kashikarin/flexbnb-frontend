@@ -12,6 +12,7 @@ import { addLike, removeLike } from '../store/user.actions.js'
 
 export function HomeIndex() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
+  console.log("🚀 ~ HomeIndex ~ filterBy:", filterBy)
   const homes = useSelector((state) => state.homeModule.homes)
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
   console.log("🚀 ~ HomeIndex ~ loggedInUser:", loggedInUser)

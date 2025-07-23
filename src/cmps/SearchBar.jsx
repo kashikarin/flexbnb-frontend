@@ -81,7 +81,7 @@ export function SearchBar({ isScrolled }) {
           <div>
             <div ref={whereDropdownRef} onClick={()=>handleWhereClick('where')} className={`inner-section ${activeButton == 'where' ? 'active' : ''}`}>
             <div className='sTitle' >{scrolled ? 'Anywhere' : 'Where'}</div>
-            {!scrolled && <input className='placeholder-content' onChange={onInputChange} type='search' placeholder='Search destination'></input>}
+            {!scrolled && <input className='placeholder-content' onChange={onInputChange} type='search' placeholder='Search destination' value={filterBy.city}></input>}
             <WhereDropdown
               isOpen={openedDropdown === 'where'}
               onOpen={() => setOpenedDropdown('where')}

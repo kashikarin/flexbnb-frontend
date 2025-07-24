@@ -134,7 +134,10 @@ export function SearchBar({ isScrolled }) {
               isOpen={openedDropdown === 'capacity'}
               onOpen={()=>{setOpenedDropdown('capacity')}}
               onClose={() => setOpenedDropdown(null)}
-              capacityFilter={filterBy.capacity || ''}
+              adultsFilterBy={filterBy.adults || ''}
+              childrenFilter={filterBy.children || ''}
+              infantsFilter={filterBy.infants || ''}
+              petsFilter={filterBy.pets || ''}
               onUpdateFilterBy={onUpdateFilterBy}
             />
       

@@ -5,14 +5,18 @@ import { getRandomIntInclusive, makeId, randomFutureTime, randomPastTime, utilSe
 
 const STORAGE_KEY = 'order'
 
+_createOrders()
+
 export const orderService = {
     query,
     save,
     remove,
+    getEmptyOrder,
     getById,
-    createOrder,
-    initOrders
+    // createOrder,
+    // initOrders
 }
+
 async function query(filterOrdersBy = getDefaultOrdersFilter()){
     try {
         var orders = await storageService.query(STORAGE_KEY)
@@ -48,6 +52,9 @@ function getById(homeId) {
   return storageService.get(STORAGE_KEY, homeId)
 }
 
+function getEmptyOrder(){
+    return {status: 'pending', msgs: [], startDate: '', endDate: '', adults: 0, children: 0, infants: 0, pets: 0}
+}
 
 function getDefaultOrderFilter() {
   return {
@@ -58,12 +65,12 @@ function getDefaultOrderFilter() {
   }
 }
 
-async function createOrder(homeId = "", userId = "", startDate = "", endDate = "", guests = "", totalPrice = ""){
+async function _createOrder(homeId = "", userId = "", startDate = "", endDate = "", guests = "", totalPrice = ""){
     let order = {}
     const serviceFeeRate = 0.14
     order._id = makeId()
-    order.msgs = []
     order.status = 'pending'
+    order.msgs = []
     order.createdAt = homeId = "" ? randomPastTime() : new Date().getTime()
     if (homeId === "") {
         order.home._id = await homeService.getRandomHomeId() 
@@ -90,13 +97,14 @@ async function createOrder(homeId = "", userId = "", startDate = "", endDate = "
     return order
 }
 
-async function initOrders() {
+async function _createOrders() {
     let orders = utilService.loadFromStorage(STORAGE_KEY)
-    if (orders || orders?.length) return orders
-
-    const orderPromises = Array.from({ length: 7 }, () => createOrder())
-    orders = await Promise.all(orderPromises)
-    utilService.saveToStorage(STORAGE_KEY, orders)
+    if (!orders || !orders.length) 
+        {
+            const orderPromises = Array.from({ length: 7 }, () => createOrder())
+            orders = await Promise.all(orderPromises)
+            utilService.saveToStorage(STORAGE_KEY, orders)
+        }
 }
 
 

@@ -179,3 +179,16 @@ export function strDateToTimestamp(strDate){
     const [day, month, year] = strDate.split('/').map(Number)
     return new Date(year, month - 1, day).getTime()
 }
+
+export function getNightsCount(startStr, endStr) {
+    const [startDay, startMonth, startYear] = startStr.split('/').map(Number)
+    const [endDay, endMonth, endYear] = endStr.split('/').map(Number)
+
+    const startDate = new Date(startYear, startMonth - 1, startDay) 
+    const endDate = new Date(endYear, endMonth - 1, endDay)
+
+    const millisecondsPerDay = 1000 * 60 * 60 * 24
+    const diffInMs = endDate - startDate
+
+    return Math.round(diffInMs / millisecondsPerDay)
+  }

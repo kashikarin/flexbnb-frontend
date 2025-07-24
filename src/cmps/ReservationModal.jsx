@@ -3,50 +3,53 @@ import { ReactSVG } from 'react-svg'
 import { CapacityDropdown } from './CapacityDropdown'
 import { BuyingStepOneModal } from './BuyingStepOneModal'
 import { useSelector } from 'react-redux'
-import {getRandom3NightsStayDatesStr, strDateToTimestamp} from '../services/util.service'
+import {getRandom3NightsStayDatesStr, getNightsCount, strDateToTimestamp} from '../services/util.service'
 import { orderService } from '../services/order/order.service.local'
 import { addOrder } from '../store/order.actions'
 
 
 export function ReservationModal({ home, userId }) {
+  
   const filterBy = useSelector(state => state.homeModule.filterBy)
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
-  console.log("🚀 ~ ReservationModal ~ filterBy:", filterBy)
+  
   const [openedDropdown, setOpenedDropdown] = useState(null)
   const [dropdownWidth, setDropdownWidth] = useState(0)
+  const [order, setOrder] = useState(orderService.getEmptyOrder())
+
   const dropdownWrapperRef = useRef(null)
   const selectionRef = useRef(null)
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false)
-  const checkinRef = useRef()
-  const checkoutRef = useRef()
+  
   function openReservationModal() {
     setIsReservationModalOpen(true)
   }
+  
   function closeReservationModal() {
     setIsReservationModalOpen(false)
   }
 
-  async function handleSubmitReservation(ev){
-    ev.preventDefault()
-    const startDateStr = checkinRef.current.textContent
-    const endDateStr = checkoutRef.current.textContent
-    const startDate = strDateToTimestamp(startDateStr)
-    const endDate = strDateToTimestamp(endDateStr)
-    const order = {
-      homeId: home._id,
-      userId: userId,
-      startDate,
-      endDate,
-      guests: filterBy.capacity,
-      totalPrice: home.price * 3 * 0.14
-    }
-    try {
-      await addOrder(order)
-      openReservationModal()
-    } catch(err) {
-        console.error('Cannot complete reservation', err)
-    }
-  }
+  // async function onConfirmReservation(ev){
+  //   ev.preventDefault()
+    
+  //   const startDate = strDateToTimestamp(checkinRef.current.textContent)
+  //   const endDate = strDateToTimestamp(checkoutRef.current.textContent)
+    
+  //   const order = {
+  //     homeId: home._id,
+  //     userId: userId,
+  //     startDate,
+  //     endDate,
+  //     guests: filterBy.capacity,
+  //     totalPrice: home.price * 3 * 0.14
+  //   }
+  //   try {
+  //     await addOrder(order)
+  //     openReservationModal()
+  //   } catch(err) {
+  //       console.error('Cannot complete reservation', err)
+  //   }
+  // }
 
   useEffect(() => {
     // Close dropdown when clicking outside
@@ -75,27 +78,21 @@ export function ReservationModal({ home, userId }) {
     setOpenedDropdown(openedDropdown === 'capacity' ? null : 'capacity')
   }
 
+  function handleChange(ev){
+    // let { name: field, value } = target
+    console.log(ev)
+  }
   function getGuestsNumStrToDisplay(){
-    const {capacity} = filterBy
-    console.log("🚀 ~ getGuestsNumStrToDisplay ~ capacity:", capacity)
-    
-    if (!capacity) return 'Add guests'
-    return `${capacity} ${capacity > 1 ? "guests" : "guest"}`
+    const {adults, children, infants, pets} = filterBy
+    if (!adults && !children && !infants && !pets) return 'Add guests'
+    const guestsNum = (adults || 0) + (children || 0) + (infants || 0) + (pets || 0)
+    return `${guestsNum} ${guestsNum > 1 ? "guests" : "guest"}`
   }
 
-  function getNightsCount(startStr, endStr) {
-    const [startDay, startMonth, startYear] = startStr.split('/').map(Number)
-    const [endDay, endMonth, endYear] = endStr.split('/').map(Number)
-
-    const startDate = new Date(startYear, startMonth - 1, startDay) 
-    const endDate = new Date(endYear, endMonth - 1, endDay)
-
-    const millisecondsPerDay = 1000 * 60 * 60 * 24
-    const diffInMs = endDate - startDate
-
-    return Math.round(diffInMs / millisecondsPerDay)
+  function onUpdateOrderDetails(updatedOrderDetails) {
+    setOrder(prevOrder => ({ ...prevOrder, ...updatedOrderDetails}))
   }
-
+  
   return (
     <>
       <aside className='reservation-section'>
@@ -110,11 +107,16 @@ export function ReservationModal({ home, userId }) {
             <div className='reservation-selection' ref={selectionRef}>
               <div className='reservation-selection-date-checkin'>
                 <div>CHECK-IN</div>
-                <div ref={checkinRef} >{getRandom3NightsStayDatesStr().startDate}</div> {/*filterBy.startDate || 'Add date'*/}
+                <div>{getRandom3NightsStayDatesStr().startDate}</div> {/*filterBy.startDate || 'Add date'*/}
               </div> 
               <div className='reservation-selection-date-checkout'>
                 <div>CHECK-OUT</div>
-                <div ref={checkoutRef}>{getRandom3NightsStayDatesStr().endDate}</div>
+                <div 
+                  name='endDate'
+                  onChange={handleChange}
+                >
+                    {getRandom3NightsStayDatesStr().endDate}
+                </div>
               </div>
               <div
                 className='reservation-selection-guest-dropdown-wrapper'
@@ -125,7 +127,6 @@ export function ReservationModal({ home, userId }) {
                 }}
               >
                 <div
-                  ref={dropdownWrapperRef}
                   className='reservation-selection-guest-container'
                   onClick={handleCapacityClick}
                 >
@@ -138,21 +139,28 @@ export function ReservationModal({ home, userId }) {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <div style={{ fontSize: '14px' }}>{getGuestsNumStrToDisplay()}</div>
+                      <div style={{ fontSize: '14px' }} onChange={handleChange}>{getGuestsNumStrToDisplay()}</div>
                       <ReactSVG src='/svgs/arrow-down.svg' />
                     </div>
                   </div>
                 </div>
-                <CapacityDropdown
-                  isOpen={openedDropdown === 'capacity'}
-                  onOpen={() => {
-                    setOpenedDropdown('capacity')
-                  }}
-                  onClose={() => setOpenedDropdown(null)}
-                />
+                <div ref={dropdownWrapperRef} className="reservation-modal-capacity-dropdown-wrapper">
+                  <CapacityDropdown
+                    isOpen={openedDropdown === 'capacity'}
+                    onClose={() => setOpenedDropdown(null)}
+                    filterByCapacity={{adults: filterBy.adults, 
+                                        children: filterBy.children,
+                                        infants: filterBy.infants,
+                                        pets: filterBy.pets  
+                                      }}
+                    homeCapacity={home.capacity}
+                    petsAllowed={home.petsAllowed}
+                    onUpdateOrderDetails={onUpdateOrderDetails}
+                  />
+                </div>
               </div>
             </div>
-            <button onClick={handleSubmitReservation}>Reserve</button>
+            <button onClick={openReservationModal}>Reserve</button>
             <span>You won't be charged yet</span>
             <div className='reservation-summary-information-container'>
               <div className='cost-breakdown-container'>

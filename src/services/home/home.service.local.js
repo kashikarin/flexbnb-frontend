@@ -575,7 +575,10 @@ function getEmptyHome(name = '', labels = [], amenities = []) {
 function getDefaultFilter() {
   return {
     city: '',
-    capacity: 0,
+    adults: 0,
+    children: 0,
+    infants: 0,
+    pets: 0,
     type: '',
     minPrice: 0,
     maxPrice: '',

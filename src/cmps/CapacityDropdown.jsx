@@ -11,7 +11,10 @@ export function CapacityDropdown({ isOpen, onOpen, onClose, capacityFilter, onUp
     const [petsNum, setPetsNum] = useState(0)
     
     useEffectUpdate(()=>{
-        onUpdateFilterBy({capacity: capacityFilterToEdit.capacity})
+        if (typeof onUpdateFilterBy === 'function') {
+    onUpdateFilterBy({ capacityFilterToEdit })
+  }
+        // onUpdateFilterBy({capacityFilterToEdit})
     }, [capacityFilterToEdit.capacity])
 
     useEffect(()=>{

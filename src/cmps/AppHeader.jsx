@@ -8,13 +8,16 @@ import { userService } from '../services/user/user.service.local'
 import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
 import {orderService} from '../services/order/order.service.local'
+import { loadOrders } from '../store/order.actions'
 
 export function AppHeader() {
   const dispatch = useDispatch()
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
-
+  const orders = useSelector(state => state.orderModule.orders)
+  console.log("🚀 ~ AppHeader ~ orders:", orders)
+  
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
@@ -32,7 +35,7 @@ export function AppHeader() {
     (async function initAndLoadData(){
       try {
         await initUsers()
-        await orderService.initOrders()
+        // await loadOrders()
         await loadLoggedInUser()
       } catch(err) {
           console.error('Cannot create or load data', err)

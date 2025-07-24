@@ -1,5 +1,6 @@
 import { homeService } from "../home/home.service.local"
 import { userService } from "../user/user.service.local"
+import { storageService } from '../async-storage.service'
 import { getRandomIntInclusive, makeId, randomFutureTime, randomPastTime, utilService } from "../util.service"
 
 const STORAGE_KEY = 'order'
@@ -58,43 +59,35 @@ function getDefaultOrderFilter() {
 }
 
 async function createOrder(homeId = "", userId = "", startDate = "", endDate = "", guests = "", totalPrice = ""){
-    const _id = makeId()
+    let order = {}
     const serviceFeeRate = 0.14
-    const msgs = []
-    const status = 'pending'
+    order._id = makeId()
+    order.msgs = []
+    order.status = 'pending'
+    order.createdAt = homeId = "" ? randomPastTime() : new Date().getTime()
     if (homeId === "") {
-        homeId = await homeService.getRandomHomeId() 
-        var createdAt = randomPastTime()
+        order.home._id = await homeService.getRandomHomeId() 
+        const reservedHome = await homeService.getById(order.home._id)
+        order.guests = reservedHome.capacity
+        order.home.name = reservedHome.name
+        order.home.imageUrls = reservedHome.imageUrls
     }   
-    const reservedHome = await homeService.getById(homeId)
-    if (userId === "") userId = await userService.getRandomUserId()
-    const host = await userService.getById(userId)
+    if (userId === "") {
+        order.host._id = await userService.getRandomUserId()
+        const host = await userService.getById(order.host._id)
+        order.host.fullname = host.fullname
+        order.host.imgUrl = host.imgUrl
+    }
     if (startDate === "") {
         startDate = randomFutureTime()
         endDate = startDate + (getRandomIntInclusive(1,10) * 86400000)
-    }
-    if (guests === "") {
-        let adults = getRandomIntInclusive(1, reservedHome.capacity)
-        let children = reservedHome.capacity - adults
-        guests = {adults, children}
     }
     if (totalPrice === '') {
         const nightsCount = Math.floor((Math.max(startDate, endDate) - Math.min(startDate, endDate)) / 86400000)
         const subTotalPrice = reservedHome.price * nightsCount
         totalPrice = Math.round(subTotalPrice * serviceFeeRate)
     }
-    return { 
-        _id,
-        createdAt,
-        startDate, 
-        endDate, 
-        guests, 
-        totalPrice, 
-        host: {_id: host._id, fullname: host.fullname, imgUrl: host.imgUrl}, 
-        home: {_id: reservedHome._id, name: reservedHome.name, imageUrls: reservedHome.imageUrls},
-        status, 
-        msgs 
-    }    
+    return order
 }
 
 async function initOrders() {

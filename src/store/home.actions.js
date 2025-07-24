@@ -11,7 +11,6 @@ import {
   ADD_USER_LIKE,
   REMOVE_USER_LIKE
 } from './home.reducer'
-import { userService } from '../services/user/user.service.local'
 
 export async function loadHomes(filterBy) {
   try {

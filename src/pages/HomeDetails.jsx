@@ -249,7 +249,7 @@ export function HomeDetails() {
               <IoDiamond className='diamond-icon' />
               <p>Rare find! This place is usually booked</p>
             </aside>
-            <ReservationModal home={home} />
+            <ReservationModal home={home} userId={loggedInUser._id}/>
           </section>
           <section className='google-maps'>
             <h3>Where you'll be</h3>

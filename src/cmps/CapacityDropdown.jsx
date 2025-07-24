@@ -12,7 +12,7 @@ export function CapacityDropdown({ isOpen, onOpen, onClose, capacityFilter, onUp
     
     useEffectUpdate(()=>{
         if (typeof onUpdateFilterBy === 'function') {
-    onUpdateFilterBy({ capacityFilterToEdit })
+    onUpdateFilterBy( capacityFilterToEdit )
   }
         // onUpdateFilterBy({capacityFilterToEdit})
     }, [capacityFilterToEdit.capacity])

@@ -76,6 +76,29 @@ export function SearchBar({ isScrolled }) {
     ev.stopPropagation()
     dispatch({type: SET_FILTERBY, filterBy: filterByToEdit})
   }
+
+  function getGuestsNumStrToDisplay(){
+    const {capacity} = filterByToEdit
+    if (!capacity) return 'Add guests'
+    return `${capacity} ${capacity > 1 ? "guests" : "guest"}`
+  }
+
+  function getWhereTitleTxt(){
+    if (scrolled){
+      return filterByToEdit.city ? filterByToEdit.city : 'Where'
+    } else {
+      return 'Where'
+    }
+  }
+
+  function getWhoTitleTxt(){
+    if (scrolled){
+      return filterByToEdit.capacity ? getGuestsNumStrToDisplay() : 'Who'
+    } else {
+      return 'Who'
+    }
+  }
+
   console.log(filterBy)
   return (
     <search className=''>
@@ -83,7 +106,7 @@ export function SearchBar({ isScrolled }) {
        <div className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${activeButton ? 'has-active' : ''}`}>
           <div>
             <div onClick={()=>handleWhereClick('where')} className={`inner-section ${activeButton == 'where' ? 'active' : ''}`}>
-            <div className='sTitle' >{scrolled ? 'Anywhere' : 'Where'}</div>
+            <div className='sTitle' >{getWhereTitleTxt()}</div>
             {!scrolled && <input className='placeholder-content' onChange={onInputChange} type='search' placeholder='Search destination' value={filterByToEdit.city}></input>}
             <WhereDropdown
               isOpen={openedDropdown === 'where'}
@@ -105,8 +128,8 @@ export function SearchBar({ isScrolled }) {
           </div>}
           {!scrolled && <div className="sep"></div>}
           <div onClick={()=>handleWhereClick('capacity')} className={`inner-section ${activeButton == 'capacity' ? 'active' : ''}`}>
-            <div className='sTitle'>{scrolled ? 'Add guests' : 'Who'}</div>
-            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests' value={`${filterByToEdit.capacity} ${filterByToEdit.capacity > 1 ? "guests" : "guest"}`}/>}
+            <div className='sTitle'>{getWhoTitleTxt()}</div>
+            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests' value={getGuestsNumStrToDisplay()}/>}
             <CapacityDropdown 
               isOpen={openedDropdown === 'capacity'}
               onOpen={()=>{setOpenedDropdown('capacity')}}

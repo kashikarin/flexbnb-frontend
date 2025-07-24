@@ -3,7 +3,8 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import {
   capitalizeStr,
-  getAvgRating
+  getAvgRating,
+  getStayDatesStr
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
 
@@ -79,17 +80,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
     return () => clearTimeout(timeoutId)
   }, [home.imageUrls])
 
-  function getStayDatesStr() {
-    const today = new Date()
-    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1)
-    const shortStrThisMonth = today.toLocaleString('en-US', { month: 'short' })
-    const shortStrNextMonth = nextMonth.toLocaleString('en-US', {
-      month: 'short',
-    })
-    return today.getDate() > 26
-      ? `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
-      : `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
-  }
 
   useEffect(() => {
   setIsLiked(isHomeLiked)

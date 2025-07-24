@@ -131,3 +131,51 @@ export function getAvgRating(home) {
 export function roundToDecimals(num, decimals = 2) {
   return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals)
 }
+
+export function getStayDatesStr() {
+    const today = new Date()
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1)
+    const shortStrThisMonth = today.toLocaleString('en-US', { month: 'short' })
+    const shortStrNextMonth = nextMonth.toLocaleString('en-US', {
+      month: 'short',
+    })
+    return today.getDate() < 26 && today.getMonth !== 1 ?
+        `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
+      : 
+        `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
+}
+
+export function getRandom3NightsStayDatesStr() {
+  const today = new Date()
+  const year = today.getFullYear()
+  const currentMonth = today.getMonth()
+  const currentDate = today.getDate()
+
+  let startDay, endDay, month
+
+  if (currentDate > 26 || currentMonth === 1) {
+      month = currentMonth + 1
+      startDay = 1
+      endDay = 4
+  } else {
+      month = currentMonth
+      startDay = currentDate + 1
+      endDay = currentDate + 4
+  }
+
+  const startDateObj = new Date(year, month, startDay)
+  const endDateObj = new Date(year, month, endDay)
+
+  const format = (date) =>
+    `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+
+  return {
+    startDate: format(startDateObj),
+    endDate: format(endDateObj),
+  }
+}
+
+export function strDateToTimestamp(strDate){
+    const [day, month, year] = strDate.split('/').map(Number)
+    return new Date(year, month - 1, day).getTime()
+}

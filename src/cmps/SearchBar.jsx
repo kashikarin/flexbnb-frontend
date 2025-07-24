@@ -114,6 +114,7 @@ export function SearchBar({ isScrolled }) {
               capacityFilter={filterBy.capacity || ''}
               onUpdateFilterBy={onUpdateFilterBy}
             />
+      
             <div className='search-btn-section'>
                 <button className='search-button' onMouseDown={(e) => {
                                                     e.stopPropagation()

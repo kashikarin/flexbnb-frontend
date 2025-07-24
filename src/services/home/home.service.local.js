@@ -73,6 +73,7 @@ export const homeService = {
   save,
   remove,
   getDefaultFilter,
+  getRandomHomeId,
   addHomeMsg,
   getFilterFromSearchParams,
   getAverageReviewRate,
@@ -561,7 +562,6 @@ async function save(homeToSave) {
     } else {
       return await storageService.post(STORAGE_KEY, homeToSave)
     }
-    // return savedHome
   } catch(err) {
       console.error('Cannot save home', err)
       throw err
@@ -618,6 +618,18 @@ async function addHomeMsg(homeId, txt) {
   await storageService.put(STORAGE_KEY, home)
 
   return msg
+}
+
+async function getRandomHomeId() {
+    try {
+        const homes = await query()
+        if (!homes || !homes?.length) return null
+        const randomIdx = Math.floor(Math.random() * homes?.length)
+        return homes[randomIdx]._id
+    } catch(err) {
+        console.error('Oops', err)
+        throw err
+    }
 }
 
 function _getImageUrl() {
@@ -701,6 +713,7 @@ function _createHome() {
 }
 function _createHomes() {
   let homes = utilService.loadFromStorage(STORAGE_KEY)
+  if (homes || homes.length) return homes
   if (!homes || !homes.length) {
     homes = []
     for (let i = 0; i < 40; i++) {

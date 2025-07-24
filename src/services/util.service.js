@@ -81,6 +81,12 @@ export function randomPastTime() {
   return Date.now() - pastTime
 }
 
+export function randomFutureTime(){
+  const millisecondsInADay = 86400000
+  getRandomIntInclusive(1, 365)
+  return new Date().getTime() + getRandomIntInclusive(1, 365) * millisecondsInADay
+}
+
 export function debounce(func, timeout = 300) {
   let timer
   return (...args) => {

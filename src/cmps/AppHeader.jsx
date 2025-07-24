@@ -7,6 +7,7 @@ import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
 import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
+import {orderService} from '../services/order/order.service.local'
 
 export function AppHeader() {
   const dispatch = useDispatch()
@@ -28,12 +29,13 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
-    (async function initAndLoadUsers(){
+    (async function initAndLoadData(){
       try {
         await initUsers()
+        await orderService.initOrders()
         await loadLoggedInUser()
       } catch(err) {
-          console.error('Cannot create or load users', err)
+          console.error('Cannot create or load data', err)
       }
     })()
   }, [])

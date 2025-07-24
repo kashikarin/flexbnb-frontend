@@ -15,6 +15,7 @@ export const userService = {
     update,
     getLoggedinUser,
     getUserReviews,
+    getRandomUserId,
     createUsers
 }
 
@@ -93,6 +94,18 @@ async function getUserReviews(userId){
         acc.push(...homeReviews)
         return acc
     }, [])
+}
+
+async function getRandomUserId() {
+    try {
+        const users = await getUsers()
+        if (!users || !users?.length) return null
+        const randomIdx = Math.floor(Math.random() * users?.length)
+        return users[randomIdx]._id
+    } catch(err) {
+        console.error('Oops', err)
+        throw err
+    }
 }
 
 async function _createDemoUser(){

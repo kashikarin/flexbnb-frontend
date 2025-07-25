@@ -1,0 +1,92 @@
+// Airbnb-style Guest Favorite Badge
+.guest-fav-container {
+  border: 2px solid #e0e0e0;
+  border-radius: 24px;
+  padding: 1em;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.guest-fav-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  width: 100%;
+}
+
+.guest-fav-wings {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.guest-fav-wings img {
+  //   width: 32px;
+  height: 40px;
+}
+.guest-fav-wings-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #222;
+  //   letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.guest-fav-text {
+  font-size: 1.15rem;
+  color: #222;
+  font-weight: 500;
+  flex: 1;
+  margin: 0 16px;
+}
+
+.guest-fav-rating-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+}
+.guest-fav-rating {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 2px;
+}
+.guest-fav-stars {
+  display: flex;
+  gap: 2px;
+  color: #222;
+  font-size: 1.1rem;
+}
+
+.guest-fav-divider {
+  width: 1px;
+  height: 48px;
+  background: #e0e0e0;
+  margin: 0 24px;
+  border-radius: 2px;
+}
+
+.guest-fav-reviews-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+}
+.guest-fav-reviews-count {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #222;
+}
+.guest-fav-reviews-label {
+  font-size: 1.05rem;
+  color: #222;
+  opacity: 0.8;
+  margin-top: 2px;
+}

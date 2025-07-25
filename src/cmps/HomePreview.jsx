@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import {
   capitalizeStr,
   getAvgRating,
-  getStayDatesStr
+  getStayDatesStr,
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
 
@@ -80,33 +80,32 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
     return () => clearTimeout(timeoutId)
   }, [home.imageUrls])
 
-
   useEffect(() => {
-  setIsLiked(isHomeLiked)
-}, [isHomeLiked])
+    setIsLiked(isHomeLiked)
+  }, [isHomeLiked])
 
   async function handleLike(e) {
     e.preventDefault()
     e.stopPropagation()
     const nextIsLiked = !isLiked
     setIsLiked(nextIsLiked)
-      if (nextIsLiked) {
-        //user likes the home
-        try {
-          await onAddLike(home._id)
-        } catch(err) {
-            setIsLiked(false)
-            console.error('Failed to like the home', err)
-        }
-      } else {
-        //user dislikes the home
-        try {
-          await onRemoveLike(home._id)
-        } catch(err){
-            setIsLiked(true)
-            console.error('Faied to remove like', err)
-        }
+    if (nextIsLiked) {
+      //user likes the home
+      try {
+        await onAddLike(home._id)
+      } catch (err) {
+        setIsLiked(false)
+        console.error('Failed to like the home', err)
       }
+    } else {
+      //user dislikes the home
+      try {
+        await onRemoveLike(home._id)
+      } catch (err) {
+        setIsLiked(true)
+        console.error('Faied to remove like', err)
+      }
+    }
   }
 
   return (
@@ -116,6 +115,9 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
           <FaHeart className={`heart filled ${isLiked ? 'liked' : ''}`} />
           <FaRegHeart className='heart outline' />
         </div>
+        {getAvgRating(home) >= 4 && (
+          <div className='guest-fav-badge'>Guest favorite</div>
+        )}
         {/* <button className='home-like-btn'>Like</button> */}
         <div className='home-preview-image-slider-container' ref={containerRef}>
           <div className='home-preview-image-slider-wrapper'>

@@ -1,3 +1,4 @@
+
 .label-preview {
   display: flex;
   flex-wrap: nowrap;
@@ -6,8 +7,11 @@
   gap: 0.5rem;
   align-items: center;
   cursor: pointer;
-  min-width: 64px;
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
   text-align: center;
+
 
   & span {
     font-size: 0.8rem;
@@ -15,22 +19,32 @@
     transition: color;
     line-height: 1rem;
     position: relative;
+    padding: 0.5rem 0;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &::after {
       content: '';
       position: absolute;
-      bottom: -4px;
+      bottom: -1px;
       left: 0;
-      height: 1px;
-      opacity: 0;
+      height: 3px;
       width: 100%;
       background-color: $primary-font-black;
-      transition: opacity;
+
+      opacity: 0.5;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
     }
   }
 
   &:hover span::after {
-    opacity: 0.5;
+    opacity: 1;
+    transform: scaleX(1);
+    color: $primary-font-black;
   }
 
   & img {

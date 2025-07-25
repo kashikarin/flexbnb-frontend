@@ -255,10 +255,9 @@
   }
 }
 
-.search-bar-container:not(.has-active) 
-{
+.search-bar-container:not(.has-active) {
   background-color: white;
-  
+
   .inner-section {
     &:hover {
       background-color: $gray5;
@@ -267,26 +266,23 @@
   }
 }
 
-.search-bar-container.has-active 
-{ 
+.search-bar-container.has-active {
   background-color: $gray5;
   .inner-section {
-       &:hover {
-        background-color: $gray6; 
+    &:hover {
+      background-color: $gray6;
     }
 
     &.active {
       background-color: white;
       border: 1px solid #ececec;
-      
+
       &::after {
         background-color: transparent;
       }
     }
   }
-  
 }
-
 
 // Comprehensive responsive behavior for SearchBar
 @media (max-width: 1200px) {
@@ -569,4 +565,8 @@
       }
     }
   }
+}
+
+.sTitle {
+  font-weight: bold !important;
 }

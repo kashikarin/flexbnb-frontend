@@ -15,7 +15,7 @@ import { addLike, removeLike } from '../store/user.actions'
 import { getAvgRating } from '../services/util.service'
 import { getAmenityIcon } from '../services/home/home.service.local'
 import { FaHeart, FaStar } from 'react-icons/fa'
-import { CiCalendarDate, CiHeart } from 'react-icons/ci'
+import { CiCalendarDate, CiHeart, CiLocationOn } from 'react-icons/ci'
 import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
@@ -52,6 +52,8 @@ import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate'
 import { ReservationModal } from '../cmps/ReservationModal'
 import { BuyingStepOneModal } from '../cmps/BuyingStepOneModal'
+import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
+import { GuestFav } from '../cmps/GuestFav'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -155,31 +157,11 @@ export function HomeDetails() {
             <h1>
               {home.type} in {home.loc.city}, {home.loc.country}
             </h1>
-            <div className='home-details-flex'>
-              <div className='home-details'>
-                <div className='home-details-rating'>
-                  <FaStar className='home-details-star' />
-                  <span> {getAvgRating(home)} </span>
-                </div>
-                <span>•</span>
-                <div className='home-details-reviews'>
-                  <span>{home.reviews.length} Reviews </span>
-                </div>
-                <span>•</span>
-                <div className='home-details-location'>
-                  <span>
-                    {home.loc.city}, {home.loc.country}
-                  </span>
-                </div>
-              </div>
-              <div className='home-details-heart' onClick={handleHomeSave}>
-                <FaHeart
-                  className={`home-details-heart-icon ${
-                    isLiked ? 'saved' : ''
-                  }`}
-                />
-                <span>{isLiked ? 'Saved' : 'Save'}</span>
-              </div>
+            <div className='home-details-heart' onClick={handleHomeSave}>
+              <FaHeart
+                className={`home-details-heart-icon ${isLiked ? 'saved' : ''}`}
+              />
+              <span>{isLiked ? 'Saved' : 'Save'}</span>
             </div>
           </div>
           <div className='home-details-img-container'>
@@ -196,10 +178,18 @@ export function HomeDetails() {
           </div>
           <section className='mid-section'>
             <div className='home-details-mid'>
-              <div className='home-details-amenities'>
+              <div
+                className='home-details-amenities'
+                style={
+                  getAvgRating(home) >= 4
+                    ? {}
+                    : { borderBottom: '1px solid #e0e0e0' }
+                }
+              >
                 <h2>
                   {home.type} in {home.loc.city}, {home.loc.country}
                 </h2>
+
                 <div className='home-details-amenities-list'>
                   <p>{home.capacity} guests</p>
                   <span>•</span>
@@ -207,20 +197,46 @@ export function HomeDetails() {
                   <span>•</span>
                   <p>{home.bathCount} bath</p>
                 </div>
+                {getAvgRating(home) < 4 && (
+                  <div className='home-details-reviews'>
+                    <span>
+                      <FaStar
+                        style={{
+                          width: '8px',
+                          height: '8px',
+                          marginInlineEnd: '2px',
+                          verticalAlign: 'middle',
+                        }}
+                      />
+                      <span style={{ fontWeight: 'bold' }}>
+                        {(
+                          home.reviews.reduce(
+                            (acc, review) => acc + review.rate,
+                            0
+                          ) / home.reviews.length || 0
+                        ).toFixed(2)}{' '}
+                      </span>
+                    </span>
+                    <span>•</span>
+                    <span>{home.reviews.length} Reviews </span>
+                  </div>
+                )}
               </div>
+
+              {getAvgRating(home) >= 4 && <GuestFav home={home} />}
               <section className='home-highlights'>
                 <article>
-                  <PiDoorOpenThin className='home-highlights-icon ' />
+                  <DoorIcon className='home-highlights-icon ' />
                   <h4>Self check-in</h4>
                   <p>Check yourself in with the lockbox.</p>
                 </article>
                 <article>
-                  <LuBedDouble className='home-highlights-icon ' />
+                  <BedIcon className='home-highlights-icon ' />
                   <h4>Room in a home</h4>
                   <p>Your own room in a home, plus access to shared spaces.</p>
                 </article>
                 <article>
-                  <CiCalendarDate className='home-highlights-icon ' />
+                  <CalendarIcon className='home-highlights-icon ' />
                   <h4>Free cancellation before Jul 27</h4>
                   <p>Get a full refund if you change your mind.</p>
                 </article>

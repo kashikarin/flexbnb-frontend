@@ -7,17 +7,18 @@ import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
 import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
-import {orderService} from '../services/order/order.service.local'
+import { orderService } from '../services/order/order.service.local'
 import { loadOrders } from '../store/order.actions'
+import { orderService } from '../services/order/order.service.local'
 
 export function AppHeader() {
   const dispatch = useDispatch()
-  const loggedInUser = useSelector(state => state.userModule.loggedInUser)
+  const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
-  const orders = useSelector(state => state.orderModule.orders)
-  console.log("🚀 ~ AppHeader ~ orders:", orders)
-  
+  const orders = useSelector((state) => state.orderModule.orders)
+  console.log('🚀 ~ AppHeader ~ orders:', orders)
+
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
@@ -32,21 +33,21 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
-    (async function initAndLoadData(){
+    ;(async function initAndLoadData() {
       try {
         await initUsers()
         // await loadOrders()
         await loadLoggedInUser()
-      } catch(err) {
-          console.error('Cannot create or load data', err)
+      } catch (err) {
+        console.error('Cannot create or load data', err)
       }
     })()
   }, [])
 
-  async function loadLoggedInUser(){
+  async function loadLoggedInUser() {
     const loggedInUser = await userService.getLoggedinUser()
     if (loggedInUser) {
-      dispatch({type: SET_LOGGEDINUSER, user: loggedInUser})
+      dispatch({ type: SET_LOGGEDINUSER, user: loggedInUser })
     }
   }
 

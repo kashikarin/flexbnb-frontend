@@ -10,11 +10,9 @@ export function SearchBar({ isScrolled }) {
   const [scrolled, setScrolled] = useState(isScrolled)
   const [isMobile, setIsMobile] = useState(false)
   const [activeButton, setActiveButton] = useState(null)
-  const filterBy = useSelector(state => state.homeModule.filterBy)
+  const filterBy = useSelector((state) => state.homeModule.filterBy)
   const dispatch = useDispatch()
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-
-  
 
   useEffect(() => {
     function handleResize() {
@@ -40,33 +38,37 @@ export function SearchBar({ isScrolled }) {
   useEffect(() => {
     //Close dropdown when clicking outside
     function handleClickOutside(event) {
-  
-        const isInsideSearchBar = event.target.closest('.search-bar-container')
-        const isInsideAnyDropdown = event.target.closest('.dropdown-wrapper') || event.target.closest('.capacity-dropdown-container')
-        
+      const isInsideSearchBar = event.target.closest('.search-bar-container')
+      const isInsideAnyDropdown =
+        event.target.closest('.dropdown-wrapper') ||
+        event.target.closest('.capacity-dropdown-container')
+
       if (openedDropdown && !isInsideSearchBar && !isInsideAnyDropdown) {
         setTimeout(() => {
           setOpenedDropdown(null)
         }, 0)
-}
+      }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
-  
+
   function onUpdateFilterBy(filter) {
-        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, ...filter}))
+    setFilterByToEdit((prevFilterByToEdit) => ({
+      ...prevFilterByToEdit,
+      ...filter,
+    }))
   }
-  
+
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
     if (scrolled && !isMobile) setScrolled(false)
 
     setOpenedDropdown((curr) => (curr === btName ? null : btName))
-    setActiveButton((curr) => (curr === btName ? null : btName))    
+    setActiveButton((curr) => (curr === btName ? null : btName))
   }
-  
+
   function onInputChange(ev) {
     const val = ev.target.value
     debouncedSetTxt(val)
@@ -74,25 +76,25 @@ export function SearchBar({ isScrolled }) {
   function handleSubmit(ev) {
     ev.preventDefault()
     ev.stopPropagation()
-    dispatch({type: SET_FILTERBY, filterBy: filterByToEdit})
+    dispatch({ type: SET_FILTERBY, filterBy: filterByToEdit })
   }
 
-  function getGuestsNumStrToDisplay(){
-    const {capacity} = filterByToEdit
+  function getGuestsNumStrToDisplay() {
+    const { capacity } = filterByToEdit
     if (!capacity) return 'Add guests'
-    return `${capacity} ${capacity > 1 ? "guests" : "guest"}`
+    return `${capacity} ${capacity > 1 ? 'guests' : 'guest'}`
   }
 
-  function getWhereTitleTxt(){
-    if (scrolled){
+  function getWhereTitleTxt() {
+    if (scrolled) {
       return filterByToEdit.city ? filterByToEdit.city : 'Where'
     } else {
       return 'Where'
     }
   }
 
-  function getWhoTitleTxt(){
-    if (scrolled){
+  function getWhoTitleTxt() {
+    if (scrolled) {
       return filterByToEdit.capacity ? getGuestsNumStrToDisplay() : 'Who'
     } else {
       return 'Who'
@@ -103,11 +105,28 @@ export function SearchBar({ isScrolled }) {
   return (
     <search className=''>
       {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
-       <div className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${activeButton ? 'has-active' : ''}`}>
-          <div>
-            <div onClick={()=>handleWhereClick('where')} className={`inner-section ${activeButton == 'where' ? 'active' : ''}`}>
-            <div className='sTitle' >{getWhereTitleTxt()}</div>
-            {!scrolled && <input className='placeholder-content' onChange={onInputChange} type='search' placeholder='Search destination' value={filterByToEdit.city}></input>}
+      <div
+        className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${
+          activeButton ? 'has-active' : ''
+        }`}
+      >
+        <div>
+          <div
+            onClick={() => handleWhereClick('where')}
+            className={`inner-section ${
+              activeButton == 'where' ? 'active' : ''
+            }`}
+          >
+            <div className='sTitle'>{scrolled ? 'Anywhere' : 'Where'}</div>
+            {!scrolled && (
+              <input
+                className='placeholder-content'
+                onChange={onInputChange}
+                type='search'
+                placeholder='Search destination'
+                value={filterByToEdit.city}
+              ></input>
+            )}
             <WhereDropdown
               isOpen={openedDropdown === 'where'}
               onOpen={() => setOpenedDropdown('where')}
@@ -116,23 +135,61 @@ export function SearchBar({ isScrolled }) {
               onUpdateFilterBy={onUpdateFilterBy}
             />
           </div>
-          <div className="sep"></div>
-          <div onClick={()=>handleWhereClick('Check in')} className={`inner-section ${activeButton == 'Check in' ? 'active' : ''}`}>
+          <div className='sep'></div>
+          <div
+            onClick={() => handleWhereClick('Check in')}
+            className={`inner-section ${
+              activeButton == 'Check in' ? 'active' : ''
+            }`}
+          >
             <div className='sTitle'>{scrolled ? 'Anytime' : 'Check in'}</div>
-            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add dates'></input>}
+            {!scrolled && (
+              <input
+                className='placeholder-content'
+                type='search'
+                placeholder='Add dates'
+              ></input>
+            )}
           </div>
-          <div className="sep"></div>
-          {!scrolled && <div onClick={()=>handleWhereClick('Check out')} className={`inner-section ${activeButton == 'Check out' ? 'active' : ''}`}>
-            <div className='sTitle'>Check out</div>
-            <input className='placeholder-content' type='search' placeholder='Add dates'></input>
-          </div>}
-          {!scrolled && <div className="sep"></div>}
-          <div onClick={()=>handleWhereClick('capacity')} className={`inner-section ${activeButton == 'capacity' ? 'active' : ''}`}>
-            <div className='sTitle'>{getWhoTitleTxt()}</div>
-            {!scrolled && <input className='placeholder-content' type='search' placeholder='Add guests' value={getGuestsNumStrToDisplay()}/>}
-            <CapacityDropdown 
+          <div className='sep'></div>
+          {!scrolled && (
+            <div
+              onClick={() => handleWhereClick('Check out')}
+              className={`inner-section ${
+                activeButton == 'Check out' ? 'active' : ''
+              }`}
+            >
+              <div className='sTitle'>Check out</div>
+              <input
+                className='placeholder-content'
+                type='search'
+                placeholder='Add dates'
+              ></input>
+            </div>
+          )}
+          {!scrolled && <div className='sep'></div>}
+          <div
+            onClick={() => handleWhereClick('capacity')}
+            className={`inner-section ${
+              activeButton == 'capacity' ? 'active' : ''
+            }`}
+          >
+            <div className='sTitle'>{scrolled ? 'Add guests' : 'Who'}</div>
+            {!scrolled && (
+              <input
+                className='placeholder-content'
+                type='search'
+                placeholder='Add guests'
+                value={`${filterByToEdit.capacity} ${
+                  filterByToEdit.capacity > 1 ? 'guests' : 'guest'
+                }`}
+              />
+            )}
+            <CapacityDropdown
               isOpen={openedDropdown === 'capacity'}
-              onOpen={()=>{setOpenedDropdown('capacity')}}
+              onOpen={() => {
+                setOpenedDropdown('capacity')
+              }}
               onClose={() => setOpenedDropdown(null)}
               adultsFilterBy={filterBy.adults || ''}
               childrenFilter={filterBy.children || ''}
@@ -140,20 +197,21 @@ export function SearchBar({ isScrolled }) {
               petsFilter={filterBy.pets || ''}
               onUpdateFilterBy={onUpdateFilterBy}
             />
-      
+
             <div className='search-btn-section'>
-                <button className='search-button' onMouseDown={(e) => {
-                                                    e.stopPropagation()
-                                                    e.preventDefault()
-                                                  }} 
-                                                  onClick={handleSubmit}
-                                                >
-                  <ReactSVG src="/svgs/search-icon.svg" />
-                </button>
+              <button
+                className='search-button'
+                onMouseDown={(e) => {
+                  e.stopPropagation()
+                  e.preventDefault()
+                }}
+                onClick={handleSubmit}
+              >
+                <ReactSVG src='/svgs/search-icon.svg' />
+              </button>
             </div>
-            
           </div>
-            {/* <div onClick={handleWhereClick} className='inner-section'>
+          {/* <div onClick={handleWhereClick} className='inner-section'>
               <div className='sTitle'>{scrolled ? 'Anywhere' : 'Where'}</div>
               {!scrolled && (
                 <input
@@ -206,7 +264,7 @@ export function SearchBar({ isScrolled }) {
                 </button>
               </div>
             </div> */}
-          </div>
+        </div>
       </div>
     </search>
   )

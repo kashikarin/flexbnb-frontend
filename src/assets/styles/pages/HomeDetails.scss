@@ -4,19 +4,54 @@
   grid-template-columns: 1em 1fr 1em;
   margin-top: 5rem;
   max-width: 1120px;
-  margin: 5em auto;
-  row-gap: 2em;
+  margin: 1em auto;
+  // row-gap: 1.2em;
   .home-details-header {
     grid-column: 2 / 3;
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    .home-details-heart {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+      padding: 8px;
+      border-radius: 8px;
+      .home-details-heart-icon {
+        // font-size: 1.5em;
+        width: 16px;
+        height: 16px;
+
+        fill: #fff;
+        stroke: $primary-font-black;
+        stroke-width: 14;
+        transition: color 0.2s, fill 0.2s;
+      }
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      span {
+        color: $primary-font-black;
+        text-decoration: underline;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 500;
+      }
+      .home-details-heart-icon.saved {
+        color: $primary-pink;
+        fill: $primary-pink;
+        stroke: $primary-pink;
+      }
+      &:hover {
+        background-color: #f7f7f7;
+      }
+    }
 
     h1 {
       grid-column: span 2 / span 2;
       margin: 0;
-      line-height: 1.1;
-      font-size: 1.625em;
+      line-height: 1.875rem;
+      font-size: 1.625rem;
+      font-weight: 500;
       color: $primary-font-black;
     }
     .home-details-flex {
@@ -80,9 +115,10 @@
     padding-block-start: 20px;
     padding-block-end: 20px;
     display: grid;
-    gap: 3em;
+    // gap: 3em;
     grid-template-columns: repeat(3, auto);
     grid-template-rows: auto auto auto;
+    margin-block-start: 22px;
 
     .home-details-mid {
       grid-column: span 2 / span 2;
@@ -90,20 +126,55 @@
     }
     h2 {
       color: $primary-font-black;
-      font-size: 1.15em;
+      font-size: 1.625rem;
+      line-height: 1.875rem;
+      font-weight: 400;
     }
     .home-details-amenities {
       display: flex;
       flex-direction: column;
-      border-bottom: 1px solid #e0e0e0;
-
+      // border-bottom: 1px solid #e0e0e0;
+      padding-block-end: 22px;
+      & > * {
+        padding: 0;
+        margin: 0;
+      }
       // margin-block-start: 1em;
       font-size: 0.875em;
       color: $secondary-font-gray;
       .home-details-amenities-list {
         display: flex;
         flex-direction: row;
+
         gap: 0.5rem;
+
+        p {
+          font-size: 0.984375rem;
+          line-height: 1.575rem;
+          color: $secondary-font-gray;
+          font-weight: 300;
+          margin: 0;
+          padding: 0;
+        }
+      }
+      .home-details-reviews {
+        display: flex;
+
+        flex-direction: row;
+        gap: 4px;
+
+        span {
+          font-size: 0.98rem;
+          line-height: 1.575rem;
+          font-weight: 500 !important;
+          color: $primary-font-black;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+        & :nth-child(3) {
+          text-decoration: underline;
+        }
       }
     }
     .rare-modal {
@@ -136,8 +207,11 @@
   }
 }
 .home-highlights {
-  margin-block-start: 40px;
-  padding-block-end: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-block-start: 22px;
+  padding-block-end: 22px;
   border-bottom: 1px solid #e0e0e0;
 
   & > article {
@@ -147,9 +221,9 @@
     font-size: 0.875em;
     .home-highlights-icon {
       grid-column: 1;
-      grid-row: 1;
-      width: 32px;
-      height: 32px;
+      grid-row: 1 / 3;
+      width: 24px;
+      height: 24px;
     }
     h4 {
       color: $primary-font-black;
@@ -160,17 +234,18 @@
       grid-column: 2;
       font-size: 0.875em;
       margin: 0;
+      color: $secondary-font-gray;
     }
   }
 }
 .home-details-description {
   border-bottom: 1px solid #e0e0e0;
-  margin-block-start: 40px;
-  padding-block-end: 40px;
+  margin-block-start: 22px;
+  padding-block-end: 22px;
   h3 {
-    color: $primary-font-black;
-    font-size: 1.15em;
-    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 400;
+    line-height: 1.625rem;
   }
   p {
     font-size: 0.875em;
@@ -180,8 +255,15 @@
 }
 .home-details-facilities-list {
   color: $primary-font-black;
-  padding-block-start: 40px;
+  padding-block-start: 22px;
 
+  h3 {
+    font-size: 1.375rem;
+    font-weight: 400;
+    line-height: 1.625rem;
+
+    color: $primary-font-black;
+  }
   .amenities-list {
     list-style: none;
     padding: 0;
@@ -193,18 +275,19 @@
     .amenity-item {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 1.25rem;
       // padding: 0.5rem 0;
       // border-bottom: 1px solid #f0f0f0;
 
       .amenity-icon {
-        font-size: 1.2rem;
+        width: 32px;
+        height: 32px;
         color: $secondary-font-gray;
         flex-shrink: 0;
       }
 
       span {
-        font-size: 0.875rem;
+        font-size: 1rem;
       }
     }
   }
@@ -214,14 +297,16 @@
   grid-column: 1 / -1;
   grid-row: 5 / 7;
   margin-top: 2rem;
-  padding-top: 2rem;
+  padding-block-start: 22px;
+  padding-block-end: 22px;
   border-top: 1px solid #e0e0e0;
 
   h3 {
     color: $primary-font-black;
-    // font-size: 1.5em;
-    // margin: 0 0 2rem 0;
-    // text-align: center;
+    font-size: 1.375rem;
+    font-weight: 400;
+    line-height: 1.625rem;
+    margin-block-end: 1.5em;
   }
 
   div:first-child {
@@ -231,3 +316,23 @@
     // overflow: hidden;
   }
 }
+// <div className='home-details-reviews'>
+//                 <span>{home.reviews.length} Reviews </span>
+//               </div>
+//               <span>•</span>
+//               <div className='home-details-location'>
+//                 <span>
+//                   {home.loc.city}, {home.loc.country}
+//                 </span>
+//               </div>
+//             </div>
+//             <div className='home-details-heart' onClick={handleHomeSave}>
+//               <FaHeart
+//                 className={`home-details-heart-icon ${
+//                   isLiked ? 'saved' : ''
+//                 }`}
+//               />
+//               <span>{isLiked ? 'Saved' : 'Save'}</span>
+//             </div>
+//           </div>
+//         </div>

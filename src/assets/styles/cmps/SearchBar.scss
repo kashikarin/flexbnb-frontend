@@ -143,8 +143,8 @@
     // }
 
     .injected-svg {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       display: block;
       transition: width 0.3s ease, height 0.3s ease;
     }
@@ -257,6 +257,9 @@
 
 .search-bar-container:not(.has-active) {
   background-color: white;
+  & span {
+    display: none;
+  }
 
   .inner-section {
     &:hover {

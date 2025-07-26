@@ -17,7 +17,10 @@
     gap: 0.25rem;
     border-radius: 12px;
     position: relative;
-
+    p {
+      font-size: 0.825rem !important;
+      line-height: 1.5 !important;
+    }
     &:hover {
       .images-slider-buttons-container {
         opacity: 1;

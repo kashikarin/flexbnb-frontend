@@ -169,12 +169,13 @@
         }
       }
       & > button {
+        cursor: pointer;
         width: 100%;
         padding: 14px;
         margin-block: 0.4rem;
         font-size: 16px;
         font-weight: 700;
-        background: linear-gradient(90deg, #e00b41, #c21c54);
+        background: $primary-pink;
         color: $clr5;
         border-radius: 1.5rem;
         border: 1px solid $primary-hover-gray;

@@ -9,7 +9,7 @@ import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
 import { orderService } from '../services/order/order.service.local'
 import { loadOrders } from '../store/order.actions'
-import { orderService } from '../services/order/order.service.local'
+// import { orderService } from '../services/order/order.service.local'
 
 export function AppHeader() {
   const dispatch = useDispatch()

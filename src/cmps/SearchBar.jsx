@@ -13,6 +13,24 @@ export function SearchBar({ isScrolled }) {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const dispatch = useDispatch()
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  const searchBarRef = useRef()
+  const dropdownRef = useRef()
+  const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(filterBy.pets ?? 0)
+
+  const capacity = Number(adultsNum ?? 0) + 
+                   Number(childrenNum ?? 0) + 
+                   Number(infantsNum ?? 0)
+
+  useEffect(()=>{
+    setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, 
+                                               adults: adultsNum, 
+                                               children: childrenNum,
+                                              infants: infantsNum,
+                                              pets: petsNum}))
+  }, [adultsNum, childrenNum, infantsNum, petsNum])
 
   useEffect(() => {
     function handleResize() {
@@ -36,23 +54,23 @@ export function SearchBar({ isScrolled }) {
   }, [scrolled])
 
   useEffect(() => {
-    //Close dropdown when clicking outside
+    // Close dropdown when clicking outside
     function handleClickOutside(event) {
-      const isInsideSearchBar = event.target.closest('.search-bar-container')
-      const isInsideAnyDropdown =
-        event.target.closest('.dropdown-wrapper') ||
-        event.target.closest('.capacity-dropdown-container')
-
-      if (openedDropdown && !isInsideSearchBar && !isInsideAnyDropdown) {
-        setTimeout(() => {
-          setOpenedDropdown(null)
-        }, 0)
+      if (openedDropdown && 
+          searchBarRef.current &&
+          !searchBarRef.current.contains(event.target) && 
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ){
+        setOpenedDropdown(null)
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
+    
   }, [openedDropdown])
+  
+  console.log("🚀 ~ openedDropdown:", openedDropdown)
 
   function onUpdateFilterBy(filter) {
     setFilterByToEdit((prevFilterByToEdit) => ({
@@ -62,7 +80,9 @@ export function SearchBar({ isScrolled }) {
   }
 
   function handleWhereClick(btName) {
+    console.log("🚀 ~ btName:", btName)
     // Don't expand SearchBar on mobile
+    console.log("🚀 ~ scrolled:", scrolled)
     if (scrolled && !isMobile) setScrolled(false)
 
     setOpenedDropdown((curr) => (curr === btName ? null : btName))
@@ -80,9 +100,12 @@ export function SearchBar({ isScrolled }) {
   }
 
   function getGuestsNumStrToDisplay() {
-    const { capacity } = filterByToEdit
-    if (!capacity) return 'Add guests'
-    return `${capacity} ${capacity > 1 ? 'guests' : 'guest'}`
+    const { adults, children, infants, pets } = filterByToEdit
+    if (!adults && !children && !infants && !pets) return 'Add guests'
+    const guestsNum = Number(adults ?? 0) + 
+                      Number(children ?? 0) + 
+                      Number(infants ?? 0) 
+    return `${guestsNum} ${guestsNum > 1 ? 'guests' : 'guest'}`
   }
 
   function getWhereTitleTxt() {
@@ -95,13 +118,17 @@ export function SearchBar({ isScrolled }) {
 
   function getWhoTitleTxt() {
     if (scrolled) {
-      return filterByToEdit.capacity ? getGuestsNumStrToDisplay() : 'Who'
+      const {adults, children, infants} = filterByToEdit
+      const guestsNum = Number(adults ?? 0) + 
+                        Number(children ?? 0) + 
+                        Number(infants ?? 0)  
+      return guestsNum ? getGuestsNumStrToDisplay() : 'Who'
     } else {
       return 'Who'
     }
   }
 
-  console.log(filterBy)
+  console.log(filterByToEdit)
   return (
     <search className=''>
       {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
@@ -109,6 +136,7 @@ export function SearchBar({ isScrolled }) {
         className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${
           activeButton ? 'has-active' : ''
         }`}
+        ref={searchBarRef}
       >
         <div>
           <div
@@ -180,24 +208,27 @@ export function SearchBar({ isScrolled }) {
                 className='placeholder-content'
                 type='search'
                 placeholder='Add guests'
-                value={`${filterByToEdit.capacity} ${
-                  filterByToEdit.capacity > 1 ? 'guests' : 'guest'
-                }`}
+                value={`${capacity} ${capacity > 1 ? 'guests' : 'guest'}`}
               />
             )}
-            <CapacityDropdown
+            {openedDropdown === 'capacity' && (
+            <div ref={dropdownRef}>
+              <CapacityDropdown
               isOpen={openedDropdown === 'capacity'}
-              onOpen={() => {
-                setOpenedDropdown('capacity')
-              }}
               onClose={() => setOpenedDropdown(null)}
-              adultsFilterBy={filterBy.adults || ''}
-              childrenFilter={filterBy.children || ''}
-              infantsFilter={filterBy.infants || ''}
-              petsFilter={filterBy.pets || ''}
-              onUpdateFilterBy={onUpdateFilterBy}
+              father={'search-bar'}
+              adultsFilter={adultsNum}
+              childrenFilter={childrenNum}
+              infantsFilter={infantsNum}
+              petsFilter={petsNum}
+              setAdultsNum={setAdultsNum}
+              setChildrenNum={setChildrenNum}
+              setInfantsNum={setInfantsNum}
+              setPetsNum={setPetsNum}
+              homeCapacity={undefined}
+              petsAllowed={undefined}
             />
-
+            </div>)}
             <div className='search-btn-section'>
               <button
                 className='search-button'

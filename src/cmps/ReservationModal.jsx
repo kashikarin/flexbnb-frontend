@@ -21,6 +21,11 @@ export function ReservationModal({ home, userId }) {
   const selectionRef = useRef(null)
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false)
   
+  const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(filterBy.pets ?? 0)
+
   function openReservationModal() {
     setIsReservationModalOpen(true)
   }
@@ -85,7 +90,7 @@ export function ReservationModal({ home, userId }) {
   function getGuestsNumStrToDisplay(){
     const {adults, children, infants, pets} = filterBy
     if (!adults && !children && !infants && !pets) return 'Add guests'
-    const guestsNum = (adults || 0) + (children || 0) + (infants || 0) + (pets || 0)
+    const guestsNum = Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0) 
     return `${guestsNum} ${guestsNum > 1 ? "guests" : "guest"}`
   }
 
@@ -148,14 +153,17 @@ export function ReservationModal({ home, userId }) {
                   <CapacityDropdown
                     isOpen={openedDropdown === 'capacity'}
                     onClose={() => setOpenedDropdown(null)}
-                    filterByCapacity={{adults: filterBy.adults, 
-                                        children: filterBy.children,
-                                        infants: filterBy.infants,
-                                        pets: filterBy.pets  
-                                      }}
+                    father={'reservation-modal'}
+                    adultsFilter={adultsNum}
+                    childrenFilter={childrenNum}
+                    infantsFilter={infantsNum}
+                    petsFilter={petsNum}
+                    setAdultsNum={setAdultsNum}
+                    setChildrenNum={setChildrenNum}
+                    setInfantsNum={setInfantsNum}
+                    setPetsNum={setPetsNum}
                     homeCapacity={home.capacity}
                     petsAllowed={home.petsAllowed}
-                    onUpdateOrderDetails={onUpdateOrderDetails}
                   />
                 </div>
               </div>

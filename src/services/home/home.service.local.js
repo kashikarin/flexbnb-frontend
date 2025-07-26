@@ -716,7 +716,7 @@ function _createHome() {
 }
 function _createHomes() {
   let homes = utilService.loadFromStorage(STORAGE_KEY)
-  if (homes || homes.length) return homes
+  if (homes || homes?.length) return homes
   if (!homes || !homes.length) {
     homes = []
     for (let i = 0; i < 40; i++) {

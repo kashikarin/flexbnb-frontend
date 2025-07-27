@@ -1,13 +1,13 @@
 .home-list-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   column-gap: 1.5em;
   row-gap: 2.5em;
   list-style-type: none;
   margin: 2em auto;
 
   &.cards-container-narrow {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     column-gap: 2rem;
     row-gap: 3rem;
     margin: 1rem auto;

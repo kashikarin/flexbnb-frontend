@@ -1,7 +1,61 @@
 .user-details {
-    .user-img {
-        height: 200px;
-        width: 200px;
-        background-size: contain;
+  display: flex;
+  flex-direction: column;
+  legend {
+    font-size: 2em;
+    margin-bottom: 1em;
+    color: #333;
+  }
+  .orders-table {
+    border-collapse: separate;
+    border-spacing: 0 0;
+    thead {
+      tr {
+        text-align: left;
+        th {
+          padding: 1em;
+        }
+      }
     }
+    tbody {
+      tr {
+        border-bottom: 1px solid black;
+        &:nth-child(odd) {
+          background-color: #f9f9f9;
+        }
+        td {
+          padding: 10px;
+          text-align: left;
+          &.pending {
+            font-style: italic;
+            font-weight: 500;
+            //   color: red;
+          }
+          &.approved {
+            color: green;
+            font-weight: 500;
+          }
+          &.rejected {
+            font-weight: 500;
+            color: red;
+          }
+          &:last-child {
+            button {
+              border-radius: 5px;
+              width: 100px;
+            }
+            & :first-child {
+              background-color: #4caf50;
+            }
+            & :last-child {
+              background-color: #f44336;
+            }
+          }
+        }
+      }
+    }
+    .center {
+      text-align: center;
+    }
+  }
 }

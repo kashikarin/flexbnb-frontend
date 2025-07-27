@@ -10,6 +10,7 @@ export default function BasicLineChart() {
         },
       ]}
       height={200}
+      width={400}
     />
   )
 }

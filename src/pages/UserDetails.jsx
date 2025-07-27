@@ -52,11 +52,18 @@ export function UserDetails() {
           gap: '20px',
           marginBlockStart: '20px',
           marginBlockEnd: '20px',
+          justifyContent: 'space-evenly',
         }}
       >
-        <BasicPie />
-        <BasicBars />
-        <BasicLineChart />
+        <div className='chart-container'>
+          <BasicPie />
+        </div>
+        <div className='chart-container'>
+          <BasicBars />
+        </div>
+        <div className='chart-container'>
+          <BasicLineChart />
+        </div>
       </section>
       <fieldset>
         <legend>My Dashboard</legend>

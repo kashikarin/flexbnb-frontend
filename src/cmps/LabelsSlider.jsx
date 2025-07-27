@@ -164,7 +164,7 @@ export function LabelsSlider() {
 
   const scrollSlider = (direction) => {
     if (sliderRef.current) {
-      const scrollAmount = 200
+      const scrollAmount = 600
       const targetScroll =
         direction === 'left'
           ? sliderRef.current.scrollLeft - scrollAmount

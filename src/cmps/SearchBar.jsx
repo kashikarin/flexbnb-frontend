@@ -146,14 +146,20 @@ export function SearchBar({ isScrolled }) {
           const shortCheckoutDate = (checkinDate.getMonth() === checkoutDate.getMonth()) ? checkoutDate.getDate() : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
           txt = shortCheckinDate + shortCheckoutDate      
       } else txt = 'Anytime' //scroll + no dates
-    } else txt = 'Check in'         
+    } else txt = 'Check in'      
+    return txt   
   }
     
   function getCheckoutTitleText(){
-    let textContent
+    let txt
     if (!scrolled) {
       if (filterByToEdit.endDate) {
-
+        const checkoutDate = new Date(filterByToEdit.startDate)
+          const checkinDate = new Date(filterByToEdit.endDate - 86400000)
+          const options = {month: 'short', day: 'numeric'}
+          const shortCheckinDate = new Intl.DateTimeFormat('en-US', options).format(checkinDate)
+          const shortCheckoutDate = (checkinDate.getMonth() === checkoutDate.getMonth()) ? checkoutDate.getDate() : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+          txt = shortCheckoutDate      
       }
     }
   }
@@ -216,7 +222,7 @@ export function SearchBar({ isScrolled }) {
                 activeButton == 'Check out' ? 'active' : ''
               }`}
             >
-              <div className='sTitle'>{getCheckoutTitleText()}</div>
+              <div className='sTitle'>Check out</div>
               <input
                 className='placeholder-content'
                 type='search'

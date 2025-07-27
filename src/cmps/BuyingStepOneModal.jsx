@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-export function BuyingStepOneModal({ onClose, home, status, onConfirmOrder }) {
+export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCity, homeCountry, homeSummary, onConfirmOrder }) {
   const [currentStep, setCurrentStep] = useState(1)
   const navigate = useNavigate()
 
@@ -9,6 +9,9 @@ export function BuyingStepOneModal({ onClose, home, status, onConfirmOrder }) {
     await onConfirmOrder()
     setCurrentStep(2)
   }
+  const stayNightsNum = Math.floor((order.endDate - order.startDate) / 86400000)
+  const guestsNum = Number(order.guests.adults ?? 0) + Number(order.guests.children ?? 0)
+  const serviceFeeRate = 0.14
 
   return (
     <div className='buying-modal-step-one'>
@@ -31,17 +34,17 @@ export function BuyingStepOneModal({ onClose, home, status, onConfirmOrder }) {
           <div className='reservation-info'>
             <div className='reservation-date-guest'>
               <h3>
-                {status === 'confirmed'
-                  ? 'Reservation successfully'
+                {currentStep === 2 ?
+                  'Reservation successfully'
                   : 'Reservation details'}
               </h3>
               <p>
                 <span>Trip dates:</span>
-                <span>09/11/22 - 17/11/22</span>
+                <span>{`${order.startDate} - ${order.endDate}`}</span>
               </p>
               <p>
                 <span>Guests:</span>
-                <span>1 adult</span>
+                <span>{`${guestsNum} ${guestsNum > 1? 'guests' : 'guest'}`}</span>
               </p>
             </div>
 
@@ -49,32 +52,32 @@ export function BuyingStepOneModal({ onClose, home, status, onConfirmOrder }) {
               <h3>Price Details</h3>
               <div className='price-amount'>
                 <p>
-                  <span>${home.price} x 8 nights</span>
-                  <span>${home.price * 8}</span>
+                  <span>{`${homePrice} x ${stayNightsNum} ${stayNightsNum > 1 ? 'nights' : 'night'}`}</span>
+                  <span>${homePrice * stayNightsNum}</span>
                 </p>
               </div>
               <div className='service-fee'>
                 <p>
                   <span>Service fee</span>
-                  <span>${home.price * 8 * 0.1}</span>
+                  <span>{homePrice * stayNightsNum * serviceFeeRate}</span>
                 </p>
               </div>
               <div className='total'>
                 <p>
                   <span>Total</span>
-                  <span>${home.price * 8}</span>
+                  <span>{homePrice * stayNightsNum * (1 + serviceFeeRate)}</span>
                 </p>
               </div>
             </div>
           </div>
 
           <div className='property-image'>
-            <img src={home.imageUrls[0]} alt='Property' />
+            <img src={order.home.imgUrl} alt='Property' />
             <div className='property-info'>
               <h4>
-                {home.type} in {home.loc.city}, {home.loc.country}
+                {homeType} in {homeCity}, {homeCountry}
               </h4>
-              <p>{home.summary.split(' ').slice(0, 10).join(' ')}...</p>
+              <p>{homeSummary.split(' ').slice(0, 10).join(' ')}...</p>
             </div>
           </div>
         </div>

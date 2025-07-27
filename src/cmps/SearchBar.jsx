@@ -246,10 +246,10 @@ export function SearchBar({ isScrolled }) {
               isOpen={openedDropdown === 'capacity'}
               onClose={() => setOpenedDropdown(null)}
               father={'search-bar'}
-              adultsFilter={adultsNum}
-              childrenFilter={childrenNum}
-              infantsFilter={infantsNum}
-              petsFilter={petsNum}
+              adultsFilter={Number(adultsNum ?? 0)}
+              childrenFilter={Number(childrenNum ?? 0)}
+              infantsFilter={Number(infantsNum ?? 0)}
+              petsFilter={Number(petsNum ?? 0)}
               setAdultsNum={setAdultsNum}
               setChildrenNum={setChildrenNum}
               setInfantsNum={setInfantsNum}

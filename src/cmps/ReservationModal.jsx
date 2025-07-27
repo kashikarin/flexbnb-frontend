@@ -183,7 +183,7 @@ console.log(order)
         </div>
       </aside>
       {isReservationModalOpen && (
-        <BuyingStepOneModal onClose={closeReservationModal} home={home} onConfirmOrder={onConfirmOrder}/>
+        <BuyingStepOneModal onClose={closeReservationModal} order={order} homePrice={home.price} homeType={home.type} homeCity={home.loc.city} homeCountry={home.loc.country} homeSummary={home.summary} onConfirmOrder={onConfirmOrder}/>
       )}
     </>
   )

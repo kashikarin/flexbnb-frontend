@@ -54,16 +54,20 @@ import { ReservationModal } from '../cmps/ReservationModal'
 import { BuyingStepOneModal } from '../cmps/BuyingStepOneModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
 import { GuestFav } from '../cmps/GuestFav'
+import { orderService } from '../services/order/order.service.local'
+import { addOrder } from '../store/order.actions'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
 export function HomeDetails() {
   const { homeId } = useParams()
+  const filterBy = useSelector(state => state.homeModule.filterBy)
   const home = useSelector((storeState) => storeState.homeModule.home)
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isLiked, setIsLiked] = useState(
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
+  const [order, setOrder] = useState(orderService.getEmptyOrder())
 
   const iconComponents = {
     MdTv,
@@ -95,10 +99,9 @@ export function HomeDetails() {
   }
 
   useEffect(() => {
-    console.log('home:', home)
-    initHome(homeId)
-    console.log('homeId:', homeId)
-  }, [homeId])
+    if (!homeId || !loggedInUser) return
+    initHome()
+  }, [homeId, loggedInUser])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -107,8 +110,10 @@ export function HomeDetails() {
   async function initHome() {
     try {
       await loadHome(homeId)
+      const initialOrderDetails = await orderService.getInitialOrderDetails(homeId, loggedInUser._id, filterBy)
+      setOrder(prevOrder => ({...prevOrder, ...initialOrderDetails})) 
     } catch (err) {
-      console.error('Cannot init home', err)
+      console.error('Cannot load data', err)
     }
   }
 
@@ -146,9 +151,17 @@ export function HomeDetails() {
     return loggedInUser.likedHomes?.includes(homeId)
   }
 
+  async function onConfirmOrder(){
+    try {
+      await addOrder(order)
+    } catch(err) {
+      console.error('Cannot complete order', err)
+    }
+  }
+
   // console.log('home:', home)
   // console.log("loggedInUser:", loggedInUser)
-
+  console.log('order:', order)
   return (
     <>
       {home && loggedInUser && (
@@ -265,7 +278,7 @@ export function HomeDetails() {
               <IoDiamond className='diamond-icon' />
               <p>Rare find! This place is usually booked</p>
             </aside>
-            <ReservationModal home={home} userId={loggedInUser._id}/>
+            {order && <ReservationModal home={home} order={order} setOrder={setOrder} onConfirmOrder={onConfirmOrder}/>}
           </section>
           <section className='google-maps'>
             <h3>Where you'll be</h3>

@@ -8,23 +8,34 @@ import { orderService } from '../services/order/order.service.local'
 import { addOrder } from '../store/order.actions'
 
 
-export function ReservationModal({ home, userId }) {
+export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
   
   const filterBy = useSelector(state => state.homeModule.filterBy)
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
   
   const [openedDropdown, setOpenedDropdown] = useState(null)
   const [dropdownWidth, setDropdownWidth] = useState(0)
-  const [order, setOrder] = useState(orderService.getEmptyOrder())
 
   const dropdownWrapperRef = useRef(null)
   const selectionRef = useRef(null)
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false)
   
-  const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0)
-  const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0)
-  const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0)
-  const [petsNum, setPetsNum] = useState(filterBy.pets ?? 0)
+  const [adultsNum, setAdultsNum] = useState(order.guests.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(order.guests.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(order.guests.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(order.guests.pets ?? 0)
+  
+
+  useEffect(()=>{
+    setAdultsNum(order.guests.adults ?? 0)
+    setChildrenNum(order.guests.children ?? 0)
+    setInfantsNum(order.guests.infants ?? 0)
+    setPetsNum(order.guests.pets ?? 0)
+  }, [filterBy, order.guests])
+
+  useEffect(()=>{
+    onUpdateGuestsDetails({adults: adultsNum, children: childrenNum, infants: infantsNum, pets: petsNum})
+  }, [adultsNum, childrenNum, infantsNum, petsNum])
 
   function openReservationModal() {
     setIsReservationModalOpen(true)
@@ -33,28 +44,6 @@ export function ReservationModal({ home, userId }) {
   function closeReservationModal() {
     setIsReservationModalOpen(false)
   }
-
-  // async function onConfirmReservation(ev){
-  //   ev.preventDefault()
-    
-  //   const startDate = strDateToTimestamp(checkinRef.current.textContent)
-  //   const endDate = strDateToTimestamp(checkoutRef.current.textContent)
-    
-  //   const order = {
-  //     homeId: home._id,
-  //     userId: userId,
-  //     startDate,
-  //     endDate,
-  //     guests: filterBy.capacity,
-  //     totalPrice: home.price * 3 * 0.14
-  //   }
-  //   try {
-  //     await addOrder(order)
-  //     openReservationModal()
-  //   } catch(err) {
-  //       console.error('Cannot complete reservation', err)
-  //   }
-  // }
 
   useEffect(() => {
     // Close dropdown when clicking outside
@@ -88,16 +77,20 @@ export function ReservationModal({ home, userId }) {
     console.log(ev)
   }
   function getGuestsNumStrToDisplay(){
-    const {adults, children, infants, pets} = filterBy
-    if (!adults && !children && !infants && !pets) return 'Add guests'
-    const guestsNum = Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0) 
+    if (!adultsNum && !childrenNum) return 'Add guests'
+    const guestsNum = Number(adultsNum ?? 0) + Number(childrenNum ?? 0) 
     return `${guestsNum} ${guestsNum > 1 ? "guests" : "guest"}`
   }
 
-  function onUpdateOrderDetails(updatedOrderDetails) {
-    setOrder(prevOrder => ({ ...prevOrder, ...updatedOrderDetails}))
-  }
+  // function onUpdateDatesDetails() {
+  //   setOrder(prevOrder => ({ ...prevOrder, ...updatedOrderDetails}))
+  // }
   
+  function onUpdateGuestsDetails(updatedGuests) {
+    setOrder(prevOrder => ({ ...prevOrder, guests: updatedGuests}))
+  }
+
+console.log(order)
   return (
     <>
       <aside className='reservation-section'>
@@ -154,10 +147,10 @@ export function ReservationModal({ home, userId }) {
                     isOpen={openedDropdown === 'capacity'}
                     onClose={() => setOpenedDropdown(null)}
                     father={'reservation-modal'}
-                    adultsFilter={adultsNum}
-                    childrenFilter={childrenNum}
-                    infantsFilter={infantsNum}
-                    petsFilter={petsNum}
+                    adultsFilter={Number(adultsNum ?? 0)}
+                    childrenFilter={Number(childrenNum ?? 0)}
+                    infantsFilter={Number(infantsNum ?? 0)}
+                    petsFilter={Number(petsNum ?? 0)}
                     setAdultsNum={setAdultsNum}
                     setChildrenNum={setChildrenNum}
                     setInfantsNum={setInfantsNum}
@@ -190,7 +183,7 @@ export function ReservationModal({ home, userId }) {
         </div>
       </aside>
       {isReservationModalOpen && (
-        <BuyingStepOneModal onClose={closeReservationModal} home={home} />
+        <BuyingStepOneModal onClose={closeReservationModal} home={home} onConfirmOrder={onConfirmOrder}/>
       )}
     </>
   )

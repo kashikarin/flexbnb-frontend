@@ -10,6 +10,8 @@ import {
   SET_FILTERORDERSBY,
 
 } from './order.reducer'
+import { homeService } from '../services/home/home.service.local'
+import { userService } from '../services/user'
 
 export async function loadOrders(filterOrdersBy) {
   try {
@@ -20,6 +22,14 @@ export async function loadOrders(filterOrdersBy) {
     throw err
   }
 }
+
+export async function initOrder(homeId, userId) {
+  try {
+
+  } catch(err) {
+    console.error
+  }
+} 
 
 export async function loadOrder(orderId) {
   try {
@@ -33,8 +43,7 @@ export async function loadOrder(orderId) {
 
 export async function addOrder(order) {
   try {
-    const newOrder = orderService.createOrder(order) 
-    const savedOrder = await orderService.save(newOrder)
+    const savedOrder = orderService.save(order)
     store.dispatch(getCmdAddOrder(savedOrder))
     return savedOrder
   } catch (err) {
@@ -42,6 +51,7 @@ export async function addOrder(order) {
         throw err
   }
 }
+
 export async function removeOrder(orderId) {
   try {
     await orderService.remove(orderId)

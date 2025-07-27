@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
-export function BuyingStepOneModal({ onClose, home, status }) {
+export function BuyingStepOneModal({ onClose, home, status, onConfirmOrder }) {
   const [currentStep, setCurrentStep] = useState(1)
-  function handleConfirm() {
+  const navigate = useNavigate()
+
+  async function handleConfirm() {
+    await onConfirmOrder()
     setCurrentStep(2)
   }
 
@@ -76,7 +80,7 @@ export function BuyingStepOneModal({ onClose, home, status }) {
         </div>
 
         <div className='modal-actions'>
-          <button className='back-btn' onClick={onClose}>
+          <button className='back-btn' onClick={currentStep === 2? navigate('/') : onClose}>
             {currentStep === 2 ? 'Close' : 'Back'}
           </button>
           {currentStep !== 2 && (

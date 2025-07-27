@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
 export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFilterBy }){
-console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
 
     const dropdownRef = useRef()
     const [cityFilterToEdit, setCityFilterToEdit] = useState({city: cityFilter || ''})
@@ -32,7 +31,6 @@ console.log("🚀 ~ WhereDropdown ~ isOpen:", isOpen)
       onClose?.()
     }
     
-    console.log(cityFilterToEdit)
     return (
       <div className="where-dropdown-wrapper" ref={dropdownRef}>
         {isOpen && (

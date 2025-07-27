@@ -11,7 +11,7 @@ export const SET_FILTERORDERSBY = 'SET_FILTERORDERSBY'
 
 
 const initialState = {
-  orders: null,
+  orders: [],
   order: null,
   filterOrdersBy: {}
 }

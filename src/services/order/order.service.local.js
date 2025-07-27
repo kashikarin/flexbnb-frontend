@@ -12,6 +12,7 @@ export const orderService = {
     save,
     remove,
     getEmptyOrder,
+    getInitialOrderDetails,
     getById,
     // createOrder,
     // initOrders
@@ -36,6 +37,7 @@ async function save(orderToSave) {
     if (orderToSave._id) {
       return await storageService.put(STORAGE_KEY, orderToSave)
     } else {
+      orderToSave.createdAt = new Date().getTime()
       return await storageService.post(STORAGE_KEY, orderToSave)
     }
   } catch(err) {
@@ -53,7 +55,35 @@ function getById(homeId) {
 }
 
 function getEmptyOrder(){
-    return {status: 'pending', msgs: [], startDate: '', endDate: '', adults: 0, children: 0, infants: 0, pets: 0}
+  return {host: {_id: '', fullname: '', imgUrl: ''},
+          guest: {_id: '', fullname: ''},
+          totalPrice: '',
+          startDate: '',
+          endDate: '',
+          guests: {adults: '', children: ''},
+          home: {_id: '', name: '', imgUrl: ''},
+          msgs: [],
+          status: 'pending'
+        }
+}
+
+
+async function getInitialOrderDetails(homeId, userId, filterBy){
+  const home = await homeService.getById(homeId)
+  const loggedInUser = await userService.getById(userId)
+  const host = {_id: home.host._id, fullname: home.host.fullname, imgUrl: home.host.imageUrl}
+  const serviceFeeRate = 0.14
+  const startDate = filterBy.startDate || randomFutureTime()
+  const endDate = filterBy.endDate || startDate + (3*86400000)
+  return {
+     host, 
+     guest: {_id: loggedInUser._id, fullname: loggedInUser.fullname},
+     totalPrice: home.price * (Math.floor((Math.max(endDate) - Math.min(startDate)) / 86400000)) * (1 + serviceFeeRate),
+     startDate,
+     endDate,
+     guests: {adults: filterBy.adults, children: filterBy.children, infants: filterBy.infants, pets: filterBy. pets},
+     home: {_id: homeId, name: home.name, imgUrl: home.imageUrls[0]}
+  }
 }
 
 function getDefaultOrderFilter() {
@@ -65,35 +95,44 @@ function getDefaultOrderFilter() {
   }
 }
 
-async function _createOrder(homeId = "", userId = "", startDate = "", endDate = "", guests = "", totalPrice = ""){
+async function _createOrder(){
     let order = {}
     const serviceFeeRate = 0.14
     order._id = makeId()
     order.status = 'pending'
     order.msgs = []
-    order.createdAt = homeId = "" ? randomPastTime() : new Date().getTime()
-    if (homeId === "") {
-        order.home._id = await homeService.getRandomHomeId() 
-        const reservedHome = await homeService.getById(order.home._id)
-        order.guests = reservedHome.capacity
-        order.home.name = reservedHome.name
-        order.home.imageUrls = reservedHome.imageUrls
-    }   
-    if (userId === "") {
-        order.host._id = await userService.getRandomUserId()
-        const host = await userService.getById(order.host._id)
-        order.host.fullname = host.fullname
-        order.host.imgUrl = host.imgUrl
-    }
-    if (startDate === "") {
-        startDate = randomFutureTime()
-        endDate = startDate + (getRandomIntInclusive(1,10) * 86400000)
-    }
-    if (totalPrice === '') {
-        const nightsCount = Math.floor((Math.max(startDate, endDate) - Math.min(startDate, endDate)) / 86400000)
-        const subTotalPrice = reservedHome.price * nightsCount
-        totalPrice = Math.round(subTotalPrice * serviceFeeRate)
-    }
+    order.host = {}
+    order.home = {}
+    order.guests = {}
+    order.guest = {}
+    order.createdAt = randomPastTime()
+    //order.home
+    order.home._id = await homeService.getRandomHomeId() 
+    const reservedHome = await homeService.getById(order.home._id)
+    order.home.name = reservedHome.name
+    order.home.imgUrl = reservedHome.imageUrls[0]
+    order.home.name = reservedHome.name
+    //order-guests
+    order.guests.adults = Math.ceil(Math.random() * getRandomIntInclusive(1, 5))
+    order.guests.children = Math.floor(Math.random() * getRandomIntInclusive(1, 4))
+    order.guests.infants = Math.floor(Math.random() * getRandomIntInclusive(1, 4))
+    order.guests.pets = Math.floor(Math.random() * getRandomIntInclusive(0, 2))
+    //order dates:
+    order.startDate = randomFutureTime()
+    order.endDate = order.startDate + (getRandomIntInclusive(1,10) * 86400000)
+    //order.totalPrice
+    const nightsCount = Math.floor((Math.max(order.startDate, order.endDate) - Math.min(order.startDate, order.endDate)) / 86400000)
+    const subTotalPrice = reservedHome.price * nightsCount
+    order.totalPrice = Math.round(subTotalPrice * serviceFeeRate)
+    //order.host
+    order.host._id = await userService.getRandomUserId()
+    const host = await userService.getById(order.host._id)
+    order.host.fullname = host.fullname
+    order.host.imgUrl = host.imgUrl
+    //order.guest
+    order.guest._id = await userService.getRandomUserId()
+    const {fullname} = await userService.getById(order.guest._id)
+    order.guest.fullname = fullname
     return order
 }
 
@@ -101,7 +140,7 @@ async function _createOrders() {
     let orders = utilService.loadFromStorage(STORAGE_KEY)
     if (!orders || !orders.length) 
         {
-            const orderPromises = Array.from({ length: 7 }, () => createOrder())
+            const orderPromises = Array.from({ length: 7 }, () => _createOrder())
             orders = await Promise.all(orderPromises)
             utilService.saveToStorage(STORAGE_KEY, orders)
         }

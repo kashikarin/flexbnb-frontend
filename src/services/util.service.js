@@ -83,7 +83,6 @@ export function randomPastTime() {
 
 export function randomFutureTime(){
   const millisecondsInADay = 86400000
-  getRandomIntInclusive(1, 365)
   return new Date().getTime() + getRandomIntInclusive(1, 365) * millisecondsInADay
 }
 

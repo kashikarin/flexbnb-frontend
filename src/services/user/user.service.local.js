@@ -99,6 +99,7 @@ async function getUserReviews(userId){
 async function getRandomUserId() {
     try {
         const users = await getUsers()
+        console.log("🚀 ~ users:", users)
         if (!users || !users?.length) return null
         const randomIdx = Math.floor(Math.random() * users?.length)
         return users[randomIdx]._id

@@ -70,7 +70,6 @@ export function SearchBar({ isScrolled }) {
     
   }, [openedDropdown])
   
-  console.log("🚀 ~ openedDropdown:", openedDropdown)
 
   function onUpdateFilterBy(filter) {
     setFilterByToEdit((prevFilterByToEdit) => ({
@@ -80,9 +79,7 @@ export function SearchBar({ isScrolled }) {
   }
 
   function handleWhereClick(btName) {
-    console.log("🚀 ~ btName:", btName)
     // Don't expand SearchBar on mobile
-    console.log("🚀 ~ scrolled:", scrolled)
     if (scrolled && !isMobile) setScrolled(false)
 
     setOpenedDropdown((curr) => (curr === btName ? null : btName))
@@ -202,7 +199,7 @@ export function SearchBar({ isScrolled }) {
               activeButton == 'capacity' ? 'active' : ''
             }`}
           >
-            <div className='sTitle'>{scrolled ? 'Add guests' : 'Who'}</div>
+            <div className='sTitle'>{getWhoTitleTxt()}</div>
             {!scrolled && (
               <input
                 className='placeholder-content'

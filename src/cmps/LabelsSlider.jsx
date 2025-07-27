@@ -164,7 +164,7 @@ export function LabelsSlider() {
 
   const scrollSlider = (direction) => {
     if (sliderRef.current) {
-      const scrollAmount = 200
+      const scrollAmount = 600
       const targetScroll =
         direction === 'left'
           ? sliderRef.current.scrollLeft - scrollAmount
@@ -246,18 +246,16 @@ export function LabelsSlider() {
 
       <div className='labels-slider-buttons-container'>
         <div className='labels-slider-btn-left'>
-          {canScrollLeft && (
-            <button
-              onClick={() => scrollSlider('left')}
-              className='labels-slider-btn left'
-              aria-label='Scroll left'
-            >
-              <img
-                src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg'
-                alt='Previous'
-              />
-            </button>
-          )}
+          <button
+            onClick={() => scrollSlider('left')}
+            className='labels-slider-btn left'
+            aria-label='Scroll left'
+          >
+            <img
+              src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg'
+              alt='Previous'
+            />
+          </button>
         </div>
         <div className='labels-slider-btn-right'>
           {canScrollRight && (

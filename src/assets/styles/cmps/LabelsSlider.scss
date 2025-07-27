@@ -61,6 +61,9 @@
         }
 
         .labels-slider-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           flex: 0 0 clamp(56px, 8vw, 128px);
           pointer-events: auto;
           position: relative;

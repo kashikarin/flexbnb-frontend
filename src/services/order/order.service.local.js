@@ -1,35 +1,44 @@
-import { homeService } from "../home/home.service.local"
-import { userService } from "../user/user.service.local"
+import { homeService } from '../home/home.service.local'
+import { userService } from '../user/user.service.local'
 import { storageService } from '../async-storage.service'
-import { getRandomIntInclusive, makeId, randomFutureTime, randomPastTime, utilService } from "../util.service"
+import {
+  getRandomIntInclusive,
+  makeId,
+  randomFutureTime,
+  randomPastTime,
+  utilService,
+} from '../util.service'
 
 const STORAGE_KEY = 'order'
 
 _createOrders()
 
 export const orderService = {
-    query,
-    save,
-    remove,
-    getEmptyOrder,
-    getInitialOrderDetails,
-    getById,
-    // createOrder,
-    // initOrders
+  query,
+  save,
+  remove,
+  getEmptyOrder,
+  getInitialOrderDetails,
+  getById,
+  updateStatus,
+  // createOrder,
+  // initOrders
 }
 
-async function query(filterOrdersBy = getDefaultOrdersFilter()){
-    try {
-        var orders = await storageService.query(STORAGE_KEY)
-        const {status, createdAt, startDate, endDate} = filterOrdersBy
-        if (status) {
-            orders = orders.filter((order) => order.status.toLowerCase().includes(status.toLowerCase()))
-        }
-        return orders
-    } catch(err) {
-        console.error('Cannot get orders', err)
-        throw err
+async function query(filterOrdersBy = getDefaultOrdersFilter()) {
+  try {
+    var orders = await storageService.query(STORAGE_KEY)
+    const { status, createdAt, startDate, endDate } = filterOrdersBy
+    if (status) {
+      orders = orders.filter((order) =>
+        order.status.toLowerCase().includes(status.toLowerCase())
+      )
     }
+    return orders
+  } catch (err) {
+    console.error('Cannot get orders', err)
+    throw err
+  }
 }
 
 async function save(orderToSave) {
@@ -40,10 +49,10 @@ async function save(orderToSave) {
       orderToSave.createdAt = new Date().getTime()
       return await storageService.post(STORAGE_KEY, orderToSave)
     }
-  } catch(err) {
-      console.error('Cannot save order', err)
-      throw err
-  }  
+  } catch (err) {
+    console.error('Cannot save order', err)
+    throw err
+  }
 }
 
 async function remove(orderId) {
@@ -54,35 +63,47 @@ function getById(homeId) {
   return storageService.get(STORAGE_KEY, homeId)
 }
 
-function getEmptyOrder(){
-  return {host: {_id: '', fullname: '', imgUrl: ''},
-          guest: {_id: '', fullname: ''},
-          totalPrice: '',
-          startDate: '',
-          endDate: '',
-          guests: {adults: '', children: ''},
-          home: {_id: '', name: '', imgUrl: ''},
-          msgs: [],
-          status: 'pending'
-        }
+function getEmptyOrder() {
+  return {
+    host: { _id: '', fullname: '', imgUrl: '' },
+    guest: { _id: '', fullname: '' },
+    totalPrice: '',
+    startDate: '',
+    endDate: '',
+    guests: { adults: '', children: '' },
+    home: { _id: '', name: '', imgUrl: '' },
+    msgs: [],
+    status: 'pending',
+  }
 }
 
-
-async function getInitialOrderDetails(homeId, userId, filterBy){
+async function getInitialOrderDetails(homeId, userId, filterBy) {
   const home = await homeService.getById(homeId)
   const loggedInUser = await userService.getById(userId)
-  const host = {_id: home.host._id, fullname: home.host.fullname, imgUrl: home.host.imageUrl}
+  const host = {
+    _id: home.host._id,
+    fullname: home.host.fullname,
+    imgUrl: home.host.imageUrl,
+  }
   const serviceFeeRate = 0.14
   const startDate = filterBy.startDate || randomFutureTime()
-  const endDate = filterBy.endDate || startDate + (3*86400000)
+  const endDate = filterBy.endDate || startDate + 3 * 86400000
   return {
-     host, 
-     guest: {_id: loggedInUser._id, fullname: loggedInUser.fullname},
-     totalPrice: home.price * (Math.floor((Math.max(endDate) - Math.min(startDate)) / 86400000)) * (1 + serviceFeeRate),
-     startDate,
-     endDate,
-     guests: {adults: filterBy.adults, children: filterBy.children, infants: filterBy.infants, pets: filterBy. pets},
-     home: {_id: homeId, name: home.name, imgUrl: home.imageUrls[0]}
+    host,
+    guest: { _id: loggedInUser._id, fullname: loggedInUser.fullname },
+    totalPrice:
+      home.price *
+      Math.floor((Math.max(endDate) - Math.min(startDate)) / 86400000) *
+      (1 + serviceFeeRate),
+    startDate,
+    endDate,
+    guests: {
+      adults: filterBy.adults,
+      children: filterBy.children,
+      infants: filterBy.infants,
+      pets: filterBy.pets,
+    },
+    home: { _id: homeId, name: home.name, imgUrl: home.imageUrls[0] },
   }
 }
 
@@ -91,62 +112,77 @@ function getDefaultOrderFilter() {
     status: '',
     createdAt: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
   }
 }
 
-async function _createOrder(){
-    let order = {}
-    const serviceFeeRate = 0.14
-    order._id = makeId()
-    order.status = 'pending'
-    order.msgs = []
-    order.host = {}
-    order.home = {}
-    order.guests = {}
-    order.guest = {}
-    order.createdAt = randomPastTime()
-    //order.home
-    order.home._id = await homeService.getRandomHomeId() 
-    const reservedHome = await homeService.getById(order.home._id)
-    order.home.name = reservedHome.name
-    order.home.imgUrl = reservedHome.imageUrls[0]
-    order.home.name = reservedHome.name
-    //order-guests
-    order.guests.adults = Math.ceil(Math.random() * getRandomIntInclusive(1, 5))
-    order.guests.children = Math.floor(Math.random() * getRandomIntInclusive(1, 4))
-    order.guests.infants = Math.floor(Math.random() * getRandomIntInclusive(1, 4))
-    order.guests.pets = Math.floor(Math.random() * getRandomIntInclusive(0, 2))
-    //order dates:
-    order.startDate = randomFutureTime()
-    order.endDate = order.startDate + (getRandomIntInclusive(1,10) * 86400000)
-    //order.totalPrice
-    const nightsCount = Math.floor((Math.max(order.startDate, order.endDate) - Math.min(order.startDate, order.endDate)) / 86400000)
-    const subTotalPrice = reservedHome.price * nightsCount
-    order.totalPrice = Math.round(subTotalPrice * serviceFeeRate)
-    //order.host
-    order.host._id = await userService.getRandomUserId()
-    const host = await userService.getById(order.host._id)
-    order.host.fullname = host.fullname
-    order.host.imgUrl = host.imgUrl
-    //order.guest
-    order.guest._id = await userService.getRandomUserId()
-    const {fullname} = await userService.getById(order.guest._id)
-    order.guest.fullname = fullname
-    return order
+async function _createOrder() {
+  let order = {}
+  const serviceFeeRate = 0.14
+  order._id = makeId()
+  order.status = 'pending'
+  order.msgs = []
+  order.host = {}
+  order.home = {}
+  order.guests = {}
+  order.guest = {}
+  order.createdAt = randomPastTime()
+  //order.home
+  order.home._id = await homeService.getRandomHomeId()
+  const reservedHome = await homeService.getById(order.home._id)
+  order.home.name = reservedHome.name
+  order.home.imgUrl = reservedHome.imageUrls[0]
+  order.home.name = reservedHome.name
+  //order-guests
+  order.guests.adults = Math.ceil(Math.random() * getRandomIntInclusive(1, 5))
+  order.guests.children = Math.floor(
+    Math.random() * getRandomIntInclusive(1, 4)
+  )
+  order.guests.infants = Math.floor(Math.random() * getRandomIntInclusive(1, 4))
+  order.guests.pets = Math.floor(Math.random() * getRandomIntInclusive(0, 2))
+  //order dates:
+  order.startDate = randomFutureTime()
+  order.endDate = order.startDate + getRandomIntInclusive(1, 10) * 86400000
+  //order.totalPrice
+  const nightsCount = Math.floor(
+    (Math.max(order.startDate, order.endDate) -
+      Math.min(order.startDate, order.endDate)) /
+      86400000
+  )
+  const subTotalPrice = reservedHome.price * nightsCount
+  order.totalPrice = Math.round(subTotalPrice * serviceFeeRate)
+  //order.host
+  order.host._id = await userService.getRandomUserId()
+  const host = await userService.getById(order.host._id)
+  order.host.fullname = host.fullname
+  order.host.imgUrl = host.imgUrl
+  //order.guest
+  order.guest._id = await userService.getRandomUserId()
+  const { fullname } = await userService.getById(order.guest._id)
+  order.guest.fullname = fullname
+  return order
 }
 
 async function _createOrders() {
-    let orders = utilService.loadFromStorage(STORAGE_KEY)
-    if (!orders || !orders.length) 
-        {
-            const orderPromises = Array.from({ length: 7 }, () => _createOrder())
-            orders = await Promise.all(orderPromises)
-            utilService.saveToStorage(STORAGE_KEY, orders)
-        }
+  let orders = utilService.loadFromStorage(STORAGE_KEY)
+  if (!orders || !orders.length) {
+    const orderPromises = Array.from({ length: 7 }, () => _createOrder())
+    orders = await Promise.all(orderPromises)
+    utilService.saveToStorage(STORAGE_KEY, orders)
+  }
 }
-
-
+async function updateStatus(orderId, status) {
+  try {
+    const order = await storageService.get(STORAGE_KEY, orderId)
+    if (!order) throw new Error('Order not found')
+    order.status = status
+    await storageService.put(STORAGE_KEY, order)
+    return order
+  } catch (err) {
+    console.error('Cannot update order status', err)
+    throw err
+  }
+}
 
 // const orders = [
 // 	{

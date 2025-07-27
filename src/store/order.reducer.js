@@ -1,4 +1,4 @@
-import { store } from "./store"
+import { store } from './store'
 
 export const SET_ORDERS = 'SET_ORDERS'
 export const SET_ORDER = 'SET_ORDER'
@@ -7,13 +7,10 @@ export const ADD_ORDER = 'ADD_ORDER'
 export const UPDATE_ORDER = 'UPDATE_ORDER'
 export const SET_FILTERORDERSBY = 'SET_FILTERORDERSBY'
 
-
-
-
 const initialState = {
   orders: [],
   order: null,
-  filterOrdersBy: {}
+  filterOrdersBy: {},
 }
 
 export function orderReducer(state = initialState, action) {
@@ -35,12 +32,12 @@ export function orderReducer(state = initialState, action) {
     case ADD_ORDER:
       newState = { ...state, orders: [...state.orders, action.order] }
       break
-    // case UPDATE_ORDER:
-    //   homes = state.homes.map((home) =>
-    //     home._id === action.home._id ? action.home : home
-    //   )
-    //   newState = { ...state, homes }
-    //   break
+    case UPDATE_ORDER:
+      const updatedOrders = state.orders.map((order) =>
+        order._id === action.order._id ? action.order : order
+      )
+      newState = { ...state, orders: updatedOrders }
+      break
     // case ADD_HOME_MSG:
     //   newState = {
     //     ...state,
@@ -53,7 +50,7 @@ export function orderReducer(state = initialState, action) {
         filterOrdersBy: { ...state.filterOrdersBy, ...action.filterOrdersBy },
       }
       break
-    
+
     default:
   }
   return newState

@@ -17,7 +17,6 @@ export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   const orders = useSelector((state) => state.orderModule.orders)
-  console.log('🚀 ~ AppHeader ~ orders:', orders)
 
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)

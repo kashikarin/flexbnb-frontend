@@ -1,8 +1,6 @@
 import { FaStar } from 'react-icons/fa'
 import { getAvgRating } from '../services/util.service'
 export function GuestFav({ home }) {
-  console.log(home)
-
   const rating = getAvgRating(home) || 0
   const reviewsCount = home?.reviews?.length || 0
   const fullStars = Math.floor(rating)

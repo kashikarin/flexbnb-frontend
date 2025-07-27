@@ -6,9 +6,8 @@ import {
   SET_ORDERS,
   SET_ORDER,
   UPDATE_ORDER,
-//   ADD_ORDER_MSG,
+  //   ADD_ORDER_MSG,
   SET_FILTERORDERSBY,
-
 } from './order.reducer'
 import { homeService } from '../services/home/home.service.local'
 import { userService } from '../services/user'
@@ -25,30 +24,29 @@ export async function loadOrders(filterOrdersBy) {
 
 export async function initOrder(homeId, userId) {
   try {
-
-  } catch(err) {
+  } catch (err) {
     console.error
   }
-} 
+}
 
 export async function loadOrder(orderId) {
   try {
     const order = await orderService.getById(orderId)
     store.dispatch(getCmdSetOrder(order))
   } catch (err) {
-        console.error('Cannot load order', err)
-        throw err
+    console.error('Cannot load order', err)
+    throw err
   }
 }
 
 export async function addOrder(order) {
   try {
-    const savedOrder = orderService.save(order)
+    const savedOrder = await orderService.save(order)
     store.dispatch(getCmdAddOrder(savedOrder))
     return savedOrder
   } catch (err) {
-        console.error('Cannot add order', err)
-        throw err
+    console.error('Cannot add order', err)
+    throw err
   }
 }
 
@@ -57,11 +55,10 @@ export async function removeOrder(orderId) {
     await orderService.remove(orderId)
     store.dispatch(getCmdRemoveOrder(orderId))
   } catch (err) {
-        console.error('Cannot remove order', err)
-        throw err
+    console.error('Cannot remove order', err)
+    throw err
   }
 }
-
 
 export async function updateOrder(order) {
   try {
@@ -69,8 +66,8 @@ export async function updateOrder(order) {
     store.dispatch(getCmdUpdateOrder(savedOrder))
     return savedOrder
   } catch (err) {
-        console.error('Cannot save order', err)
-        throw err
+    console.error('Cannot save order', err)
+    throw err
   }
 }
 

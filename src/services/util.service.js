@@ -81,9 +81,11 @@ export function randomPastTime() {
   return Date.now() - pastTime
 }
 
-export function randomFutureTime(){
+export function randomFutureTime() {
   const millisecondsInADay = 86400000
-  return new Date().getTime() + getRandomIntInclusive(1, 365) * millisecondsInADay
+  return (
+    new Date().getTime() + getRandomIntInclusive(1, 365) * millisecondsInADay
+  )
 }
 
 export function debounce(func, timeout = 300) {
@@ -132,16 +134,15 @@ export function roundToDecimals(num, decimals = 2) {
 }
 
 export function getStayDatesStr() {
-    const today = new Date()
-    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1)
-    const shortStrThisMonth = today.toLocaleString('en-US', { month: 'short' })
-    const shortStrNextMonth = nextMonth.toLocaleString('en-US', {
-      month: 'short',
-    })
-    return today.getDate() < 26 && today.getMonth !== 1 ?
-        `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
-      : 
-        `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
+  const today = new Date()
+  const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1)
+  const shortStrThisMonth = today.toLocaleString('en-US', { month: 'short' })
+  const shortStrNextMonth = nextMonth.toLocaleString('en-US', {
+    month: 'short',
+  })
+  return today.getDate() < 26 && today.getMonth !== 1
+    ? `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
+    : `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
 }
 
 export function getRandom3NightsStayDatesStr() {
@@ -153,13 +154,13 @@ export function getRandom3NightsStayDatesStr() {
   let startDay, endDay, month
 
   if (currentDate > 26 || currentMonth === 1) {
-      month = currentMonth + 1
-      startDay = 1
-      endDay = 4
+    month = currentMonth + 1
+    startDay = 1
+    endDay = 4
   } else {
-      month = currentMonth
-      startDay = currentDate + 1
-      endDay = currentDate + 4
+    month = currentMonth
+    startDay = currentDate + 1
+    endDay = currentDate + 4
   }
 
   const startDateObj = new Date(year, month, startDay)
@@ -174,20 +175,20 @@ export function getRandom3NightsStayDatesStr() {
   }
 }
 
-export function strDateToTimestamp(strDate){
-    const [day, month, year] = strDate.split('/').map(Number)
-    return new Date(year, month - 1, day).getTime()
+export function strDateToTimestamp(strDate) {
+  const [day, month, year] = strDate.split('/').map(Number)
+  return new Date(year, month - 1, day).getTime()
 }
 
 export function getNightsCount(startStr, endStr) {
-    const [startDay, startMonth, startYear] = startStr.split('/').map(Number)
-    const [endDay, endMonth, endYear] = endStr.split('/').map(Number)
+  const [startDay, startMonth, startYear] = startStr.split('/').map(Number)
+  const [endDay, endMonth, endYear] = endStr.split('/').map(Number)
 
-    const startDate = new Date(startYear, startMonth - 1, startDay) 
-    const endDate = new Date(endYear, endMonth - 1, endDay)
+  const startDate = new Date(startYear, startMonth - 1, startDay)
+  const endDate = new Date(endYear, endMonth - 1, endDay)
 
-    const millisecondsPerDay = 1000 * 60 * 60 * 24
-    const diffInMs = endDate - startDate
+  const millisecondsPerDay = 1000 * 60 * 60 * 24
+  const diffInMs = endDate - startDate
 
-    return Math.round(diffInMs / millisecondsPerDay)
-  }
+  return Math.round(diffInMs / millisecondsPerDay)
+}

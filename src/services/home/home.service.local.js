@@ -337,7 +337,7 @@ const gLocs = [
     country: 'Israel',
     countryCode: 'IL',
     city: 'Tel Aviv-Yafo',
-    lat: 32.092983923188854, 
+    lat: 32.092983923188854,
     lng: 34.80936063667095,
     address: 'HaMarganit St, Ramat Gan 5253527, Israel',
   },
@@ -563,10 +563,10 @@ async function save(homeToSave) {
     } else {
       return await storageService.post(STORAGE_KEY, homeToSave)
     }
-  } catch(err) {
-      console.error('Cannot save home', err)
-      throw err
-  }  
+  } catch (err) {
+    console.error('Cannot save home', err)
+    throw err
+  }
 }
 
 function getEmptyHome(name = '', labels = [], amenities = []) {
@@ -625,15 +625,15 @@ async function addHomeMsg(homeId, txt) {
 }
 
 async function getRandomHomeId() {
-    try {
-        const homes = await query()
-        if (!homes || !homes?.length) return null
-        const randomIdx = Math.floor(Math.random() * homes?.length)
-        return homes[randomIdx]._id
-    } catch(err) {
-        console.error('Oops', err)
-        throw err
-    }
+  try {
+    const homes = await query()
+    if (!homes || !homes?.length) return null
+    const randomIdx = Math.floor(Math.random() * homes?.length)
+    return homes[randomIdx]._id
+  } catch (err) {
+    console.error('Oops', err)
+    throw err
+  }
 }
 
 function _getImageUrl() {
@@ -646,14 +646,14 @@ function _getImageUrl() {
 }
 
 function getCountry(city) {
-  switch(city) {
+  switch (city) {
     case 'Tel Aviv-Yafo':
       return 'Israel'
     case 'Barcelona':
       return 'Spain'
     case 'London':
       return 'United Kingdom'
-    default: 
+    default:
       return
   }
 }
@@ -672,7 +672,7 @@ async function getAverageReviewRate(homeId) {
 }
 function _createHome() {
   let city = gCities[getRandomIntInclusive(0, gCities.length - 1)]
-  let name = makeLorem(15)
+  let name = makeLorem(3)
   const home = getEmptyHome(name, city)
   home._id = makeId()
   home.type = gHomeTypes[getRandomIntInclusive(0, gHomeTypes.length - 1)]
@@ -715,7 +715,7 @@ function _createHome() {
   for (let i = 0; i < reviewsCount; i++) {
     let id = makeId()
     let txt = makeLorem(getRandomIntInclusive(10, 30))
-    let rate = getRandomIntInclusive(0, 5)
+    let rate = getRandomIntInclusive(3, 5)
     let by = {
       _id: 'u101',
       fullname: 'Justin Time',

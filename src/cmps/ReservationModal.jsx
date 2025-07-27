@@ -3,44 +3,50 @@ import { ReactSVG } from 'react-svg'
 import { CapacityDropdown } from './CapacityDropdown'
 import { BuyingStepOneModal } from './BuyingStepOneModal'
 import { useSelector } from 'react-redux'
-import {getRandom3NightsStayDatesStr, getNightsCount, strDateToTimestamp} from '../services/util.service'
+import {
+  getRandom3NightsStayDatesStr,
+  getNightsCount,
+  strDateToTimestamp,
+} from '../services/util.service'
 import { orderService } from '../services/order/order.service.local'
 import { addOrder } from '../store/order.actions'
 
-
 export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
-  
-  const filterBy = useSelector(state => state.homeModule.filterBy)
-  const loggedInUser = useSelector(state => state.userModule.loggedInUser)
-  
+  const filterBy = useSelector((state) => state.homeModule.filterBy)
+  const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
+
   const [openedDropdown, setOpenedDropdown] = useState(null)
   const [dropdownWidth, setDropdownWidth] = useState(0)
 
   const dropdownWrapperRef = useRef(null)
   const selectionRef = useRef(null)
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false)
-  
+
   const [adultsNum, setAdultsNum] = useState(order.guests.adults ?? 0)
   const [childrenNum, setChildrenNum] = useState(order.guests.children ?? 0)
   const [infantsNum, setInfantsNum] = useState(order.guests.infants ?? 0)
   const [petsNum, setPetsNum] = useState(order.guests.pets ?? 0)
-  
 
-  useEffect(()=>{
+  useEffect(() => {
     setAdultsNum(order.guests.adults ?? 0)
     setChildrenNum(order.guests.children ?? 0)
     setInfantsNum(order.guests.infants ?? 0)
     setPetsNum(order.guests.pets ?? 0)
   }, [filterBy, order.guests])
 
-  useEffect(()=>{
-    onUpdateGuestsDetails({adults: adultsNum, children: childrenNum, infants: infantsNum, pets: petsNum})
+  useEffect(() => {
+    onUpdateGuestsDetails({
+      adults: adultsNum,
+      children: childrenNum,
+      infants: infantsNum,
+      pets: petsNum,
+    })
   }, [adultsNum, childrenNum, infantsNum, petsNum])
 
   function openReservationModal() {
     setIsReservationModalOpen(true)
   }
-  
+
   function closeReservationModal() {
     setIsReservationModalOpen(false)
   }
@@ -72,25 +78,25 @@ export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
     setOpenedDropdown(openedDropdown === 'capacity' ? null : 'capacity')
   }
 
-  function handleChange(ev){
+  function handleChange(ev) {
     // let { name: field, value } = target
-    console.log(ev)
+    // console.log(ev)
   }
-  function getGuestsNumStrToDisplay(){
+  function getGuestsNumStrToDisplay() {
     if (!adultsNum && !childrenNum) return 'Add guests'
-    const guestsNum = Number(adultsNum ?? 0) + Number(childrenNum ?? 0) 
-    return `${guestsNum} ${guestsNum > 1 ? "guests" : "guest"}`
+    const guestsNum = Number(adultsNum ?? 0) + Number(childrenNum ?? 0)
+    return `${guestsNum} ${guestsNum > 1 ? 'guests' : 'guest'}`
   }
 
   // function onUpdateDatesDetails() {
   //   setOrder(prevOrder => ({ ...prevOrder, ...updatedOrderDetails}))
   // }
-  
+
   function onUpdateGuestsDetails(updatedGuests) {
-    setOrder(prevOrder => ({ ...prevOrder, guests: updatedGuests}))
+    setOrder((prevOrder) => ({ ...prevOrder, guests: updatedGuests }))
   }
 
-console.log(order)
+  // console.log(order)
   return (
     <>
       <aside className='reservation-section'>
@@ -105,15 +111,13 @@ console.log(order)
             <div className='reservation-selection' ref={selectionRef}>
               <div className='reservation-selection-date-checkin'>
                 <div>CHECK-IN</div>
-                <div>{getRandom3NightsStayDatesStr().startDate}</div> {/*filterBy.startDate || 'Add date'*/}
-              </div> 
+                <div>{getRandom3NightsStayDatesStr().startDate}</div>{' '}
+                {/*filterBy.startDate || 'Add date'*/}
+              </div>
               <div className='reservation-selection-date-checkout'>
                 <div>CHECK-OUT</div>
-                <div 
-                  name='endDate'
-                  onChange={handleChange}
-                >
-                    {getRandom3NightsStayDatesStr().endDate}
+                <div name='endDate' onChange={handleChange}>
+                  {getRandom3NightsStayDatesStr().endDate}
                 </div>
               </div>
               <div
@@ -137,12 +141,17 @@ console.log(order)
                         justifyContent: 'space-between',
                       }}
                     >
-                      <div style={{ fontSize: '14px' }} onChange={handleChange}>{getGuestsNumStrToDisplay()}</div>
+                      <div style={{ fontSize: '14px' }} onChange={handleChange}>
+                        {getGuestsNumStrToDisplay()}
+                      </div>
                       <ReactSVG src='/svgs/arrow-down.svg' />
                     </div>
                   </div>
                 </div>
-                <div ref={dropdownWrapperRef} className="reservation-modal-capacity-dropdown-wrapper">
+                <div
+                  ref={dropdownWrapperRef}
+                  className='reservation-modal-capacity-dropdown-wrapper'
+                >
                   <CapacityDropdown
                     isOpen={openedDropdown === 'capacity'}
                     onClose={() => setOpenedDropdown(null)}
@@ -171,11 +180,11 @@ console.log(order)
                 </div>
                 <div className='reservation-summary-row service-fee'>
                   <span>Flexbnb service fee</span>
-                  <span>${(home.price * 3) * 0.14}</span>
+                  <span>${home.price * 3 * 0.14}</span>
                 </div>
                 <div className='reservation-summary-row total'>
                   <span>Total</span>
-                  <span>${(home.price * 3) * 0.14}</span>
+                  <span>${home.price * 3 * 0.14}</span>
                 </div>
               </div>
             </div>
@@ -183,7 +192,16 @@ console.log(order)
         </div>
       </aside>
       {isReservationModalOpen && (
-        <BuyingStepOneModal onClose={closeReservationModal} order={order} homePrice={home.price} homeType={home.type} homeCity={home.loc.city} homeCountry={home.loc.country} homeSummary={home.summary} onConfirmOrder={onConfirmOrder}/>
+        <BuyingStepOneModal
+          onClose={closeReservationModal}
+          order={order}
+          homePrice={home.price}
+          homeType={home.type}
+          homeCity={home.loc.city}
+          homeCountry={home.loc.country}
+          homeSummary={home.summary}
+          onConfirmOrder={onConfirmOrder}
+        />
       )}
     </>
   )

@@ -1,7 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCity, homeCountry, homeSummary, onConfirmOrder }) {
+export function BuyingStepOneModal({
+  onClose,
+  order,
+  homePrice,
+  homeType,
+  homeCity,
+  homeCountry,
+  homeSummary,
+  onConfirmOrder,
+}) {
   const [currentStep, setCurrentStep] = useState(1)
   const navigate = useNavigate()
 
@@ -10,7 +19,8 @@ export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCi
     setCurrentStep(2)
   }
   const stayNightsNum = Math.floor((order.endDate - order.startDate) / 86400000)
-  const guestsNum = Number(order.guests.adults ?? 0) + Number(order.guests.children ?? 0)
+  const guestsNum =
+    Number(order.guests.adults ?? 0) + Number(order.guests.children ?? 0)
   const serviceFeeRate = 0.14
 
   return (
@@ -34,8 +44,8 @@ export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCi
           <div className='reservation-info'>
             <div className='reservation-date-guest'>
               <h3>
-                {currentStep === 2 ?
-                  'Reservation successfully'
+                {currentStep === 2
+                  ? 'Reservation successfully'
                   : 'Reservation details'}
               </h3>
               <p>
@@ -44,7 +54,9 @@ export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCi
               </p>
               <p>
                 <span>Guests:</span>
-                <span>{`${guestsNum} ${guestsNum > 1? 'guests' : 'guest'}`}</span>
+                <span>{`${guestsNum} ${
+                  guestsNum > 1 ? 'guests' : 'guest'
+                }`}</span>
               </p>
             </div>
 
@@ -52,7 +64,9 @@ export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCi
               <h3>Price Details</h3>
               <div className='price-amount'>
                 <p>
-                  <span>{`${homePrice} x ${stayNightsNum} ${stayNightsNum > 1 ? 'nights' : 'night'}`}</span>
+                  <span>{`${homePrice} x ${stayNightsNum} ${
+                    stayNightsNum > 1 ? 'nights' : 'night'
+                  }`}</span>
                   <span>${homePrice * stayNightsNum}</span>
                 </p>
               </div>
@@ -65,7 +79,9 @@ export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCi
               <div className='total'>
                 <p>
                   <span>Total</span>
-                  <span>{homePrice * stayNightsNum * (1 + serviceFeeRate)}</span>
+                  <span>
+                    {homePrice * stayNightsNum * (1 + serviceFeeRate)}
+                  </span>
                 </p>
               </div>
             </div>
@@ -83,7 +99,13 @@ export function BuyingStepOneModal({ onClose, order, homePrice, homeType, homeCi
         </div>
 
         <div className='modal-actions'>
-          <button className='back-btn' onClick={currentStep === 2? navigate('/') : onClose}>
+          <button
+            className='back-btn'
+            onClick={() => {
+              if (currentStep === 2) navigate('/')
+              else setCurrentStep(currentStep - 1)
+            }}
+          >
             {currentStep === 2 ? 'Close' : 'Back'}
           </button>
           {currentStep !== 2 && (

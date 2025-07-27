@@ -1,3 +1,13 @@
+export async function updateOrderStatus(orderId, status) {
+  try {
+    const updatedOrder = await orderService.updateStatus(orderId, status)
+    store.dispatch(getCmdUpdateOrder(updatedOrder))
+    return updatedOrder
+  } catch (err) {
+    console.error('Cannot update order status', err)
+    throw err
+  }
+}
 import { orderService } from '../services/order/order.service.local'
 import { store } from './store'
 import {

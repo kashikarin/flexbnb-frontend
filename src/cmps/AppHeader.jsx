@@ -32,6 +32,12 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+  
+  useEffect(() => {
     ;(async function initAndLoadData() {
       try {
         await initUsers()

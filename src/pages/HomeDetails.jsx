@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { ReactSVG } from 'react-svg'
@@ -56,6 +56,7 @@ import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
 import { GuestFav } from '../cmps/GuestFav'
 import { orderService } from '../services/order/order.service.local'
 import { addOrder } from '../store/order.actions'
+import { ScrollContext } from '../context/ScrollContext'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -68,7 +69,8 @@ export function HomeDetails() {
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
   const [order, setOrder] = useState(orderService.getEmptyOrder())
-
+  const breakPointRef = useRef()
+  const { setIsScrolledPast } = useContext(ScrollContext)
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -102,6 +104,18 @@ export function HomeDetails() {
     if (!homeId || !loggedInUser) return
     initHome()
   }, [homeId, loggedInUser])
+
+  useEffect(()=>{
+    if (!breakPointRef.current) return
+    const observer = new IntersectionObserver((entries)=>{
+      const entry = entries[0]
+      console.log("🚀 ~ entry:", entry)
+      setIsScrolledPast(!entry.isIntersecting)
+      
+    })
+    observer.observe(breakPointRef.current)
+    return () => observer.unobserve(breakPointRef.current)
+  }, [setIsScrolledPast])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -190,7 +204,7 @@ export function HomeDetails() {
               )
             })}
           </div>
-          <section className='mid-section'>
+          <section className='mid-section' ref={breakPointRef}>
             <div className='home-details-mid'>
               <div
                 className='home-details-amenities'

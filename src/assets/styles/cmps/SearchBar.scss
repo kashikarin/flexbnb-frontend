@@ -105,6 +105,10 @@
     background-color: transparent;
     transition: font-size 0.3s ease, opacity 0.3s ease;
 
+    .placeholder-content.scrolled {
+      font-weight: 500;
+    }
+
     &:focus {
       outline: none;
     }

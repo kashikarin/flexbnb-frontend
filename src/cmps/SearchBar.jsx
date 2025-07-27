@@ -4,6 +4,7 @@ import { ReactSVG } from 'react-svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { CapacityDropdown } from './CapacityDropdown.jsx'
 import { SET_FILTERBY } from '../store/home.reducer.js'
+import { homeService } from '../services/home/home.service.local.js'
 
 export function SearchBar({ isScrolled }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
@@ -15,6 +16,7 @@ export function SearchBar({ isScrolled }) {
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
   const searchBarRef = useRef()
   const dropdownRef = useRef()
+
   const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0)
   const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0)
   const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0)
@@ -57,8 +59,7 @@ export function SearchBar({ isScrolled }) {
     // Close dropdown when clicking outside
     function handleClickOutside(event) {
       if (openedDropdown && 
-          searchBarRef.current &&
-          !searchBarRef.current.contains(event.target) && 
+          // !searchBarRef.current.contains(event.target) && 
           dropdownRef.current &&
           !dropdownRef.current.contains(event.target)
         ){
@@ -67,7 +68,6 @@ export function SearchBar({ isScrolled }) {
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-    
   }, [openedDropdown])
   
   console.log("🚀 ~ openedDropdown:", openedDropdown)
@@ -108,27 +108,58 @@ export function SearchBar({ isScrolled }) {
     return `${guestsNum} ${guestsNum > 1 ? 'guests' : 'guest'}`
   }
 
-  function getWhereTitleTxt() {
-    if (scrolled) {
-      return filterByToEdit.city ? filterByToEdit.city : 'Where'
-    } else {
-      return 'Where'
-    }
-  }
-
   function getWhoTitleTxt() {
     if (scrolled) {
-      const {adults, children, infants} = filterByToEdit
-      const guestsNum = Number(adults ?? 0) + 
-                        Number(children ?? 0) + 
-                        Number(infants ?? 0)  
-      return guestsNum ? getGuestsNumStrToDisplay() : 'Who'
+        const {adults, children, infants} = filterByToEdit
+        const guestsNum = Number(adults ?? 0) + 
+                          Number(children ?? 0) + 
+                          Number(infants ?? 0)  
+        return capacity ? getGuestsNumStrToDisplay() : 'Add guests'
     } else {
-      return 'Who'
+        return 'Who'
     }
   }
 
-  console.log(filterByToEdit)
+  function getWhereTitleText() {
+    let txt
+    if (scrolled) {
+        txt = filterByToEdit.city ? `Homes in ${filterBy.city}` : 'Anywhere'
+    } else {
+        txt = 'Where'
+        // filterByToEdit.city ? `${filterByToEdit.city}, ${homeService.getCountry(filterByToEdit.city)}` : 'Where'
+    }
+    return txt
+  }
+
+  function getCheckinTitleText() {
+    let txt 
+    if (scrolled) {
+      if (filterByToEdit.startDate) { //scroll + there is startdate
+          const checkinDate = new Date(filterByToEdit.startDate)
+          const checkoutDate = filterByToEdit.endDate ? new Date(filterByToEdit.endDate) : new Date(filterByToEdit.startDate + 86400000)
+          const options = {month: 'short', day: 'numeric'}
+          const shortCheckinDate = new Intl.DateTimeFormat('en-US', options).format(checkinDate)
+          const shortCheckoutDate = (checkinDate.getMonth() === checkoutDate.getMonth()) ? checkoutDate.getDate() : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+          txt = shortCheckinDate + shortCheckoutDate      
+      } else if (filterByToEdit.endDate) { //scroll + there is not startdate but there is end date
+          const checkoutDate = new Date(filterByToEdit.startDate)
+          const checkinDate = new Date(filterByToEdit.endDate - 86400000)
+          const options = {month: 'short', day: 'numeric'}
+          const shortCheckinDate = new Intl.DateTimeFormat('en-US', options).format(checkinDate)
+          const shortCheckoutDate = (checkinDate.getMonth() === checkoutDate.getMonth()) ? checkoutDate.getDate() : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+          txt = shortCheckinDate + shortCheckoutDate      
+      } else txt = 'Anytime' //scroll + no dates
+    } else txt = 'Check in'         
+  }
+    
+  function getCheckoutTitleText(){
+    let textContent
+    if (!scrolled) {
+      if (filterByToEdit.endDate) {
+
+      }
+    }
+  }
   return (
     <search className=''>
       {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
@@ -145,16 +176,16 @@ export function SearchBar({ isScrolled }) {
               activeButton == 'where' ? 'active' : ''
             }`}
           >
-            <div className='sTitle'>{scrolled ? 'Anywhere' : 'Where'}</div>
-            {!scrolled && (
-              <input
-                className='placeholder-content'
+            <div className='sTitle'>{getWhereTitleText()}</div>
+            {!scrolled && (<input
+                className={`placeholder-content ${scrolled ? 'scrolled' : ''}`}
                 onChange={onInputChange}
                 type='search'
                 placeholder='Search destination'
-                value={filterByToEdit.city}
-              ></input>
-            )}
+                value={filterByToEdit.city? filterByToEdit.city + ', ' + homeService.getCountry(filterByToEdit.city)
+                  :
+                  undefined}
+              />)}
             <WhereDropdown
               isOpen={openedDropdown === 'where'}
               onOpen={() => setOpenedDropdown('where')}
@@ -170,13 +201,14 @@ export function SearchBar({ isScrolled }) {
               activeButton == 'Check in' ? 'active' : ''
             }`}
           >
-            <div className='sTitle'>{scrolled ? 'Anytime' : 'Check in'}</div>
+            <div className='sTitle'>{getCheckinTitleText()}</div>
             {!scrolled && (
               <input
                 className='placeholder-content'
                 type='search'
                 placeholder='Add dates'
-              ></input>
+                value={filterByToEdit.startDate}
+              />
             )}
           </div>
           <div className='sep'></div>
@@ -187,11 +219,12 @@ export function SearchBar({ isScrolled }) {
                 activeButton == 'Check out' ? 'active' : ''
               }`}
             >
-              <div className='sTitle'>Check out</div>
+              <div className='sTitle'>{getCheckoutTitleText()}</div>
               <input
                 className='placeholder-content'
                 type='search'
                 placeholder='Add dates'
+                value={filterByToEdit.endDate}
               ></input>
             </div>
           )}
@@ -211,7 +244,6 @@ export function SearchBar({ isScrolled }) {
                 value={`${capacity} ${capacity > 1 ? 'guests' : 'guest'}`}
               />
             )}
-            {openedDropdown === 'capacity' && (
             <div ref={dropdownRef}>
               <CapacityDropdown
               isOpen={openedDropdown === 'capacity'}
@@ -228,7 +260,7 @@ export function SearchBar({ isScrolled }) {
               homeCapacity={undefined}
               petsAllowed={undefined}
             />
-            </div>)}
+            </div>
             <div className='search-btn-section'>
               <button
                 className='search-button'

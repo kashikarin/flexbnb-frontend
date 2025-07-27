@@ -73,6 +73,7 @@ export const homeService = {
   save,
   remove,
   getDefaultFilter,
+  getCountry,
   getRandomHomeId,
   addHomeMsg,
   getFilterFromSearchParams,
@@ -644,6 +645,19 @@ function _getImageUrl() {
   return selectedImages
 }
 
+function getCountry(city) {
+  switch(city) {
+    case 'Tel Aviv-Yafo':
+      return 'Israel'
+    case 'Barcelona':
+      return 'Spain'
+    case 'London':
+      return 'United Kingdom'
+    default: 
+      return
+  }
+}
+
 function _getSingleImageUrl() {
   const randomIndex = getRandomIntInclusive(0, images.length - 1)
   return images[randomIndex].imgUrl
@@ -714,6 +728,7 @@ function _createHome() {
   home.likedByUsers = []
   return home
 }
+
 function _createHomes() {
   let homes = utilService.loadFromStorage(STORAGE_KEY)
   if (homes || homes?.length) return homes

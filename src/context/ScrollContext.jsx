@@ -6,6 +6,6 @@ export function ScrollProvider({children}) {
     const [isScrolledPast, setIsScrolledPast] = useState(false)
 
     return(
-        <ScrollProvider value={{isScrolledPast, setIsScrolledPast}}>{children}</ScrollProvider>
+        <ScrollContext.Provider value={{isScrolledPast, setIsScrolledPast}}>{children}</ScrollContext.Provider>
     )
 }

@@ -70,7 +70,7 @@ export function HomeDetails() {
   )
   const [order, setOrder] = useState(orderService.getEmptyOrder())
   const breakPointRef = useRef()
-  const { setIsScrolledPast } = useContext(ScrollContext)
+  const { isScrolledPast, setIsScrolledPast } = useContext(ScrollContext)
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -105,17 +105,7 @@ export function HomeDetails() {
     initHome()
   }, [homeId, loggedInUser])
 
-  useEffect(()=>{
-    if (!breakPointRef.current) return
-    const observer = new IntersectionObserver((entries)=>{
-      const entry = entries[0]
-      console.log("🚀 ~ entry:", entry)
-      setIsScrolledPast(!entry.isIntersecting)
-      
-    })
-    observer.observe(breakPointRef.current)
-    return () => observer.unobserve(breakPointRef.current)
-  }, [setIsScrolledPast])
+  
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -134,6 +124,30 @@ export function HomeDetails() {
       console.error('Cannot load data', err)
     }
   }
+
+  useEffect(()=>{
+      try {
+          const el = breakPointRef.current
+          if (!el || !home || !loggedInUser) return
+          const observer = new IntersectionObserver((entries)=>{
+            const entry = entries[0]
+            console.log("🚀 ~ entry:", entry)
+            setIsScrolledPast(!entry.isIntersecting)
+            console.log('isscrollpast', isScrolledPast)
+          } 
+          )
+          observer.observe(el)
+
+          return () => {
+            observer.unobserve(el)
+            observer.disconnect()
+          }
+
+      } catch(err) {
+        console.error('💥 IntersectionObserver failed:', err)
+      }
+
+    }, [setIsScrolledPast, home, loggedInUser])
 
   async function onAddHomeMsg(homeId) {
     try {
@@ -176,7 +190,6 @@ export function HomeDetails() {
       console.error('Cannot complete order', err)
     }
   }
-  console.log('home:', home)
   return (
     <>
       {home && loggedInUser && (
@@ -192,7 +205,7 @@ export function HomeDetails() {
               <span>{isLiked ? 'Saved' : 'Save'}</span>
             </div>
           </div>
-          <div className='home-details-img-container'>
+          <div className='home-details-img-container' ref={breakPointRef}>
             {home.imageUrls.map((imageUrl, idx) => {
               return (
                 <img
@@ -204,7 +217,8 @@ export function HomeDetails() {
               )
             })}
           </div>
-          <section className='mid-section' ref={breakPointRef}>
+          <div  className="scroll-breakpoint" />
+          <section className='mid-section'>
             <div className='home-details-mid'>
               <div
                 className='home-details-amenities'
@@ -213,6 +227,7 @@ export function HomeDetails() {
                     ? {}
                     : { borderBottom: '1px solid #e0e0e0' }
                 }
+                
               >
                 <h2>
                   {home.type} in {home.loc.city}, {home.loc.country}
@@ -252,7 +267,7 @@ export function HomeDetails() {
               </div>
 
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
-              <section className='home-highlights'>
+              <section className='home-highlights' >
                 <article>
                   <DoorIcon className='home-highlights-icon ' />
                   <h4>Self check-in</h4>

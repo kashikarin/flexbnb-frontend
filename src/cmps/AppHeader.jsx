@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaAirbnb } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
@@ -9,6 +9,8 @@ import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
 import { orderService } from '../services/order/order.service.local'
 import { loadOrders } from '../store/order.actions'
+import { ScrollContext } from '../context/ScrollContext'
+import { AppHeaderHomeDetails } from './AppHeaderHomeDetails'
 // import { orderService } from '../services/order/order.service.local'
 
 export function AppHeader() {
@@ -17,6 +19,7 @@ export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   const orders = useSelector((state) => state.orderModule.orders)
+  const {isScrolledPast} = useContext(ScrollContext)
 
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
@@ -64,7 +67,10 @@ export function AppHeader() {
         shouldShowScrolledStyle ? 'scrolled' : ''
       }  full`}
     >
-      <nav className=''>
+      {isScrolledPast ? 
+      <AppHeaderHomeDetails /> 
+      :
+      (<nav className=''>
         <NavLink to='/' className='logo'>
           <FaAirbnb />
           <span>flexbnb</span>
@@ -89,7 +95,7 @@ export function AppHeader() {
           </div>
         )}
         {<LabelsSlider />}
-      </nav>
+      </nav>)}
     </header>
   )
 }

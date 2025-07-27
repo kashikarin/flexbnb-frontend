@@ -1,0 +1,15 @@
+.home-details-scrolled-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 25%;
+    &>div {
+        font-weight: 500;
+        font-size: 1rem;
+        padding: 15px 0px;
+        text-decoration: none;
+        color: $primary-font-black;
+        display: inline-block;
+        position: relative;
+    }
+}

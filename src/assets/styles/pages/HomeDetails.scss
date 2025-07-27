@@ -110,6 +110,11 @@
     }
   }
 
+  .scroll-breakpoint {
+    width: 100%;
+    position: relative;    
+    height: 1px;
+  }
   .mid-section {
     grid-column: 2/ 2;
     padding-block-start: 20px;

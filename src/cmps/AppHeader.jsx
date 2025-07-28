@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState, useContext } from 'react'
@@ -15,11 +15,14 @@ import { AppHeaderHomeDetails } from './AppHeaderHomeDetails'
 
 export function AppHeader() {
   const dispatch = useDispatch()
+  const location = useLocation()
+  const isHomeIndex = location.pathname === '/'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   const orders = useSelector((state) => state.orderModule.orders)
-  const {isScrolledPast} = useContext(ScrollContext)
+  const {isImgScrolledPast, isStickyScrolledPast} = useContext(ScrollContext)
+
 
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
@@ -59,7 +62,7 @@ export function AppHeader() {
     }
   }
 
-  const shouldShowScrolledStyle = isScrolled || isSmallScreen
+  const shouldShowScrolledStyle = isScrolled || isSmallScreen || !isHomeIndex
 
   return (
     <header
@@ -67,7 +70,7 @@ export function AppHeader() {
         shouldShowScrolledStyle ? 'scrolled' : ''
       }  full`}
     >
-      {isScrolledPast ? 
+      {isImgScrolledPast ? 
       <AppHeaderHomeDetails /> 
       :
       (<nav className=''>

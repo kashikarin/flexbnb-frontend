@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 export function BuyingStepOneModal({
-  onClose,
-  order,
+  potentialOrder,
   homePrice,
   homeType,
   homeCity,
   homeCountry,
   homeSummary,
   onConfirmOrder,
+  closeConfirmationModal
 }) {
   const [currentStep, setCurrentStep] = useState(1)
   const navigate = useNavigate()
@@ -18,9 +18,9 @@ export function BuyingStepOneModal({
     await onConfirmOrder()
     setCurrentStep(2)
   }
-  const stayNightsNum = Math.floor((order.endDate - order.startDate) / 86400000)
+  const stayNightsNum = Math.floor((potentialOrder.endDate - potentialOrder.startDate) / 86400000)
   const guestsNum =
-    Number(order.guests.adults ?? 0) + Number(order.guests.children ?? 0)
+    Number(potentialOrder.guests.adults ?? 0) + Number(potentialOrder.guests.children ?? 0)
   const serviceFeeRate = 0.14
 
   return (
@@ -50,7 +50,7 @@ export function BuyingStepOneModal({
               </h3>
               <p>
                 <span>Trip dates:</span>
-                <span>{`${order.startDate} - ${order.endDate}`}</span>
+                <span>{`${potentialOrder.startDate} - ${potentialOrder.endDate}`}</span>
               </p>
               <p>
                 <span>Guests:</span>
@@ -88,7 +88,7 @@ export function BuyingStepOneModal({
           </div>
 
           <div className='property-image'>
-            <img src={order.home.imgUrl} alt='Property' />
+            <img src={potentialOrder.home.imgUrl} alt='Property' />
             <div className='property-info'>
               <h4>
                 {homeType} in {homeCity}, {homeCountry}
@@ -103,7 +103,7 @@ export function BuyingStepOneModal({
             className='back-btn'
             onClick={() => {
               if (currentStep === 2) navigate('/')
-              else setCurrentStep(currentStep - 1)
+              else closeConfirmationModal()
             }}
           >
             {currentStep === 2 ? 'Close' : 'Back'}

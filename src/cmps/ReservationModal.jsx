@@ -11,7 +11,14 @@ import {
 import { orderService } from '../services/order/order.service.local'
 import { addOrder } from '../store/order.actions'
 
-export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
+export function ReservationModal({ home, 
+                                   potentialOrder, 
+                                   setPotentialOrder, 
+                                   onConfirmOrder, 
+                                   isConfirmationModalOpen, 
+                                   openConfirmationModal,
+                                   closeConfirmationModal
+                                  }) {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
 
@@ -20,19 +27,18 @@ export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
 
   const dropdownWrapperRef = useRef(null)
   const selectionRef = useRef(null)
-  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false)
 
-  const [adultsNum, setAdultsNum] = useState(order.guests.adults ?? 0)
-  const [childrenNum, setChildrenNum] = useState(order.guests.children ?? 0)
-  const [infantsNum, setInfantsNum] = useState(order.guests.infants ?? 0)
-  const [petsNum, setPetsNum] = useState(order.guests.pets ?? 0)
+  const [adultsNum, setAdultsNum] = useState(potentialOrder.guests.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(potentialOrder.guests.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(potentialOrder.guests.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(potentialOrder.guests.pets ?? 0)
 
   useEffect(() => {
-    setAdultsNum(order.guests.adults ?? 0)
-    setChildrenNum(order.guests.children ?? 0)
-    setInfantsNum(order.guests.infants ?? 0)
-    setPetsNum(order.guests.pets ?? 0)
-  }, [filterBy, order.guests])
+    setAdultsNum(potentialOrder.guests.adults ?? 0)
+    setChildrenNum(potentialOrder.guests.children ?? 0)
+    setInfantsNum(potentialOrder.guests.infants ?? 0)
+    setPetsNum(potentialOrder.guests.pets ?? 0)
+  }, [filterBy, potentialOrder.guests])
 
   useEffect(() => {
     onUpdateGuestsDetails({
@@ -43,14 +49,7 @@ export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
     })
   }, [adultsNum, childrenNum, infantsNum, petsNum])
 
-  function openReservationModal() {
-    setIsReservationModalOpen(true)
-  }
-
-  function closeReservationModal() {
-    setIsReservationModalOpen(false)
-  }
-
+  
   useEffect(() => {
     // Close dropdown when clicking outside
     function handleClickOutside(event) {
@@ -93,7 +92,7 @@ export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
   // }
 
   function onUpdateGuestsDetails(updatedGuests) {
-    setOrder((prevOrder) => ({ ...prevOrder, guests: updatedGuests }))
+    setPotentialOrder((prevPotentialOrder) => ({ ...prevPotentialOrder, guests: updatedGuests }))
   }
 
   // console.log(order)
@@ -170,7 +169,7 @@ export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
                 </div>
               </div>
             </div>
-            <button onClick={openReservationModal}>Reserve</button>
+            <button onClick={openConfirmationModal}>Reserve</button>
             <span>You won't be charged yet</span>
             <div className='reservation-summary-information-container'>
               <div className='cost-breakdown-container'>
@@ -191,16 +190,16 @@ export function ReservationModal({ home, order, setOrder, onConfirmOrder }) {
           </div>
         </div>
       </aside>
-      {isReservationModalOpen && (
+      {isConfirmationModalOpen && (
         <BuyingStepOneModal
-          onClose={closeReservationModal}
-          order={order}
+          potentialOrder={potentialOrder}
           homePrice={home.price}
           homeType={home.type}
           homeCity={home.loc.city}
           homeCountry={home.loc.country}
           homeSummary={home.summary}
           onConfirmOrder={onConfirmOrder}
+          closeConfirmationModal={closeConfirmationModal}
         />
       )}
     </>

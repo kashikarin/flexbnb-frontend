@@ -1,11 +1,16 @@
 import { createContext, useState } from "react";
 
-export const ScrollContext = createContext()
+export const ScrollContext = createContext({
+    isImgScrolledPast: '',
+    setIsImgScrolledPast: ()=>{},
+    isStickyScrolledPast: '',
+    setIsStickyScrolledPast: ()=>{}
+})
 
 export function ScrollProvider({children}) {
-    const [isScrolledPast, setIsScrolledPast] = useState(false)
-
+    const [isImgScrolledPast, setIsImgScrolledPast] = useState(false)
+    const [isStickyScrolledPast, setIsStickyScrolledPast] = useState(false)
     return(
-        <ScrollContext.Provider value={{isScrolledPast, setIsScrolledPast}}>{children}</ScrollContext.Provider>
+        <ScrollContext.Provider value={{isImgScrolledPast, setIsImgScrolledPast, isStickyScrolledPast, setIsStickyScrolledPast}}>{children}</ScrollContext.Provider>
     )
 }

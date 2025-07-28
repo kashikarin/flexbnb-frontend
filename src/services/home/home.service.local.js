@@ -77,7 +77,6 @@ export const homeService = {
   getRandomHomeId,
   addHomeMsg,
   getFilterFromSearchParams,
-  getAverageReviewRate,
   getMaxHomePrice,
   getAmenityIcon,
 }
@@ -663,13 +662,6 @@ function _getSingleImageUrl() {
   return images[randomIndex].imgUrl
 }
 
-async function getAverageReviewRate(homeId) {
-  const home = await getById(homeId)
-  let avg =
-    home.reviews.reduce((sum, review) => sum + review.rate, 0) /
-    home.reviews.length
-  return avg.toFixed(2)
-}
 function _createHome() {
   let city = gCities[getRandomIntInclusive(0, gCities.length - 1)]
   let name = makeLorem(3)

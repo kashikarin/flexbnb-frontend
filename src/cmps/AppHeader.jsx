@@ -108,7 +108,7 @@ export function AppHeader() {
           )}
         </div>
         
-        {<LabelsSlider />}
+        {isHomeIndex && <LabelsSlider />}
       </nav>)}
     </header>
   )

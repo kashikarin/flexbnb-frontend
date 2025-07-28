@@ -24,7 +24,8 @@ import { HomeList } from './cmps/HomeList.jsx'
 import { BuyingStepOneModal } from './cmps/BuyingStepOneModal.jsx'
 import { ScrollProvider } from './context/ScrollContext.jsx'
 import { PotentialOrderProvider } from './context/potential-order/PotentialOrderContext.jsx'
-
+import { Hosting } from './pages/Hosting.jsx'
+import { HomeEdit } from './pages/HomeEdit.jsx'
 
 export function RootCmp() {
   return (
@@ -45,7 +46,7 @@ export function RootCmp() {
                     </Route>
                     <Route path='home' element={<HomeIndex />} />
                     <Route path='home/:homeId' element={<HomeDetails />} />
-                    <Route path='user/:id' element={<UserDetails />} />
+
                     <Route path='review' element={<ReviewIndex />} />
                     <Route path='chat' element={<ChatApp />} />
                     <Route
@@ -59,6 +60,10 @@ export function RootCmp() {
                     <Route path='login' element={<LoginSignup />}>
                       <Route index element={<Login />} />
                       <Route path='signup' element={<Signup />} />
+                      <Route path='hosting' element={<Hosting />}>
+                        <Route path='edit' element={<HomeEdit />} />
+                        <Route path='reservations' element={<UserDetails />} />
+                      </Route>
                     </Route>
                   </Routes>
                 </main>

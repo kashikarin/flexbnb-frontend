@@ -17,6 +17,7 @@ export function AppHeader() {
   const dispatch = useDispatch()
   const location = useLocation()
   const isHomeIndex = location.pathname === '/'
+  const isHosting = location.pathname.startsWith('/hosting')
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -73,30 +74,40 @@ export function AppHeader() {
       {isImgScrolledPast ? 
       <AppHeaderHomeDetails /> 
       :
-      (<nav className=''>
+      (<nav className='app-header-main-nav'>
         <NavLink to='/' className='logo'>
           <FaAirbnb />
           <span>flexbnb</span>
         </NavLink>
-        <SearchBar isScrolled={shouldShowScrolledStyle} />
-        {loggedInUser?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
+        {isHosting ? 
+          (<nav className='hosting-header-nav'>
+            <NavLink to='/hosting/edit'>Create a new listing</NavLink>
+            <NavLink to='/hosting/reservations/'>Reservations</NavLink>
+          </nav>)
+          :
+          <SearchBar isScrolled={shouldShowScrolledStyle} />}
+        <div className='app-header-user-area'>
+          <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
+          {/* {loggedInUser?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
 
-        {!loggedInUser && (
-          <NavLink to='login' className='login-link'>
-            Login
-          </NavLink>
-        )}
+          {!loggedInUser && (
+            <NavLink to='login' className='login-link'>
+              Login
+            </NavLink>
+          )} */}
 
-        {loggedInUser && (
-          <div className='user-info'>
-            <Link to={`user/${loggedInUser._id}`}>
-              {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
-              {/* {user.fullname} */}
-            </Link>
-            {/* <span className="score">{user.score?.toLocaleString()}</span> */}
-            {/* <button onClick={onLogout}>logout</button> */}
-          </div>
-        )}
+          {loggedInUser && (
+            <div className='user-info'>
+              <Link to={`user/${loggedInUser._id}`}>
+                {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
+                {/* {user.fullname} */}
+              </Link>
+              {/* <span className="score">{user.score?.toLocaleString()}</span> */}
+              {/* <button onClick={onLogout}>logout</button> */}
+            </div>
+          )}
+        </div>
+        
         {<LabelsSlider />}
       </nav>)}
     </header>

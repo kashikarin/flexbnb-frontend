@@ -47,74 +47,75 @@ export function UserDetails() {
           <BasicLineChart />
         </div>
       </section>
-      <fieldset>
-        <legend>My Dashboard</legend>
-        <table className='orders-table'>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Booker</th>
-              <th>Stay</th>
-              <th>Dates</th>
-              <th>Nights</th>
-              <th>Guests</th>
-              <th>Price / night</th>
-              <th>Total</th>
-              <th>Status</th>
-              <th className='center'>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => {
-              const stayNightsNum = Math.max(
-                1,
-                Math.floor((order.endDate - order.startDate) / 86400000)
-              )
-              const guestsNum =
-                (Number(order.guests.adults) || 0) +
-                (Number(order.guests.children) || 0) +
-                (Number(order.guests.infants) || 0) +
-                (Number(order.guests.pets) || 0)
-              const pricePerNight = stayNightsNum
-                ? Math.round(order.totalPrice / stayNightsNum)
-                : order.totalPrice
-              return (
-                <tr key={order._id}>
-                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                  <td>{order.guest.fullname}</td>
-                  <td>{order.home.name}</td>
-                  <td>
-                    {`${new Date(
-                      order.startDate
-                    ).toLocaleDateString()} - ${new Date(
-                      order.endDate
-                    ).toLocaleDateString()}`}
-                  </td>
-                  <td className='center'>{stayNightsNum}</td>
-                  <td className='center'>{guestsNum}</td>
-                  <td className='center'>${pricePerNight}</td>
-                  <td className='center'> ${Math.round(order.totalPrice)}</td>
-                  <td className={order.status}>{order.status}</td>
-                  <td>
-                    <button
-                      className='approve'
-                      onClick={() => updateOrderStatus(order._id, 'approved')}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className='reject'
-                      onClick={() => updateOrderStatus(order._id, 'rejected')}
-                    >
-                      Reject
-                    </button>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </fieldset>
+
+      <h2>My Dashboard</h2>
+      <table className='orders-table'>
+        <thead>
+          <tr>
+            <th>Booker</th>
+            <th>Stay</th>
+            <th>Dates</th>
+            <th className='center'>Nights</th>
+            <th className='center'>Guests</th>
+            <th className='center'>Price / night</th>
+            <th className='center'>Total</th>
+            <th className='center'>Status</th>
+            <th className='center'>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => {
+            const stayNightsNum = Math.max(
+              1,
+              Math.floor((order.endDate - order.startDate) / 86400000)
+            )
+            const guestsNum =
+              (Number(order.guests.adults) || 0) +
+              (Number(order.guests.children) || 0) +
+              (Number(order.guests.infants) || 0) +
+              (Number(order.guests.pets) || 0)
+            const pricePerNight = stayNightsNum
+              ? Math.round(order.totalPrice / stayNightsNum)
+              : order.totalPrice
+            return (
+              <tr key={order._id}>
+                <td>{order.guest.fullname}</td>
+                <td>{order.home.name}</td>
+                <td>
+                  {`${new Date(
+                    order.startDate
+                  ).toLocaleDateString()} - ${new Date(
+                    order.endDate
+                  ).toLocaleDateString()}`}
+                </td>
+                <td className='center'>{stayNightsNum}</td>
+                <td className='center'>{guestsNum}</td>
+                <td className='center'>${pricePerNight}</td>
+                <td className='center'> ${Math.round(order.totalPrice)}</td>
+                <td className={`${order.status} center`}>{order.status}</td>
+                <td className='center'>
+                  {order.status === 'pending' && (
+                    <>
+                      <button
+                        className='approve'
+                        onClick={() => updateOrderStatus(order._id, 'approved')}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className='reject'
+                        onClick={() => updateOrderStatus(order._id, 'rejected')}
+                      >
+                        Reject
+                      </button>{' '}
+                    </>
+                  )}
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     </main>
   )
 }

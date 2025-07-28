@@ -15,7 +15,13 @@ import { addLike, removeLike } from '../store/user.actions'
 import { getAvgRating, loadFromStorage } from '../services/util.service'
 import { getAmenityIcon } from '../services/home/home.service.local'
 import { FaCcVisa, FaHeart, FaStar } from 'react-icons/fa'
-import { CiCalendarDate, CiHeart, CiLight, CiLocationOn, CiVault } from 'react-icons/ci'
+import {
+  CiCalendarDate,
+  CiHeart,
+  CiLight,
+  CiLocationOn,
+  CiVault,
+} from 'react-icons/ci'
 import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
@@ -58,7 +64,7 @@ import { orderService } from '../services/order/order.service.local'
 import { addOrder } from '../store/order.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { PotentialOrderContext } from '../context/potential-order/PotentialOrderContext'
-
+import { ReviewCard } from '../cmps/ReviewCard'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -70,21 +76,26 @@ export function HomeDetails() {
   const [isLiked, setIsLiked] = useState(
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
-  const {potentialOrder, 
-         setPotentialOrder, 
-         setInitialPOrderDetails, 
-         setIsConfirmationModalOpen, 
-         isConfirmationModalOpen, 
-         openConfirmationModal, 
-         onConfirmOrder,
-         closeConfirmationModal,
-         resetPotentialOrder
-        } = useContext(PotentialOrderContext)
-  console.log("🚀 ~ potentialOrder:", potentialOrder)
+  const {
+    potentialOrder,
+    setPotentialOrder,
+    setInitialPOrderDetails,
+    setIsConfirmationModalOpen,
+    isConfirmationModalOpen,
+    openConfirmationModal,
+    onConfirmOrder,
+    closeConfirmationModal,
+    resetPotentialOrder,
+  } = useContext(PotentialOrderContext)
+  console.log('🚀 ~ potentialOrder:', potentialOrder)
   const imgBreakPointRef = useRef()
   const stickyBreakPointRef = useRef()
 
-  const { setIsImgScrolledPast, isStickyScrolledPast, setIsStickyScrolledPast } = useContext(ScrollContext)
+  const {
+    setIsImgScrolledPast,
+    isStickyScrolledPast,
+    setIsStickyScrolledPast,
+  } = useContext(ScrollContext)
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -117,10 +128,7 @@ export function HomeDetails() {
   useEffect(() => {
     if (!homeId || !loggedInUser) return
     initHome()
-
   }, [homeId, loggedInUser])
-
-  
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -128,45 +136,50 @@ export function HomeDetails() {
 
   async function initHome() {
     try {
-        await loadHome(homeId)
-        resetPotentialOrder()
-        await setInitialPOrderDetails(homeId, loggedInUser._id, filterBy)
-    } catch(err) {
-        console.error('Cannot load data', err)
+      await loadHome(homeId)
+      resetPotentialOrder()
+      await setInitialPOrderDetails(homeId, loggedInUser._id, filterBy)
+    } catch (err) {
+      console.error('Cannot load data', err)
     }
-  } 
+  }
 
-  useEffect(()=>{
-      try {
-          const elAfterImg = imgBreakPointRef.current
-          const elAfterSticky = stickyBreakPointRef.current
+  useEffect(() => {
+    try {
+      const elAfterImg = imgBreakPointRef.current
+      const elAfterSticky = stickyBreakPointRef.current
 
-          if (!elAfterImg || !elAfterSticky || !home || !loggedInUser) return
+      if (!elAfterImg || !elAfterSticky || !home || !loggedInUser) return
 
-          const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-              if (entry.target === elAfterImg){
-                setIsImgScrolledPast(!entry.isIntersecting)
-              }
-              if (entry.target === elAfterSticky){
-                setIsStickyScrolledPast(!entry.isIntersecting)
-              }
-            })
-            }, {threshold: 0.5})
-                     
-          if (elAfterImg) observer.observe(elAfterImg)
-          if (elAfterSticky) observer.observe(elAfterSticky)
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.target === elAfterImg) {
+              setIsImgScrolledPast(!entry.isIntersecting)
+            }
+            if (entry.target === elAfterSticky) {
+              setIsStickyScrolledPast(!entry.isIntersecting)
+            }
+          })
+        },
+        { threshold: 0.5 }
+      )
 
-          return () => {
-            if (elAfterImg) observer.unobserve(elAfterImg)
-            if (elAfterSticky) observer.unobserve(elAfterSticky)
-            observer.disconnect()
-          }
-      } catch(err) {
-          console.error('💥 IntersectionObserver failed:', err)
+      if (elAfterImg) observer.observe(elAfterImg)
+      if (elAfterSticky) observer.observe(elAfterSticky)
+
+      if (elAfterImg) observer.observe(elAfterImg)
+      if (elAfterSticky) observer.observe(elAfterSticky)
+
+      return () => {
+        if (elAfterImg) observer.unobserve(elAfterImg)
+        if (elAfterSticky) observer.unobserve(elAfterSticky)
+        observer.disconnect()
       }
-
-    }, [setIsImgScrolledPast, setIsStickyScrolledPast, home, loggedInUser])
+    } catch (err) {
+      console.error('💥 IntersectionObserver failed:', err)
+    }
+  }, [setIsImgScrolledPast, setIsStickyScrolledPast, home, loggedInUser])
 
   async function onAddHomeMsg(homeId) {
     try {
@@ -239,7 +252,6 @@ export function HomeDetails() {
                     ? {}
                     : { borderBottom: '1px solid #e0e0e0' }
                 }
-                
               >
                 <h2>
                   {home.type} in {home.loc.city}, {home.loc.country}
@@ -274,7 +286,7 @@ export function HomeDetails() {
               </div>
 
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
-              <section className='home-highlights' >
+              <section className='home-highlights'>
                 <article>
                   <DoorIcon className='home-highlights-icon ' />
                   <h4>Self check-in</h4>
@@ -320,7 +332,7 @@ export function HomeDetails() {
                 home={home}
                 potentialOrder={potentialOrder}
                 setPotentialOrder={setPotentialOrder}
-                onConfirmOrder={onConfirmOrder}                
+                onConfirmOrder={onConfirmOrder}
                 isConfirmationModalOpen={isConfirmationModalOpen}
                 openConfirmationModal={openConfirmationModal}
                 closeConfirmationModal={closeConfirmationModal}
@@ -328,6 +340,9 @@ export function HomeDetails() {
             )}
           </section>
           <div ref={stickyBreakPointRef} />
+          <section className='reviews-section'>
+            <ReviewCard reviews={home.reviews} />
+          </section>
           <section className='google-maps'>
             <h3>Where you'll be</h3>
             <APIProvider apiKey={API_KEY}>
@@ -349,9 +364,6 @@ export function HomeDetails() {
               />
             </APIProvider>
           </section>
-          <div>
-              <img src="/img/user/justin-img.jpg" alt="justin image" style={{width: '400px', height: '600px'}}/>
-            </div>
         </div>
       )}
     </>

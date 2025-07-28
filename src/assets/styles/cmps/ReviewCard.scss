@@ -1,0 +1,90 @@
+.reviews-section {
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .review-card-list {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 32px;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 2rem;
+    padding-block-start: 22px;
+    padding-block-end: 22px;
+    .review-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 475px;
+      background: #fff;
+      border-radius: 12px;
+      //   box-shadow: 0 2px 8px #0001;
+      //   padding: 24px;
+      padding-block-start: 22px;
+      margin: 0 auto;
+      & .review-user {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      & .review-user-img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      & .review-user-details {
+        display: flex;
+        flex-direction: column;
+      }
+      & .review-user-name {
+        font-weight: 400;
+        font-size: 1em;
+      }
+
+      & .review-user-loc {
+        color: $secondary-font-gray;
+        font-size: 0.875rem;
+      }
+
+      & .review-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: $primary-font-black;
+        font-size: 1em;
+        margin-top: 8px;
+      }
+
+      & .review-stars {
+        color: $primary-font-black;
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+      }
+
+      & .review-date {
+        color: $secondary-font-gray;
+
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+
+      & .review-stay {
+        color: $secondary-font-gray;
+
+        font-size: 0.875rem;
+      }
+
+      & .review-txt {
+        color: $primary-font-black;
+        font-size: 1.1em;
+        line-height: 1.5;
+        margin-top: 8px;
+        font-weight: 300;
+      }
+    }
+  }
+}

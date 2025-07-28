@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { roundToDecimals } from '../services/util.service'
 
 export function BuyingStepOneModal({
   potentialOrder,
@@ -64,23 +65,23 @@ export function BuyingStepOneModal({
               <h3>Price Details</h3>
               <div className='price-amount'>
                 <p>
-                  <span>{`${homePrice} x ${stayNightsNum} ${
+                  <span>{`${roundToDecimals(homePrice).toLocaleString()} x ${stayNightsNum} ${
                     stayNightsNum > 1 ? 'nights' : 'night'
                   }`}</span>
-                  <span>${homePrice * stayNightsNum}</span>
+                  <span>${roundToDecimals(homePrice * stayNightsNum).toLocaleString()}</span>
                 </p>
               </div>
               <div className='service-fee'>
                 <p>
                   <span>Service fee</span>
-                  <span>{homePrice * stayNightsNum * serviceFeeRate}</span>
+                  <span>{roundToDecimals(homePrice * stayNightsNum * serviceFeeRate).toLocaleString()}</span>
                 </p>
               </div>
               <div className='total'>
                 <p>
                   <span>Total</span>
                   <span>
-                    {homePrice * stayNightsNum * (1 + serviceFeeRate)}
+                    {roundToDecimals(homePrice * stayNightsNum * (1 + serviceFeeRate)).toLocaleString()}
                   </span>
                 </p>
               </div>

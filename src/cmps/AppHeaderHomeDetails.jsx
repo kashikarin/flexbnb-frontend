@@ -3,7 +3,7 @@ import { ScrollContext } from "../context/ScrollContext";
 import { FaStar } from 'react-icons/fa'
 import { useSelector } from "react-redux";
 import { PotentialOrderContext } from "../context/potential-order/PotentialOrderContext";
-import { getAvgRating } from "../services/util.service";
+import { getAvgRating, roundToDecimals } from "../services/util.service";
 import { BuyingStepOneModal } from "./BuyingStepOneModal";
 
 export function AppHeaderHomeDetails() {
@@ -21,7 +21,7 @@ export function AppHeaderHomeDetails() {
             {isStickyScrolledPast && <div className="reservation-header-modal">
                 <div className="reservation-header-modal-text-container">
                     <div>
-                        <span>{home.price}$</span>
+                        <span>{roundToDecimals(home.price).toLocaleString()}$</span>
                         <span>{'\u00A0'}night</span> 
                     </div>
                     <div className='home-details-reviews'>
@@ -35,7 +35,7 @@ export function AppHeaderHomeDetails() {
                                 }}
                             />
                             <span style={{ fontWeight: 'bold' }}>
-                                {getAvgRating(home).toFixed(2)}{' '}
+                                {roundToDecimals(getAvgRating(home)).toLocaleString()}{' '}
                             </span>
                         </span>
                         <span>•</span>

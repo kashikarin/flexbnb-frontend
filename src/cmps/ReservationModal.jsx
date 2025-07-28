@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import {
   getRandom3NightsStayDatesStr,
   getNightsCount,
+  roundToDecimals,
   strDateToTimestamp,
 } from '../services/util.service'
 import { orderService } from '../services/order/order.service.local'
@@ -103,7 +104,7 @@ export function ReservationModal({ home,
           <div className='reservation-details'>
             <div className='reservation-header'>
               <div className='reservation-header-price-container'>
-                <span>{`${home.price}$ `}</span>
+                <span>{`${roundToDecimals(home.price).toLocaleString()}$ `}</span>
                 <span>night</span>
               </div>
             </div>
@@ -174,16 +175,16 @@ export function ReservationModal({ home,
             <div className='reservation-summary-information-container'>
               <div className='cost-breakdown-container'>
                 <div className='reservation-summary-row price'>
-                  <span>${home.price} x 3 nights</span>
-                  <span>${home.price * 3}</span>
+                  <span>${roundToDecimals(home.price).toLocaleString()} x 3 nights</span>
+                  <span>${roundToDecimals(home.price * 3).toLocaleString()}</span>
                 </div>
                 <div className='reservation-summary-row service-fee'>
                   <span>Flexbnb service fee</span>
-                  <span>${home.price * 3 * 0.14}</span>
+                  <span>${roundToDecimals(home.price * 3 * 0.14).toLocaleString()}</span>
                 </div>
                 <div className='reservation-summary-row total'>
                   <span>Total</span>
-                  <span>${home.price * 3 * 0.14}</span>
+                  <span>${roundToDecimals(home.price * 3 * 0.14).toLocaleString()}</span>
                 </div>
               </div>
             </div>

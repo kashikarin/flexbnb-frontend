@@ -5,6 +5,7 @@ import {
   capitalizeStr,
   getAvgRating,
   getStayDatesStr,
+  roundToDecimals
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
 
@@ -168,7 +169,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
 
           <p>{getStayDatesStr()}</p>
           <p>
-            {`${home.price}$`}
+            {`${roundToDecimals(home.price).toLocaleString()}$`}
             {` for 3 nights`} · ★ <span>{getAvgRating(home)}</span>
           </p>
         </div>

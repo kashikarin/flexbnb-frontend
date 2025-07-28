@@ -10,7 +10,8 @@ export const PotentialOrderContext = createContext({
     setIsConfirmationModalOpen: ()=>{},
     openConfirmationModal: ()=>{},
     closeConfirmationModal: ()=>{},
-    onConfirmOrder: ()=>{}
+    onConfirmOrder: ()=>{},
+    resetPotentialOrder: ()=>{}
 })
 
 export function PotentialOrderProvider({children}) {
@@ -44,9 +45,12 @@ export function PotentialOrderProvider({children}) {
         setIsConfirmationModalOpen(false)
     }
     
+    function resetPotentialOrder() {
+        setPotentialOrder(orderService.getEmptyOrder())
+    }
 
     return(
-        <PotentialOrderContext.Provider value={{potentialOrder, setPotentialOrder, setInitialPOrderDetails, isConfirmationModalOpen, setIsConfirmationModalOpen, openConfirmationModal, onConfirmOrder, closeConfirmationModal}}>{children}</PotentialOrderContext.Provider>
+        <PotentialOrderContext.Provider value={{potentialOrder, setPotentialOrder, setInitialPOrderDetails, isConfirmationModalOpen, setIsConfirmationModalOpen, openConfirmationModal, onConfirmOrder, closeConfirmationModal, resetPotentialOrder}}>{children}</PotentialOrderContext.Provider>
     )
 
 }

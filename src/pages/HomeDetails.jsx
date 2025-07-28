@@ -78,7 +78,9 @@ export function HomeDetails() {
          openConfirmationModal, 
          onConfirmOrder,
          closeConfirmationModal,
+         resetPotentialOrder
         } = useContext(PotentialOrderContext)
+  console.log("🚀 ~ potentialOrder:", potentialOrder)
   const imgBreakPointRef = useRef()
   const stickyBreakPointRef = useRef()
 
@@ -115,6 +117,7 @@ export function HomeDetails() {
   useEffect(() => {
     if (!homeId || !loggedInUser) return
     initHome()
+
   }, [homeId, loggedInUser])
 
   
@@ -126,6 +129,7 @@ export function HomeDetails() {
   async function initHome() {
     try {
         await loadHome(homeId)
+        resetPotentialOrder()
         await setInitialPOrderDetails(homeId, loggedInUser._id, filterBy)
     } catch(err) {
         console.error('Cannot load data', err)
@@ -142,11 +146,9 @@ export function HomeDetails() {
           const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
               if (entry.target === elAfterImg){
-                console.log('elAfterImg is in view', entry)  
                 setIsImgScrolledPast(!entry.isIntersecting)
               }
               if (entry.target === elAfterSticky){
-                console.log('elAfterSticky is in view', entry)
                 setIsStickyScrolledPast(!entry.isIntersecting)
               }
             })

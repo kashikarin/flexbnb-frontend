@@ -246,7 +246,7 @@ export function LabelsSlider() {
 
       <div className='labels-slider-buttons-container'>
         <div className='labels-slider-btn-left'>
-          <button
+          {canScrollLeft && (<button
             onClick={() => scrollSlider('left')}
             className='labels-slider-btn left'
             aria-label='Scroll left'
@@ -255,7 +255,7 @@ export function LabelsSlider() {
               src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg'
               alt='Previous'
             />
-          </button>
+          </button>)}
         </div>
         <div className='labels-slider-btn-right'>
           {canScrollRight && (

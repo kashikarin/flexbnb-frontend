@@ -4,9 +4,8 @@
   z-index: 5;
   top: 5rem;
   padding-block-end: 1rem;
-  padding-inline: 35px;
-  display: grid;
-  grid-template-columns: 3rem 1fr 3rem;
+  // display: grid;
+  // grid-template-columns: 3rem 1fr 3rem;
   width: 100%;
   max-width: 100vw;
   overflow: hidden;
@@ -83,8 +82,8 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 35px;
-    right: 35px;
+    left: 0px;
+    right: 0px;
     width: auto;
     height: 0;
     display: flex;

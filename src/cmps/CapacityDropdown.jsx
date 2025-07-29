@@ -18,7 +18,7 @@ export function CapacityDropdown({
                                 }){
     return (
         isOpen ? (
-            <div className="capacity-dropdown-wrapper dropdown-wrapper">
+            <div>
                <div className="capacity-dropdown-container">
                     <div className="capacity-dropdown-panel">
                         <div className="capacity-drowdown-categories-wrapper">

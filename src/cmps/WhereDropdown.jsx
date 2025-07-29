@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
-export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFilterBy }){
+export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFilterBy, dropdownRef }){
 
-    const dropdownRef = useRef()
+    //const dropdownRef = useRef()
     const [cityFilterToEdit, setCityFilterToEdit] = useState({city: cityFilter || ''})
    // const onSetFilterByDebounce = useRef(dispatch(debounce(setFilterBy({ ...filterBy, txt: searchTxt }), 400))).current
 
@@ -32,7 +32,7 @@ export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFil
     }
     
     return (
-      <div className="where-dropdown-wrapper" ref={dropdownRef}>
+      <div ref={dropdownRef}>
         {isOpen && (
           <div className="where-dropdown-panel dropdown-wrapper">
             <h4>Suggested destinations</h4>

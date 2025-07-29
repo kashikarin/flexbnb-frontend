@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CapacityDropdown } from './CapacityDropdown.jsx'
 import { SET_FILTERBY } from '../store/home.reducer.js'
 import { homeService } from '../services/home/home.service.local.js'
+import { DatesDropdown } from './DatesDropdown.jsx'
 
 export function SearchBar({ isScrolled }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
@@ -15,24 +16,34 @@ export function SearchBar({ isScrolled }) {
   const dispatch = useDispatch()
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
   const searchBarRef = useRef()
-  const dropdownRef = useRef()
+  //const dropdownRef = useRef()
+  const whereRef = useRef()
+  const datesRef = useRef()
+  const capacityRef = useRef()
 
   const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0)
   const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0)
   const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0)
   const [petsNum, setPetsNum] = useState(filterBy.pets ?? 0)
 
+
   const capacity = Number(adultsNum ?? 0) + 
                    Number(childrenNum ?? 0) + 
                    Number(infantsNum ?? 0)
+
+
+  const [checkIn, setCheckIn] = useState(filterBy.startDate ?? '')
+  const [checkOut, setCheckOut] = useState(filterBy.endDate ?? '')
 
   useEffect(()=>{
     setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, 
                                                adults: adultsNum, 
                                                children: childrenNum,
                                               infants: infantsNum,
-                                              pets: petsNum}))
-  }, [adultsNum, childrenNum, infantsNum, petsNum])
+                                              pets: petsNum,
+                                                startDate: checkIn,
+                                                endDate: checkOut}))
+  }, [adultsNum, childrenNum, infantsNum, petsNum, checkIn, checkOut])
 
   useEffect(() => {
     function handleResize() {
@@ -55,16 +66,16 @@ export function SearchBar({ isScrolled }) {
     if (scrolled) setOpenedDropdown(null)
   }, [scrolled])
 
+
   useEffect(() => {
     // Close dropdown when clicking outside
     function handleClickOutside(event) {
-      if (openedDropdown && 
-          // !searchBarRef.current.contains(event.target) && 
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target)
-        ){
-        setOpenedDropdown(null)
-      }
+      if (openedDropdown &&(
+        (openedDropdown === 'where' && whereRef.current && !whereRef.current.contains(event.target)) ||
+        (openedDropdown === 'dates' && datesRef.current && !datesRef.current.contains(event.target)) ||
+        (openedDropdown === 'capacity' && capacityRef.current && !capacityRef.current.contains(event.target))
+      ))
+      {setOpenedDropdown(null)}
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -163,6 +174,16 @@ export function SearchBar({ isScrolled }) {
       }
     }
   }
+
+  function formatDate(date) {
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short', // Jul, Aug...
+      day: 'numeric'  // 29, 30...
+    }).format(new Date(date))
+  }
+
+
+
   return (
     <search className=''>
       {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
@@ -189,35 +210,52 @@ export function SearchBar({ isScrolled }) {
                   :
                   undefined}
               />)}
-            <WhereDropdown
-              isOpen={openedDropdown === 'where'}
-              onOpen={() => setOpenedDropdown('where')}
-              onClose={() => setOpenedDropdown(null)}
-              cityFilter={filterBy.city || ''}
-              onUpdateFilterBy={onUpdateFilterBy}
-            />
+             
+          </div> 
+          <div className='where-dropdown-wrapper' ref={whereRef}>
+              <WhereDropdown
+                isOpen={openedDropdown === 'where'}
+                onOpen={() => setOpenedDropdown('where')}
+                dropdownRef={whereRef}
+                //onClose={() => setOpenedDropdown(null)}
+                cityFilter={filterBy.city || ''}
+                onUpdateFilterBy={onUpdateFilterBy}
+              />
           </div>
           <div className='sep'></div>
           <div
-            onClick={() => handleWhereClick('Check in')}
+            onClick={() => handleWhereClick('dates')}
             className={`inner-section ${
               activeButton == 'Check in' ? 'active' : ''
             }`}
           >
-            <div className='sTitle'>{getCheckinTitleText()}</div>
+          <div className='sTitle'>{getCheckinTitleText()}</div>
             {!scrolled && (
               <input
                 className='placeholder-content'
                 type='search'
                 placeholder='Add dates'
-                value={filterByToEdit.startDate}
+                value={filterByToEdit.startDate? `${formatDate(filterByToEdit.startDate)}` : undefined}
               />
             )}
+          </div>
+          <div className='dates-dropdown-wrapper' ref={datesRef}>
+            <DatesDropdown
+              isOpen={openedDropdown === 'dates'}
+              onOpen={() => setOpenedDropdown('dates')}
+              dropdownRef={datesRef}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              onSetDates={({ checkIn, checkOut }) => {
+                setCheckIn(checkIn)
+                setCheckOut(checkOut)
+              }}
+            />
           </div>
           <div className='sep'></div>
           {!scrolled && (
             <div
-              onClick={() => handleWhereClick('Check out')}
+              onClick={() => handleWhereClick('dates')}
               className={`inner-section ${
                 activeButton == 'Check out' ? 'active' : ''
               }`}
@@ -227,10 +265,23 @@ export function SearchBar({ isScrolled }) {
                 className='placeholder-content'
                 type='search'
                 placeholder='Add dates'
-                value={filterByToEdit.endDate}
+                value={filterByToEdit.endDate?`${formatDate(filterByToEdit.endDate)}` : undefined}
               ></input>
             </div>
           )}
+          <div className='dates-dropdown-wrapper' ref={datesRef}>
+           <DatesDropdown
+              isOpen={openedDropdown === 'dates'}
+              onOpen={() => setOpenedDropdown('dates')}
+              dropdownRef={datesRef}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              onSetDates={({ checkIn, checkOut }) => {
+                setCheckIn(checkIn)
+                setCheckOut(checkOut)
+              }}
+            />
+          </div>
           {!scrolled && <div className='sep'></div>}
           <div
             onClick={() => handleWhereClick('capacity')}
@@ -247,7 +298,21 @@ export function SearchBar({ isScrolled }) {
                 value={`${capacity} ${capacity > 1 ? 'guests' : 'guest'}`}
               />
             )}
-            <div ref={dropdownRef}>
+
+              <div className='search-btn-section'>
+                <button
+                  className='search-button'
+                  onMouseDown={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                  }}
+                  onClick={handleSubmit}
+                >
+                  <ReactSVG src='/svgs/search-icon.svg' />
+                </button>
+              </div>
+            </div>
+            <div className='capacity-dropdown-wrapper' ref={capacityRef}>
               <CapacityDropdown
               isOpen={openedDropdown === 'capacity'}
               onClose={() => setOpenedDropdown(null)}
@@ -263,19 +328,7 @@ export function SearchBar({ isScrolled }) {
               homeCapacity={undefined}
               petsAllowed={undefined}
             />
-            </div>
-            <div className='search-btn-section'>
-              <button
-                className='search-button'
-                onMouseDown={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                }}
-                onClick={handleSubmit}
-              >
-                <ReactSVG src='/svgs/search-icon.svg' />
-              </button>
-            </div>
+            
           </div>
           {/* <div onClick={handleWhereClick} className='inner-section'>
               <div className='sTitle'>{scrolled ? 'Anywhere' : 'Where'}</div>

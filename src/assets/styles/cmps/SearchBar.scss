@@ -68,7 +68,9 @@
       right: calc(-0.25rem / 2);
       height: 36px;
       width: 1px;
+      
       background-color: $divider-color;
+      background-color: red;
       transition: background-color 0.1s;
     }
 
@@ -552,9 +554,10 @@
 
     // Hide middle sections on very small screens
     .inner-section:nth-child(3),
-    .inner-section:nth-child(5),
-    .sep:nth-child(2),
-    .sep:nth-child(4) {
+    .inner-section:nth-child(5)
+    // .sep:nth-child(2),
+    // .sep:nth-child(4) {
+    {
       display: none;
     }
 

@@ -7,11 +7,8 @@ import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
 import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
-import { orderService } from '../services/order/order.service.local'
-import { loadOrders } from '../store/order.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { AppHeaderHomeDetails } from './AppHeaderHomeDetails'
-// import { orderService } from '../services/order/order.service.local'
 
 export function AppHeader() {
   const dispatch = useDispatch()
@@ -21,7 +18,6 @@ export function AppHeader() {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
-  const orders = useSelector((state) => state.orderModule.orders)
   const {isImgScrolledPast, isStickyScrolledPast} = useContext(ScrollContext)
 
 
@@ -37,15 +33,9 @@ export function AppHeader() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
   
   useEffect(() => {
-    ;(async function initAndLoadData() {
+    (async function initAndLoadData() {
       try {
         await initUsers()
         // await loadOrders()
@@ -66,50 +56,45 @@ export function AppHeader() {
   const shouldShowScrolledStyle = isScrolled || isSmallScreen || !isHomeIndex
 
   return (
-    <header
-      className={`app-header ${
-        shouldShowScrolledStyle ? 'scrolled' : ''
-      }  full`}
-    >
+    <header className='app-header'>
       {isImgScrolledPast ? 
-      <AppHeaderHomeDetails /> 
-      :
-      (<nav className='app-header-main-nav'>
-        <NavLink to='/' className='logo'>
-          <FaAirbnb />
-          <span>flexbnb</span>
-        </NavLink>
-        {isHosting ? 
-          (<nav className='hosting-header-nav'>
-            <NavLink to='/hosting/edit'>Create a new listing</NavLink>
-            <NavLink to='/hosting/reservations/'>Reservations</NavLink>
-          </nav>)
+        <AppHeaderHomeDetails /> 
           :
-          <SearchBar isScrolled={shouldShowScrolledStyle} />}
-        <div className='app-header-user-area'>
-          <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
-          {/* {loggedInUser?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
-
-          {!loggedInUser && (
-            <NavLink to='login' className='login-link'>
-              Login
-            </NavLink>
-          )} */}
-
-          {loggedInUser && (
-            <div className='user-info'>
-              <Link to={`user/${loggedInUser._id}`}>
-                {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
-                {/* {user.fullname} */}
-              </Link>
-              {/* <span className="score">{user.score?.toLocaleString()}</span> */}
-              {/* <button onClick={onLogout}>logout</button> */}
-            </div>
-          )}
-        </div>
+        (<div className={`app-header-main-container ${shouldShowScrolledStyle ? 'scrolled' : 'expanded'}`}>
+          <div className="layout-wrapper">
+            <nav className="app-header-main-nav">
+              <div className="app-header-left-section">
+                <NavLink to='/' className='logo'>
+                  <FaAirbnb />
+                  <span>flexbnb</span>
+                </NavLink>
+              </div>
+              <div className={`app-header-mid-section ${shouldShowScrolledStyle ? 'scrolled' : 'expanded'}`}>
+                {isHosting ? 
+                  (<nav className='hosting-header-nav'>
+                    <NavLink to='/hosting/edit'>Create a new listing</NavLink>
+                    <NavLink to='/hosting/reservations/'>Reservations</NavLink>
+                  </nav>)
+                    :
+                  <div className={`searchbar-wrapper ${isScrolled ? '' : 'expanded'}`}>
+                    <SearchBar isScrolled={shouldShowScrolledStyle} />
+                  </div>}
+              </div>
+              <div className="app-header-right-section">
+                <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
+                {loggedInUser && (
+                    <div className='user-info'>
+                      <Link to={`user/${loggedInUser._id}`}>
+                        {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
+                      </Link>
+                    </div>
+                  )}
+              </div>
+          </nav>
         
-        {isHomeIndex && <LabelsSlider />}
-      </nav>)}
+          {isHomeIndex && <LabelsSlider isScrolled={isScrolled}/>}
+          </div>
+        </div>)}
     </header>
-  )
+    )
 }

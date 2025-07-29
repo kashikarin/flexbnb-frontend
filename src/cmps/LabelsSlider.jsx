@@ -135,7 +135,7 @@ const labels = [
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389302/categories/arctics_obddis.png',
   },
 ]
-export function LabelsSlider() {
+export function LabelsSlider({isScrolled}) {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const sliderRef = useRef(null)
@@ -218,7 +218,8 @@ export function LabelsSlider() {
   }
 
   return (
-    <section className='labels-slider-container full'>
+    <section className={`labels-slider-container full ${!isScrolled ? 'hidden' : ''}`}>
+      <div class="separator"></div>
       <div className='labels-slider-grid-area'>
         <div className='labels-slider-wrapper'>
           <div
@@ -245,31 +246,29 @@ export function LabelsSlider() {
       </div>
 
       <div className='labels-slider-buttons-container'>
-        <div className='labels-slider-btn-left'>
-          {canScrollLeft && (<button
+        <div className={`labels-slider-btn-left ${canScrollLeft? 'visible' : ''}`}>
+          <button
             onClick={() => scrollSlider('left')}
-            className='labels-slider-btn left'
+            className={`labels-slider-btn left ${canScrollLeft? 'visible' : ''}`}
             aria-label='Scroll left'
           >
             <img
               src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg'
               alt='Previous'
             />
-          </button>)}
+          </button>
         </div>
-        <div className='labels-slider-btn-right'>
-          {canScrollRight && (
-            <button
-              onClick={() => scrollSlider('right')}
-              className='labels-slider-btn right'
-              aria-label='Scroll right'
-            >
-              <img
-                src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg'
-                alt='Next'
-              />
-            </button>
-          )}
+        <div className='labels-slider-btn-right'> 
+          <button
+            onClick={() => scrollSlider('right')}
+            className={`labels-slider-btn right ${canScrollRight? 'visible' : ''}`}
+            aria-label='Scroll right'
+          >
+            <img
+              src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg'
+              alt='Next'
+            />
+          </button>
         </div>
       </div>
       <div

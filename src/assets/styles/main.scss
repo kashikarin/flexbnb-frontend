@@ -23,7 +23,7 @@
 @import 'pages/TaskDetails';
 @import 'pages/LoginSignup';
 @import 'pages/Chat';
-@import 'pages/HomeDetails.scss';
+@import 'pages/HomeDetails';
 
 // Components
 @import 'cmps/list';
@@ -34,11 +34,11 @@
 @import 'cmps/UserMsg';
 @import 'cmps/HomeList';
 @import 'cmps/HomePreview';
-@import 'cmps/SearchBar.scss';
-@import 'cmps/WhereDropdown.scss';
-@import 'cmps/ReservationModal.scss';
-@import 'cmps/CapacityDropdown.scss';
-@import 'cmps/GuestFav.scss';
+@import 'cmps/SearchBar';
+@import 'cmps/WhereDropdown';
+@import 'cmps/ReservationModal';
+@import 'cmps/CapacityDropdown';
+@import 'cmps/GuestFav';
 
 @import 'cmps/homeFilter';
 @import 'cmps/ReviewEdit';
@@ -47,7 +47,7 @@
 @import 'cmps/LabelsSlider';
 @import 'cmps/LabelPreview';
 @import 'cmps/FilterDropdown';
-@import 'cmps/icons.scss';
-@import 'cmps/BuyingModals.scss';
-@import 'cmps/AppHeaderHomeDetails.scss';
-@import 'cmps/ReviewCard.scss';
+@import 'cmps/icons';
+@import 'cmps/BuyingModals';
+@import 'cmps/AppHeaderHomeDetails';
+@import 'cmps/ReviewCard';

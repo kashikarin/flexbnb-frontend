@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router'
+import { Routes, Route, Navigate } from 'react-router'
 import { userService } from './services/user'
-import { HomePage } from './pages/HomePage'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { HomeIndex } from './pages/HomeIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
@@ -18,16 +16,12 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
-import { HomeList } from './cmps/HomeList.jsx'
-import { BuyingStepOneModal } from './cmps/BuyingStepOneModal.jsx'
 import { ScrollProvider } from './context/ScrollContext.jsx'
 import { PotentialOrderProvider } from './context/potential-order/PotentialOrderContext.jsx'
 import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
 
 export function RootCmp() {
-  const loation = useLocation()
-  const isHomeIndex = location.pathname === '/'
   return (
     
       <ScrollProvider>
@@ -61,11 +55,11 @@ export function RootCmp() {
                           <Route path='login' element={<LoginSignup />}>
                             <Route index element={<Login />} />
                             <Route path='signup' element={<Signup />} />
-                            <Route path='hosting' element={<Hosting />}>
+                          </Route>
+                          <Route path='hosting' element={<Hosting />}>
                               <Route path='edit' element={<HomeEdit />} />
                               <Route path='reservations' element={<UserDetails />} />
                             </Route>
-                          </Route>
                         </Routes>
                       </main>
                     </div>

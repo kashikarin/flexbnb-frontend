@@ -9,12 +9,14 @@ import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { AppHeaderHomeDetails } from './AppHeaderHomeDetails'
+import { AppHeaderHomeEdit } from './AppHeaderHomeEdit'
 
 export function AppHeader() {
   const dispatch = useDispatch()
   const location = useLocation()
   const isHomeIndex = location.pathname === '/'
   const isHosting = location.pathname.startsWith('/hosting')
+  const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -57,10 +59,9 @@ export function AppHeader() {
 
   return (
     <header className='app-header'>
-      {isImgScrolledPast ? 
-        <AppHeaderHomeDetails /> 
-          :
-        (<div className={`app-header-main-container ${shouldShowScrolledStyle ? 'scrolled' : 'expanded'}`}>
+      {isImgScrolledPast && <AppHeaderHomeDetails />} 
+      {isHomeEdit && <AppHeaderHomeEdit />}
+      {(!isImgScrolledPast && !isHomeEdit) && (<div className={`app-header-main-container ${shouldShowScrolledStyle ? 'scrolled' : 'expanded'}`}>
           <div className="layout-wrapper">
             <nav className="app-header-main-nav">
               <div className="app-header-left-section">

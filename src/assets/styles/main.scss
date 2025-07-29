@@ -24,6 +24,8 @@
 @import 'pages/LoginSignup';
 @import 'pages/Chat';
 @import 'pages/HomeDetails';
+@import 'pages/HomeEdit';
+
 
 // Components
 @import 'cmps/list';
@@ -51,3 +53,6 @@
 @import 'cmps/BuyingModals';
 @import 'cmps/AppHeaderHomeDetails';
 @import 'cmps/ReviewCard';
+@import 'cmps/AppHeaderHomeEdit';
+@import 'cmps/HomeEditStepOne';
+@import 'cmps/HomeEditFooter';

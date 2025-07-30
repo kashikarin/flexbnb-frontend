@@ -13,6 +13,8 @@
   transition: opacity 0.3s ease;
   grid-template-columns: 10rem 1fr 10rem;
   padding-block-end: 1rem;
+  overflow-x: auto;     // ✅ enables horizontal scroll
+  overflow-y: hidden;
 
   
   &.hidden {
@@ -46,7 +48,9 @@
 
       .labels-slider-track {
         display: flex;
-        width: 100%;
+        justify-content: center;
+        
+        width: 95%;
         margin-inline: auto;
         gap: 1rem;
         overflow-x: auto;
@@ -100,6 +104,7 @@
     align-items: center;
     justify-content: space-between;
     // padding-inline: 1rem;
+    
 
     .labels-slider-btn-left,
     .labels-slider-btn-right {
@@ -112,6 +117,8 @@
 
     .labels-slider-btn-left {
        left: 0;
+             z-index: 2000;
+
        @media (max-width: $narrow-breakpoint) {
           left: 2rem;
         }
@@ -165,7 +172,7 @@
         position: absolute;
         top: 50%;
         right: 0;
-        left: 0;
+        left: 2.5rem;
         display: flex;
         justify-content: space-between;
 
@@ -183,6 +190,8 @@
     }
     .labels-slider-btn-right,
     .labels-slider-btn-left {
+      
+
       pointer-events: all;
       @media (max-width: $narrow-breakpoint) {
         // right: 5rem;
@@ -209,10 +218,11 @@
         z-index: -1;
       }
     }
-
+    
     .labels-slider-btn {
       color: $primary-font-black;
       display: flex;
+      
       justify-content: center;
       align-items: center;
       height: 1.75rem;

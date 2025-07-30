@@ -1,15 +1,44 @@
 .main-container {
   display: grid;
   grid-template-columns: 10rem 1fr 10rem;
-  overflow: visible;
-  > * {
-    grid-column: 2;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  overflow-y: auto; 
 
-    &.full {
-      grid-column: 2 / 3;
-    }
+  & > header {
+    grid-row: 1;
+    grid-column: 1/-1;
   }
 
+  & > footer {
+    grid-row: 3;
+    grid-column: 1/-1;
+    height: auto;
+  }
+
+   main {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    
+
+//    .main-inner {
+//   grid-column: 2;
+//   min-height: 100%;
+//   display: flex;
+//   flex-direction: column;
+// }
+  }
+  main::-webkit-scrollbar { //works on safari and opera
+    display: none;
+    
+  }
+.full {
+      grid-column: 1 / -1;
+  }
   // @include for-narrow-layout {
   //     grid-template-columns:
   //         minmax(20px, 1fr)

@@ -6,11 +6,14 @@ export function HomeEdit(){
 
     return(
         <section className="home-edit-container">
-            <div className="home-edit-form">
-                <div className={`home-edit-step-1 ${step === 1? 'selected' : ''}`}>
-                    <HomeEditStepOne />
+            <div className="home-edit-main">
+                <div className="home-edit-form">
+                    <div className={`home-edit-step-1 ${step === 1? 'selected' : ''}`}>
+                        <HomeEditStepOne />
+                    </div>
                 </div>
             </div>
+            
         </section>
     )
 }

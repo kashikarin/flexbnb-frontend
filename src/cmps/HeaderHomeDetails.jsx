@@ -6,7 +6,7 @@ import { PotentialOrderContext } from "../context/potential-order/PotentialOrder
 import { getAvgRating, roundToDecimals } from "../services/util.service";
 import { BuyingStepOneModal } from "./BuyingStepOneModal";
 
-export function AppHeaderHomeDetails() {
+export function HeaderHomeDetails() {
     const {isStickyScrolledPast} = useContext(ScrollContext)
     const {potentialOrder, onConfirmOrder, openConfirmationModal, closeConfirmationModal, isConfirmationModalOpen} = useContext(PotentialOrderContext)
     const home = useSelector(state => state.homeModule.home)

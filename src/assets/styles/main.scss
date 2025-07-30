@@ -51,9 +51,9 @@
 @import 'cmps/FilterDropdown';
 @import 'cmps/icons';
 @import 'cmps/BuyingModals';
-@import 'cmps/AppHeaderHomeDetails';
+@import 'cmps/HeaderHomeDetails';
 @import 'cmps/ReviewCard';
-@import 'cmps/AppHeaderHomeEdit';
-@import 'cmps/HomeEditStepOne';
-@import 'cmps/HomeEditFooter';
+@import 'cmps/home-edit/HeaderHomeEdit.scss';
+@import 'cmps/home-edit/HomeEditStepOne';
+@import 'cmps/home-edit/HomeEditFooter';
 @import 'cmps/DatesDropdown.scss';

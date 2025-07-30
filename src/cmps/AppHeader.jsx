@@ -8,10 +8,10 @@ import { userService } from '../services/user/user.service.local'
 import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
 import { ScrollContext } from '../context/ScrollContext'
-import { AppHeaderHomeDetails } from './AppHeaderHomeDetails'
-import { AppHeaderHomeEdit } from './AppHeaderHomeEdit'
+import { HeaderHomeDetails } from './HeaderHomeDetails'
+import { HeaderHomeEdit } from './HeaderHomeEdit'
 
-export function AppHeader() {
+export function AppHeader({scrollContainerRef}) {
   const dispatch = useDispatch()
   const location = useLocation()
   const isHomeIndex = location.pathname === '/'
@@ -24,6 +24,7 @@ export function AppHeader() {
 
 
   useEffect(() => {
+
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
     handleResize()
@@ -31,10 +32,15 @@ export function AppHeader() {
   }, [])
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const elMain = scrollContainerRef?.current
+    console.log('👀 scrollContainerRef.current:', scrollContainerRef?.current)
+    if (!elMain) return
+
+    const handleScroll = () => setIsScrolled(elMain.scrollTop  > 20)
+    elMain.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => elMain.removeEventListener('scroll', handleScroll)
+  }, [scrollContainerRef])
   
   useEffect(() => {
     (async function initAndLoadData() {
@@ -46,7 +52,7 @@ export function AppHeader() {
         console.error('Cannot create or load data', err)
       }
     })()
-  }, [])
+  }, [scrollContainerRef?.current])
 
   async function loadLoggedInUser() {
     const loggedInUser = await userService.getLoggedinUser()
@@ -59,8 +65,8 @@ export function AppHeader() {
 
   return (
     <header className='app-header'>
-      {isImgScrolledPast && <AppHeaderHomeDetails />} 
-      {isHomeEdit && <AppHeaderHomeEdit />}
+      {isImgScrolledPast && <HeaderHomeDetails />} 
+      {isHomeEdit && <HeaderHomeEdit />}
       {(!isImgScrolledPast && !isHomeEdit) && (<div className={`app-header-main-container ${shouldShowScrolledStyle ? 'scrolled' : 'expanded'}`}>
           <div className="layout-wrapper">
             <nav className="app-header-main-nav">

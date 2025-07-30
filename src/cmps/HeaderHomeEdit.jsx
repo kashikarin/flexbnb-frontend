@@ -1,7 +1,7 @@
 import { FaAirbnb } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 
-export function AppHeaderHomeEdit(){
+export function HeaderHomeEdit(){
 
     return(
         <header className='home-edit-header full'>

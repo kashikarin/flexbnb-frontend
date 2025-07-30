@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { setFilterBy } from '../store/home.actions'
 import { LabelPreview } from './LabelPreview'
+import { ScrollContext } from '../context/ScrollContext'
 
 const labels = [
   {
@@ -135,7 +136,7 @@ const labels = [
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389302/categories/arctics_obddis.png',
   },
 ]
-export function LabelsSlider({isScrolled}) {
+export function LabelsSlider() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const sliderRef = useRef(null)
@@ -144,6 +145,7 @@ export function LabelsSlider({isScrolled}) {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+  const {isScrolled, setIsScrolled} = useContext(ScrollContext)
 
   const checkScrollPosition = () => {
     if (sliderRef.current) {
@@ -271,12 +273,12 @@ export function LabelsSlider({isScrolled}) {
           </button>
         </div>
       </div>
-      <div
+      {/* <div
         className='labels-slider-filter-container'
         style={{ position: 'relative' }}
       >
-        {}
-      </div>
+
+      </div> */}
     </section>
   )
 }

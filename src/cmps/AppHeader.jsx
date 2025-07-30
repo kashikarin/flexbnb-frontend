@@ -14,17 +14,16 @@ import { HeaderHomeEdit } from './HeaderHomeEdit'
 export function AppHeader({scrollContainerRef}) {
   const dispatch = useDispatch()
   const location = useLocation()
+  const {isScrolled, setIsScrolled} = useContext(ScrollContext)
   const isHomeIndex = location.pathname === '/'
   const isHosting = location.pathname.startsWith('/hosting')
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-  // const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
-  const {isImgScrolledPast, isStickyScrolledPast, setIsScrolled, isScrolled} = useContext(ScrollContext)
+  const {isImgScrolledPast, isStickyScrolledPast} = useContext(ScrollContext)
 
 
   useEffect(() => {
-
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
     handleResize()
@@ -32,15 +31,12 @@ export function AppHeader({scrollContainerRef}) {
   }, [])
 
   useEffect(() => {
-    const elMain = scrollContainerRef?.current
-    console.log('👀 scrollContainerRef.current:', scrollContainerRef?.current)
+    const elMain = scrollContainerRef.current
     if (!elMain) return
-
-    const handleScroll = () => setIsScrolled(elMain.scrollTop  > 20)
+    const handleScroll = () => setIsScrolled(elMain.scrollTop > 20)
     elMain.addEventListener('scroll', handleScroll)
-    handleScroll()
     return () => elMain.removeEventListener('scroll', handleScroll)
-  }, [scrollContainerRef])
+  }, [])
   
   useEffect(() => {
     (async function initAndLoadData() {
@@ -52,7 +48,7 @@ export function AppHeader({scrollContainerRef}) {
         console.error('Cannot create or load data', err)
       }
     })()
-  }, [scrollContainerRef?.current])
+  }, [])
 
   async function loadLoggedInUser() {
     const loggedInUser = await userService.getLoggedinUser()
@@ -60,14 +56,15 @@ export function AppHeader({scrollContainerRef}) {
       dispatch({ type: SET_LOGGEDINUSER, user: loggedInUser })
     }
   }
-
-  const shouldShowScrolledStyle = isScrolled || isSmallScreen || !isHomeIndex
+  useEffect(()=>{
+    if (!isHomeIndex || isSmallScreen) setIsScrolled(true)
+  }, [isSmallScreen, isHomeIndex])
 
   return (
-    <header className='app-header'>
+    <header className={`app-header `}>
       {isImgScrolledPast && <HeaderHomeDetails />} 
       {isHomeEdit && <HeaderHomeEdit />}
-      {(!isImgScrolledPast && !isHomeEdit) && (<div className={`app-header-main-container ${shouldShowScrolledStyle ? 'scrolled' : 'expanded'}`}>
+      {(!isImgScrolledPast && !isHomeEdit) && (<div className={`app-header-main-container ${isScrolled ? 'scrolled' : 'expanded'}`}>
           <div className="layout-wrapper">
             <nav className="app-header-main-nav">
               <div className="app-header-left-section">
@@ -76,15 +73,15 @@ export function AppHeader({scrollContainerRef}) {
                   <span>flexbnb</span>
                 </NavLink>
               </div>
-              <div className={`app-header-mid-section ${shouldShowScrolledStyle ? 'scrolled' : 'expanded'}`}>
+              <div className={`app-header-mid-section ${isScrolled ? 'scrolled' : 'expanded'}`}>
                 {isHosting ? 
                   (<nav className='hosting-header-nav'>
                     <NavLink to='/hosting/edit'>Create a new listing</NavLink>
                     <NavLink to='/hosting/reservations/'>Reservations</NavLink>
                   </nav>)
                     :
-                  <div className={`searchbar-wrapper ${shouldShowScrolledStyle ? '' : 'expanded'}`}>
-                    <SearchBar isScrolled={shouldShowScrolledStyle} />
+                  <div className={`searchbar-wrapper ${isScrolled ? '' : 'expanded'}`}>
+                    <SearchBar isScrolled={isScrolled} />
                   </div>}
               </div>
               <div className="app-header-right-section">

@@ -17,18 +17,24 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
-import { ScrollProvider } from './context/ScrollContext.jsx'
+import { ScrollContext, ScrollProvider } from './context/ScrollContext.jsx'
 import { PotentialOrderProvider } from './context/potential-order/PotentialOrderContext.jsx'
 import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
 import { HomeEditProvider } from './context/home-edit/HomeEditContext.jsx'
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { LabelsSlider } from './cmps/LabelsSlider.jsx'
+
 
 export function RootCmp() {
   const mainRef = useRef()
-  const location = useLocation
+  const location = useLocation()
   const isIndex = location.pathname === '/'
+  const {isScrolled, setIsScrolled} = useContext(ScrollContext)
+  
+  
+  console.log('📍location.pathname:', location.pathname)
+console.log('🏠 isIndex:', isIndex)
   return (
     
       <ScrollProvider>
@@ -38,9 +44,10 @@ export function RootCmp() {
                 
                   <div className='main-container'>
                     <AppHeader scrollContainerRef={mainRef} />
-                      {isIndex && <LabelsSlider />}
+                      
                       {/* <UserMsg /> */}
                         <main ref={mainRef}>
+                          {isIndex && <LabelsSlider />}
                           <div className="main-inner">
                               <Routes>
                               {/* <Route path='' element={<HomePage />} /> */}

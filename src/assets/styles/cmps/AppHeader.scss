@@ -9,9 +9,8 @@
   grid-template-columns: 10rem 1fr 10rem;
   max-width: 100vw;
   width: 100%;
-  min-height: 120px;
+  min-height: 65px;
   overflow: visible; 
-  padding-top: 2.5rem; 
   
   border-bottom: 1px solid $divider-color;
   // &.scrolled {
@@ -19,28 +18,33 @@
   //   padding-block: 1rem;
   // }
 
+     transition: all 0.3s ease;
+
+  &.expanded {
+    min-height: 120px; // or any value that works visually
+  }
+}
   // &.expanded {
   //   padding-bottom: 6rem;
   // }
 
-  &.scrolled {
-    transition: all 0.4s;
-  }
+  // &.scrolled {
+  //   transition: all 0.4s;
+  // }
 
-  &.expanded {
-    padding-bottom: 4rem;
-  }
+  // &.expanded {
+  //   padding-bottom: 4rem;
+  // }
 
 
   .app-header-main-container {
     display: flex;
-    padding-block-start: 1rem;
     align-items: center;
     justify-content: space-between;    
     position: relative;
     grid-column: 2;
     width: 100%;
-    min-height: 6rem;
+    min-height: 3rem;
 
     
     z-index: 20;
@@ -257,7 +261,7 @@
 
     }
 
-    }      
+   
 
     
 

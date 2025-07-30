@@ -1,12 +1,19 @@
 .capacity-dropdown-wrapper {
   // position: relative;
-  width: 100%;
-  margin: 0;
+  // width: 100%;
+  // margin: 0;
+    position: absolute; 
+    top: 100%;
+    right: 0;
+    width: 50%;
+    z-index: 20;
   cursor: default;
 
 .capacity-dropdown-container {
     .capacity-dropdown-panel {
       position: absolute;
+      margin-top: 10px;
+      background: white;
       top: 100%;
       left: 0;
       margin-block-end: 1rem;
@@ -14,8 +21,8 @@
       min-width: 280px;
       text-align: left;
       background: $clr8;
-      border-radius: 4px;
-      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       z-index: 1000000;
       opacity: 0;
       transform: translateY(-10px);

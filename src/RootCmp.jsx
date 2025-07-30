@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router'
+import { Routes, Route, Navigate, useLocation } from 'react-router'
 import { userService } from './services/user'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { HomeIndex } from './pages/HomeIndex.jsx'
@@ -8,6 +8,7 @@ import { AdminIndex } from './pages/AdminIndex.jsx'
 
 import { HomeDetails } from './pages/HomeDetails'
 import { UserDetails } from './pages/UserDetails'
+
 
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
@@ -22,9 +23,12 @@ import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
 import { HomeEditProvider } from './context/home-edit/HomeEditContext.jsx'
 import { useRef } from 'react'
+import { LabelsSlider } from './cmps/LabelsSlider.jsx'
 
 export function RootCmp() {
   const mainRef = useRef()
+  const location = useLocation
+  const isIndex = location.pathname === '/'
   return (
     
       <ScrollProvider>
@@ -34,6 +38,7 @@ export function RootCmp() {
                 
                   <div className='main-container'>
                     <AppHeader scrollContainerRef={mainRef} />
+                      {isIndex && <LabelsSlider />}
                       {/* <UserMsg /> */}
                         <main ref={mainRef}>
                           <div className="main-inner">

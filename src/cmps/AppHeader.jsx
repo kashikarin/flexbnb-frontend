@@ -18,9 +18,9 @@ export function AppHeader({scrollContainerRef}) {
   const isHosting = location.pathname.startsWith('/hosting')
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-  const [isScrolled, setIsScrolled] = useState(false)
+  // const [isScrolled, setIsScrolled] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
-  const {isImgScrolledPast, isStickyScrolledPast} = useContext(ScrollContext)
+  const {isImgScrolledPast, isStickyScrolledPast, setIsScrolled, isScrolled} = useContext(ScrollContext)
 
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export function AppHeader({scrollContainerRef}) {
                     <NavLink to='/hosting/reservations/'>Reservations</NavLink>
                   </nav>)
                     :
-                  <div className={`searchbar-wrapper ${isScrolled ? '' : 'expanded'}`}>
+                  <div className={`searchbar-wrapper ${shouldShowScrolledStyle ? '' : 'expanded'}`}>
                     <SearchBar isScrolled={shouldShowScrolledStyle} />
                   </div>}
               </div>
@@ -99,7 +99,7 @@ export function AppHeader({scrollContainerRef}) {
               </div>
           </nav>
         
-          {isHomeIndex && <LabelsSlider isScrolled={isScrolled}/>}
+          {/* {isHomeIndex && <LabelsSlider isScrolled={shouldShowScrolledStyle}/>} */}
           </div>
         </div>)}
     </header>

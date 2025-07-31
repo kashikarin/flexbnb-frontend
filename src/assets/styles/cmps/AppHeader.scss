@@ -1,76 +1,53 @@
 .app-header {
   height: auto;
-  position: sticky;
-  top: 0;
   z-index: 1001;
   background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
   padding: 0;
   display: grid;
   grid-template-columns: 10rem 1fr 10rem;
+  grid-template-rows: auto auto;
   max-width: 100vw;
   width: 100%;
   min-height: 65px;
   overflow: visible; 
-  
+  position: sticky;
+  top: 0;
   border-bottom: 1px solid $divider-color;
-  // &.scrolled {
-  //   transition: all 0.4s;
-  //   padding-block: 1rem;
-  // }
-
-     transition: all 0.3s ease;
-
+  transition: min-height 0.4s ease;
   &.expanded {
-    min-height: 120px; // or any value that works visually
+    min-height: 140px;
   }
 }
-  // &.expanded {
-  //   padding-bottom: 6rem;
-  // }
-
-  // &.scrolled {
-  //   transition: all 0.4s;
-  // }
-
-  // &.expanded {
-  //   padding-bottom: 4rem;
-  // }
-
 
   .app-header-main-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;    
-    position: relative;
-    grid-column: 2;
+    // position: relative;
+    grid-column: 1/-1;
     width: 100%;
-    min-height: 3rem;
-
-    
+    height: auto;
     z-index: 20;
     overflow: visible;
-    // padding-block-end: 5rem;
-    
-    // padding: 0 1rem; // optional, for tighter spacing inside
-    min-width: 0;
-    padding-bottom: 0;
-  //   &.scrolled {
-  //     padding-block: 1rem;
-  //     transform: scaleY(0.85); // optional for visual stretch
-  // }
-    
+    padding-block: 1rem;
+ 
     .layout-wrapper {
       display: grid;
       grid-template-columns: 10rem 1fr 10rem;
+      grid-template-rows: auto 1rem auto;
+      row-gap: 0rem;
       width: 100%;
       max-width: 100vw;
       overflow: visible;
-      padding-block: 0;
+      padding-block-end: 1rem;
       transition: padding 0.3s ease, height 0.3s ease;  
       transform-origin: center center;
+      background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
+
       // border-bottom: 1px solid $divider-color;
 
-    
+      
 
       // Let children span full width unless overridden
       > * {
@@ -79,8 +56,8 @@
       .app-header-main-nav {
         display: grid;
         grid-template-columns: 10rem 1fr 10rem;
-        grid-column: 1/-1;
-        height: 100%;
+        grid-column: 2;
+        height: auto; 
         width: 100%;
         min-width: 0;
         font-size: 0.9em; //0.875 - 1 rem
@@ -197,21 +174,27 @@
               // padding-block-end: 0.5rem;
               background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
               // box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-              z-index: 1;
+              z-index: 2;
               pointer-events: auto;
               overflow: visible;
-              transition: transform 0.3s ease;
+              transition: transform 0.4s ease;
 
             &.expanded {
-                transform: translateY(5rem);  
-                background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
-                // transition: transform 0.4s ease;
-                z-index: 2;
-                // box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);            
+                transform: translateY(6rem);            
             }
            }
           }
-          
+          .app-header-expander {
+              height: 6rem;
+           }
+           .app-header-labels-slider-wrapper {
+              grid-row: 3;
+              grid-column: 2; 
+              min-height: 4rem;
+              position: relative;
+              transition: height 0.3s ease, opacity 0.3s ease;
+              // padding-block: 1rem;
+            }
         }
 
         .app-header-right-section {
@@ -261,6 +244,7 @@
 
     }
 
+  
    
 
     

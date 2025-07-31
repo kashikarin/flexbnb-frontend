@@ -61,10 +61,10 @@ export function AppHeader({scrollContainerRef}) {
   }, [isSmallScreen, isHomeIndex])
 
   return (
-    <header className={`app-header `}>
+    <header className={`app-header`}>
       {isImgScrolledPast && <HeaderHomeDetails />} 
       {isHomeEdit && <HeaderHomeEdit />}
-      {(!isImgScrolledPast && !isHomeEdit) && (<div className={`app-header-main-container ${isScrolled ? 'scrolled' : 'expanded'}`}>
+      {(!isImgScrolledPast && !isHomeEdit) && (<><div className={`app-header-main-container ${isScrolled ? 'scrolled' : 'expanded'}`}>
           <div className="layout-wrapper">
             <nav className="app-header-main-nav">
               <div className="app-header-left-section">
@@ -82,7 +82,8 @@ export function AppHeader({scrollContainerRef}) {
                     :
                   <div className={`searchbar-wrapper ${isScrolled ? '' : 'expanded'}`}>
                     <SearchBar isScrolled={isScrolled} />
-                  </div>}
+                  </div>
+                  }
               </div>
               <div className="app-header-right-section">
                 <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
@@ -95,10 +96,16 @@ export function AppHeader({scrollContainerRef}) {
                   )}
               </div>
           </nav>
-        
-          {/* {isHomeIndex && <LabelsSlider isScrolled={shouldShowScrolledStyle}/>} */}
+            {isHomeIndex && <div className="app-header-labels-slider-wrapper">
+            <LabelsSlider isScrolled={isScrolled}/>
+          </div>}
+          
           </div>
-        </div>)}
+            
+        </div>
+        
+        </>)}
+        
     </header>
     )
 }

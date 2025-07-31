@@ -16,13 +16,13 @@
     height: auto;
   }
 
-   main {
+   & >main {
     grid-column: 2;
     grid-row: 2;
     min-height: 0;
-    height: 100%;
     overflow-y: auto;
     -ms-overflow-style: none;
+    
     
 
 //    .main-inner {

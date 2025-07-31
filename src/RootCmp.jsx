@@ -47,7 +47,7 @@ console.log('🏠 isIndex:', isIndex)
                       
                       {/* <UserMsg /> */}
                         <main ref={mainRef}>
-                          {isIndex && <LabelsSlider />}
+                          {/* {isIndex && <LabelsSlider />} */}
                           <div className="main-inner">
                               <Routes>
                               {/* <Route path='' element={<HomePage />} /> */}

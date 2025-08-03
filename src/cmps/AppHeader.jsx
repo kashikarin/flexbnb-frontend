@@ -102,7 +102,7 @@ export function AppHeader({scrollContainerRef}) {
         )}
       </nav>
       <div className="app-header-bottom-row">
-          {isScrolled && (<div className="app-header-labels-slider-wrapper">
+          {isHomeIndex && isScrolled && (<div className="app-header-labels-slider-wrapper">
             <LabelsSlider isScrolled={isScrolled}/>
           </div>)}
       </div>

@@ -61,51 +61,51 @@ export function AppHeader({scrollContainerRef}) {
   }, [isSmallScreen, isHomeIndex])
 
   return (
-    <header className={`app-header`}>
-      {isImgScrolledPast && <HeaderHomeDetails />} 
+    <header className={`app-header ${!isScrolled ? "expanded" : ''}`}>
+      {isImgScrolledPast && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
-      {(!isImgScrolledPast && !isHomeEdit) && (<><div className={`app-header-main-container ${isScrolled ? 'scrolled' : 'expanded'}`}>
-          <div className="layout-wrapper">
-            <nav className="app-header-main-nav">
-              <div className="app-header-left-section">
-                <NavLink to='/' className='logo'>
-                  <FaAirbnb />
-                  <span>flexbnb</span>
-                </NavLink>
-              </div>
-              <div className={`app-header-mid-section ${isScrolled ? 'scrolled' : 'expanded'}`}>
-                {isHosting ? 
-                  (<nav className='hosting-header-nav'>
-                    <NavLink to='/hosting/edit'>Create a new listing</NavLink>
-                    <NavLink to='/hosting/reservations/'>Reservations</NavLink>
-                  </nav>)
-                    :
-                  <div className={`searchbar-wrapper ${isScrolled ? '' : 'expanded'}`}>
-                    <SearchBar isScrolled={isScrolled} />
-                  </div>
-                  }
-              </div>
-              <div className="app-header-right-section">
-                <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
-                {loggedInUser && (
-                    <div className='user-info'>
-                      <Link to={`user/${loggedInUser._id}`}>
-                        {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
-                      </Link>
-                    </div>
-                  )}
-              </div>
-          </nav>
-            {isHomeIndex && <div className="app-header-labels-slider-wrapper">
-            <LabelsSlider isScrolled={isScrolled}/>
-          </div>}
-          
+      <nav className={`app-header-main-nav ${isScrolled ? 'scrolled' : 'expanded'}`}>
+        {(!isImgScrolledPast && !isHomeEdit) && (
+          <div className="app-header-main-nav-content">
+          {/* main-nav - left section */}
+          <div className="app-header-left-section">
+            <NavLink to='/' className='logo'>
+              <FaAirbnb />
+              <span>flexbnb</span>
+            </NavLink>
           </div>
-            
+          {/* main - nav - mid section */}
+          <div className={`app-header-mid-section ${isScrolled ? 'scrolled' : 'expanded'}`}>
+          {isHosting ? (
+            <nav className='hosting-header-nav'>
+              <NavLink to='/hosting/edit'>Create a new listing</NavLink>
+              <NavLink to='/hosting/reservations/'>Reservations</NavLink>
+            </nav>
+          ) : (     
+            <div className={`searchbar-wrapper ${isScrolled ? 'scrolled' : 'expanded'}`}>
+              <SearchBar isScrolled={isScrolled} />
+            </div>
+          )}
+          </div>
+          {/* main - nav - right section */}
+          <div className="app-header-right-section">
+            <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
+              {loggedInUser && (
+                <div className='user-info'>
+                  <Link to={`user/${loggedInUser._id}`}>
+                    {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
+                  </Link>
+                </div>
+              )}
+          </div>
         </div>
-        
-        </>)}
-        
+        )}
+      </nav>
+      <div className="app-header-bottom-row">
+          {isScrolled && (<div className="app-header-labels-slider-wrapper">
+            <LabelsSlider isScrolled={isScrolled}/>
+          </div>)}
+      </div>
     </header>
     )
 }

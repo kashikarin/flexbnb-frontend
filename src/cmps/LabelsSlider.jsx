@@ -220,7 +220,7 @@ export function LabelsSlider() {
   }
 
   return (
-    <section className={`labels-slider-container full ${!isScrolled ? 'hidden' : ''}`}>
+    <section className={`labels-slider-container full ${isScrolled ? '' : 'hidden'}`}>
       <div class="separator"></div>
       <div className='labels-slider-grid-area'>
         <div className='labels-slider-wrapper'>

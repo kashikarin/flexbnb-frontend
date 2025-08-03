@@ -14,6 +14,7 @@
   padding-block-end: 1rem;
   overflow-x: auto;     // ✅ enables horizontal scroll
   padding-block-end: 0;
+  position: relative;
 
   &.expanded {
     padding-block-end: 4rem;
@@ -39,6 +40,7 @@
     grid-column: 1/-1;
     overflow: hidden;
     width: 100%;
+    
     max-width: 100%;
     position: relative;
     min-height: 5rem;
@@ -53,7 +55,6 @@
       .labels-slider-track {
         display: flex;
         justify-content: center;
-        
         width: 95%;
         margin-inline: auto;
         gap: 1rem;

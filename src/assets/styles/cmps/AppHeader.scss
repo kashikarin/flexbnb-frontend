@@ -35,7 +35,7 @@
     .layout-wrapper {
       display: grid;
       grid-template-columns: 10rem 1fr 10rem;
-      grid-template-rows: auto 1rem auto;
+      grid-template-rows: auto 1fr auto;
       row-gap: 0rem;
       width: 100%;
       max-width: 100vw;

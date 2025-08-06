@@ -1,23 +1,28 @@
 .home-edit-footer {
-    grid-row: 2;
-    display: flex;
- background: rgba(255, 0, 0, 0.1);
-  outline: 2px solid red;
-    align-items: center;
-    justify-content: center;
-    
-    // z-index: 1000;
-    height: 5.75rem;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 5.75rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
     background-color: #fff;
-    display: flex;
-    align-items: center;     
-    justify-content: center; 
-    box-sizing: border-box;
+    z-index: 2;
+    padding-inline: 1rem;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    top: auto !important;
+    inset: unset !important;
+    inset-block-start: unset !important;
 
-    
+
     .home-edit-footer-loader-container {
         display: flex;
         gap: 0.1px;
+        width: 100%;
+        // max-width: 960px;
     }
     .home-edit-footer-loader {
         width: 30%;
@@ -48,13 +53,25 @@
     
     .home-edit-footer-main {
         display: flex;
-        // flex: 1;
         justify-content: space-between;
         align-items: center;
-        // padding-block: 1rem;
+        width: 100%;
+        // max-width: 960px;
 
         .home-edit-back-btn {
-            
+            padding: 10px;
+            transition: background-color 0.2s;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+            text-align: center;
+            width: auto;
+            text-decoration: underline;
+            color: $primary-black-inverted;
+
+            &:hover {
+                background-color: $secondary-hover-gray;
+            }
         }
         
         .home-edit-next-btn {

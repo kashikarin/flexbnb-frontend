@@ -1,16 +1,14 @@
 
 .home-edit-container {
-    display: grid;
-    grid-template-rows: 1fr 5.75rem;
-    height: 100vh;
-  
-   
+    height: 100%;
+     
     .home-edit-main {
+        height: 100%;
         overflow-y: auto; 
-        padding: 1rem; 
-        box-sizing: border-box;
+        padding: 5.75rem; 
+        
     }
-    
+
 }    
 
 @media (max-width: $mobile-breakpoint) {

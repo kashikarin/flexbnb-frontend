@@ -1,5 +1,8 @@
 
 .home-edit-header {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
     grid-column: 2;
     // grid-template-columns: 10rem 1fr 10rem;
     background-color: blue;
@@ -19,16 +22,14 @@
     color: $primary-font-black;
     padding-block: 1rem;
     & > a {
-        &.hosting-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color:$primary-font-black;
-            height: 32px;
-            width: 32px;
+        &.logo-black {
+            @extend .logo;
+            font-size: 2em;
+            color: black;
             .injected-svg {
-                height: 28px;
-                width: 28px;
+                fill: black;
+                height: 42px;
+                width: 42px;
             }
         }
         &:nth-child(2) {

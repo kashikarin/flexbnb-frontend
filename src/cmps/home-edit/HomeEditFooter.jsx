@@ -6,9 +6,9 @@ export function HomeEditFooter(){
 
     return(
         <footer className="home-edit-footer">
-            <div className="home-edit-footer-loader">
-                <div className="home-edit-footer-loader-step-1">
-                    <div className="home-edit-footer-loader-step-1-progress" />
+            <div className="home-edit-footer-loader-container">
+                <div className="home-edit-footer-loader step-1">
+                    <div className="home-edit-footer-loader-progress step-1" />
                 </div>
                 <div className="home-edit-footer-loader step-2">
                     <div className="home-edit-footer-loader-progress step-2" />
@@ -21,7 +21,6 @@ export function HomeEditFooter(){
                 <button className="home-edit-back-btn" onClick={setStep(prev => prev > 1 ? prev - 1 : 0)}>Back</button>
                 <button className="home-edit-next-btn" onClick={setStep(prev => prev + 1)}>Next</button>
             </main>
-
         </footer>
     )
 }

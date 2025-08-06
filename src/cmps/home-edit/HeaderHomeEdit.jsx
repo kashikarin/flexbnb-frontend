@@ -4,8 +4,8 @@ import { NavLink } from "react-router-dom"
 export function HeaderHomeEdit(){
 
     return(
-        <header className='home-edit-header full'>
-            <NavLink to='hosting' className='hosting-logo'>
+        <header className='home-edit-header'>
+            <NavLink to='hosting' className='logo-black'>
                 <FaAirbnb />
             </NavLink>
             <NavLink to='hosting'>Save & exit</NavLink>

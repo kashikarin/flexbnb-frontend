@@ -24,12 +24,14 @@ import { HomeEdit } from './pages/HomeEdit.jsx'
 import { HomeEditProvider } from './context/home-edit/HomeEditContext.jsx'
 import { useContext, useRef } from 'react'
 import { LabelsSlider } from './cmps/LabelsSlider.jsx'
+import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
 
 
 export function RootCmp() {
   const mainRef = useRef()
   const location = useLocation()
   const isIndex = location.pathname === '/'
+  const isHomeEdit = location.pathname === '/hosting/edit'
   const {isScrolled, setIsScrolled} = useContext(ScrollContext)
   
   
@@ -48,8 +50,7 @@ console.log('🏠 isIndex:', isIndex)
                       {/* <UserMsg /> */}
                         <main ref={mainRef}>
                           {/* {isIndex && <LabelsSlider />} */}
-                          <div className="main-inner">
-                              <Routes>
+                            <Routes>
                               {/* <Route path='' element={<HomePage />} /> */}
                               <Route path='' element={<HomeIndex />} />
 
@@ -78,11 +79,10 @@ console.log('🏠 isIndex:', isIndex)
                                   <Route path='edit' element={<HomeEdit />} />
                                   <Route path='reservations' element={<UserDetails />} />
                                 </Route>
-                            </Routes>
-                          </div>
-                          
+                            </Routes>                         
+                         
                         </main>                          
-                         <AppFooter />
+                        {/* {isHomeEdit ? <HomeEditFooter /> : <AppFooter />} */}
                       </div> 
               </HomeEditProvider>
                   </PotentialOrderProvider>      

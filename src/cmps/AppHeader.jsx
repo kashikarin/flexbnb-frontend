@@ -9,7 +9,7 @@ import { SET_LOGGEDINUSER } from '../store/user.reducer'
 import { initUsers } from '../store/user.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { HeaderHomeDetails } from './HeaderHomeDetails'
-import { HeaderHomeEdit } from './HeaderHomeEdit'
+import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
 
 export function AppHeader({scrollContainerRef}) {
   const dispatch = useDispatch()
@@ -61,16 +61,16 @@ export function AppHeader({scrollContainerRef}) {
   }, [isSmallScreen, isHomeIndex])
 
   return (
-    <header className={`app-header ${!isScrolled ? "expanded" : ''}`}>
+    <header className={`app-header ${(!isScrolled && !isHomeEdit)? "expanded" : ''} ${isHomeEdit? 'home-edit' : ''}`}>
       {isImgScrolledPast && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
-      <nav className={`app-header-main-nav ${isScrolled ? 'scrolled' : 'expanded'}`}>
-        {(!isImgScrolledPast && !isHomeEdit) && (
+      {(!isImgScrolledPast && !isHomeEdit) && (<nav className={`app-header-main-nav ${isScrolled ? 'scrolled' : 'expanded'}`}>
+        
           <div className="app-header-main-nav-content">
           {/* main-nav - left section */}
           <div className="app-header-left-section">
             <NavLink to='/' className='logo'>
-              <FaAirbnb />
+              <FaAirbnb className="logo-icon"/>
               <span>flexbnb</span>
             </NavLink>
           </div>
@@ -99,8 +99,8 @@ export function AppHeader({scrollContainerRef}) {
               )}
           </div>
         </div>
-        )}
-      </nav>
+        
+      </nav>)}
       <div className="app-header-bottom-row">
           {isHomeIndex && isScrolled && (<div className="app-header-labels-slider-wrapper">
             <LabelsSlider isScrolled={isScrolled}/>

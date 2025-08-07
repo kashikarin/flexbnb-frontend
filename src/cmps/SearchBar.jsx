@@ -8,9 +8,8 @@ import { homeService } from '../services/home/home.service.local.js'
 import { DatesDropdown } from './DatesDropdown.jsx'
 import { ScrollContext } from '../context/ScrollContext.jsx'
 
-export function SearchBar() {
+export function SearchBar({isScrolled}) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  const {isScrolled, setIsScrolled} = useContext(ScrollContext)
   // const [scrolled, setScrolled] = useState(isScrolled)
   const [isMobile, setIsMobile] = useState(false)
   const [activeButton, setActiveButton] = useState(null)

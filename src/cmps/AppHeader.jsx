@@ -60,11 +60,13 @@ export function AppHeader({scrollContainerRef}) {
     if (!isHomeIndex || isSmallScreen) setIsScrolled(true)
   }, [isSmallScreen, isHomeIndex])
 
+const shouldCollapse = isScrolled || !isHomeIndex || isSmallScreen;
+
   return (
-    <header className={`app-header ${(!isScrolled && !isHomeEdit)? "expanded" : ''} ${isHosting || isImgScrolledPast? 'one-row-divider' : ''}`}>
+    <header className={`app-header ${(shouldCollapse)? '' : "expanded"} ${isHosting || isImgScrolledPast? 'one-row-divider' : ''}`}>
       {isImgScrolledPast && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
-      {(!isImgScrolledPast && !isHomeEdit) && (<nav className={`app-header-main-nav ${isScrolled ? 'scrolled' : 'expanded'}`}>
+      {(!isImgScrolledPast && !isHomeEdit) && (<nav className={`app-header-main-nav ${shouldCollapse ? 'scrolled' : 'expanded'}`}>
         
           <div className="app-header-main-nav-content">
           {/* main-nav - left section */}
@@ -75,15 +77,15 @@ export function AppHeader({scrollContainerRef}) {
             </NavLink>
           </div>
           {/* main - nav - mid section */}
-          <div className={`app-header-mid-section ${isScrolled ? 'scrolled' : 'expanded'}`}>
+          <div className={`app-header-mid-section ${shouldCollapse? 'scrolled' : 'expanded'}`}>
           {isHosting ? (
             <nav className='hosting-header-nav'>
               <NavLink to='/hosting/edit'>Create a new listing</NavLink>
               <NavLink to='/hosting/reservations/'>Reservations</NavLink>
             </nav>
           ) : (     
-            <div className={`searchbar-wrapper ${isScrolled ? 'scrolled' : 'expanded'}`}>
-              <SearchBar isScrolled={isScrolled} />
+            <div className={`searchbar-wrapper ${shouldCollapse? 'scrolled' : 'expanded'}`}>
+              <SearchBar isScrolled={shouldCollapse} />
             </div>
           )}
           </div>

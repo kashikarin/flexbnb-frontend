@@ -5,11 +5,42 @@
     .home-edit-main {
         height: 100%;
         overflow-y: auto; 
-        padding: 5.75rem; 
-        
-    }
+        padding-block-end: 5.75rem; 
+        display: flex;
+        align-items: center;
+        animation-duration: 0.6s;
+        animation-fill-mode: forwards;
 
-}    
+        &.fade-in {
+            animation-name: fadeIn;
+        }
+
+        &.fade-out {
+            animation-name: fadeOut;
+        }
+    }
+    
+}  
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+    
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 
 @media (max-width: $mobile-breakpoint) {
 

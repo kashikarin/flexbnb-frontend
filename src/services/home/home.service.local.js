@@ -8,7 +8,7 @@ import {
 
 const STORAGE_KEY = 'home'
 
-const gHomeTypes = ['House', 'Apartment', 'Condo', 'Villa']
+export const gHomeTypes = ['House', 'Apartment', 'Guesthouse', 'Hotel']
 const gAmenities = [
   'TV',
   'Kitchen',

@@ -61,7 +61,7 @@ export function AppHeader({scrollContainerRef}) {
   }, [isSmallScreen, isHomeIndex])
 
   return (
-    <header className={`app-header ${(!isScrolled && !isHomeEdit)? "expanded" : ''} ${isHomeEdit? 'home-edit' : ''}`}>
+    <header className={`app-header ${(!isScrolled && !isHomeEdit)? "expanded" : ''} ${isHosting? 'hosting' : ''}`}>
       {isImgScrolledPast && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
       {(!isImgScrolledPast && !isHomeEdit) && (<nav className={`app-header-main-nav ${isScrolled ? 'scrolled' : 'expanded'}`}>

@@ -1,45 +1,40 @@
 .home-edit-footer {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 5.75rem !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
+    display: grid;
+    grid-template-columns: 10rem 1fr 10rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5rem;
+    width: 100%;
     background-color: #fff;
-    z-index: 2;
-    padding-inline: 1rem;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    top: auto !important;
-    inset: unset !important;
-    inset-block-start: unset !important;
-
-
+    
     .home-edit-footer-loader-container {
         display: flex;
         gap: 0.1px;
         width: 100%;
-        // max-width: 960px;
-    }
-    .home-edit-footer-loader {
+        grid-column: 1/-1;
+        line-height: unset;
+
+        .home-edit-footer-loader {
         width: 30%;
         height: 6px;
-        position: relative;
         background-color: $primary-hover-gray;
         flex: 1;
+        display: block;
    
         .home-edit-footer-loader-progress {
             position: relative;
             width: 100%;
             left: -100%;
-            // height: 100%;
-            background-color: black;
+            background-color: transparent;
             display: block;
             transition: transform 600ms linear;
             transform: translateX(0%);
+            z-index: 10;
+            &.passed {
+                background-color: black;
+            }
         }
     }
 
@@ -51,24 +46,28 @@
         margin-right: 0px;
     }
     
-    .home-edit-footer-main {
+    
+}
+
+.home-edit-footer-main {
+        grid-column: 2;
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        // max-width: 960px;
 
         .home-edit-back-btn {
             padding: 10px;
             transition: background-color 0.2s;
             border-radius: 8px;
-            font-weight: 500;
+            font-weight: 700;
             font-size: 1rem;
             text-align: center;
             width: auto;
             text-decoration: underline;
             color: $primary-black-inverted;
-
+            background-color: #fff;
+            margin: 0;
             &:hover {
                 background-color: $secondary-hover-gray;
             }
@@ -94,6 +93,13 @@
             transform: none;
             box-shadow: none;
             
+            &:disabled {
+                cursor: not-allowed;
+                border: none;
+                color: $clr6;
+                opacity: 1;
+                background-color: $gray1;
+            }
 
             &:hover {
                 background-color: #1a1a1a;
@@ -102,6 +108,33 @@
             }
         }
     }
+    
+    @include for-mobile-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $mobile-breakpoint)
+          minmax(20px, 1fr);
+  }
+  @include for-narrow-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $mobile-breakpoint)
+          minmax(20px, 1fr);
+  }
+  @include for-normal-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $narrow-breakpoint)
+          minmax(20px, 1fr);
+  }
+  @include for-wide-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $normal-breakpoint)
+          minmax(20px, 1fr);
+  }
+
+
 
 }
 

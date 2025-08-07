@@ -80,11 +80,12 @@ console.log('🏠 isIndex:', isIndex)
                                   <Route path='reservations' element={<UserDetails />} />
                                 </Route>
                             </Routes>                         
-                         
-                        </main>                          
-                        {/* {isHomeEdit ? <HomeEditFooter /> : <AppFooter />} */}
+                        </main> 
+                                                
+                        {isHomeEdit && <HomeEditFooter />}
+                        {/* <AppFooter /> */}
                       </div> 
-              </HomeEditProvider>
+                    </HomeEditProvider>
                   </PotentialOrderProvider>      
                 </ScrollProvider>
               

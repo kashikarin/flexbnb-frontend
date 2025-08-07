@@ -23,8 +23,9 @@
     grid-template-rows: auto;
   }
 
-  &.home-edit {
+  &.hosting {
     grid-template-rows: auto;
+    border-bottom: 1px solid $divider-color;
   }
 
   & > .app-header-main-nav {
@@ -234,6 +235,30 @@
     }
   }
   
+  @include for-mobile-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $mobile-breakpoint)
+          minmax(20px, 1fr);
+  }
+  @include for-narrow-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $mobile-breakpoint)
+          minmax(20px, 1fr);
+  }
+  @include for-normal-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $narrow-breakpoint)
+          minmax(20px, 1fr);
+  }
+  @include for-wide-layout {
+      grid-template-columns:
+          minmax(20px, 1fr)
+          minmax(auto, $normal-breakpoint)
+          minmax(20px, 1fr);
+  }
 }
 
 

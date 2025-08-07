@@ -17,7 +17,6 @@ export function AppHeader({scrollContainerRef}) {
   const {isScrolled, setIsScrolled} = useContext(ScrollContext)
   const isHomeIndex = location.pathname === '/'
   const isHosting = location.pathname.startsWith('/hosting')
-  console.log("🚀 ~ isHosting:", isHosting)
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -62,7 +61,7 @@ export function AppHeader({scrollContainerRef}) {
   }, [isSmallScreen, isHomeIndex])
 
   return (
-    <header className={`app-header ${(!isScrolled && !isHomeEdit)? "expanded" : ''} ${isHosting? 'hosting' : ''}`}>
+    <header className={`app-header ${(!isScrolled && !isHomeEdit)? "expanded" : ''} ${isHosting || isImgScrolledPast? 'one-row-divider' : ''}`}>
       {isImgScrolledPast && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
       {(!isImgScrolledPast && !isHomeEdit) && (<nav className={`app-header-main-nav ${isScrolled ? 'scrolled' : 'expanded'}`}>

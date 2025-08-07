@@ -12,7 +12,7 @@ export function HeaderHomeDetails() {
     const home = useSelector(state => state.homeModule.home)
     
     return(
-        <header className="home-details-scrolled-header full">
+        <header className="home-details-scrolled-header">
             <nav>
                 <div>Photos</div>
                 <div>Amenities</div>
@@ -44,6 +44,7 @@ export function HeaderHomeDetails() {
                 </div>
                 <button onClick={openConfirmationModal}>Reserve</button>
             </div>}
+            
             {isConfirmationModalOpen && (
                 <BuyingStepOneModal
                 potentialOrder={potentialOrder}

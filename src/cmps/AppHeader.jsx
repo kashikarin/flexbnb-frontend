@@ -17,6 +17,7 @@ export function AppHeader({scrollContainerRef}) {
   const {isScrolled, setIsScrolled} = useContext(ScrollContext)
   const isHomeIndex = location.pathname === '/'
   const isHosting = location.pathname.startsWith('/hosting')
+  console.log("🚀 ~ isHosting:", isHosting)
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isSmallScreen, setIsSmallScreen] = useState(false)

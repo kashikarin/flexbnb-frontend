@@ -221,6 +221,7 @@
     padding: 0;
     
     & > .app-header-labels-slider-wrapper {
+      
       width: 100%;
       padding-block: 0.5rem;
       display: flex;
@@ -253,12 +254,12 @@
           minmax(auto, $narrow-breakpoint)
           minmax(20px, 1fr);
   }
-  @include for-wide-layout {
-      grid-template-columns:
-          minmax(20px, 1fr)
-          minmax(auto, $normal-breakpoint)
-          minmax(20px, 1fr);
-  }
+  // @include for-wide-layout {
+  //     grid-template-columns:
+  //         minmax(20px, 1fr)
+  //         minmax(auto, $normal-breakpoint)
+  //         minmax(20px, 1fr);
+  // }
 }
 
 

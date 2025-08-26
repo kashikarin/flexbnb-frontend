@@ -10,7 +10,7 @@ import { ScrollContext } from '../context/ScrollContext.jsx'
 
 export function SearchBar({isScrolled}) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  // const [scrolled, setScrolled] = useState(isScrolled)
+  const [scrolled, setScrolled] = useState(isScrolled)
   const [isMobile, setIsMobile] = useState(false)
   const [activeButton, setActiveButton] = useState(null)
   const filterBy = useSelector((state) => state.homeModule.filterBy)
@@ -64,6 +64,7 @@ export function SearchBar({isScrolled}) {
   // }, [isScrolled])
 
   useEffect(() => {
+    setScrolled(isScrolled)
     if (isScrolled) setOpenedDropdown(null)
   }, [isScrolled])
 
@@ -92,7 +93,7 @@ export function SearchBar({isScrolled}) {
 
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
-    if (isScrolled && !isMobile) setIsScrolled(false)
+    if (isScrolled && !isMobile) setScrolled(false)
 
     setOpenedDropdown((curr) => (curr === btName ? null : btName))
     setActiveButton((curr) => (curr === btName ? null : btName))

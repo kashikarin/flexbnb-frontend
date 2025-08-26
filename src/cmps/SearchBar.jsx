@@ -102,6 +102,7 @@ export function SearchBar({isScrolled}) {
     const val = ev.target.value
     debouncedSetTxt(val)
   }
+  
   function handleSubmit(ev) {
     ev.preventDefault()
     ev.stopPropagation()

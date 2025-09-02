@@ -11,10 +11,12 @@
     
     .home-edit-footer-loader-container {
         display: flex;
-        gap: 0.1px;
+        gap: 6px;
         width: 100%;
         grid-column: 1/-1;
         line-height: unset;
+        align-items: center;   
+        // padding-inline: 10rem; 
 
         .home-edit-footer-loader {
         width: 30%;
@@ -22,30 +24,30 @@
         background-color: $primary-hover-gray;
         flex: 1;
         display: block;
+        // overflow: hidden;
    
         .home-edit-footer-loader-progress {
-            position: relative;
-            width: 100%;
-            left: -100%;
-            background-color: transparent;
-            display: block;
-            transition: transform 600ms linear;
-            transform: translateX(0%);
-            z-index: 10;
+            height: 100%;
+            width: 0%; 
+            background-color: black;
+            transition: width 300ms linear;
             &.passed {
-                background-color: black;
+                width: 100%;
             }
         }
     }
 
     .home-edit-footer-loader.step-1,
-    .home-edit-footer-loader.step-2 {
-        margin-right: 6px;
-    }
-    .home-edit-footer-loader.step-3 {
-        margin-right: 0px;
-    }
-    
+    .home-edit-footer-loader.step-2 { margin-right: 0; }
+    .home-edit-footer-loader.step-3 { margin-right: 0; }
+
+    // .home-edit-footer-loader.step-1,
+    // .home-edit-footer-loader.step-2 {
+    //     margin-right: 6px;
+    // }
+    // .home-edit-footer-loader.step-3 {
+    //     margin-right: 0px;
+    // }
     
 }
 

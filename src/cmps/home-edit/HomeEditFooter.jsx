@@ -11,8 +11,11 @@ export function HomeEditFooter(){
     }
 
     function onBackClick(){
-        setStep(prev => prev > 1 ? prev - 1 : 0)
+        setStep(prev => Math.max(1, prev-1))
     }
+
+    const segments = [1,2,3]
+    
     return(
         <footer className="home-edit-footer">
             <div className="home-edit-footer-loader-container">

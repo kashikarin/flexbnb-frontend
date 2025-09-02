@@ -24,10 +24,19 @@ function getDefaultFilter() {
   }
 }
 
+export function getFilterFromSearchParams(searchParams) {
+  const defaultFilter = getDefaultFilter()
+  const filterBy = {}
+  for (const field in defaultFilter) {
+    filterBy[field] = searchParams.get(field) || ''
+  }
+  return filterBy
+}
+
 // console.log('VITE_LOCAL:', VITE_LOCAL)
 
 const service = VITE_LOCAL === 'true' ? local : remote
-export const homeService = { getEmptyHome, getDefaultFilter, ...service }
+export const homeService = { getEmptyHome, getDefaultFilter, getFilterFromSearchParams, ...service }
 
 //* Easy access to this service from the dev tools console
 //* when using script - dev / dev:local

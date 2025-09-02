@@ -1,11 +1,11 @@
 import { legacy_createStore as createStore, combineReducers } from 'redux'
 
-import { homeReducer } from './home.reducer'
-import { userReducer } from './user.reducer'
-import { reviewReducer } from './review.reducer'
-import { systemReducer } from './system.reducer'
-import { orderReducer } from './order.reducer'
-
+import { homeReducer } from './reducers/home.reducer'
+import { userReducer } from './reducers/user.reducer'
+import { reviewReducer } from './reducers/review.reducer'
+import { systemReducer } from './reducers/system.reducer'
+import { orderReducer } from './reducers/order.reducer'
+import { homeEditReducer } from './reducers/home-edit.reducer'
 
 const rootReducer = combineReducers({
   homeModule: homeReducer,
@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
   orderModule: orderReducer,
   systemModule: systemReducer,
   reviewModule: reviewReducer,
+  homeEditModule: homeEditReducer
 })
 
 const middleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

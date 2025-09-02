@@ -8,8 +8,8 @@ export async function updateOrderStatus(orderId, status) {
     throw err
   }
 }
-import { orderService } from '../services/order/order.service.local'
-import { store } from './store'
+import { orderService } from '../../services/order/order.service.local'
+import { store } from '../store'
 import {
   ADD_ORDER,
   REMOVE_ORDER,
@@ -18,9 +18,9 @@ import {
   UPDATE_ORDER,
   //   ADD_ORDER_MSG,
   SET_FILTERORDERSBY,
-} from './order.reducer'
-import { homeService } from '../services/home/home.service.local'
-import { userService } from '../services/user'
+} from '../reducers/order.reducer'
+import { homeService } from '../../services/home/home.service.local'
+import { userService } from '../../services/user'
 
 export async function loadOrders(filterOrdersBy) {
   try {

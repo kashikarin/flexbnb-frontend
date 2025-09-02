@@ -14,7 +14,7 @@
         // margin-block-end: 32px;
     }
 
-    .home-edit-step-2-labels-container {
+    .home-edit-step-2-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
         padding-block-start: 2px;
@@ -25,7 +25,7 @@
         margin: 0;
         box-sizing: border-box;
 
-        .home-edit-step-2-label {
+        .home-edit-step-2 {
             width: 100%;
             padding: 16px;
             background-color: $clr6;
@@ -123,14 +123,14 @@
             line-height: 30px;
         }
 
-        .home-edit-step-2-labels-container{
+        .home-edit-step-2-container{
             padding-block-end: 12px;
             gap: 12px;
             max-width: unset;
             width: 100%;
             grid-template-columns: repeat(2, calc(50% - 6px));
             
-            .home-edit-step-2-label {
+            .home-edit-step-2 {
                 
             }
 

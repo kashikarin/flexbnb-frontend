@@ -1,15 +1,14 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-
-import { loadUser } from '../store/user.actions'
+import { loadUser } from '../store/actions/user.actions'
 import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 import {
   loadOrder,
   loadOrders,
   updateOrderStatus,
-} from '../store/order.actions'
+} from '../store/actions/order.actions'
 // import PieChart from '../cmps/PieChart'
 import BasicPie from '../cmps/BasicPie'
 import { BarChart } from '@mui/x-charts'

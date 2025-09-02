@@ -5,11 +5,12 @@ import { useEffect, useState, useContext } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
-import { SET_LOGGEDINUSER } from '../store/user.reducer'
-import { initUsers } from '../store/user.actions'
+import { SET_LOGGEDINUSER } from '../store/reducers/user.reducer'
+import { initUsers } from '../store/actions/user.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { HeaderHomeDetails } from './HeaderHomeDetails'
 import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
+import { addPotentialHome, loadPotentialHome, setStep } from '../store/actions/home-edit.actions'
 
 export function AppHeader({scrollContainerRef}) {
   const dispatch = useDispatch()
@@ -59,6 +60,16 @@ export function AppHeader({scrollContainerRef}) {
   useEffect(()=>{
     if (!isHomeIndex || isSmallScreen) setIsScrolled(true)
   }, [isSmallScreen, isHomeIndex])
+  
+  async function onCreateNewListing(){
+    try {
+      setStep(0, 1)
+      const newPotentialHome = await addPotentialHome()
+      await loadPotentialHome(newPotentialHome._id)
+    } catch(err){
+      console.error('Cannot load a new listing', err)
+    }
+  }
 
 const shouldCollapse = isScrolled || !isHomeIndex || isSmallScreen;
 
@@ -80,7 +91,7 @@ const shouldCollapse = isScrolled || !isHomeIndex || isSmallScreen;
           <div className={`app-header-mid-section ${shouldCollapse? 'scrolled' : 'expanded'}`}>
           {isHosting ? (
             <nav className='hosting-header-nav'>
-              <NavLink to='/hosting/edit'>Create a new listing</NavLink>
+              <NavLink to='/hosting/edit' onClick={onCreateNewListing}>Create a new listing</NavLink>
               <NavLink to='/hosting/reservations/'>Reservations</NavLink>
             </nav>
           ) : (     

@@ -9,8 +9,8 @@ import {
   roundToDecimals,
   strDateToTimestamp,
 } from '../services/util.service'
-import { orderService } from '../services/order/order.service.local'
-import { addOrder } from '../store/order.actions'
+import { orderService } from '../services/order'
+import { addOrder } from '../store/actions/order.actions'
 
 export function ReservationModal({ home, 
                                    potentialOrder, 

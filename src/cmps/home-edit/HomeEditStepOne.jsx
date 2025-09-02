@@ -1,9 +1,9 @@
-import { useContext } from "react"
-import { HomeEditContext } from "../../context/home-edit/HomeEditContext"
+import { useState } from "react"
+import { setStepCompleted } from "../../store/actions/home-edit.actions"
 
 export function HomeEditStepOne(){
-    const {setIsStepCompleted} = useContext(HomeEditContext)
-    setIsStepCompleted(true)
+    
+    setStepCompleted()
     
     return(
         <section className='home-edit-step-1-container'>

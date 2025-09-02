@@ -6,8 +6,8 @@ import {
   removeReview,
   getActionAddReview,
   getActionRemoveReview,
-} from '../store/review.actions'
-import { loadUsers } from '../store/user.actions'
+} from '../store/actions/review.actions'
+import { loadUsers } from '../store/actions/user.actions'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {

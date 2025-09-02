@@ -5,7 +5,6 @@ import {
   makeLorem,
   utilService,
 } from '../util.service'
-
 const STORAGE_KEY = 'home'
 
 export const gHomeTypes = ['House', 'Apartment', 'Guesthouse', 'Hotel']
@@ -76,7 +75,6 @@ export const homeService = {
   getCountry,
   getRandomHomeId,
   addHomeMsg,
-  getFilterFromSearchParams,
   getMaxHomePrice,
   getAmenityIcon,
 }
@@ -588,15 +586,6 @@ function getDefaultFilter() {
     bathCount: 0,
     labels: [],
   }
-}
-
-function getFilterFromSearchParams(searchParams) {
-  const defaultFilter = getDefaultFilter()
-  const filterBy = {}
-  for (const field in defaultFilter) {
-    filterBy[field] = searchParams.get(field) || ''
-  }
-  return filterBy
 }
 
 async function getMaxHomePrice(filterBy) {

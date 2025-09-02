@@ -10,6 +10,8 @@ import {
 } from '../util.service'
 import { getDefaultOrderFilter, getEmptyOrder } from './index.js'
 const STORAGE_KEY = 'order'
+import { httpService } from '../http.service'
+
 
 _createOrders()
 
@@ -26,28 +28,23 @@ export const orderService = {
 }
 
 async function query(filterOrdersBy = getDefaultOrderFilter()) {
-  try {
-    var orders = await storageService.query(STORAGE_KEY)
-    const { status, createdAt, startDate, endDate } = filterOrdersBy
-    if (status) {
-      orders = orders.filter((order) =>
-        order.status.toLowerCase().includes(status.toLowerCase())
-      )
-    }
-    return orders
-  } catch (err) {
-    console.error('Cannot get orders', err)
-    throw err
-  }
+    return httpService.get(`home`, filterOrdersBy)
+    // const { status, createdAt, startDate, endDate } = filterOrdersBy
+    // if (status) {
+    //   orders = orders.filter((order) =>
+    //     order.status.toLowerCase().includes(status.toLowerCase())
+    //   )
+    // }
+    // return orders
 }
 
 async function save(orderToSave) {
   try {
     if (orderToSave._id) {
-      return await storageService.put(STORAGE_KEY, orderToSave)
+      return await httpService.put(`home/${orderToSave.home._id}`, orderToSave)
     } else {
       orderToSave.createdAt = new Date().getTime()
-      return await storageService.post(STORAGE_KEY, orderToSave)
+      return await httpService.post(`home`, orderToSave)
     }
   } catch (err) {
     console.error('Cannot save order', err)
@@ -56,17 +53,16 @@ async function save(orderToSave) {
 }
 
 async function remove(orderId) {
-  await storageService.remove(STORAGE_KEY, orderId)
+  await httpService.delete(`user/${orderId}`, orderId)
 }
 
-function getById(homeId) {
-  return storageService.get(STORAGE_KEY, homeId)
+function getById(orderId) {
+  return httpService.get(`user/${orderId}`)
 }
-
 
 async function getInitialOrderDetails(homeId, userId, filterBy) {
-  const home = await homeService.getById(homeId)
-  const loggedInUser = await userService.getById(userId)
+  const home = await httpService.get(`home/${homeId}`)
+  const loggedInUser = await httpService.get(`user/${userId}`)
   const host = {
     _id: home.host._id,
     fullname: home.host.fullname,
@@ -149,12 +145,13 @@ async function _createOrders() {
     utilService.saveToStorage(STORAGE_KEY, orders)
   }
 }
+
 async function updateStatus(orderId, status) {
   try {
-    const order = await storageService.get(STORAGE_KEY, orderId)
+    const order = await httpService.get(`user/${orderId}`)
     if (!order) throw new Error('Order not found')
     order.status = status
-    await storageService.put(STORAGE_KEY, order)
+    await httpService.put(`user/${orderId}`, order)
     return order
   } catch (err) {
     console.error('Cannot update order status', err)
@@ -162,28 +159,3 @@ async function updateStatus(orderId, status) {
   }
 }
 
-// const orders = [
-// 	{
-// 		_id: 'o1225',
-// 		host: { _id: 'u102', fullname: "bob", imgUrl: "..."},
-// 		guest: {
-// 			_id: 'u101',
-// 			fullname: 'User 1',
-// 		},
-// 		totalPrice: 160,
-// 		startDate: '2025/10/15',
-// 		endDate: '2025/10/17',
-// 		guests: {
-// 			adults: 1,
-// 			kids: 2,
-// 		},
-// 		stay: {
-// 			// mini-stay
-// 			_id: 'h102',
-// 			name: 'House Of Uncle My',
-// 			imgUrl: 'first img url (or more...)',
-// 		},
-// 		msgs: [], // host - guest chat
-// 		status: 'pending', // approved / rejected
-// 	},
-// ]

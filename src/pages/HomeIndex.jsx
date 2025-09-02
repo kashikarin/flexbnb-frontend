@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { addUserLike, loadHomes, removeUserLike, setFilterBy } from '../store/home.actions'
+import { addUserLike, loadHomes, removeUserLike, setFilterBy } from '../store/actions/home.actions'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { homeService } from '../services/home/'
 import { HomeList } from '../cmps/HomeList'
@@ -8,8 +8,7 @@ import { HomeFilter } from '../cmps/HomeFilter'
 import { LabelsSlider } from '../cmps/LabelsSlider.jsx'
 import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
-import { addLike, removeLike } from '../store/user.actions.js'
-
+import { addLike, removeLike } from '../store/actions/user.actions.js'
 export function HomeIndex() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const homes = useSelector((state) => state.homeModule.homes)

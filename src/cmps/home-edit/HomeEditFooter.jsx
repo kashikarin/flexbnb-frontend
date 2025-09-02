@@ -1,37 +1,33 @@
-import { useContext } from "react"
-import { HomeEditContext } from "../../context/home-edit/HomeEditContext"
+import { useSelector } from "react-redux"
+import { setStep } from "../../store/actions/home-edit.actions"
 
 export function HomeEditFooter(){
-    const {step, setStep, isStepCompleted} = useContext(HomeEditContext)
-
+    const step = useSelector(state => state.homeEditModule.step)
+    // const {isStepCompleted} = useSelector(state => state.homeEditModule.isStepCompleted)
     console.log("🚀 ~ step:", step)
     
     function onNextClick() {
-        setStep(prev => prev + 1)
+        setStep(step.number, 1)
     }
 
     function onBackClick(){
-        setStep(prev => Math.max(1, prev-1))
+        setStep(step.number, -1)
     }
 
     const segments = [1,2,3]
     
     return(
         <footer className="home-edit-footer">
-            <div className="home-edit-footer-loader-container">
-                <div className="home-edit-footer-loader step-1">
-                    <div className={`home-edit-footer-loader-progress step-1 ${step > 1 ? 'passed' : ''}`} />
-                </div>
-                <div className="home-edit-footer-loader step-2">
-                    <div className={`home-edit-footer-loader-progress step-2 ${step > 2 ? 'passed' : ''}`} />
-                </div>
-                <div className="home-edit-footer-loader step-3">
-                    <div className={`home-edit-footer-loader-progress step-3 ${step > 3 ? 'passed' : ''}`} />
-                </div>
+            <div className="home-edit-footer-loader-container" role="progressbar" aria-valuenow={step.number} aria-valuemin={1} aria-valuemax={3}>
+                {segments.map((seg) => (
+                    <div key={seg} className={`home-edit-footer-loader step-${seg}`}>
+                        <div className={`home-edit-footer-loader-progress ${seg < step.number ? "passed" : ""}`} />
+                    </div>
+                ))}
             </div>
             <main className="home-edit-footer-main">
                 <button className="home-edit-back-btn" onClick={onBackClick}>Back</button>
-                <button className="home-edit-next-btn" disabled={!isStepCompleted} onClick={onNextClick}>Next</button>
+                <button className="home-edit-next-btn" disabled={!step.status} onClick={onNextClick}>Next</button>
             </main>
         </footer>
     )

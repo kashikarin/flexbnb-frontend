@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { orderService } from "../../services/order/order.service.local";
-import { addOrder } from "../../store/order.actions";
+import { addOrder } from "../../store/actions/order.actions";
 
 export const PotentialOrderContext = createContext({
     potentialOrder: {},

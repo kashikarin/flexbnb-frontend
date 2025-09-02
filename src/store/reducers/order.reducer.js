@@ -1,4 +1,4 @@
-import { store } from './store'
+import { store } from '../store'
 
 export const SET_ORDERS = 'SET_ORDERS'
 export const SET_ORDER = 'SET_ORDER'

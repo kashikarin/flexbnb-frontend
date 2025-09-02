@@ -10,10 +10,10 @@ import {
   addHomeMsg,
   addUserLike,
   removeUserLike,
-} from '../store/home.actions'
-import { addLike, removeLike } from '../store/user.actions'
+} from '../store/actions/home.actions'
+import { addLike, removeLike } from '../store/actions/user.actions'
 import { getAvgRating, loadFromStorage } from '../services/util.service'
-import { getAmenityIcon } from '../services/home/home.service.local'
+import { homeService } from '../services/home'
 import { FaCcVisa, FaHeart, FaStar } from 'react-icons/fa'
 import {
   CiCalendarDate,
@@ -55,13 +55,12 @@ import {
   MdHome,
 } from 'react-icons/md'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
-import { useEffectUpdate } from '../customHooks/useEffectUpdate'
 import { ReservationModal } from '../cmps/ReservationModal'
 import { BuyingStepOneModal } from '../cmps/BuyingStepOneModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
 import { GuestFav } from '../cmps/GuestFav'
-import { orderService } from '../services/order/order.service.local'
-import { addOrder } from '../store/order.actions'
+import { orderService } from '../services/order'
+import { addOrder } from '../store/actions/order.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { PotentialOrderContext } from '../context/potential-order/PotentialOrderContext'
 import { ReviewCard } from '../cmps/ReviewCard'
@@ -311,7 +310,7 @@ export function HomeDetails() {
                 <h3>What this place offers</h3>
                 <ul className='amenities-list'>
                   {home.amenities.map((amenity, idx) => {
-                    const iconName = getAmenityIcon(amenity)
+                    const iconName = homeService.getAmenityIcon(amenity)
                     const IconComponent = iconComponents[iconName]
                     return (
                       <li key={idx} className='amenity-item'>

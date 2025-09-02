@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { setFilterBy } from '../store/home.actions'
+import { setFilterBy } from '../store/actions/home.actions'
 import { LabelPreview } from './LabelPreview'
 import { ScrollContext } from '../context/ScrollContext'
 

@@ -36,8 +36,9 @@ export function AppHeader({scrollContainerRef}) {
     if (!elMain) return
     const handleScroll = () => setIsScrolled(elMain.scrollTop > 20)
     elMain.addEventListener('scroll', handleScroll)
+    handleScroll()
     return () => elMain.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [scrollContainerRef, setIsScrolled])
   
   useEffect(() => {
     (async function initAndLoadData() {

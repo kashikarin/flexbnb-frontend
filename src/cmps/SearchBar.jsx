@@ -10,7 +10,8 @@ import { ScrollContext } from '../context/ScrollContext.jsx'
 
 export function SearchBar({isScrolled}) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  // const [scrolled, setScrolled] = useState(isScrolled)
+  //const [scrolled, setScrolled] = useState(isScrolled)
+  const [forceExpand, setForceExpand] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [activeButton, setActiveButton] = useState(null)
   const filterBy = useSelector((state) => state.homeModule.filterBy)
@@ -63,10 +64,17 @@ export function SearchBar({isScrolled}) {
   //   setScrolled(isScrolled)
   // }, [isScrolled])
 
+  // useEffect(() => {
+  //   if (scrolled) setOpenedDropdown(null)
+  // }, [scrolled])
+
   useEffect(() => {
-    if (isScrolled) setOpenedDropdown(null)
+    if (!isScrolled) setForceExpand(false)
   }, [isScrolled])
 
+  useEffect(() => {
+    if (!openedDropdown) setForceExpand(false)
+  }, [openedDropdown])
 
   useEffect(() => {
     // Close dropdown when clicking outside
@@ -76,7 +84,8 @@ export function SearchBar({isScrolled}) {
         (openedDropdown === 'dates' && datesRef.current && !datesRef.current.contains(event.target)) ||
         (openedDropdown === 'capacity' && capacityRef.current && !capacityRef.current.contains(event.target))
       ))
-      {setOpenedDropdown(null)}
+      // {setOpenedDropdown(null)}
+      { setOpenedDropdown(null); setForceExpand(false) }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -90,10 +99,13 @@ export function SearchBar({isScrolled}) {
     }))
   }
 
+  const scrolled = isScrolled && !forceExpand
+
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
-    if (isScrolled && !isMobile) setIsScrolled(false)
-
+    // if (scrolled && !isMobile) setScrolled(false)
+    if (isScrolled && !isMobile) setForceExpand(true)
+      
     setOpenedDropdown((curr) => (curr === btName ? null : btName))
     setActiveButton((curr) => (curr === btName ? null : btName))
   }
@@ -118,7 +130,7 @@ export function SearchBar({isScrolled}) {
   }
 
   function getWhoTitleTxt() {
-    if (isScrolled) {
+    if (scrolled) {
         const {adults, children, infants} = filterByToEdit
         const guestsNum = Number(adults ?? 0) + 
                           Number(children ?? 0) + 
@@ -131,7 +143,7 @@ export function SearchBar({isScrolled}) {
 
   function getWhereTitleText() {
     let txt
-    if (isScrolled) {
+    if (scrolled) {
         txt = filterByToEdit.city ? `Homes in ${filterBy.city}` : 'Anywhere'
     } else {
         txt = 'Where'
@@ -142,7 +154,7 @@ export function SearchBar({isScrolled}) {
 
   function getCheckinTitleText() {
     let txt 
-    if (isScrolled) {
+    if (scrolled) {
       if (filterByToEdit.startDate) { //scroll + there is startdate
           const checkinDate = new Date(filterByToEdit.startDate)
           const checkoutDate = filterByToEdit.endDate ? new Date(filterByToEdit.endDate) : new Date(filterByToEdit.startDate + 86400000)
@@ -164,7 +176,7 @@ export function SearchBar({isScrolled}) {
     
   function getCheckoutTitleText(){
     let txt
-    if (!isScrolled) {
+    if (!scrolled) {
       if (filterByToEdit.endDate) {
         const checkoutDate = new Date(filterByToEdit.startDate)
           const checkinDate = new Date(filterByToEdit.endDate - 86400000)
@@ -186,10 +198,10 @@ export function SearchBar({isScrolled}) {
 
 
   return (
-    <search className=''>
+    <search>
       {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
       <div
-        className={`search-bar-container ${isScrolled ? 'scrolled' : ''} ${
+        className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${
           activeButton ? 'has-active' : ''
         }`}
         ref={searchBarRef}
@@ -202,8 +214,8 @@ export function SearchBar({isScrolled}) {
             }`}
           >
             <div className='sTitle'>{getWhereTitleText()}</div>
-            {!isScrolled && (<input
-                className={`placeholder-content ${isScrolled ? 'scrolled' : ''}`}
+            {!scrolled && (<input
+                className={`placeholder-content ${scrolled ? 'scrolled' : ''}`}
                 onChange={onInputChange}
                 type='search'
                 placeholder='Search destination'
@@ -231,7 +243,7 @@ export function SearchBar({isScrolled}) {
             }`}
           >
           <div className='sTitle'>{getCheckinTitleText()}</div>
-            {!isScrolled && (
+            {!scrolled && (
               <input
                 className='placeholder-content'
                 type='search'
@@ -254,7 +266,7 @@ export function SearchBar({isScrolled}) {
             />
           </div>
           <div className='sep'></div>
-          {!isScrolled && (
+          {!scrolled && (
             <div
               onClick={() => handleWhereClick('dates')}
               className={`inner-section ${
@@ -283,7 +295,7 @@ export function SearchBar({isScrolled}) {
               }}
             />
           </div>
-          {!isScrolled && <div className='sep'></div>}
+          {!scrolled && <div className='sep'></div>}
           <div
             onClick={() => handleWhereClick('capacity')}
             className={`inner-section ${
@@ -291,7 +303,7 @@ export function SearchBar({isScrolled}) {
             }`}
           >
             <div className='sTitle'>{getWhoTitleTxt()}</div>
-            {!isScrolled && (
+            {!scrolled && (
               <input
                 className='placeholder-content'
                 type='search'

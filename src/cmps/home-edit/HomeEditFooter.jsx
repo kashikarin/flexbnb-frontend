@@ -1,13 +1,20 @@
+import { useState } from "react"
 import { useSelector } from "react-redux"
 import { setStep } from "../../store/actions/home-edit.actions"
 
 export function HomeEditFooter(){
+    const [isLoading, setIsLoading] = useState(false)
     const step = useSelector(state => state.homeEditModule.step)
     // const {isStepCompleted} = useSelector(state => state.homeEditModule.isStepCompleted)
-    console.log("🚀 ~ step:", step)
+ 
+    
     
     function onNextClick() {
-        setStep(step.number, 1)
+        setIsLoading(true)
+       setTimeout(() => {
+            setStep(step.number, 1)
+            setIsLoading(false)
+        }, 1000)
     }
 
     function onBackClick(){
@@ -26,8 +33,16 @@ export function HomeEditFooter(){
                 ))}
             </div>
             <main className="home-edit-footer-main">
-                <button className="home-edit-back-btn" onClick={onBackClick}>Back</button>
-                <button className="home-edit-next-btn" disabled={!step.status} onClick={onNextClick}>Next</button>
+                <button className="home-edit-back-btn" onClick={onBackClick} disabled={isLoading}>
+                    Back
+                </button>
+                <button 
+                    className="home-edit-next-btn" 
+                    disabled={!step.status || isLoading} 
+                    onClick={onNextClick}
+                >
+                    {isLoading ? <div className="loader" ></div> : "Next"}
+                </button>
             </main>
         </footer>
     )

@@ -44,7 +44,6 @@ export function AppHeader({scrollContainerRef}) {
     (async function initAndLoadData() {
       try {
         await initUsers()
-        // await loadOrders()
         await loadLoggedInUser()
       } catch (err) {
         console.error('Cannot create or load data', err)

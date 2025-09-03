@@ -50,6 +50,7 @@ async function save(pHomeToSave) {
   }
 }
 
-function getEmptyPotentialHome(name = '', labels = [], amenities = []) {
-  return { name, labels, amenities }
+function getEmptyPotentialHome(name = '', labels = [], amenities = [], capacity = 1, bathCount
+ = 1, bedRoomsCount = 1, bedsCount = 1) {
+  return { name, labels, amenities, capacity, bedRoomsCount, bedsCount, bathCount }
 }

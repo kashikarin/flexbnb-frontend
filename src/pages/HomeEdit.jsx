@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import {HomeEditStepOne} from '../cmps/home-edit/HomeEditStepOne'
 import {HomeEditStepTwo} from '../cmps/home-edit/HomeEditStepTwo'
 import { useSelector } from 'react-redux'
+import { HomeEditStepThree } from '../cmps/home-edit/HomeEditStepThree'
+import { HomeEditStepFour } from '../cmps/home-edit/HomeEditStepFour'
 
 export function HomeEdit(){
     const step = useSelector(state => state.homeEditModule.step)
@@ -26,14 +28,20 @@ export function HomeEdit(){
             case 1:
                 return <HomeEditStepOne />
             case 2:
-                return <HomeEditStepTwo />      
+                return <HomeEditStepTwo /> 
+            case 3:
+                return <HomeEditStepThree /> 
+            case 4:
+                return <HomeEditStepFour /> 
+            case 5:
+                return <HomeEditStepFive /> 
             default: 
                 return null
         }
     }
     
     return(
-        <section className="home-edit-container">
+        <section className='home-edit-container'>
             <div className={`home-edit-main ${isVisible? 'fade-in' : 'fade-out' }`}>
                 {renderStepComponent()}
             </div>

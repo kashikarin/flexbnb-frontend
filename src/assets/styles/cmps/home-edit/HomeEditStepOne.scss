@@ -7,8 +7,6 @@
     align-items: center;
     gap: 2rem; 
     padding-inline: 2rem;
-
-
     .home-edit-step-1-text-container {
         display: flex;
         flex-direction: column;
@@ -94,10 +92,5 @@
             width: 100%;
             max-width: 100%;
         }
-    }
-
-    .home-edit-container {
-        display: flex;
-        flex-direction: column-reverse;
     }
 }

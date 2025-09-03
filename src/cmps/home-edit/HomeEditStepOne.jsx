@@ -4,7 +4,6 @@ import { useSelector } from "react-redux"
 
 export function HomeEditStepOne(){
     const step = useSelector(state => state.homeEditModule.step)
-    console.log('step one runs')
     useEffect(()=>{
         if (step.status === false ) setStepCompleted()
     }, [])

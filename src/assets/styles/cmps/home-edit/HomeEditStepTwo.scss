@@ -14,7 +14,7 @@
         // margin-block-end: 32px;
     }
 
-    .home-edit-step-2-container {
+    .home-edit-step-2-buttons-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
         padding-block-start: 2px;
@@ -123,7 +123,7 @@
             line-height: 30px;
         }
 
-        .home-edit-step-2-container{
+        .home-edit-step-2-buttons-container{
             padding-block-end: 12px;
             gap: 12px;
             max-width: unset;

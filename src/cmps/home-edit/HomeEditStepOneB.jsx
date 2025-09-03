@@ -5,7 +5,6 @@ import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 
 
 export function HomeEditStepOneB(){
-export function HomeEditStepThree() {
     const step = useSelector(state => state.homeEditModule.step)
     const home = useSelector(state => state.homeEditModule.home) || {
         loc: { lat: 37.7749, lng: -122.4194 }

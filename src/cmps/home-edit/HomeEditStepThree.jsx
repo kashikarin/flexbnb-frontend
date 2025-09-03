@@ -1,43 +1,263 @@
-// import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
-import { useEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { setStepCompleted } from '../../store/actions/home-edit.actions'
 import { useSelector } from 'react-redux'
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 
-export function HomeEditStepThree(){
+
+export function HomeEditStepThree() {
     const step = useSelector(state => state.homeEditModule.step)
-    console.log('step 3 step', step)
-    useEffect(()=>{
-        console.log('step 3 use effect runs')
-        if (step.status === false ) setStepCompleted()
+    const home = useSelector(state => state.homeEditModule.home) || {
+        loc: { lat: 37.7749, lng: -122.4194 }
+    }
+
+    useEffect(() => {
+        if (step.status === false) setStepCompleted()
+    }, [step.status])
+
+    const [position, setPosition] = useState(null)
+    const [geoError, setGeoError] = useState(null)
+    const [mapCenter, setMapCenter] = useState(home.loc)
+    const [homeLocation, setHomeLocation] = useState(home.loc)
+    const [searchValue, setSearchValue] = useState('')
+    const [predictions, setPredictions] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+
+    // Refs for Google Places services
+    const autocompleteService = useRef(null)
+    const placesService = useRef(null)
+    const mapRef = useRef(null)
+
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            setIsLoading(true)
+            navigator.geolocation.getCurrentPosition(
+                pos => {
+                    const currentPos = {
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude
+                    }
+                    setPosition(pos.coords)
+                    setMapCenter(currentPos)
+                    setHomeLocation(currentPos)
+                    setGeoError(null)
+                    setIsLoading(false)
+                },
+                err => {
+                    setGeoError('Unable to retrieve your location.')
+                    setIsLoading(false)
+                }
+            )
+        } else {
+            setGeoError('Geolocation is not supported by your browser.')
+        }
+    }
+
+    useEffect(() => {
+        getLocation()
     }, [])
 
-    return(
-        <h1>step 3</h1>
-        // <section className='home-edit-step-3-container'>
-        //     <article className="home-edit-step-3-title">
-        //         <h1>Where's your place located?</h1>
-        //         <p>Your address is only shared with guests after they’ve made a reservation.</p>
-        //     </article>
-        //     <article className="home-edit-step-3-map-container">
-        //         <APIProvider apiKey={API_KEY}>
-        //             <Map
-        //             defaultZoom={13}
-        //             center={{
-        //                 lat: home.loc.lat,
-        //                 lng: home.loc.lng,
-        //             }}
-        //             gestureHandling={'greedy'}
-        //             disableDefaultUI={false}
-        //             style={{ height: '400px', width: '100%' }}
-        //             />
-        //             <Marker
-        //             position={{ lat: home.loc.lat, lng: home.loc.lng }}
-        //             clickable={true}
-        //             onClick={() => alert('marker was clicked!')}
-        //             title={'clickable google.maps.Marker'}
-        //             />
-        //         </APIProvider>
-        //     </article>
-        // </section>
+    const handleMapLoad = (map) => {
+        mapRef.current = map
+        autocompleteService.current = new window.google.maps.places.AutocompleteService()
+        placesService.current = new window.google.maps.places.PlacesService(map)
+    }
+
+    const handleSearchChange = (e) => {
+        const value = e.target.value
+        setSearchValue(value)
+
+        if (value.length > 2 && autocompleteService.current) {
+            autocompleteService.current.getPlacePredictions(
+                { input: value },
+                (predictions, status) => {
+                    if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                        setPredictions(predictions || [])
+                    } else {
+                        setPredictions([])
+                        console.log('Places API error:', status)
+                    }
+                }
+            )
+        } else {
+            setPredictions([])
+        }
+    }
+
+    const searchWithGeocoding = () => {
+        if (!searchValue.trim()) return
+
+        const geocoder = new window.google.maps.Geocoder()
+        geocoder.geocode({ address: searchValue }, (results, status) => {
+            if (status === 'OK' && results[0]) {
+                const location = results[0].geometry.location
+                const newLocation = {
+                    lat: location.lat(),
+                    lng: location.lng()
+                }
+                setHomeLocation(newLocation)
+                setMapCenter(newLocation)
+                setPredictions([])
+                console.log('Found location:', results[0].formatted_address)
+            } else {
+                console.log('Geocoder failed:', status)
+                alert('Location not found. Please try a different search term.')
+            }
+        })
+    }
+
+    const handleSearchKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault()
+            if (predictions.length > 0) {
+                handlePlaceSelect(predictions[0].place_id, predictions[0].description)
+            } else {
+                searchWithGeocoding()
+            }
+        }
+    }
+
+    const handlePlaceSelect = (placeId, description) => {
+        setSearchValue(description)
+        setPredictions([])
+
+        if (placesService.current) {
+            placesService.current.getDetails(
+                {
+                    placeId: placeId,
+                    fields: ['geometry', 'formatted_address']
+                },
+                (place, status) => {
+                    if (status === window.google.maps.places.PlacesServiceStatus.OK && place.geometry) {
+                        const newLocation = {
+                            lat: place.geometry.location.lat(),
+                            lng: place.geometry.location.lng()
+                        }
+                        setHomeLocation(newLocation)
+                        setMapCenter(newLocation)
+                    }
+                }
+            )
+        }
+    }
+
+    const handleMapClick = (event) => {
+        const newLocation = {
+            lat: event.detail.latLng.lat,
+            lng: event.detail.latLng.lng
+        }
+        setHomeLocation(newLocation)
+    }
+
+    if (!home?.loc) return <div>Loading map...</div>
+
+    return (
+        <div className="home-edit-step-3">
+            <div className="step-header">
+                <h1 className="step-title">Where's your place located?</h1>
+                <p className="step-subtitle">
+                    Your address is only shared with guests after they've made a reservation.
+                </p>
+            </div>
+
+            <div className="location-section">
+           
+                <div className="location-controls">
+                    <button 
+                        className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
+                        onClick={getLocation} 
+                        disabled={isLoading}
+                    >
+                       
+                        {isLoading ? 'Getting Location...' : 'Use My Current Location'}
+                    </button>
+                </div>
+
+                <div className="search-section">
+                    <div className="search-input-container">
+                        <div className="search-input-wrapper">
+                            <input
+                                type="text"
+                                value={searchValue}
+                                onChange={handleSearchChange}
+                                onKeyPress={handleSearchKeyPress}
+                                placeholder="Search for an address, city, or landmark..."
+                                className="search-input"
+                            />
+                            <button
+                                onClick={searchWithGeocoding}
+                                className="btn btn-success search-btn"
+                            >
+                               
+                                Search
+                            </button>
+                        </div>
+                        
+                    
+                        {predictions.length > 0 && (
+                            <div className="predictions-dropdown">
+                                {predictions.map((prediction) => (
+                                    <div
+                                        key={prediction.place_id}
+                                        onClick={() => handlePlaceSelect(prediction.place_id, prediction.description)}
+                                        className="prediction-item"
+                                    >
+                                        <div className="prediction-main">
+                                            {prediction.structured_formatting.main_text}
+                                        </div>
+                                        <div className="prediction-secondary">
+                                            {prediction.structured_formatting.secondary_text}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Error Message */}
+                {geoError && (
+                    <div className="error-message">
+                        <span className="error-icon">⚠️</span>
+                        {geoError}
+                    </div>
+                )}
+
+                {/* Map Container */}
+                <div className="map-container">
+                    <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
+                        <Map
+                            defaultZoom={13}
+                            center={mapCenter}
+                            gestureHandling={'greedy'}
+                            disableDefaultUI={false}
+                            className="map"
+                            onLoad={handleMapLoad}
+                            onClick={handleMapClick}
+                        >
+                            <Marker
+                                position={homeLocation}
+                                clickable={true}
+                                onClick={() => alert('This is your selected home location!')}
+                                title={'Your home location'}
+                            />
+                            
+                            {position && (
+                                position.latitude !== homeLocation.lat || 
+                                position.longitude !== homeLocation.lng
+                            ) && (
+                                <Marker
+                                    position={{ lat: position.latitude, lng: position.longitude }}
+                                    clickable={true}
+                                    onClick={() => alert('This is your current location!')}
+                                    title={'Your current location'}
+                                />
+                            )}
+                        </Map>
+                    </APIProvider>
+                </div>
+
+              
+            </div>
+        </div>
     )
 }

@@ -1,4 +1,4 @@
-.home-edit-step-1-container {
+.home-edit-step-1-title-container {
     display: flex;
     // flex-wrap: wrap;
     width: 100%;
@@ -7,7 +7,10 @@
     align-items: center;
     gap: 2rem; 
     padding-inline: 2rem;
-    .home-edit-step-1-text-container {
+    margin-block: auto;
+    transition: opacity 0.6s;
+    opacity: 1;
+    .home-edit-step-1-title-text-container {
         display: flex;
         flex-direction: column;
         width: 50%;
@@ -17,9 +20,10 @@
             &:nth-child(1){
                 font-weight: 600;
                 line-height: 1.5rem;
+                font-size: 1.125rem;
             }
             &:nth-child(2){
-                margin-bottom: 3rem;
+                margin-block-end: 3rem;
                 font-size: 3rem;         
                 font-weight: 600;
                 line-height: 3.375rem;
@@ -33,7 +37,7 @@
             }
         }
     }
-    .home-edit-step-1-video-container {
+    .home-edit-step-1-title-video-container {
         will-change: transform;
         max-width: 100%;
         max-width: 770px;
@@ -48,7 +52,7 @@
         justify-content: center;
 
 
-        .home-edit-step-1-video {
+        .home-edit-step-1-title-video {
             object-fit: cover;
             width: 100%;
             height: 100%;
@@ -79,7 +83,7 @@
 
 
 @media (max-width: $mobile-breakpoint) {
-    .home-edit-step-1-container{
+    .home-edit-step-1-title-container{
         flex-direction: column;
         align-items: center;
         // width: 100%;
@@ -87,8 +91,8 @@
         // margin-block-end: 16px;
         // margin-inline-start: -24px;
         // clip-path: inset(1px 1px);
-        .home-edit-step-1-text-container,
-        .home-edit-step-1-video-container {
+        .home-edit-step-1-title-text-container,
+        .home-edit-step-1-title-video-container {
             width: 100%;
             max-width: 100%;
         }

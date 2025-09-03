@@ -36,7 +36,7 @@ const gAmenities = [
   'Security cameras',
 ]
 
-const amenityIcons = {
+export const amenityIcons = {
   TV: 'MdTv',
   Kitchen: 'MdKitchen',
   Wifi: 'MdWifi',
@@ -67,6 +67,7 @@ const amenityIcons = {
 export const getAmenityIcon = (amenity) => amenityIcons[amenity] || 'MdHome'
 
 export const homeService = {
+  gAmenities,
   query,
   getById,
   save,

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import {HomeEditStepOne} from '../cmps/home-edit/HomeEditStepOne'
-import {HomeEditStepTwo} from '../cmps/home-edit/HomeEditStepTwo'
+import {HomeEditStepOneTitle} from '../cmps/home-edit/HomeEditStepOneTitle'
+import {HomeEditStepOneA} from '../cmps/home-edit/HomeEditStepOneA'
 import { useSelector } from 'react-redux'
-import { HomeEditStepThree } from '../cmps/home-edit/HomeEditStepThree'
-import { HomeEditStepFour } from '../cmps/home-edit/HomeEditStepFour'
+import { HomeEditStepOneB } from '../cmps/home-edit/HomeEditStepOneB'
+import { HomeEditStepOneC } from '../cmps/home-edit/HomeEditStepOneC'
+import { HomeEditStepTwoTitle } from '../cmps/home-edit/HomeEditStepTwoTitle'
+import { HomeEditStepTwoA } from '../cmps/home-edit/HomeEditStepTwoA'
 
 export function HomeEdit(){
     const step = useSelector(state => state.homeEditModule.step)
@@ -26,15 +28,19 @@ export function HomeEdit(){
     function renderStepComponent(){
         switch(displayedStep){
             case 1:
-                return <HomeEditStepOne />
+                return <HomeEditStepOneTitle />
             case 2:
-                return <HomeEditStepTwo /> 
+                return <HomeEditStepOneA /> 
             case 3:
-                return <HomeEditStepThree /> 
+                return <HomeEditStepOneB /> 
             case 4:
-                return <HomeEditStepFour /> 
+                return <HomeEditStepOneC /> 
             case 5:
-                return <HomeEditStepFive /> 
+                return <HomeEditStepTwoTitle /> 
+            case 6:
+                return <HomeEditStepTwoA /> 
+            case 7:
+                return <HomeEditStepTwoB />
             default: 
                 return null
         }

@@ -3,16 +3,14 @@ import { useEffect } from 'react'
 import { setStepCompleted } from '../../store/actions/home-edit.actions'
 import { useSelector } from 'react-redux'
 
-export function HomeEditStepThree(){
+export function HomeEditStepOneB(){
     const step = useSelector(state => state.homeEditModule.step)
-    console.log('step 3 step', step)
     useEffect(()=>{
-        console.log('step 3 use effect runs')
         if (step.status === false ) setStepCompleted()
     }, [])
 
     return(
-        <h1>step 3</h1>
+        <h1>step oneB</h1>
         // <section className='home-edit-step-3-container'>
         //     <article className="home-edit-step-3-title">
         //         <h1>Where's your place located?</h1>

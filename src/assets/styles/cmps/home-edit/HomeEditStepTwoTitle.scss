@@ -1,0 +1,89 @@
+.home-edit-step-2-title-container {
+    display: flex;
+    // flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem; 
+    padding-inline: 2rem;
+    .home-edit-step-2-title-text-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        color: $primary-font-black;
+        & > div {
+            &:nth-child(1){
+                font-weight: 600;
+                line-height: 1.5rem;
+                margin-block-end: 1rem;
+                font-size: 1.125rem;         
+            }
+            &:nth-child(2){
+                margin-block-end: 1.5rem;
+                font-size: 3rem;         
+                font-weight: 600;
+                line-height: 3.375rem;
+        
+            }
+            &:nth-child(3) {
+                margin-block-end: 3rem;
+                font-size: 1.125rem;
+                font-weight: 400;
+                line-height: 1.75rem
+            }
+        }
+    }
+    .home-edit-step-2-title-video-container {
+        will-change: transform;
+        max-width: 770px;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        flex-shrink: 1;         
+        flex-grow: 0;   
+        // min-height: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-inline-start: 0;
+        margin-block-end: 0;
+        height: 674px;
+        clip-path: inset(1px 1px);
+        position: relative;
+
+        .home-edit-step-2-title-video {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            display: block;
+            overflow: clip;
+        }
+        
+    }
+}          
+           
+@media (max-width: $narrow-breakpoint) {
+    .home-edit-step-2-title-container{
+        flex-direction: column-reverse;
+        padding-block-end: 100px;
+        gap: 2rem; 
+        padding-inline: 1.5rem;
+        .home-edit-step-1-title-text-container {
+            width: 100%;
+            margin-block-end: 1.5rem;
+        }
+        .home-edit-step-1-title-video-container {
+            margin-inline-start: -1.5rem;
+            margin-block-end: 1rem;
+            height: 613px;
+            width: 613px;
+        }
+    }
+}
+
+@media (max-width: $normal-breakpoint) {
+    .home-edit-step-2-a-buttons-container{
+        
+    }
+}

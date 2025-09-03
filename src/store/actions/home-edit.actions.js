@@ -6,7 +6,7 @@ import { SET_COMPLETED,
          SET_STEP, 
          SET_POTENTIAL_HOME} from "../reducers/home-edit.reducer"
 import { store } from "../store"
-import { potentialHomeService } from "../../services/potential-home"
+import { potentialHomeService } from "../../services/potential-home/potential-home.service.local"
 
 export async function loadPotentialHome(potentialHomeId) {
   try {

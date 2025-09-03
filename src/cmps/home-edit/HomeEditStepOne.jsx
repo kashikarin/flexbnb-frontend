@@ -1,10 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { setStepCompleted } from "../../store/actions/home-edit.actions"
+import { useSelector } from "react-redux"
 
 export function HomeEditStepOne(){
-    
-    setStepCompleted()
-    
+    const step = useSelector(state => state.homeEditModule.step)
+    console.log('step one runs')
+    useEffect(()=>{
+        if (step.status === false ) setStepCompleted()
+    }, [])
+        
     return(
         <section className='home-edit-step-1-container'>
             <article className="home-edit-step-1-text-container">

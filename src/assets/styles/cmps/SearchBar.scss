@@ -76,15 +76,19 @@
       pointer-events: none;
     }
 
-    /* בהובר – מעלים את הקו השמאלי של עצמי */
     &:hover::before {
       opacity: 0;
     }
 
-    /* בהובר – מעלים גם את הקו השמאלי של האח הבא (שזה הימני שלי) */
     &:hover + .inner-section::before {
       opacity: 0;
     }
+
+     & + .inner-section:hover::before {
+      opacity: 0;
+    }
+
+
 
     &:hover {
       background-color: $gray5;
@@ -202,20 +206,22 @@
       box-sizing: border-box;
       transition: padding 0.3s ease;
 
-      // &:not(:last-of-type)::after {
-      //   content: '';
-      //   position: absolute;
-      //   top: 10px;
-      //   right: calc(-0.25rem / 2);
-      //   height: 26px;
-      //   width: 1px;
-      //   background-color: $divider-color;
-      //   transition: background-color 0.1s;
-      // }
+      &:hover {
+        background-color: transparent !important;
+      }
+
+      &:hover::before,
+      &:hover + .inner-section::before,
+      & + .inner-section:hover::before,
+      &:hover + .dates-dropdown-wrapper + .inner-section::before {
+        opacity: 1 !important; 
+      }
 
       &:last-of-type {
         align-items: start;
       }
+
+
     }
 
     .sTitle {
@@ -299,6 +305,7 @@
     }
   }
 }
+
 
 // Comprehensive responsive behavior for SearchBar
 @media (max-width: 1200px) {
@@ -608,3 +615,6 @@
     width: 100% !important;
   }
 }
+   .inner-section:hover + .dates-dropdown-wrapper + .inner-section::before {
+    opacity: 0;
+  }

@@ -35,9 +35,10 @@
     width: 100%;
     min-height: 65px;
     // padding-block: 0.5rem;
-    border-bottom: 1px solid $divider-color;
+    //border-bottom: 1px solid $divider-color;
     background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
     transition: all 0.3s ease;
+    padding-bottom: 3rem;
       
 
     & > .app-header-main-nav-content {
@@ -152,10 +153,10 @@
 
           .searchbar-wrapper {
               width: 100%; 
-              max-width: 600px;
+              // max-width: 600px;
               margin: 0 auto;
-              position: relative;
-              margin-top: -2.5rem;
+              // position: relative;
+              // margin-top: -2.5rem;
               transition: margin-top 0.3s ease;
 
               &.expanded {

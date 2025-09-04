@@ -59,14 +59,6 @@ export function SearchBar({ isScrolled }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // useEffect(() => {
-  //   setScrolled(isScrolled)
-  // }, [isScrolled])
-
-  // useEffect(() => {
-  //   if (scrolled) setOpenedDropdown(null)
-  // }, [scrolled])
-
   useEffect(() => {
     if (!isScrolled) setForceExpand(false);
   }, [isScrolled]);
@@ -227,7 +219,6 @@ function getCheckinTitleText() {
 
   return (
     <search>
-      {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
       <div
         className={`search-bar-container ${scrolled ? "scrolled" : ""} ${
           activeButton ? "has-active" : ""

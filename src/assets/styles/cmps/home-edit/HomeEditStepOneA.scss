@@ -1,11 +1,11 @@
-.home-edit-step-2-container {
-    transform: translate(0px);
-    animation-delay: 400ms;
+.home-edit-step-one-a-container {
+    // transform: translate(0px);
+    // animation-delay: 400ms;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .home-edit-step-2-title {
+    .home-edit-step-one-a-title {
         font-size: 32px;
         font-weight: 500; //becomes 700 - try to fix the font
         letter-spacing: -0.04rem;
@@ -14,7 +14,7 @@
         // margin-block-end: 32px;
     }
 
-    .home-edit-step-2-container {
+    .home-edit-step-one-a-buttons-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
         padding-block-start: 2px;
@@ -25,7 +25,7 @@
         margin: 0;
         box-sizing: border-box;
 
-        .home-edit-step-2 {
+        .home-edit-step-one-a {
             width: 100%;
             padding: 16px;
             background-color: $clr6;
@@ -115,22 +115,22 @@
 }
 
 @media (max-width: $narrow-breakpoint){
-    .home-edit-step-2-container {
+    .home-edit-step-one-a-container {
         align-items: start;   
 
-        .home-edit-step-2-title {
+        .home-edit-step-one-a-title {
             font-size: 26px;
             line-height: 30px;
         }
 
-        .home-edit-step-2-container{
+        .home-edit-step-one-a-buttons-container{
             padding-block-end: 12px;
             gap: 12px;
             max-width: unset;
             width: 100%;
             grid-template-columns: repeat(2, calc(50% - 6px));
             
-            .home-edit-step-2 {
+            .home-edit-step-one-a {
                 
             }
 

@@ -13,6 +13,7 @@ export const potentialHomeService = {
   getById,
   save,
   remove,
+  getEmptyPotentialHome
 }
 
 window.cs = potentialHomeService
@@ -49,3 +50,7 @@ async function save(pHomeToSave) {
   }
 }
 
+function getEmptyPotentialHome(name = '', labels = [], amenities = [], capacity = 1, bathCount
+ = 1, bedroomsCount = 1, bedsCount = 1) {
+  return { name, labels, amenities, capacity, bedroomsCount, bedsCount, bathCount }
+}

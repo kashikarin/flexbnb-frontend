@@ -5,8 +5,7 @@ import { useSelector } from "react-redux"
 import { setStepCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions.js"
 import { useEffectUpdate } from "../../customHooks/useEffectUpdate.js"
 
-export function HomeEditStepTwo(){
-    
+export function HomeEditStepOneA(){
     const isStepCompleted = useSelector(state => state.homeEditModule.isStepCompleted)
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
     const [selectedType, setSelectedType] = useState(null)
@@ -24,12 +23,12 @@ export function HomeEditStepTwo(){
     }
 
     return(
-        <section className='home-edit-step-2-container'>
-            <article className="home-edit-step-2-title">
+        <section className='home-edit-step-one-a-container'>
+            <article className="home-edit-step-one-a-title">
                 <h1>Which of these best describes your place?</h1>
             </article>
-            <article className="home-edit-step-2-container">
-                {gHomeTypes.map((homeType, i) => <button key={`${homeType}${i}`} className={`home-edit-step-2 type${i+1} ${selectedType === i? 'selected' : ''}`} onClick={()=> handleClick(i)}>
+            <article className="home-edit-step-one-a-buttons-container">
+                {gHomeTypes.map((homeType, i) => <button key={`${homeType}${i}`} className={`home-edit-step-one-a type${i+1} ${selectedType === i? 'selected' : ''}`} onClick={()=> handleClick(i)}>
                     <ReactSVG src={`/svgs/home-types/home-type${i+1}.svg`} className='home-type-icon' />          
                     <span>{gHomeTypes[i]}</span>
                 </button>)}

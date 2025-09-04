@@ -311,7 +311,7 @@ export function HomeDetails() {
                 <h3>What this place offers</h3>
                 <ul className='amenities-list'>
                   {home.amenities.map((amenity, idx) => {
-                    const iconName = getAmenityIcon(amenity) //homeService.getAmenityIcon(amenity)
+                    const iconName = getAmenityIcon(amenity)
                     const IconComponent = iconComponents[iconName]
                     return (
                       <li key={idx} className='amenity-item'>
@@ -345,7 +345,7 @@ export function HomeDetails() {
           </section>
           <section className='google-maps'>
             <h3>Where you'll be</h3>
-            <APIProvider apiKey={API_KEY}>
+            <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}
                 center={{

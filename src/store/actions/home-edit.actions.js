@@ -6,7 +6,7 @@ import { SET_COMPLETED,
          SET_STEP, 
          SET_POTENTIAL_HOME} from "../reducers/home-edit.reducer"
 import { store } from "../store"
-import { potentialHomeService } from "../../services/potential-home"
+import { potentialHomeService } from "../../services/potential-home/potential-home.service.local"
 
 export async function loadPotentialHome(potentialHomeId) {
   try {
@@ -32,6 +32,7 @@ export async function updatePotentialHome(potentialHome) {
   try {
     const savedPotentialHome = await potentialHomeService.save(potentialHome)
     store.dispatch(getCmdUpdatePotentialHome(savedPotentialHome))
+    store.dispatch(getCmdSetPotentialHome(savedPotentialHome))
     return savedPotentialHome
   } catch (err) {
     console.error('Cannot update potential home', err)

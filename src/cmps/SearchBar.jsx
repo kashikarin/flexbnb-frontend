@@ -113,6 +113,7 @@ export function SearchBar({ isScrolled }) {
     const val = ev.target.value;
     debouncedSetTxt(val);
   }
+  
   function handleSubmit(ev) {
     ev.preventDefault();
     ev.stopPropagation();
@@ -151,44 +152,43 @@ export function SearchBar({ isScrolled }) {
     return txt;
   }
 
-  // ...existing code...
-function getCheckinTitleText() {
-  let txt;
-  if (scrolled) {
-    if (filterByToEdit.startDate) {
-      //scroll + there is startdate
-      const checkinDate = new Date(filterByToEdit.startDate);
-      const checkoutDate = filterByToEdit.endDate
-        ? new Date(filterByToEdit.endDate)
-        : new Date(filterByToEdit.startDate + 86400000);
-      const options = { month: "short", day: "numeric" };
-      const shortCheckinDate = new Intl.DateTimeFormat(
-        "en-US",
-        options
-      ).format(checkinDate);
-      const shortCheckoutDate =
-        checkinDate.getMonth() === checkoutDate.getMonth()
-          ? checkoutDate.getDate()
-          : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-      txt = shortCheckinDate + " - " + shortCheckoutDate;
-    } else if (filterByToEdit.endDate) {
-      //scroll + there is not startdate but there is end date
-      const checkoutDate = new Date(filterByToEdit.startDate);
-      const checkinDate = new Date(filterByToEdit.endDate - 86400000);
-      const options = { month: "short", day: "numeric" };
-      const shortCheckinDate = new Intl.DateTimeFormat(
-        "en-US",
-        options
-      ).format(checkinDate);
-      const shortCheckoutDate =
-        checkinDate.getMonth() === checkoutDate.getMonth()
-          ? checkoutDate.getDate()
-          : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-      txt = shortCheckinDate + " - " + shortCheckoutDate;
-    } else txt = "Anytime"; //scroll + no dates
-  } else txt = "Check in";
-  return txt;
-}
+  function getCheckinTitleText() {
+    let txt;
+    if (scrolled) {
+      if (filterByToEdit.startDate) {
+        //scroll + there is startdate
+        const checkinDate = new Date(filterByToEdit.startDate);
+        const checkoutDate = filterByToEdit.endDate
+          ? new Date(filterByToEdit.endDate)
+          : new Date(filterByToEdit.startDate + 86400000);
+        const options = { month: "short", day: "numeric" };
+        const shortCheckinDate = new Intl.DateTimeFormat(
+          "en-US",
+          options
+        ).format(checkinDate);
+        const shortCheckoutDate =
+          checkinDate.getMonth() === checkoutDate.getMonth()
+            ? checkoutDate.getDate()
+            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
+        txt = shortCheckinDate + " - " + shortCheckoutDate;
+      } else if (filterByToEdit.endDate) {
+        //scroll + there is not startdate but there is end date
+        const checkoutDate = new Date(filterByToEdit.startDate);
+        const checkinDate = new Date(filterByToEdit.endDate - 86400000);
+        const options = { month: "short", day: "numeric" };
+        const shortCheckinDate = new Intl.DateTimeFormat(
+          "en-US",
+          options
+        ).format(checkinDate);
+        const shortCheckoutDate =
+          checkinDate.getMonth() === checkoutDate.getMonth()
+            ? checkoutDate.getDate()
+            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
+        txt = shortCheckinDate + " - " + shortCheckoutDate;
+      } else txt = "Anytime"; //scroll + no dates
+    } else txt = "Check in";
+    return txt;
+  }
 
   function getCheckoutTitleText() {
     let txt;
@@ -219,15 +219,10 @@ function getCheckinTitleText() {
 
   return (
     <search>
-      <div
-        className={`search-bar-container ${scrolled ? "scrolled" : ""} ${
-          activeButton ? "has-active" : ""
-        }`}
-        ref={searchBarRef}
-      >
+      <div className={`search-bar-container ${scrolled ? "scrolled" : ""} ${ activeButton ? "has-active" : "" }`}
+        ref={searchBarRef} >
         <div>
-          <div
-            onClick={() => handleWhereClick("where")}
+          <div  onClick={() => handleWhereClick("where")}
             className={`inner-section ${
               activeButton == "where" ? "active" : ""
             }`}
@@ -244,24 +239,25 @@ function getCheckinTitleText() {
                     ? filterByToEdit.city +
                       ", " +
                       homeService.getCountry(filterByToEdit.city)
-                    : undefined
+                    : ""
                 }
               />
             )}
+
+            <div className="where-dropdown-wrapper" ref={whereRef}>
+              <WhereDropdown
+                isOpen={openedDropdown === "where"}
+                onOpen={() => setOpenedDropdown("where")}
+                dropdownRef={whereRef}
+                onClose={() => setOpenedDropdown(null)}
+                cityFilter={filterBy.city || ""}
+                onUpdateFilterBy={onUpdateFilterBy}
+              />
+            </div>
           </div>
-          <div className="where-dropdown-wrapper" ref={whereRef}>
-            <WhereDropdown
-              isOpen={openedDropdown === "where"}
-              onOpen={() => setOpenedDropdown("where")}
-              dropdownRef={whereRef}
-              onClose={() => setOpenedDropdown(null)}
-              cityFilter={filterBy.city || ""}
-              onUpdateFilterBy={onUpdateFilterBy}
-            />
-          </div>
-          <div className="sep"></div>
-          <div
-            onClick={() => handleWhereClick("dates")}
+          
+          {/* <div className="sep"></div> */}
+          <div onClick={() => handleWhereClick("dates")}
             className={`inner-section ${
               activeButton == "dates" ? "active" : ""
             }`}
@@ -272,14 +268,40 @@ function getCheckinTitleText() {
                 className="placeholder-content"
                 type="search"
                 placeholder="Add dates"
+                readOnly
                 value={
                   filterByToEdit.startDate
                     ? `${formatDate(filterByToEdit.startDate)}`
-                    : undefined
+                    : ""
                 }
               />
             )}
+
           </div>
+          
+          {/* <div className="sep"></div> */}
+          {!scrolled && (
+            <div
+              onClick={() => handleWhereClick("dates")}
+              className={`inner-section ${
+                activeButton == "Check out" ? "active" : ""
+              }`}
+            >
+              <div className="sTitle">Check out</div>
+              <input
+                className="placeholder-content"
+                type="search"
+                placeholder="Add dates"
+                readOnly
+                value={
+                  filterByToEdit.endDate
+                    ? `${formatDate(filterByToEdit.endDate)}`
+                    : ""
+                }
+              />
+            </div>
+          )}
+
           <div className="dates-dropdown-wrapper" ref={datesRef}>
             <DatesDropdown
               isOpen={openedDropdown === "dates"}
@@ -293,36 +315,15 @@ function getCheckinTitleText() {
                 setCheckOut(checkOut);
                 // Close dropdown after selecting both dates
                 if (checkIn && checkOut) {
-                  setOpenedDropdown(null);
-                  setActiveButton(null);
+                setOpenedDropdown(null);
+                setActiveButton(null);
                 }
               }}
             />
           </div>
-          <div className="sep"></div>
-          {!scrolled && (
-            <div
-              onClick={() => handleWhereClick("dates")}
-              className={`inner-section ${
-                activeButton == "Check out" ? "active" : ""
-              }`}
-            >
-              <div className="sTitle">Check out</div>
-              <input
-                className="placeholder-content"
-                type="search"
-                placeholder="Add dates"
-                value={
-                  filterByToEdit.endDate
-                    ? `${formatDate(filterByToEdit.endDate)}`
-                    : undefined
-                }
-              ></input>
-            </div>
-          )}
-          {!scrolled && <div className="sep"></div>}
-          <div
-            onClick={() => handleWhereClick("capacity")}
+
+          {/* {!scrolled && <div className="sep"></div>} */}
+          <div onClick={() => handleWhereClick("capacity")}
             className={`inner-section ${
               activeButton == "capacity" ? "active" : ""
             }`}
@@ -333,9 +334,28 @@ function getCheckinTitleText() {
                 className="placeholder-content"
                 type="search"
                 placeholder="Add guests"
-                value={`${capacity} ${capacity > 1 ? "guests" : "guest"}`}
+                readOnly
+                value={capacity > 0 ? `${capacity} ${capacity > 1 ? "guests" : "guest"}` : ""}
               />
             )}
+
+            <div className="capacity-dropdown-wrapper" ref={capacityRef}>
+              <CapacityDropdown
+                isOpen={openedDropdown === "capacity"}
+                onClose={() => setOpenedDropdown(null)}
+                father={"search-bar"}
+                adultsFilter={Number(adultsNum ?? 0)}
+                childrenFilter={Number(childrenNum ?? 0)}
+                infantsFilter={Number(infantsNum ?? 0)}
+                petsFilter={Number(petsNum ?? 0)}
+                setAdultsNum={setAdultsNum}
+                setChildrenNum={setChildrenNum}
+                setInfantsNum={setInfantsNum}
+                setPetsNum={setPetsNum}
+                homeCapacity={undefined}
+                petsAllowed={undefined}
+              />
+            </div>
 
             <div className="search-btn-section">
               <button
@@ -350,24 +370,9 @@ function getCheckinTitleText() {
               </button>
             </div>
           </div>
-          <div className="capacity-dropdown-wrapper" ref={capacityRef}>
-            <CapacityDropdown
-              isOpen={openedDropdown === "capacity"}
-              onClose={() => setOpenedDropdown(null)}
-              father={"search-bar"}
-              adultsFilter={Number(adultsNum ?? 0)}
-              childrenFilter={Number(childrenNum ?? 0)}
-              infantsFilter={Number(infantsNum ?? 0)}
-              petsFilter={Number(petsNum ?? 0)}
-              setAdultsNum={setAdultsNum}
-              setChildrenNum={setChildrenNum}
-              setInfantsNum={setInfantsNum}
-              setPetsNum={setPetsNum}
-              homeCapacity={undefined}
-              petsAllowed={undefined}
-            />
-          </div>
+          
         </div>
+
       </div>
     </search>
   );

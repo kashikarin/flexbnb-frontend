@@ -1,12 +1,9 @@
 .capacity-dropdown-wrapper {
-  // position: relative;
-  // width: 100%;
-  // margin: 0;
-    position: absolute; 
-    top: 100%;
-    right: 0;
-    width: 50%;
-    z-index: 20;
+  position: absolute;
+  top: 100%;  
+  left: -50%;    
+  z-index: 20;
+  width: 150%; 
   cursor: default;
 
 .capacity-dropdown-container {

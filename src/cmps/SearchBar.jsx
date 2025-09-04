@@ -59,14 +59,6 @@ export function SearchBar({ isScrolled }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // useEffect(() => {
-  //   setScrolled(isScrolled)
-  // }, [isScrolled])
-
-  // useEffect(() => {
-  //   if (scrolled) setOpenedDropdown(null)
-  // }, [scrolled])
-
   useEffect(() => {
     if (!isScrolled) setForceExpand(false);
   }, [isScrolled]);
@@ -227,16 +219,10 @@ export function SearchBar({ isScrolled }) {
 
   return (
     <search>
-      {/* <div className={`search-bar-container ${scrolled ? 'scrolled' : ''}`}> */}
-      <div
-        className={`search-bar-container ${scrolled ? "scrolled" : ""} ${
-          activeButton ? "has-active" : ""
-        }`}
-        ref={searchBarRef}
-      >
+      <div className={`search-bar-container ${scrolled ? "scrolled" : ""} ${ activeButton ? "has-active" : "" }`}
+        ref={searchBarRef} >
         <div>
-          <div
-            onClick={() => handleWhereClick("where")}
+          <div  onClick={() => handleWhereClick("where")}
             className={`inner-section ${
               activeButton == "where" ? "active" : ""
             }`}
@@ -257,20 +243,21 @@ export function SearchBar({ isScrolled }) {
                 }
               />
             )}
+
+            <div className="where-dropdown-wrapper" ref={whereRef}>
+              <WhereDropdown
+                isOpen={openedDropdown === "where"}
+                onOpen={() => setOpenedDropdown("where")}
+                dropdownRef={whereRef}
+                onClose={() => setOpenedDropdown(null)}
+                cityFilter={filterBy.city || ""}
+                onUpdateFilterBy={onUpdateFilterBy}
+              />
+            </div>
           </div>
-          <div className="where-dropdown-wrapper" ref={whereRef}>
-            <WhereDropdown
-              isOpen={openedDropdown === "where"}
-              onOpen={() => setOpenedDropdown("where")}
-              dropdownRef={whereRef}
-              onClose={() => setOpenedDropdown(null)}
-              cityFilter={filterBy.city || ""}
-              onUpdateFilterBy={onUpdateFilterBy}
-            />
-          </div>
-          <div className="sep"></div>
-          <div
-            onClick={() => handleWhereClick("dates")}
+          
+          {/* <div className="sep"></div> */}
+          <div onClick={() => handleWhereClick("dates")}
             className={`inner-section ${
               activeButton == "dates" ? "active" : ""
             }`}
@@ -289,27 +276,10 @@ export function SearchBar({ isScrolled }) {
                 }
               />
             )}
+
           </div>
-          <div className="dates-dropdown-wrapper" ref={datesRef}>
-            <DatesDropdown
-              isOpen={openedDropdown === "dates"}
-              onOpen={() => setOpenedDropdown("dates")}
-              onClose={() => setOpenedDropdown(null)}
-              dropdownRef={datesRef}
-              checkIn={checkIn}
-              checkOut={checkOut}
-              onSetDates={({ checkIn, checkOut }) => {
-                setCheckIn(checkIn);
-                setCheckOut(checkOut);
-                // Close dropdown after selecting both dates
-                if (checkIn && checkOut) {
-                  setOpenedDropdown(null);
-                  setActiveButton(null);
-                }
-              }}
-            />
-          </div>
-          <div className="sep"></div>
+          
+          {/* <div className="sep"></div> */}
           {!scrolled && (
             <div
               onClick={() => handleWhereClick("dates")}
@@ -331,9 +301,29 @@ export function SearchBar({ isScrolled }) {
               />
             </div>
           )}
-          {!scrolled && <div className="sep"></div>}
-          <div
-            onClick={() => handleWhereClick("capacity")}
+
+          <div className="dates-dropdown-wrapper" ref={datesRef}>
+            <DatesDropdown
+              isOpen={openedDropdown === "dates"}
+              onOpen={() => setOpenedDropdown("dates")}
+              onClose={() => setOpenedDropdown(null)}
+              dropdownRef={datesRef}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              onSetDates={({ checkIn, checkOut }) => {
+                setCheckIn(checkIn);
+                setCheckOut(checkOut);
+                // Close dropdown after selecting both dates
+                if (checkIn && checkOut) {
+                setOpenedDropdown(null);
+                setActiveButton(null);
+                }
+              }}
+            />
+          </div>
+
+          {/* {!scrolled && <div className="sep"></div>} */}
+          <div onClick={() => handleWhereClick("capacity")}
             className={`inner-section ${
               activeButton == "capacity" ? "active" : ""
             }`}
@@ -349,6 +339,24 @@ export function SearchBar({ isScrolled }) {
               />
             )}
 
+            <div className="capacity-dropdown-wrapper" ref={capacityRef}>
+              <CapacityDropdown
+                isOpen={openedDropdown === "capacity"}
+                onClose={() => setOpenedDropdown(null)}
+                father={"search-bar"}
+                adultsFilter={Number(adultsNum ?? 0)}
+                childrenFilter={Number(childrenNum ?? 0)}
+                infantsFilter={Number(infantsNum ?? 0)}
+                petsFilter={Number(petsNum ?? 0)}
+                setAdultsNum={setAdultsNum}
+                setChildrenNum={setChildrenNum}
+                setInfantsNum={setInfantsNum}
+                setPetsNum={setPetsNum}
+                homeCapacity={undefined}
+                petsAllowed={undefined}
+              />
+            </div>
+
             <div className="search-btn-section">
               <button
                 className="search-button"
@@ -362,24 +370,9 @@ export function SearchBar({ isScrolled }) {
               </button>
             </div>
           </div>
-          <div className="capacity-dropdown-wrapper" ref={capacityRef}>
-            <CapacityDropdown
-              isOpen={openedDropdown === "capacity"}
-              onClose={() => setOpenedDropdown(null)}
-              father={"search-bar"}
-              adultsFilter={Number(adultsNum ?? 0)}
-              childrenFilter={Number(childrenNum ?? 0)}
-              infantsFilter={Number(infantsNum ?? 0)}
-              petsFilter={Number(petsNum ?? 0)}
-              setAdultsNum={setAdultsNum}
-              setChildrenNum={setChildrenNum}
-              setInfantsNum={setInfantsNum}
-              setPetsNum={setPetsNum}
-              homeCapacity={undefined}
-              petsAllowed={undefined}
-            />
-          </div>
+          
         </div>
+
       </div>
     </search>
   );

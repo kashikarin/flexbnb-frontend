@@ -40,6 +40,10 @@
     transition: all 0.3s ease;
     padding-bottom: 3rem;
       
+    &.scrolled
+    {
+      border-bottom: 1px solid $divider-color;
+    }
 
     & > .app-header-main-nav-content {
       grid-column: 2;

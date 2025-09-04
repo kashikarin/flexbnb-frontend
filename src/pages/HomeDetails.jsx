@@ -64,6 +64,7 @@ import { addOrder } from '../store/actions/order.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { PotentialOrderContext } from '../context/potential-order/PotentialOrderContext'
 import { ReviewCard } from '../cmps/ReviewCard'
+import { getAmenityIcon } from '../services/home/home.service.local'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -310,7 +311,7 @@ export function HomeDetails() {
                 <h3>What this place offers</h3>
                 <ul className='amenities-list'>
                   {home.amenities.map((amenity, idx) => {
-                    const iconName = homeService.getAmenityIcon(amenity)
+                    const iconName = getAmenityIcon(amenity) //homeService.getAmenityIcon(amenity)
                     const IconComponent = iconComponents[iconName]
                     return (
                       <li key={idx} className='amenity-item'>

@@ -37,10 +37,7 @@
     color: rgb(34, 34, 34);
     gap: 2px;
     font-size: 14px;
-    grid-template-columns: minmax(0, 2fr) 1px minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(
-        0,
-        2fr
-      );
+    grid-template-columns: minmax(0, 2fr) 1px minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 2fr);
     line-height: 22px;
     opacity: 1;
     width: 100%;
@@ -62,33 +59,46 @@
     box-sizing: border-box;
     transition: padding 0.3s ease, background-color 0.2s ease;
 
-    &:not(:last-of-type)::after {
-      content: '';
-      position: absolute;
-      top: 14px;
-      right: calc(-0.25rem / 2);
-      height: 36px;
-      width: 1px;
+    // &:not(:last-of-type)::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 14px;
+    //   right: calc(-0.25rem / 2);
+    //   height: 36px;
+    //   width: 1px;
       
-      background-color: $divider-color;
-      transition: background-color 0.1s;
-    }
+    //   background-color: $divider-color;
+    //   transition: background-color 0.1s;
+    // }
 
     &:hover {
       background-color: $gray5;
-      &::after {
-        background-color: transparent;
-      }
+      // &::after {
+      //   background-color: transparent;
+      // }
     }
+  }
+
+  .sep{
+      //content: '';
+      //position: absolute;
+      top: 14px;
+      right: calc(-0.25rem / 2);
+      height: 36px;
+      width: 100%;
+      
+      background-color: $divider-color;
+      //background-color: red;
+      transition: background-color 0.1s;
   }
 
   .sTitle {
     display: block;
     text-align: start;
     padding-bottom: 2px;
-    font-size: 13px;
-    line-height: 18px;
-    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: bold !important;
     letter-spacing: normal;
     color: $clr7;
     cursor: pointer;
@@ -195,16 +205,16 @@
       box-sizing: border-box;
       transition: padding 0.3s ease;
 
-      &:not(:last-of-type)::after {
-        content: '';
-        position: absolute;
-        top: 10px;
-        right: calc(-0.25rem / 2);
-        height: 26px;
-        width: 1px;
-        background-color: $divider-color;
-        transition: background-color 0.1s;
-      }
+      // &:not(:last-of-type)::after {
+      //   content: '';
+      //   position: absolute;
+      //   top: 10px;
+      //   right: calc(-0.25rem / 2);
+      //   height: 26px;
+      //   width: 1px;
+      //   background-color: $divider-color;
+      //   transition: background-color 0.1s;
+      // }
 
       &:last-of-type {
         align-items: start;
@@ -349,8 +359,7 @@
 
     > div {
       grid-template-columns:
-        minmax(0, 2fr) 1px minmax(0, 1.5fr) 1px minmax(0, 1.5fr)
-        1px minmax(0, 2fr);
+        minmax(0, 2fr) 1px minmax(0, 1.5fr) 1px minmax(0, 1.5fr) 1px minmax(0, 2fr);
     }
 
     .inner-section {
@@ -370,10 +379,7 @@
       min-width: 260px;
 
       > div {
-        grid-template-columns: minmax(0, 2fr) 1px minmax(0, 2fr) 1px minmax(
-            0,
-            3fr
-          );
+        grid-template-columns: minmax(0, 2fr) 1px minmax(0, 2fr) 1px minmax(0, 3fr);
       }
 
       .inner-section {
@@ -489,10 +495,7 @@
     min-width: 280px;
 
     > div {
-      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(
-          0,
-          2fr
-        );
+      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 2fr);
       gap: 1px;
     }
 
@@ -514,10 +517,7 @@
       min-width: 200px;
 
       > div {
-        grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(
-            0,
-            2fr
-          );
+        grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 2fr);
       }
 
       .inner-section {
@@ -577,6 +577,6 @@
   }
 }
 
-.sTitle {
-  font-weight: bold !important;
-}
+// .sTitle {
+//   font-weight: bold !important;
+// }

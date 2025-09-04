@@ -22,7 +22,7 @@
   -webkit-font-smoothing: antialiased;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background-color: rgb(255, 255, 255);
-  border: 1px solid #ececec;
+  border: 1px solid $divider-color;// #ececec;
   transition: all 0.3s ease, box-shadow 0.2s, border-color 0.2s, width 0.3s ease,
     max-width 0.3s ease, min-width 0.3s ease;
   transform-origin: center;
@@ -50,48 +50,46 @@
   }
 
   .inner-section {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  flex-direction: column;
-  padding: 0 1.75rem;
-  height: 100%;
-  border-radius: $search-bar-border-radius;
-  color: rgb(34, 34, 34);
-  cursor: pointer;
-  box-sizing: border-box;
-  transition: padding 0.3s ease, background-color 0.2s ease;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    padding: 0 1.75rem;
+    height: 100%;
+    border-radius: $search-bar-border-radius;
+    color: rgb(34, 34, 34);
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: padding 0.3s ease, background-color 0.2s ease;
 
-  &:not(:first-of-type)::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: var(--sep-h);
-    background-color: $divider-color;
-    transition: opacity .15s ease;
-    pointer-events: none;
-  }
+    &:not(:first-of-type)::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: var(--sep-h);
+      background-color: $divider-color;
+      transition: opacity .15s ease;
+      pointer-events: none;
+    }
 
-  /* בהובר – מעלים את הקו השמאלי של עצמי */
-  &:hover::before {
-    opacity: 0;
-  }
+    /* בהובר – מעלים את הקו השמאלי של עצמי */
+    &:hover::before {
+      opacity: 0;
+    }
 
-  /* בהובר – מעלים גם את הקו השמאלי של האח הבא (שזה הימני שלי) */
-  &:hover + .inner-section::before {
-    opacity: 0;
-  }
+    /* בהובר – מעלים גם את הקו השמאלי של האח הבא (שזה הימני שלי) */
+    &:hover + .inner-section::before {
+      opacity: 0;
+    }
 
-  &:hover {
-    background-color: $gray5;
-  }
+    &:hover {
+      background-color: $gray5;
+    }
 }
-
-
 
   .sTitle {
     display: block;
@@ -581,3 +579,34 @@
 // .sTitle {
 //   font-weight: bold !important;
 // }
+
+@media (max-width: 768px) {
+  .search-bar-container {
+    max-width: 95%;
+    min-width: auto;
+    grid-template-columns: 1fr;
+    padding: 0 0.5rem;
+  }
+
+  .dates-dropdown-wrapper {
+    width: 100% !important; // הדרופ תאריכים יתפרס על כל הבר
+    left: 0 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .inner-section {
+    width: 100%;
+    padding: 0.5rem 1rem;
+  }
+
+  .dates-dropdown-wrapper {
+    width: 100% !important;
+  }
+}

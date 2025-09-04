@@ -276,25 +276,6 @@ function getCheckinTitleText() {
               />
             )}
 
-            <div className="dates-dropdown-wrapper" ref={datesRef}>
-              <DatesDropdown
-                isOpen={openedDropdown === "dates"}
-                onOpen={() => setOpenedDropdown("dates")}
-                onClose={() => setOpenedDropdown(null)}
-                dropdownRef={datesRef}
-                checkIn={checkIn}
-                checkOut={checkOut}
-                onSetDates={({ checkIn, checkOut }) => {
-                  setCheckIn(checkIn);
-                  setCheckOut(checkOut);
-                  // Close dropdown after selecting both dates
-                  if (checkIn && checkOut) {
-                  setOpenedDropdown(null);
-                  setActiveButton(null);
-                  }
-                }}
-              />
-            </div>
           </div>
           
           {/* <div className="sep"></div> */}
@@ -318,6 +299,27 @@ function getCheckinTitleText() {
               ></input>
             </div>
           )}
+
+          <div className="dates-dropdown-wrapper" ref={datesRef}>
+            <DatesDropdown
+              isOpen={openedDropdown === "dates"}
+              onOpen={() => setOpenedDropdown("dates")}
+              onClose={() => setOpenedDropdown(null)}
+              dropdownRef={datesRef}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              onSetDates={({ checkIn, checkOut }) => {
+                setCheckIn(checkIn);
+                setCheckOut(checkOut);
+                // Close dropdown after selecting both dates
+                if (checkIn && checkOut) {
+                setOpenedDropdown(null);
+                setActiveButton(null);
+                }
+              }}
+            />
+          </div>
+
           {/* {!scrolled && <div className="sep"></div>} */}
           <div onClick={() => handleWhereClick("capacity")}
             className={`inner-section ${

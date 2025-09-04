@@ -185,10 +185,8 @@
       height: $search-bar-height-scroll;
       gap: 2px;
       font-size: 14px;
-      grid-template-columns: minmax(0, 2fr) 1px minmax(0, 2fr) 1px minmax(
-          0,
-          3fr
-        );
+      //grid-template-columns: minmax(0, 2fr) 1px minmax(0, 2fr) 1px minmax(0, 3fr);
+      grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 3fr);
       transition: grid-template-columns 0.3s ease;
     }
 

@@ -1,26 +1,34 @@
 import { useEffect, useState, useRef } from 'react'
-import { setStepCompleted } from '../../store/actions/home-edit.actions'
+import { setStepCompleted, updatePotentialHome } from '../../store/actions/home-edit.actions'
 import { useSelector } from 'react-redux'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
+import { useEffectUpdate } from '../../customHooks/useEffectUpdate'
 
 
 export function HomeEditStepOneB(){
     const step = useSelector(state => state.homeEditModule.step)
-    const home = useSelector(state => state.homeEditModule.home) || {
+        const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+
+    const homeLoc = useSelector(state => state.homeEditModule.home) || {
         loc: { lat: 37.7749, lng: -122.4194 }
     }
+    const [position, setPosition] = useState(null)
+    const [geoError, setGeoError] = useState(null)
+    const [mapCenter, setMapCenter] = useState(homeLoc.loc)
+    const [homeLocation, setHomeLocation] = useState(homeLoc.loc)
+    const [searchValue, setSearchValue] = useState('')
+    const [predictions, setPredictions] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+
+      useEffectUpdate(()=>{
+            const updatedPotentialHome = { ...potentialHome, loc: homeLocation }
+            updatePotentialHome(updatedPotentialHome)
+        }, [homeLocation])
 
     useEffect(() => {
         if (step.status === false) setStepCompleted()
     }, [step.status])
 
-    const [position, setPosition] = useState(null)
-    const [geoError, setGeoError] = useState(null)
-    const [mapCenter, setMapCenter] = useState(home.loc)
-    const [homeLocation, setHomeLocation] = useState(home.loc)
-    const [searchValue, setSearchValue] = useState('')
-    const [predictions, setPredictions] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
 
  
     const autocompleteService = useRef(null)
@@ -36,6 +44,8 @@ export function HomeEditStepOneB(){
                         lat: pos.coords.latitude,
                         lng: pos.coords.longitude
                     }
+                    console.log('Current Position:', currentPos);
+                    
                     setPosition(pos.coords)
                     setMapCenter(currentPos)
                     setHomeLocation(currentPos)
@@ -148,14 +158,14 @@ export function HomeEditStepOneB(){
         setHomeLocation(newLocation)
     }
 
-    if (!home?.loc) return <div>Loading map...</div>
+    if (!homeLoc?.loc) return <div>Loading map...</div>
 
     return (
         <div className="home-edit-step-3">
             <div className="step-header">
                 <h1 className="step-title">Where's your place located?</h1>
                 <p className="step-subtitle">
-                    Your address is only shared with guests after they've made a reservation.
+                   The address will be shared in the reservation details.
                 </p>
             </div>
 
@@ -214,15 +224,7 @@ export function HomeEditStepOneB(){
                     </div>
                 </div>
 
-                {/* Error Message */}
-                {geoError && (
-                    <div className="error-message">
-                        <span className="error-icon">⚠️</span>
-                        {geoError}
-                    </div>
-                )}
-
-                {/* Map Container */}
+          
                 <div className="map-container">
                     <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
                         <Map

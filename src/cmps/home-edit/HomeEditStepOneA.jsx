@@ -21,6 +21,7 @@ export function HomeEditStepOneA(){
         }
         if (!isStepCompleted) setStepCompleted()
     }
+console.log(potentialHome);
 
     return(
         <section className='home-edit-step-one-a-container'>

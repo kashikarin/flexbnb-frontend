@@ -652,6 +652,40 @@ function _getSingleImageUrl() {
   return images[randomIndex].imgUrl
 }
 
+function _getDemoBookings(horizonDays = 120,
+                          minGap = 2,
+                          maxGap = 10,
+                          minStay = 2,
+                          maxStay = 7
+                          ) {
+  const bookings = []
+  const today = new Date()
+  let pointer = 0
+  const horizonEnd = new Date(today)
+  horizonEnd.setDate(horizonEnd.getDate() + 120)
+
+  // Try to fill 40-60% of available days
+  const targetOccupancy = 0.4 + Math.random() * 0.2
+  const maxBookings = Math.floor(120 * targetOccupancy / 3)
+
+  for (let i=0; i<maxBookings; i++) {
+    const gap = minGap + Math.floor(Math.random() * (maxGap - minGap + 1))
+    pointer += gap
+    const stay = minStay + Math.floor(Math.random() * (maxStay - minStay + 1))
+
+    const start = new Date(today)
+    start.setDate(start.getDate() + pointer)
+
+    const end = new Date(start)
+    end.setDate(end.getDate() + stay)
+
+    if ((start) >= horizonEnd) break
+    bookings.push({ start, end }) // end is exclusive
+    pointer += stay
+  }
+  return bookings
+}
+
 function _createHome() {
   let city = gCities[getRandomIntInclusive(0, gCities.length - 1)]
   let name = makeLorem(3)
@@ -708,6 +742,7 @@ function _createHome() {
   }
   const likesCount = getRandomIntInclusive(0, 50)
   home.likedByUsers = []
+  home.bookings = _getDemoBookings()
   return home
 }
 

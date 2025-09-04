@@ -121,6 +121,7 @@ export function SearchBar({ isScrolled }) {
     const val = ev.target.value;
     debouncedSetTxt(val);
   }
+  
   function handleSubmit(ev) {
     ev.preventDefault();
     ev.stopPropagation();
@@ -159,44 +160,43 @@ export function SearchBar({ isScrolled }) {
     return txt;
   }
 
-  // ...existing code...
-function getCheckinTitleText() {
-  let txt;
-  if (scrolled) {
-    if (filterByToEdit.startDate) {
-      //scroll + there is startdate
-      const checkinDate = new Date(filterByToEdit.startDate);
-      const checkoutDate = filterByToEdit.endDate
-        ? new Date(filterByToEdit.endDate)
-        : new Date(filterByToEdit.startDate + 86400000);
-      const options = { month: "short", day: "numeric" };
-      const shortCheckinDate = new Intl.DateTimeFormat(
-        "en-US",
-        options
-      ).format(checkinDate);
-      const shortCheckoutDate =
-        checkinDate.getMonth() === checkoutDate.getMonth()
-          ? checkoutDate.getDate()
-          : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-      txt = shortCheckinDate + " - " + shortCheckoutDate;
-    } else if (filterByToEdit.endDate) {
-      //scroll + there is not startdate but there is end date
-      const checkoutDate = new Date(filterByToEdit.startDate);
-      const checkinDate = new Date(filterByToEdit.endDate - 86400000);
-      const options = { month: "short", day: "numeric" };
-      const shortCheckinDate = new Intl.DateTimeFormat(
-        "en-US",
-        options
-      ).format(checkinDate);
-      const shortCheckoutDate =
-        checkinDate.getMonth() === checkoutDate.getMonth()
-          ? checkoutDate.getDate()
-          : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-      txt = shortCheckinDate + " - " + shortCheckoutDate;
-    } else txt = "Anytime"; //scroll + no dates
-  } else txt = "Check in";
-  return txt;
-}
+  function getCheckinTitleText() {
+    let txt;
+    if (scrolled) {
+      if (filterByToEdit.startDate) {
+        //scroll + there is startdate
+        const checkinDate = new Date(filterByToEdit.startDate);
+        const checkoutDate = filterByToEdit.endDate
+          ? new Date(filterByToEdit.endDate)
+          : new Date(filterByToEdit.startDate + 86400000);
+        const options = { month: "short", day: "numeric" };
+        const shortCheckinDate = new Intl.DateTimeFormat(
+          "en-US",
+          options
+        ).format(checkinDate);
+        const shortCheckoutDate =
+          checkinDate.getMonth() === checkoutDate.getMonth()
+            ? checkoutDate.getDate()
+            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
+        txt = shortCheckinDate + " - " + shortCheckoutDate;
+      } else if (filterByToEdit.endDate) {
+        //scroll + there is not startdate but there is end date
+        const checkoutDate = new Date(filterByToEdit.startDate);
+        const checkinDate = new Date(filterByToEdit.endDate - 86400000);
+        const options = { month: "short", day: "numeric" };
+        const shortCheckinDate = new Intl.DateTimeFormat(
+          "en-US",
+          options
+        ).format(checkinDate);
+        const shortCheckoutDate =
+          checkinDate.getMonth() === checkoutDate.getMonth()
+            ? checkoutDate.getDate()
+            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
+        txt = shortCheckinDate + " - " + shortCheckoutDate;
+      } else txt = "Anytime"; //scroll + no dates
+    } else txt = "Check in";
+    return txt;
+  }
 
   function getCheckoutTitleText() {
     let txt;
@@ -253,7 +253,7 @@ function getCheckinTitleText() {
                     ? filterByToEdit.city +
                       ", " +
                       homeService.getCountry(filterByToEdit.city)
-                    : undefined
+                    : ""
                 }
               />
             )}
@@ -281,10 +281,11 @@ function getCheckinTitleText() {
                 className="placeholder-content"
                 type="search"
                 placeholder="Add dates"
+                readOnly
                 value={
                   filterByToEdit.startDate
                     ? `${formatDate(filterByToEdit.startDate)}`
-                    : undefined
+                    : ""
                 }
               />
             )}
@@ -321,12 +322,13 @@ function getCheckinTitleText() {
                 className="placeholder-content"
                 type="search"
                 placeholder="Add dates"
+                readOnly
                 value={
                   filterByToEdit.endDate
                     ? `${formatDate(filterByToEdit.endDate)}`
-                    : undefined
+                    : ""
                 }
-              ></input>
+              />
             </div>
           )}
           {!scrolled && <div className="sep"></div>}
@@ -342,7 +344,8 @@ function getCheckinTitleText() {
                 className="placeholder-content"
                 type="search"
                 placeholder="Add guests"
-                value={`${capacity} ${capacity > 1 ? "guests" : "guest"}`}
+                readOnly
+                value={capacity > 0 ? `${capacity} ${capacity > 1 ? "guests" : "guest"}` : ""}
               />
             )}
 

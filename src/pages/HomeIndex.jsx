@@ -14,6 +14,7 @@ export function HomeIndex() {
   const homes = useSelector((state) => state.homeModule.homes)
   const loggedInUser = useSelector(state => state.userModule.loggedInUser)
   const setExistSearchParams = useFilterSearchParams()
+  console.log(filterBy)
 
   useEffectUpdate(() => {
     loadHomes(filterBy)

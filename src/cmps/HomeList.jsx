@@ -2,6 +2,7 @@ import { userService } from '../services/user'
 import { HomePreview } from './HomePreview'
 
 export function HomeList({ homes, likedHomes, onAddLike, onRemoveLike }) {
+  
   return (
     <ul className='home-list-container cards-container-narrow grid-layout'>
       {homes.map((home) => (

@@ -27,7 +27,7 @@ export function HomeEditFooter(){
         <footer className="home-edit-footer">
             <div className="home-edit-footer-loader-container" role="progressbar" aria-valuenow={step.number} aria-valuemin={1} aria-valuemax={3}>
                 {segments.map((seg) => (
-                    <div key={seg} className={`home-edit-footer-loader step-${seg}`}>
+                    <div key={seg} className={`home-edit-footer-loader step-${seg}`}> 
                         <div className={`home-edit-footer-loader-progress ${seg < step.number ? "passed" : ""}`} />
                     </div>
                 ))}

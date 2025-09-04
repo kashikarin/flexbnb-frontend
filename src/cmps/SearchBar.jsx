@@ -219,15 +219,10 @@ function getCheckinTitleText() {
 
   return (
     <search>
-      <div
-        className={`search-bar-container ${scrolled ? "scrolled" : ""} ${
-          activeButton ? "has-active" : ""
-        }`}
-        ref={searchBarRef}
-      >
+      <div className={`search-bar-container ${scrolled ? "scrolled" : ""} ${ activeButton ? "has-active" : "" }`}
+        ref={searchBarRef} >
         <div>
-          <div
-            onClick={() => handleWhereClick("where")}
+          <div  onClick={() => handleWhereClick("where")}
             className={`inner-section ${
               activeButton == "where" ? "active" : ""
             }`}
@@ -248,20 +243,21 @@ function getCheckinTitleText() {
                 }
               />
             )}
+
+            <div className="where-dropdown-wrapper" ref={whereRef}>
+              <WhereDropdown
+                isOpen={openedDropdown === "where"}
+                onOpen={() => setOpenedDropdown("where")}
+                dropdownRef={whereRef}
+                onClose={() => setOpenedDropdown(null)}
+                cityFilter={filterBy.city || ""}
+                onUpdateFilterBy={onUpdateFilterBy}
+              />
+            </div>
           </div>
-          <div className="where-dropdown-wrapper" ref={whereRef}>
-            <WhereDropdown
-              isOpen={openedDropdown === "where"}
-              onOpen={() => setOpenedDropdown("where")}
-              dropdownRef={whereRef}
-              onClose={() => setOpenedDropdown(null)}
-              cityFilter={filterBy.city || ""}
-              onUpdateFilterBy={onUpdateFilterBy}
-            />
-          </div>
-          <div className="sep"></div>
-          <div
-            onClick={() => handleWhereClick("dates")}
+          
+          {/* <div className="sep"></div> */}
+          <div onClick={() => handleWhereClick("dates")}
             className={`inner-section ${
               activeButton == "dates" ? "active" : ""
             }`}
@@ -279,27 +275,29 @@ function getCheckinTitleText() {
                 }
               />
             )}
-          </div>
-          <div className="dates-dropdown-wrapper" ref={datesRef}>
-            <DatesDropdown
-              isOpen={openedDropdown === "dates"}
-              onOpen={() => setOpenedDropdown("dates")}
-              onClose={() => setOpenedDropdown(null)}
-              dropdownRef={datesRef}
-              checkIn={checkIn}
-              checkOut={checkOut}
-              onSetDates={({ checkIn, checkOut }) => {
-                setCheckIn(checkIn);
-                setCheckOut(checkOut);
-                // Close dropdown after selecting both dates
-                if (checkIn && checkOut) {
+
+            <div className="dates-dropdown-wrapper" ref={datesRef}>
+              <DatesDropdown
+                isOpen={openedDropdown === "dates"}
+                onOpen={() => setOpenedDropdown("dates")}
+                onClose={() => setOpenedDropdown(null)}
+                dropdownRef={datesRef}
+                checkIn={checkIn}
+                checkOut={checkOut}
+                onSetDates={({ checkIn, checkOut }) => {
+                  setCheckIn(checkIn);
+                  setCheckOut(checkOut);
+                  // Close dropdown after selecting both dates
+                  if (checkIn && checkOut) {
                   setOpenedDropdown(null);
                   setActiveButton(null);
-                }
-              }}
-            />
+                  }
+                }}
+              />
+            </div>
           </div>
-          <div className="sep"></div>
+          
+          {/* <div className="sep"></div> */}
           {!scrolled && (
             <div
               onClick={() => handleWhereClick("dates")}
@@ -320,9 +318,8 @@ function getCheckinTitleText() {
               ></input>
             </div>
           )}
-          {!scrolled && <div className="sep"></div>}
-          <div
-            onClick={() => handleWhereClick("capacity")}
+          {/* {!scrolled && <div className="sep"></div>} */}
+          <div onClick={() => handleWhereClick("capacity")}
             className={`inner-section ${
               activeButton == "capacity" ? "active" : ""
             }`}
@@ -337,6 +334,24 @@ function getCheckinTitleText() {
               />
             )}
 
+            <div className="capacity-dropdown-wrapper" ref={capacityRef}>
+              <CapacityDropdown
+                isOpen={openedDropdown === "capacity"}
+                onClose={() => setOpenedDropdown(null)}
+                father={"search-bar"}
+                adultsFilter={Number(adultsNum ?? 0)}
+                childrenFilter={Number(childrenNum ?? 0)}
+                infantsFilter={Number(infantsNum ?? 0)}
+                petsFilter={Number(petsNum ?? 0)}
+                setAdultsNum={setAdultsNum}
+                setChildrenNum={setChildrenNum}
+                setInfantsNum={setInfantsNum}
+                setPetsNum={setPetsNum}
+                homeCapacity={undefined}
+                petsAllowed={undefined}
+              />
+            </div>
+
             <div className="search-btn-section">
               <button
                 className="search-button"
@@ -350,24 +365,9 @@ function getCheckinTitleText() {
               </button>
             </div>
           </div>
-          <div className="capacity-dropdown-wrapper" ref={capacityRef}>
-            <CapacityDropdown
-              isOpen={openedDropdown === "capacity"}
-              onClose={() => setOpenedDropdown(null)}
-              father={"search-bar"}
-              adultsFilter={Number(adultsNum ?? 0)}
-              childrenFilter={Number(childrenNum ?? 0)}
-              infantsFilter={Number(infantsNum ?? 0)}
-              petsFilter={Number(petsNum ?? 0)}
-              setAdultsNum={setAdultsNum}
-              setChildrenNum={setChildrenNum}
-              setInfantsNum={setInfantsNum}
-              setPetsNum={setPetsNum}
-              homeCapacity={undefined}
-              petsAllowed={undefined}
-            />
-          </div>
+          
         </div>
+
       </div>
     </search>
   );

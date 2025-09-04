@@ -30,14 +30,18 @@
   grid-column: 2 / 3;
   grid-row: 1 / 2;
 
+  --sep-h: 36px;
+
   > div {
     display: grid;
     align-items: center;
     border-radius: $search-bar-border-radius;
     color: rgb(34, 34, 34);
-    gap: 2px;
+    //gap: 2px;
     font-size: 14px;
-    grid-template-columns: minmax(0, 2fr) 1px minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 2fr);
+    //grid-template-columns: minmax(0, 2fr) 1px minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 2fr);
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+    gap: 0; 
     line-height: 22px;
     opacity: 1;
     width: 100%;
@@ -46,51 +50,48 @@
   }
 
   .inner-section {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    flex-direction: column;
-    padding: 0 1.75rem;
-    height: 100%;
-    border-radius: $search-bar-border-radius;
-    color: rgb(34, 34, 34);
-    cursor: pointer;
-    box-sizing: border-box;
-    transition: padding 0.3s ease, background-color 0.2s ease;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  padding: 0 1.75rem;
+  height: 100%;
+  border-radius: $search-bar-border-radius;
+  color: rgb(34, 34, 34);
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: padding 0.3s ease, background-color 0.2s ease;
 
-    // &:not(:last-of-type)::after {
-    //   content: '';
-    //   position: absolute;
-    //   top: 14px;
-    //   right: calc(-0.25rem / 2);
-    //   height: 36px;
-    //   width: 1px;
-      
-    //   background-color: $divider-color;
-    //   transition: background-color 0.1s;
-    // }
-
-    &:hover {
-      background-color: $gray5;
-      // &::after {
-      //   background-color: transparent;
-      // }
-    }
+  &:not(:first-of-type)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: var(--sep-h);
+    background-color: $divider-color;
+    transition: opacity .15s ease;
+    pointer-events: none;
   }
 
-  .sep{
-      //content: '';
-      //position: absolute;
-      top: 14px;
-      right: calc(-0.25rem / 2);
-      height: 36px;
-      width: 100%;
-      
-      background-color: $divider-color;
-      //background-color: red;
-      transition: background-color 0.1s;
+  /* בהובר – מעלים את הקו השמאלי של עצמי */
+  &:hover::before {
+    opacity: 0;
   }
+
+  /* בהובר – מעלים גם את הקו השמאלי של האח הבא (שזה הימני שלי) */
+  &:hover + .inner-section::before {
+    opacity: 0;
+  }
+
+  &:hover {
+    background-color: $gray5;
+  }
+}
+
+
 
   .sTitle {
     display: block;

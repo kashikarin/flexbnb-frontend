@@ -148,8 +148,10 @@ export function SearchBar({ isScrolled }) {
 
   function getWhereTitleText() {
     let txt;
+    console.log(filterByToEdit.city);
+
     if (scrolled) {
-      txt = filterByToEdit.city ? `Homes in ${filterBy.city}` : "Anywhere";
+      txt = filterByToEdit.city ? `${filterByToEdit.city}` : "Anywhere";
     } else {
       txt = "Where";
       // filterByToEdit.city ? `${filterByToEdit.city}, ${homeService.getCountry(filterByToEdit.city)}` : 'Where'
@@ -157,43 +159,44 @@ export function SearchBar({ isScrolled }) {
     return txt;
   }
 
-  function getCheckinTitleText() {
-    let txt;
-    if (scrolled) {
-      if (filterByToEdit.startDate) {
-        //scroll + there is startdate
-        const checkinDate = new Date(filterByToEdit.startDate);
-        const checkoutDate = filterByToEdit.endDate
-          ? new Date(filterByToEdit.endDate)
-          : new Date(filterByToEdit.startDate + 86400000);
-        const options = { month: "short", day: "numeric" };
-        const shortCheckinDate = new Intl.DateTimeFormat(
-          "en-US",
-          options
-        ).format(checkinDate);
-        const shortCheckoutDate =
-          checkinDate.getMonth() === checkoutDate.getMonth()
-            ? checkoutDate.getDate()
-            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-        txt = shortCheckinDate + shortCheckoutDate;
-      } else if (filterByToEdit.endDate) {
-        //scroll + there is not startdate but there is end date
-        const checkoutDate = new Date(filterByToEdit.startDate);
-        const checkinDate = new Date(filterByToEdit.endDate - 86400000);
-        const options = { month: "short", day: "numeric" };
-        const shortCheckinDate = new Intl.DateTimeFormat(
-          "en-US",
-          options
-        ).format(checkinDate);
-        const shortCheckoutDate =
-          checkinDate.getMonth() === checkoutDate.getMonth()
-            ? checkoutDate.getDate()
-            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-        txt = shortCheckinDate + shortCheckoutDate;
-      } else txt = "Anytime"; //scroll + no dates
-    } else txt = "Check in";
-    return txt;
-  }
+  // ...existing code...
+function getCheckinTitleText() {
+  let txt;
+  if (scrolled) {
+    if (filterByToEdit.startDate) {
+      //scroll + there is startdate
+      const checkinDate = new Date(filterByToEdit.startDate);
+      const checkoutDate = filterByToEdit.endDate
+        ? new Date(filterByToEdit.endDate)
+        : new Date(filterByToEdit.startDate + 86400000);
+      const options = { month: "short", day: "numeric" };
+      const shortCheckinDate = new Intl.DateTimeFormat(
+        "en-US",
+        options
+      ).format(checkinDate);
+      const shortCheckoutDate =
+        checkinDate.getMonth() === checkoutDate.getMonth()
+          ? checkoutDate.getDate()
+          : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
+      txt = shortCheckinDate + " - " + shortCheckoutDate;
+    } else if (filterByToEdit.endDate) {
+      //scroll + there is not startdate but there is end date
+      const checkoutDate = new Date(filterByToEdit.startDate);
+      const checkinDate = new Date(filterByToEdit.endDate - 86400000);
+      const options = { month: "short", day: "numeric" };
+      const shortCheckinDate = new Intl.DateTimeFormat(
+        "en-US",
+        options
+      ).format(checkinDate);
+      const shortCheckoutDate =
+        checkinDate.getMonth() === checkoutDate.getMonth()
+          ? checkoutDate.getDate()
+          : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
+      txt = shortCheckinDate + " - " + shortCheckoutDate;
+    } else txt = "Anytime"; //scroll + no dates
+  } else txt = "Check in";
+  return txt;
+}
 
   function getCheckoutTitleText() {
     let txt;

@@ -31,7 +31,7 @@ export function homeEditReducer(state = initialState, action) {
       const updatedPotentialHomes = state.potentialHomes.map((pHome) =>
         pHome._id === action.potentialHome._id ? action.potentialHome : pHome
       )
-      newState = { ...state, potentialHomes: updatedPotentialHomes }
+      newState = { ...state, potentialHomes: updatedPotentialHomes, potentialHome: action.potentialHome }
       break
     case SET_COMPLETED:
       newState = { ...state, step: {...state.step, status: true } }

@@ -2,27 +2,27 @@ import { useEffect, useState } from "react"
 import { setStepCompleted } from "../../store/actions/home-edit.actions"
 import { useSelector } from "react-redux"
 
-export function HomeEditStepOne(){
+export function HomeEditStepOneTitle(){
     const step = useSelector(state => state.homeEditModule.step)
     useEffect(()=>{
         if (step.status === false ) setStepCompleted()
     }, [])
         
     return(
-        <section className='home-edit-step-1-container'>
-            <article className="home-edit-step-1-text-container">
+        <section className='home-edit-step-1-title-container'>
+            <article className="home-edit-step-1-title-text-container">
                 <div className='home-edit-step-1-title'>
                     Step 1
                 </div>
-                <div className='home-edit-step1-subtitle'>
+                <div className='home-edit-step-1-title-subtitle'>
                     Tell us about your place
                 </div>
-                <div className="home-edit-step-1-description">
+                <div className="home-edit-step-1-title-description">
                     In this step, we'll ask you which type of property you have and if guests will book the entire place or just a room. Then let us know the location and how many guests can stay.
                 </div>
             </article>
-            <article className="home-edit-step-1-video-container">
-                <video src="https://stream.media.muscache.com/zFaydEaihX6LP01x8TSCl76WHblb01Z01RrFELxyCXoNek.mp4?v_q=high" autoPlay crossOrigin="anonymous" playsInline preload='auto' className="home-edit-step-1-video" />
+            <article className="home-edit-step-1-title-video-container">
+                <video src="https://stream.media.muscache.com/zFaydEaihX6LP01x8TSCl76WHblb01Z01RrFELxyCXoNek.mp4?v_q=high" autoPlay crossOrigin="anonymous" playsInline preload='auto' className="home-edit-step-1-title-video" />
             </article>
         </section>
     )

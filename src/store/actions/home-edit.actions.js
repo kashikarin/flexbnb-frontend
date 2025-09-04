@@ -32,6 +32,7 @@ export async function updatePotentialHome(potentialHome) {
   try {
     const savedPotentialHome = await potentialHomeService.save(potentialHome)
     store.dispatch(getCmdUpdatePotentialHome(savedPotentialHome))
+    store.dispatch(getCmdSetPotentialHome(savedPotentialHome))
     return savedPotentialHome
   } catch (err) {
     console.error('Cannot update potential home', err)

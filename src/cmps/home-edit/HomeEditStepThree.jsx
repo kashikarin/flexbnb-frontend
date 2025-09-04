@@ -22,7 +22,7 @@ export function HomeEditStepThree() {
     const [predictions, setPredictions] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
-    // Refs for Google Places services
+ 
     const autocompleteService = useRef(null)
     const placesService = useRef(null)
     const mapRef = useRef(null)

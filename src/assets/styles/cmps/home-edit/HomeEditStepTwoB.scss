@@ -1,0 +1,112 @@
+.home-edit-step-2-b-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: opacity 0.6s;
+    opacity: 1;
+    margin-inline: auto;
+    width: 100%;
+    padding-bottom: 5.75rem;
+
+    .home-edit-step-2-b-title {
+        transform: translate(0px);
+        opacity: 1;
+        animation-delay: 400ms;
+        margin-block-end: 2rem;
+        animation-duration: 600ms;
+        animation-timing-function: cubic-bezier(0.2,0,0,1);
+        animation-fill-mode: both;
+        animation-iteration-count: 1;
+        animation-name: fadeInUp;
+        max-width: 630px;
+        
+        & > h1 {
+            font-size: 2rem;
+            line-height: 2.25rem;
+            margin-block-end: 8px;
+            letter-spacing: -0.04rem;
+            font-weight: 500;
+            color: $primary-black-inverted;
+        }
+
+        & > span {
+            min-width: auto;
+            line-height: 1.5rem;
+            font-size: 1.125rem;
+            color: $gray8;
+            margin-inline: auto;
+        }
+    }
+
+    .home-edit-step-2-b-image-upload {
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-height: 60vh;
+        aspect-ratio: 1/1;
+        width: 100%;
+        border: 1px dashed $gray9;
+        background-color: $secondary-hover-gray;
+
+        .home-edit-step-2-b-image-upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            & > img {
+                object-fit: cover;
+                vertical-align: bottom;
+                width: 182px;
+                height: 182px;
+
+            }
+
+            & > button {
+                border: 1px solid $clr7;
+                padding: 10px 17px;
+                line-height: 1.125rem;
+                font-size: 0.875rem;
+                transition: box-shadow 0.2s cubic-bezier(0.2,0,0,1), transform 0.1s cubic-bezier(0.2,0,0,1);
+                border-radius: 8px;
+                font-weight: 600;
+                text-align: center;
+                background-color:$clr6;
+                width: auto;
+                color: $primary-black-inverted;
+
+            }
+    
+        }
+
+    }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px)
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+
+@media (max-width: $narrow-breakpoint){
+    .home-edit-step-2-b-container{
+        .home-edit-step-2-b-title {
+            & > h1 {
+
+            }
+
+            & > span {
+
+            }
+        }
+        
+    }
+}

@@ -33,9 +33,9 @@ import { useEffect } from 'react'
 
 export function HomeEditStepTwoA(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+    console.log("🚀 ~ potentialHome:", potentialHome)
     const {currentSubStepStatus} = potentialHome.editProgress
     const {gAmenities} = homeService
-    // const amentityIconsList = Object.values(amenityIcons)
     const iconComponents = {
     MdTv,
     MdKitchen,
@@ -67,13 +67,15 @@ export function HomeEditStepTwoA(){
     useEffect(()=>{
         if (currentSubStepStatus === false) setStepCompleted()
     }, [currentSubStepStatus])
-
-    function handleClick(amentity){
-        if (potentialHome.amentities.includes(amentity)) {
-            const updatedAmentities = potentialHome.amentities.filter(a => a !== amentity)
-            updatePotentialHome({...potentialHome, amentities: updatedAmentities})
+    console.log("🚀 ~ potentialHome.amenities:", potentialHome.amenities)
+    
+    function handleClick(amenity){
+        if (potentialHome.amenities.includes(amenity)) {
+            
+            const updatedAmenities = potentialHome.amenities.filter(a => a !== amenity)
+            updatePotentialHome({...potentialHome, amenities: [...updatedAmenities]})
         } else {
-            updatePotentialHome({...potentialHome, amentities: [potentialHome.amentities, amentity]})
+            updatePotentialHome({...potentialHome, amenities: [...potentialHome.amenities, amenity]})
         }
     }
     return(
@@ -88,15 +90,15 @@ export function HomeEditStepTwoA(){
                     const iconName = homeService.getAmenityIcon(amenity)
                     const IconComponent = iconComponents[iconName]
                     return (
-                        <button key={idx} className={`home-edit-step-2-a-button amentity${idx+1} ${potentialHome?.amentities?.includes(amentity)? 'selected' : ''}`} onClick={handleClick}>
+                        <button key={idx} className={`home-edit-step-2-a-button amenity${idx+1} ${potentialHome?.amenities?.includes(amenity)? 'selected' : ''}`} onClick={()=>handleClick(amenity)}>
                             <IconComponent className='home-edit-step-2-amenity-icon' />
                             <span>{amenity}</span>
                         </button>
                     )
                     })}
-                {/* {gAmenities.map((amentity, i) => <button key={`${amentity}${i}`} >
-                    <ReactSVG src={`/svgs/home-types/home-type${i+1}.svg`} className='home-amentity-icon' />          
-                    <span>{amentity}</span>
+                {/* {gAmenities.map((amenity, i) => <button key={`${amenity}${i}`} >
+                    <ReactSVG src={`/svgs/home-types/home-type${i+1}.svg`} className='home-amenity-icon' />          
+                    <span>{amenity}</span>
                 </button>)} */}
                 
             </article>

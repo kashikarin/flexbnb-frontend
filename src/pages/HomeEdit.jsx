@@ -30,7 +30,8 @@ export function HomeEdit(){
         2: {
             1: <HomeEditStepTwoTitle />,
             2: <HomeEditStepTwoA />,
-            3: <HomeEditStepTwoB />
+            3: <HomeEditStepTwoB />,
+            4: <HomeEditStepTwoC />
         },
         3: {
             1: <HomeEditStepThreeTitle />,

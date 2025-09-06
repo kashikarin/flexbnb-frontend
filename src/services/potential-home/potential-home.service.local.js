@@ -1,10 +1,4 @@
 import { storageService } from '../async-storage.service'
-import {
-  getRandomIntInclusive,
-  makeId,
-  makeLorem,
-  utilService,
-} from '../util.service'
 
 const STORAGE_KEY = 'potential-home'
 
@@ -39,7 +33,6 @@ function getById(potentialHomeId) {
 }
 
 async function remove(potentialHomeId) {
-  // throw new Error('Nope')
   await storageService.remove(STORAGE_KEY, potentialHomeId)
 }
 
@@ -66,11 +59,11 @@ function getEmptyPotentialHome(name = '', labels = [], amenities = [], capacity 
            bedsCount, 
            bathCount, 
            loc,
-          editProgress: {
-            currentStep: 1,
-            currentStepStatus: false,
-            currentSubStep: 1,
-            currentSubStepStatus: false
-          } 
+            editProgress: {
+              currentStep: 1,
+              currentStepStatus: false,
+              currentSubStep: 1,
+              currentSubStepStatus: false
+            } 
         }
 }

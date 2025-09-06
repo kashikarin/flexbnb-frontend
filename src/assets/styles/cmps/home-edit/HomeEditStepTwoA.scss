@@ -1,13 +1,15 @@
 .home-edit-step-2-a-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
-    height: 100%;
     transition: opacity 0.6s;
     opacity: 1;
-    margin-block-end: 64px;
-    min-width: 630px;
+    // margin-block-end: 64px;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 630px;
+    padding-bottom: 5.75rem;
 
     .home-edit-step-2-a-title {
         transform: translate(0px);
@@ -18,9 +20,9 @@
         animation-timing-function: cubic-bezier(0.2,0,0,1);
         animation-fill-mode: both;
         animation-iteration-count: 1;
-        animation-name: fadeInUpTitle;
+        animation-name: fadeInUp;
         max-width: 630px;
-
+        
         & > h1 {
             font-size: 2rem;
             line-height: 2.25rem;
@@ -54,12 +56,11 @@
             animation-timing-function: cubic-bezier(0.2,0,0,1);
             animation-fill-mode: both;
             animation-iteration-count: 1;
-            flex: 0 1 10px;
-            padding: 1rem;
-            border-color: transparent;
+            flex: 1 1 150px;
             background-color: $secondary-hover-gray;
-            min-height: 88px;
-            box-shadow: 0 0 0 2px black;
+            padding: 1rem;
+            min-height: 100px;
+            max-width: 200px;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
@@ -68,6 +69,15 @@
             transition: box-shadow 0.2s cubic-bezier(0.2,0,0,1), transform 0.1s cubic-bezier(0.2,0,0,1);
             border: 1px solid $gray6;
             width: 100%;
+            height: auto;
+            font-size: 100%;
+            color: $primary-black-inverted;
+            &:hover {
+                box-shadow: 0 0 0 2px black;
+            }
+            &.selected {
+                box-shadow: 0 0 0 2px black;
+            }
         }
     }
 }
@@ -75,11 +85,11 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translate(0px)
+    transform: translateY(50px)
   }
   to {
     opacity: 1;
-    transform: translateY(50px);
+    transform: translateY(0px);
   }
 }
 
@@ -95,6 +105,15 @@
             }
         }
         .home-edit-step-2-a-buttons-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+
+            & > button {
+                
+                max-width: 200px;
+                transition: box-shadow 0.2s cubic-bezier(0.2,0,0,1), transform 0.1s cubic-bezier(0.2,0,0,1);
             & > h2 {
 
             }
@@ -104,9 +123,4 @@
         }
     }
 }
-
-@media (max-width: $narrow-breakpoint){
-    .home-edit-step-2-a-buttons-container {
-
-    }
 }

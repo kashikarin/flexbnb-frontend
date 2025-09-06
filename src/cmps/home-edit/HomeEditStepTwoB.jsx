@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { setStepCompleted } from "../../store/actions/home-edit.actions"
-setStepCompleted
+
 export function HomeEditStepTwoB(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
     const {currentSubStepStatus} = potentialHome.editProgress

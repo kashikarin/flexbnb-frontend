@@ -44,6 +44,8 @@
     }
 
     .home-edit-step-2-c-txt-container {
+        width: 100%;
+        max-width: 100%;
         .home-edit-step-2-c-txt-box {
             transform: translate(0px);
             opacity: 1;
@@ -58,13 +60,13 @@
             animation-fill-mode: both;
             animation-iteration-count: 1;
             animation-name: fadeInUp;
-            box-shadow: grey 0px 0px 0px 1px inset;
+            // box-shadow: grey 0px 0px 0px 1px inset;
             border-radius: 8px;
             margin-inline: auto;
             line-height: 1.5rem;
             font-size: 1.125rem;
             color: $gray8;
-
+            
             textarea {
                 padding: 24px !important;
                 max-height: 50vh;
@@ -81,9 +83,9 @@
                 font-weight: 400;
                 border-radius: 8px;
                 overflow-y: hidden;
-
             }
         }
+        
     }
 }
 

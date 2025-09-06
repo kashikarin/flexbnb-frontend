@@ -1,0 +1,121 @@
+.home-edit-step-2-d-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s;
+    opacity: 1;
+    margin-inline: auto;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 5.75rem;
+    max-width: 630px;
+    min-width: 100px;
+    height: 412px;
+
+    .home-edit-step-2-d-title {
+        transform: translate(0px);
+        opacity: 1;
+        animation-delay: 400ms;
+        margin-block-end: 2rem;
+        animation-duration: 600ms;
+        animation-timing-function: cubic-bezier(0.2,0,0,1);
+        animation-fill-mode: both;
+        animation-iteration-count: 1;
+        animation-name: fadeInUp;
+        max-width: 630px;
+        
+        & > h1 {
+            font-size: 2rem;
+            line-height: 2.25rem;
+            margin-block-end: 8px;
+            letter-spacing: -0.04rem;
+            font-weight: 500;
+            color: $primary-black-inverted;
+        }
+
+        & > span {
+            min-width: auto;
+            line-height: 1.5rem;
+            font-size: 1.125rem;
+            color: $gray8;
+            margin-inline: auto;
+        }
+    }
+
+    .home-edit-step-2-d-txt-container {
+        width: 100%;
+        max-width: 100%;
+        .home-edit-step-2-d-txt-box {
+            transform: translate(0px);
+            opacity: 1;
+            animation-delay: 449.741ms;
+            width: 100%;
+            transform: translate(0px);
+            opacity: 1;
+            animation-delay: 400ms;
+            margin-block-end: 2rem;
+            animation-duration: 600ms;
+            animation-timing-function: cubic-bezier(0.2,0,0,1);
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+            animation-name: fadeInUp;
+            // box-shadow: grey 0px 0px 0px 1px inset;
+            border-radius: 8px;
+            margin-inline: auto;
+            line-height: 1.5rem;
+            font-size: 1.125rem;
+            color: $gray8;
+            
+            textarea {
+                padding: 24px !important;
+                max-height: 50vh;
+                font-size: 1.375rem;
+                line-height: 1.625rem;
+                color: $primary-font-black;
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
+                resize: vertical;
+                direction: ltr;
+                min-height: 144px;
+                text-overflow: ellipsis;
+                font-weight: 400;
+                border-radius: 8px;
+                overflow-y: hidden;
+            }
+        }
+        
+    }
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px)
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+
+@media (max-width: $narrow-breakpoint){
+    .home-edit-step-2-d-container{
+        
+        
+        
+        .home-edit-step-2-d-title {
+            & > h1 {
+
+            }
+
+            & > span {
+
+            }
+        }
+        
+    }
+}

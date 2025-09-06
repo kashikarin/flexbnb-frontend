@@ -31,7 +31,8 @@ export function HomeEdit(){
             1: <HomeEditStepTwoTitle />,
             2: <HomeEditStepTwoA />,
             3: <HomeEditStepTwoB />,
-            4: <HomeEditStepTwoC />
+            4: <HomeEditStepTwoC />,
+            5: <HomeEditStepTwoD />
         },
         3: {
             1: <HomeEditStepThreeTitle />,

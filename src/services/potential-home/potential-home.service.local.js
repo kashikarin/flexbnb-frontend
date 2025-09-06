@@ -49,9 +49,12 @@ async function save(pHomeToSave) {
   }
 }
 
-function getEmptyPotentialHome(name = '', labels = [], amenities = [], capacity = 1, bathCount
+function getEmptyPotentialHome(name = '', summary = '', price = '', labels = [], amenities = [], capacity = 1, bathCount
  = 1, bedroomsCount = 1, bedsCount = 1, loc) {
   return { name, 
+           summary,
+           imageUrls: [],
+           price,
            labels, 
            amenities, 
            capacity, 

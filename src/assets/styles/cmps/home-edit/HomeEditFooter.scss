@@ -19,20 +19,17 @@
         // padding-inline: 10rem; 
 
         .home-edit-footer-loader {
-        width: 30%;
-        height: 6px;
-        background-color: $primary-hover-gray;
-        flex: 1;
-        display: block;
-        // overflow: hidden;
+            width: 100%;
+            height: 6px;
+            background-color: $primary-hover-gray;
+            // flex: 1;
+            // display: block;
    
         .home-edit-footer-loader-progress {
             height: 100%;
-            width: 0%; 
-            background-color: black;
-            transition: width 300ms linear;
+            transition: width 300ms ease;
             &.passed {
-                width: 100%;
+                background-color: black;
             }
         }
     }

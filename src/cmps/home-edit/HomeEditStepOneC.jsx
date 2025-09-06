@@ -2,17 +2,16 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { ReactSVG } from 'react-svg'
 import { setStepCompleted, updatePotentialHome, setStepNotCompleted } from "../../store/actions/home-edit.actions"
-setStepCompleted
 export function HomeEditStepOneC(){
-    const isStepCompleted = useSelector(state => state.homeEditModule.isStepCompleted)
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
     const {bathCount, bedsCount, bedroomsCount, capacity} = potentialHome
 
     useEffect(()=>{
-        if (bathCount && bedsCount && bedroomsCount && capacity) setStepCompleted()
+        const shouldBeCompleted = !!(bathCount && bedsCount && bedroomsCount && capacity)
+        if (shouldBeCompleted) setStepCompleted()
         else setStepNotCompleted()
 
-    }, [potentialHome])
+    }, [bathCount, bedsCount, bedroomsCount, capacity])
     
     return(
         <section className='home-edit-step-one-c-container'>

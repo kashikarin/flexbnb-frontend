@@ -1,7 +1,6 @@
-import { ReactSVG } from 'react-svg'
 import { useSelector } from "react-redux"
 import { setStepCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions.js"
-import { amenityIcons, homeService } from '../../services/home/home.service.local.js'
+import { homeService } from '../../services/home/home.service.local.js'
 import {
   MdTv,
   MdKitchen,
@@ -30,10 +29,11 @@ import {
   MdSecurity,
   MdHome,
 } from 'react-icons/md'
+import { useEffect } from 'react'
 
 export function HomeEditStepTwoA(){
-    const isStepCompleted = useSelector(state => state.homeEditModule.isStepCompleted)
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+    const {currentSubStepStatus} = potentialHome.editProgress
     const {gAmenities} = homeService
     // const amentityIconsList = Object.values(amenityIcons)
     const iconComponents = {
@@ -64,6 +64,10 @@ export function HomeEditStepTwoA(){
     MdSecurity,
     MdHome,
   }
+    useEffect(()=>{
+        if (currentSubStepStatus === false) setStepCompleted()
+    }, [currentSubStepStatus])
+
     function handleClick(amentity){
         if (potentialHome.amentities.includes(amentity)) {
             const updatedAmentities = potentialHome.amentities.filter(a => a !== amentity)

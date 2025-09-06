@@ -1,50 +1,60 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import {HomeEditStepOneTitle} from '../cmps/home-edit/HomeEditStepOneTitle'
 import {HomeEditStepOneA} from '../cmps/home-edit/HomeEditStepOneA'
-import { useSelector } from 'react-redux'
 import { HomeEditStepOneB } from '../cmps/home-edit/HomeEditStepOneB'
 import { HomeEditStepOneC } from '../cmps/home-edit/HomeEditStepOneC'
 import { HomeEditStepTwoTitle } from '../cmps/home-edit/HomeEditStepTwoTitle'
 import { HomeEditStepTwoA } from '../cmps/home-edit/HomeEditStepTwoA'
+import { HomeEditStepTwoB } from '../cmps/home-edit/HomeEditStepTwoB'
+import { HomeEditStepTwoC } from '../cmps/home-edit/HomeEditStepTwoC'
+import { HomeEditStepTwoD } from '../cmps/home-edit/HomeEditStepTwoD'
+import { HomeEditStepTwoE } from '../cmps/home-edit/HomeEditStepTwoE'
+import { HomeEditStepThreeTitle } from '../cmps/home-edit/HomeEditStepThreeTitle'
+import { HomeEditStepThreeA } from '../cmps/home-edit/HomeEditStepThreeA'
 
 export function HomeEdit(){
-    const step = useSelector(state => state.homeEditModule.step)
-    const [displayedStep, setDisplayedStep] = useState(step.number)   
+    const {currentSubStep, currentStep} = useSelector(state => state.homeEditModule.potentialHome.editProgress)
+    console.log("🚀 ~ currentSubStep:", currentSubStep)
+    const [displayedStep, setDisplayedStep] = useState(currentStep)
+    const [displayedSubStep, setDisplayedSubStep] = useState(currentSubStep)
     const [isVisible, setIsVisible] = useState(true)
 
+    const homeEditComponents = {
+        1: {
+            1: <HomeEditStepOneTitle/>,
+            2: <HomeEditStepOneA />,
+            3: <HomeEditStepOneB />,
+            4: <HomeEditStepOneC />
+        },
+        2: {
+            1: <HomeEditStepTwoTitle />,
+            2: <HomeEditStepTwoA />,
+            3: <HomeEditStepTwoB />
+        },
+        3: {
+            1: <HomeEditStepThreeTitle />,
+            2: <HomeEditStepThreeA />
+        }
+    }
+
+    function renderStepComponent() {
+        return homeEditComponents[currentStep]?.[currentSubStep] || null
+    }
+
     useEffect(()=>{
-        if (step.number === displayedStep) return //should occur only in step 1
+        if (currentStep === displayedStep && currentSubStep === displayedSubStep) return //should occur only in step 1
         setIsVisible(false); // start fade-out animation
 
         const timeout = setTimeout(() => {
-            setDisplayedStep(step.number); //set the displayedStep 0.6s after the next-click     
+            setDisplayedStep(currentStep)
+            setDisplayedSubStep(currentSubStep)     
             setIsVisible(true); //start fade-in animation
             // setIsStepCompleted(false)       
         }, 600); 
 
         return () => clearTimeout(timeout);
-    }, [step.number])
-    
-    function renderStepComponent(){
-        switch(displayedStep){
-            case 1:
-                return <HomeEditStepOneTitle />
-            case 2:
-                return <HomeEditStepOneA /> 
-            case 3:
-                return <HomeEditStepOneB /> 
-            case 4:
-                return <HomeEditStepOneC /> 
-            case 5:
-                return <HomeEditStepTwoTitle /> 
-            case 6:
-                return <HomeEditStepTwoA /> 
-            case 7:
-                return <HomeEditStepTwoB />
-            default: 
-                return null
-        }
-    }
+    }, [currentStep, currentSubStep])
     
     return(
         <section className='home-edit-container'>

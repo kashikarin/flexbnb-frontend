@@ -1,10 +1,13 @@
-import { SET_COMPLETED, 
+import { 
+         SET_COMPLETED, 
          ADD_POTENTIAL_HOME, 
          SET_POTENTIAL_HOMES, 
          SET_NOT_COMPLETED, 
          UPDATE_POTENTIAL_HOME, 
-         SET_STEP, 
-         SET_POTENTIAL_HOME} from "../reducers/home-edit.reducer"
+         SET_POTENTIAL_HOME,
+         SET_NEXT_SUBSTEP,
+         SET_PREVIOUS_SUBSTEP
+        } from "../reducers/home-edit.reducer"
 import { store } from "../store"
 import { potentialHomeService } from "../../services/potential-home/potential-home.service.local"
 
@@ -42,18 +45,14 @@ export async function updatePotentialHome(potentialHome) {
 export async function addPotentialHome() {
     try {
         const savedPotentialHome = await potentialHomeService.save(potentialHomeService.getEmptyPotentialHome())
+        console.log("🚀 ~ savedPotentialHome:", savedPotentialHome)
+        
         store.dispatch(getCmdAddPotentialHome(savedPotentialHome))
         return savedPotentialHome
     } catch(err){
         console.error('Cannot add potential home', err)
         throw err
     }
-}
-
-export function setStep(stepNumber, direction) {
-    const newStep = {number: Math.max(1, stepNumber + direction), status: false}
-    console.log('setStep function', newStep)
-    store.dispatch(getCmdSetStep(newStep))
 }
 
 export function setStepCompleted() {
@@ -64,14 +63,15 @@ export function setStepNotCompleted() {
     store.dispatch(getCmdSetNotCompleted())
 }
 
+export function setNextSubStep(){
+  store.dispatch(getCmdSetNextSubStep())
+}
+
+export function setPreviousSubStep(){
+  store.dispatch(getCmdSetPreviousSubStep())
+}
 
 // Command Creators:
-function getCmdSetStep(step) {
-  return {
-    type: SET_STEP,
-    step
-  }
-}
 
 function getCmdSetPotentialHome(potentialHome) {
     return {
@@ -110,5 +110,17 @@ function getCmdSetCompleted() {
 function getCmdSetNotCompleted() {
     return {
        type: SET_NOT_COMPLETED 
+    }
+}
+
+function getCmdSetNextSubStep() {
+    return {
+       type: SET_NEXT_SUBSTEP 
+    }
+}
+
+function getCmdSetPreviousSubStep() {
+    return {
+       type: SET_PREVIOUS_SUBSTEP 
     }
 }

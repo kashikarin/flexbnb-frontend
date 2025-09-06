@@ -2,25 +2,20 @@ import { gHomeTypes } from "../../services/home/home.service.local.js"
 import { ReactSVG } from 'react-svg'
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { setStepCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions.js"
+import { setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions.js"
 import { useEffectUpdate } from "../../customHooks/useEffectUpdate.js"
 
 export function HomeEditStepOneA(){
-    const isStepCompleted = useSelector(state => state.homeEditModule.isStepCompleted)
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
-    const [selectedType, setSelectedType] = useState(null)
+    console.log("🚀 ~ potentialHome:", potentialHome)
+    const {type} = potentialHome
     
     useEffectUpdate(()=>{
-        const updatedPotentialHome = { ...potentialHome, type: gHomeTypes[selectedType]}
-        updatePotentialHome(updatedPotentialHome)
-    }, [selectedType])
+        const shouldBeCompleted = !!type && !potentialHome.editProgress.currentSubStepStatus
+        if (shouldBeCompleted) setStepCompleted()
+        else setStepNotCompleted()
+    }, [type])
 
-    function handleClick(typeIdx){
-        if (typeIdx !== selectedType) {
-            setSelectedType(typeIdx)
-        }
-        if (!isStepCompleted) setStepCompleted()
-    }
 console.log(potentialHome);
 
     return(
@@ -29,7 +24,7 @@ console.log(potentialHome);
                 <h1>Which of these best describes your place?</h1>
             </article>
             <article className="home-edit-step-one-a-buttons-container">
-                {gHomeTypes.map((homeType, i) => <button key={`${homeType}${i}`} className={`home-edit-step-one-a type${i+1} ${selectedType === i? 'selected' : ''}`} onClick={()=> handleClick(i)}>
+                {gHomeTypes.map((homeType, i) => <button key={`${homeType}${i}`} className={`home-edit-step-one-a type${i+1} ${type === gHomeTypes[i]? 'selected' : ''}`} onClick={()=> updatePotentialHome({ ...potentialHome, type: gHomeTypes[i] })}>
                     <ReactSVG src={`/svgs/home-types/home-type${i+1}.svg`} className='home-type-icon' />          
                     <span>{gHomeTypes[i]}</span>
                 </button>)}

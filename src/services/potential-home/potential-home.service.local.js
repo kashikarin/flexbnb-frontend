@@ -8,12 +8,18 @@ import {
 
 const STORAGE_KEY = 'potential-home'
 
+const gTotalSteps = 3
+
+const gSubStepsPerStep = [4, 5, 2]
+
 export const potentialHomeService = {
   query,
   getById,
   save,
   remove,
-  getEmptyPotentialHome
+  getEmptyPotentialHome,
+  gTotalSteps,
+  gSubStepsPerStep
 }
 
 window.cs = potentialHomeService
@@ -52,5 +58,19 @@ async function save(pHomeToSave) {
 
 function getEmptyPotentialHome(name = '', labels = [], amenities = [], capacity = 1, bathCount
  = 1, bedroomsCount = 1, bedsCount = 1, loc) {
-  return { name, labels, amenities, capacity, bedroomsCount, bedsCount, bathCount, loc }
+  return { name, 
+           labels, 
+           amenities, 
+           capacity, 
+           bedroomsCount, 
+           bedsCount, 
+           bathCount, 
+           loc,
+          editProgress: {
+            currentStep: 1,
+            currentStepStatus: false,
+            currentSubStep: 1,
+            currentSubStepStatus: false
+          } 
+        }
 }

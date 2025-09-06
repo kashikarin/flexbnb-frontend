@@ -10,7 +10,7 @@ import { initUsers } from '../store/actions/user.actions'
 import { ScrollContext } from '../context/ScrollContext'
 import { HeaderHomeDetails } from './HeaderHomeDetails'
 import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
-import { addPotentialHome, loadPotentialHome, setStep } from '../store/actions/home-edit.actions'
+import { addPotentialHome, loadPotentialHome } from '../store/actions/home-edit.actions'
 
 export function AppHeader({scrollContainerRef}) {
   const dispatch = useDispatch()
@@ -63,7 +63,6 @@ export function AppHeader({scrollContainerRef}) {
   
   async function onCreateNewListing(){
     try {
-      setStep(0, 1)
       const newPotentialHome = await addPotentialHome()
       await loadPotentialHome(newPotentialHome._id)
     } catch(err){

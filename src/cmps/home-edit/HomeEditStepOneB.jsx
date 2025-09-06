@@ -6,9 +6,8 @@ import { useEffectUpdate } from '../../customHooks/useEffectUpdate'
 
 
 export function HomeEditStepOneB(){
-    const step = useSelector(state => state.homeEditModule.step)
-        const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
-
+    const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+    const {currentSubStepStatus} = potentialHome.editProgress
     const homeLoc = useSelector(state => state.homeEditModule.home) || {
         loc: { lat: 37.7749, lng: -122.4194 }
     }
@@ -21,13 +20,13 @@ export function HomeEditStepOneB(){
     const [isLoading, setIsLoading] = useState(false)
 
       useEffectUpdate(()=>{
-            const updatedPotentialHome = { ...potentialHome, loc: homeLocation }
-            updatePotentialHome(updatedPotentialHome)
-        }, [homeLocation])
+        const updatedPotentialHome = { ...potentialHome, loc: homeLocation }
+        updatePotentialHome(updatedPotentialHome)
+    }, [homeLocation])
 
     useEffect(() => {
-        if (step.status === false) setStepCompleted()
-    }, [step.status])
+        if (!currentSubStepStatus) setStepCompleted()
+    }, [currentSubStepStatus])
 
 
  

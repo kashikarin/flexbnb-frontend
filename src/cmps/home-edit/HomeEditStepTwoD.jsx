@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { updatePotentialHome } from "../../store/actions/home-edit.actions"
+import { setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions"
 import { utilService } from "../../services/util.service"
 import { useRef, useState, useEffect } from "react"
 import { useEffectUpdate } from "../../customHooks/useEffectUpdate"

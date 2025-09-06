@@ -9,7 +9,6 @@ import { HomeEditStepTwoA } from '../cmps/home-edit/HomeEditStepTwoA'
 import { HomeEditStepTwoB } from '../cmps/home-edit/HomeEditStepTwoB'
 import { HomeEditStepTwoC } from '../cmps/home-edit/HomeEditStepTwoC'
 import { HomeEditStepTwoD } from '../cmps/home-edit/HomeEditStepTwoD'
-import { HomeEditStepTwoE } from '../cmps/home-edit/HomeEditStepTwoE'
 import { HomeEditStepThreeTitle } from '../cmps/home-edit/HomeEditStepThreeTitle'
 import { HomeEditStepThreeA } from '../cmps/home-edit/HomeEditStepThreeA'
 

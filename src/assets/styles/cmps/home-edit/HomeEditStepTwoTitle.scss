@@ -52,7 +52,7 @@
         clip-path: inset(1px 1px);
         position: relative;
 
-        .home-edit-step-2-title-video {
+        .home-edit-step-2-video {
             object-fit: cover;
             width: 100%;
             height: 100%;
@@ -69,11 +69,11 @@
         padding-block-end: 100px;
         gap: 2rem; 
         padding-inline: 1.5rem;
-        .home-edit-step-1-title-text-container {
+        .home-edit-step-2-title-text-container {
             width: 100%;
             margin-block-end: 1.5rem;
         }
-        .home-edit-step-1-title-video-container {
+        .home-edit-step-2-title-video-container {
             margin-inline-start: -1.5rem;
             margin-block-end: 1rem;
             height: 613px;
@@ -83,7 +83,5 @@
 }
 
 @media (max-width: $normal-breakpoint) {
-    .home-edit-step-2-a-buttons-container{
         
-    }
 }

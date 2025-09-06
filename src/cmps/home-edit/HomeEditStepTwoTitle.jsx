@@ -23,7 +23,7 @@ export function HomeEditStepTwoTitle(){
                 </div>
             </article>
             <article className="home-edit-step-2-title-video-container">
-                <video src="https://stream.media.muscache.com/H0101WTUG2qWbyFhy02jlOggSkpsM9H02VOWN52g02oxhDVM.mp4?v_q=high" autoPlay crossOrigin="anonymous" playsInline preload='auto' className="home-edit-step-5-video" />
+                <video src="https://stream.media.muscache.com/H0101WTUG2qWbyFhy02jlOggSkpsM9H02VOWN52g02oxhDVM.mp4?v_q=high" autoPlay crossOrigin="anonymous" playsInline preload='auto' className="home-edit-step-2-video" />
             </article>
         </section>
     )

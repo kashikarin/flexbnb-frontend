@@ -1,5 +1,14 @@
 export function HomeEditStepThreeA(){
     return (
-        <h1>step 3A</h1>
+        <section className='home-edit-step-3-a-container'>
+            <article className="home-edit-step-3-a-title">
+                <h1>Now, set a price per night</h1>
+            </article>
+            <article className="home-edit-step-3-a-price-wrapper">
+                <div className="home-edit-step-3-a-price-content">  
+                    
+                </div>
+            </article>
+        </section>
     )
 }

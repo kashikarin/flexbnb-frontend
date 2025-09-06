@@ -28,9 +28,7 @@
         .home-edit-footer-loader-progress {
             height: 100%;
             transition: width 300ms ease;
-            &.passed {
-                background-color: black;
-            }
+            background-color: black;
         }
     }
 

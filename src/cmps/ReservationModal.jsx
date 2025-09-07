@@ -111,13 +111,12 @@ export function ReservationModal({ home,
             <div className='reservation-selection' ref={selectionRef}>
               <div className='reservation-selection-date-checkin'>
                 <div>CHECK-IN</div>
-                <div>{getRandom3NightsStayDatesStr().startDate}</div>{' '}
-                {/*filterBy.startDate || 'Add date'*/}
+                <div>{getRandom3NightsStayDatesStr().checkIn}</div>{' '}
               </div>
               <div className='reservation-selection-date-checkout'>
                 <div>CHECK-OUT</div>
                 <div name='endDate' onChange={handleChange}>
-                  {getRandom3NightsStayDatesStr().endDate}
+                  {getRandom3NightsStayDatesStr().checkOut}
                 </div>
               </div>
               <div

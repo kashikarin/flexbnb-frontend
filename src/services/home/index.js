@@ -15,12 +15,21 @@ function getEmptyHome() {
 
 function getDefaultFilter() {
   return {
-    txt: '',
+    city: '',
+    adults: 0,
+    children: 0,
+    infants: 0,
+    pets: 0,
+    type: '',
+    minPrice: 0,
     maxPrice: '',
-    minSpeed: '',
-    sortField: '',
-    sortDir: '',
-    // pageIdx: 0
+    amenities: [],
+    bedRoomsCount: 0,
+    bedsCount: 0,
+    bathCount: 0,
+    labels: [],
+    checkIn: '',
+    checkOut: ''
   }
 }
 

@@ -66,7 +66,7 @@ export function UserDetails() {
           {orders.map((order) => {
             const stayNightsNum = Math.max(
               1,
-              Math.floor((order.endDate - order.startDate) / 86400000)
+              Math.floor((order.checkOut - order.checkIn) / 86400000)
             )
             const guestsNum =
               (Number(order.guests.adults) || 0) +
@@ -82,9 +82,9 @@ export function UserDetails() {
                 <td>{order.home.name}</td>
                 <td>
                   {`${new Date(
-                    order.startDate
+                    order.checkIn
                   ).toLocaleDateString()} - ${new Date(
-                    order.endDate
+                    order.checkOut
                   ).toLocaleDateString()}`}
                 </td>
                 <td className='center'>{stayNightsNum}</td>

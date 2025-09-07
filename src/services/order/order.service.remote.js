@@ -29,7 +29,7 @@ export const orderService = {
 
 async function query(filterOrdersBy = getDefaultOrderFilter()) {
     return httpService.get(`home`, filterOrdersBy)
-    // const { status, createdAt, startDate, endDate } = filterOrdersBy
+    // const { status, createdAt, checkIn, checkOut } = filterOrdersBy
     // if (status) {
     //   orders = orders.filter((order) =>
     //     order.status.toLowerCase().includes(status.toLowerCase())
@@ -69,17 +69,17 @@ async function getInitialOrderDetails(homeId, userId, filterBy) {
     imgUrl: home.host.imageUrl,
   }
   const serviceFeeRate = 0.14
-  const startDate = filterBy.startDate || randomFutureTime()
-  const endDate = filterBy.endDate || startDate + 3 * 86400000
+  const checkIn = filterBy.checkIn || randomFutureTime()
+  const checkOut = filterBy.checkOut || checkIn + 3 * 86400000
   return {
     host,
     guest: { _id: loggedInUser._id, fullname: loggedInUser.fullname },
     totalPrice:
       home.price *
-      Math.floor((Math.max(endDate) - Math.min(startDate)) / 86400000) *
+      Math.floor((Math.max(checkOut) - Math.min(checkIn)) / 86400000) *
       (1 + serviceFeeRate),
-    startDate,
-    endDate,
+    checkIn,
+    checkOut,
     guests: {
       adults: filterBy.adults,
       children: filterBy.children,
@@ -115,12 +115,12 @@ async function _createOrder() {
   order.guests.infants = Math.floor(Math.random() * getRandomIntInclusive(1, 4))
   order.guests.pets = Math.floor(Math.random() * getRandomIntInclusive(0, 2))
   //order dates:
-  order.startDate = randomFutureTime()
-  order.endDate = order.startDate + getRandomIntInclusive(1, 10) * 86400000
+  order.checkIn = randomFutureTime()
+  order.checkOut = order.checkIn + getRandomIntInclusive(1, 10) * 86400000
   //order.totalPrice
   const nightsCount = Math.floor(
-    (Math.max(order.startDate, order.endDate) -
-      Math.min(order.startDate, order.endDate)) /
+    (Math.max(order.checkIn, order.checkOut) -
+      Math.min(order.checkIn, order.checkOut)) /
       86400000
   )
   const subTotalPrice = reservedHome.price * nightsCount

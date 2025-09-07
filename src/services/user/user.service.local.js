@@ -1,5 +1,5 @@
 import { storageService } from '../async-storage.service'
-import { homeService } from '../home/home.service.local'
+import { homeService } from '../home'
 import { utilService } from '../util.service'
 
 

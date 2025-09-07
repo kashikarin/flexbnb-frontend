@@ -67,18 +67,19 @@ export const amenityIcons = {
 export const getAmenityIcon = (amenity) => amenityIcons[amenity] || 'MdHome'
 
 export const homeService = {
-  gAmenities,
   query,
   getById,
+  remove,
   save,
   remove,
+  getEmptyHome,
   getDefaultFilter,
-  getCountry,
-  getRandomHomeId,
-  addHomeMsg,
   getMaxHomePrice,
-  getAmenityIcon,
+  addHomeMsg,
+  getRandomHomeId,
+  getCountry
 }
+
 
 window.cs = homeService
 const images = [
@@ -489,7 +490,9 @@ async function query(filterBy = getDefaultFilter()) {
     // const maxHomePrice = await getMaxHomePrice(filter)
     const {
       city,
-      capacity,
+      adults,
+      children,
+      pets,
       type,
       minPrice,
       maxPrice,
@@ -498,16 +501,22 @@ async function query(filterBy = getDefaultFilter()) {
       bedsCount,
       bathCount,
       labels,
+      checkIn,
+      checkOut
     } = filterBy
+
 
     if (city) {
       homes = homes.filter((home) =>
         home.loc.city.toLowerCase().includes(city.toLowerCase())
       )
     }
-    if (capacity) {
+    if (adults || children || pets) {
+      let capacity = (adults ?? 0) + (children ?? 0)
       homes = homes.filter((home) => home.capacity >= capacity)
+      if (pets) homes.filter(home => home.petsAllowed)
     }
+
     if (type) {
       homes = homes.filter((home) =>
         home.type.toLowerCase().includes(type.toLowerCase())
@@ -538,6 +547,10 @@ async function query(filterBy = getDefaultFilter()) {
     if (bathCount) {
       homes = homes.filter((home) => home.bathCount >= bathCount)
     }
+    if (checkIn && checkOut){
+      homes = homes.filter(home => _isHomeAvailable(home.bookings, checkIn, checkOut));
+    }
+
     return homes
   } catch (err) {
     console.error('Oops', err)
@@ -586,6 +599,8 @@ function getDefaultFilter() {
     bedsCount: 0,
     bathCount: 0,
     labels: [],
+    checkIn: '',
+    checkOut: ''
   }
 }
 
@@ -650,6 +665,20 @@ function getCountry(city) {
 function _getSingleImageUrl() {
   const randomIndex = getRandomIntInclusive(0, images.length - 1)
   return images[randomIndex].imgUrl
+}
+
+function _isHomeAvailable(bookings = [], checkIn, checkOut) {
+  if (!(checkIn instanceof Date)) checkIn = new Date(checkIn)
+  if (!(checkOut instanceof Date)) checkOut = new Date(checkOut)
+
+  if (!+checkIn || !+checkOut || checkIn >= checkOut) return false
+
+  return bookings.every(b => {
+    const bStart = b.start instanceof Date ? b.start : new Date(b.start)
+    const bEnd   = b.end instanceof Date ? b.end   : new Date(b.end)
+
+    return bEnd <= checkIn || bStart >= checkOut
+  })
 }
 
 function _getDemoBookings(horizonDays = 120,

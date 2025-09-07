@@ -19,7 +19,7 @@ export function BuyingStepOneModal({
     await onConfirmOrder()
     setCurrentStep(2)
   }
-  const stayNightsNum = Math.floor((potentialOrder.endDate - potentialOrder.startDate) / 86400000)
+  const stayNightsNum = Math.floor((potentialOrder.checkOut - potentialOrder.checkIn) / 86400000)
   const guestsNum =
     Number(potentialOrder.guests.adults ?? 0) + Number(potentialOrder.guests.children ?? 0)
   const serviceFeeRate = 0.14
@@ -51,7 +51,7 @@ export function BuyingStepOneModal({
               </h3>
               <p>
                 <span>Trip dates:</span>
-                <span>{`${potentialOrder.startDate} - ${potentialOrder.endDate}`}</span>
+                <span>{`${potentialOrder.checkIn} - ${potentialOrder.checkOut}`}</span>
               </p>
               <p>
                 <span>Guests:</span>

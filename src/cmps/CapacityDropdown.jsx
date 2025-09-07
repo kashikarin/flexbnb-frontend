@@ -16,8 +16,19 @@ export function CapacityDropdown({
                                    homeCapacity,
                                    petsAllowed
                                 }){
+                                   console.log("🚀 ~ petsFilter:", petsFilter)
+                                   console.log("🚀 ~ infantsFilter:", infantsFilter)
+                                   console.log("🚀 ~ childrenFilter:", childrenFilter)
+                                   console.log("🚀 ~ adultsFilter:", adultsFilter)
+    
+    const numbersReady = 
+        adultsFilter !== null &&
+        childrenFilter !== null &&
+        infantsFilter !== null &&
+        petsFilter !== null
+
     return (
-        isOpen ? (
+        isOpen && numbersReady? (
             <div>
                <div className="capacity-dropdown-container">
                     <div className="capacity-dropdown-panel">

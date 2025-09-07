@@ -17,6 +17,7 @@ export function SearchBar({ isScrolled }) {
   const filterBy = useSelector((state) => state.homeModule.filterBy);
   const dispatch = useDispatch();
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
+  console.log("🚀 ~ filterByToEdit:", filterByToEdit)
   const searchBarRef = useRef();
   //const dropdownRef = useRef()
   const whereRef = useRef();
@@ -31,8 +32,8 @@ export function SearchBar({ isScrolled }) {
   const capacity =
     Number(adultsNum ?? 0) + Number(childrenNum ?? 0) + Number(infantsNum ?? 0);
 
-  const [checkIn, setCheckIn] = useState(filterBy.startDate ?? "");
-  const [checkOut, setCheckOut] = useState(filterBy.endDate ?? "");
+  const [checkIn, setCheckIn] = useState(filterBy.checkIn ?? "");
+  const [checkOut, setCheckOut] = useState(filterBy.checkOut ?? "");
 
   useEffect(() => {
     setFilterByToEdit((prevFilterByToEdit) => ({
@@ -41,8 +42,8 @@ export function SearchBar({ isScrolled }) {
       children: childrenNum,
       infants: infantsNum,
       pets: petsNum,
-      startDate: checkIn,
-      endDate: checkOut,
+      checkIn,
+      checkOut,
     }));
   }, [adultsNum, childrenNum, infantsNum, petsNum, checkIn, checkOut]);
 
@@ -94,7 +95,7 @@ export function SearchBar({ isScrolled }) {
   function onUpdateFilterBy(filter) {
     setFilterByToEdit((prevFilterByToEdit) => ({
       ...prevFilterByToEdit,
-      ...filter,
+      ...filter
     }));
   }
 
@@ -109,10 +110,10 @@ export function SearchBar({ isScrolled }) {
     setActiveButton((curr) => (curr === btName ? null : btName));
   }
 
-  function onInputChange(ev) {
-    const val = ev.target.value;
-    debouncedSetTxt(val);
-  }
+  // function onInputChange(ev) {
+  //   const val = ev.target.value;
+  //   debouncedSetTxt(val);
+  // }
   
   function handleSubmit(ev) {
     ev.preventDefault();
@@ -155,12 +156,12 @@ export function SearchBar({ isScrolled }) {
   function getCheckinTitleText() {
     let txt;
     if (scrolled) {
-      if (filterByToEdit.startDate) {
+      if (filterByToEdit.checkIn) {
         //scroll + there is startdate
-        const checkinDate = new Date(filterByToEdit.startDate);
-        const checkoutDate = filterByToEdit.endDate
-          ? new Date(filterByToEdit.endDate)
-          : new Date(filterByToEdit.startDate + 86400000);
+        const checkinDate = new Date(filterByToEdit.checkIn);
+        const checkoutDate = filterByToEdit.checkOut
+          ? new Date(filterByToEdit.checkOut)
+          : new Date(filterByToEdit.checkIn + 86400000);
         const options = { month: "short", day: "numeric" };
         const shortCheckinDate = new Intl.DateTimeFormat(
           "en-US",
@@ -171,10 +172,10 @@ export function SearchBar({ isScrolled }) {
             ? checkoutDate.getDate()
             : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
         txt = shortCheckinDate + " - " + shortCheckoutDate;
-      } else if (filterByToEdit.endDate) {
+      } else if (filterByToEdit.checkOut) {
         //scroll + there is not startdate but there is end date
-        const checkoutDate = new Date(filterByToEdit.startDate);
-        const checkinDate = new Date(filterByToEdit.endDate - 86400000);
+        const checkoutDate = new Date(filterByToEdit.checkIn);
+        const checkinDate = new Date(filterByToEdit.checkOut - 86400000);
         const options = { month: "short", day: "numeric" };
         const shortCheckinDate = new Intl.DateTimeFormat(
           "en-US",
@@ -193,9 +194,9 @@ export function SearchBar({ isScrolled }) {
   function getCheckoutTitleText() {
     let txt;
     if (!scrolled) {
-      if (filterByToEdit.endDate) {
-        const checkoutDate = new Date(filterByToEdit.startDate);
-        const checkinDate = new Date(filterByToEdit.endDate - 86400000);
+      if (filterByToEdit.checkOut) {
+        const checkoutDate = new Date(filterByToEdit.checkIn);
+        const checkinDate = new Date(filterByToEdit.checkOut - 86400000);
         const options = { month: "short", day: "numeric" };
         const shortCheckinDate = new Intl.DateTimeFormat(
           "en-US",
@@ -216,7 +217,7 @@ export function SearchBar({ isScrolled }) {
       day: "numeric", // 29, 30...
     }).format(new Date(date));
   }
-
+console.log('city filter:', filterByToEdit.city)
   return (
     <search>
       <div className={`search-bar-container ${scrolled ? "scrolled" : ""} ${ activeButton ? "has-active" : "" }`}
@@ -231,16 +232,14 @@ export function SearchBar({ isScrolled }) {
             {!scrolled && (
               <input
                 className={`placeholder-content ${scrolled ? "scrolled" : ""}`}
-                onChange={onInputChange}
+                // onChange={onInputChange}
                 type="search"
                 placeholder="Search destination"
                 value={
                   filterByToEdit.city
-                    ? filterByToEdit.city +
-                      ", " +
-                      homeService.getCountry(filterByToEdit.city)
-                    : ""
+                    
                 }
+                readOnly
               />
             )}
 
@@ -250,7 +249,7 @@ export function SearchBar({ isScrolled }) {
                 onOpen={() => setOpenedDropdown("where")}
                 dropdownRef={whereRef}
                 onClose={() => setOpenedDropdown(null)}
-                cityFilter={filterBy.city || ""}
+                cityFilter={filterByToEdit.city || ""}
                 onUpdateFilterBy={onUpdateFilterBy}
               />
             </div>
@@ -270,8 +269,8 @@ export function SearchBar({ isScrolled }) {
                 placeholder="Add dates"
                 readOnly
                 value={
-                  filterByToEdit.startDate
-                    ? `${formatDate(filterByToEdit.startDate)}`
+                  filterByToEdit.checkIn
+                    ? `${formatDate(filterByToEdit.checkIn)}`
                     : ""
                 }
               />
@@ -294,8 +293,8 @@ export function SearchBar({ isScrolled }) {
                 placeholder="Add dates"
                 readOnly
                 value={
-                  filterByToEdit.endDate
-                    ? `${formatDate(filterByToEdit.endDate)}`
+                  filterByToEdit.checkOut
+                    ? `${formatDate(filterByToEdit.checkOut)}`
                     : ""
                 }
               />

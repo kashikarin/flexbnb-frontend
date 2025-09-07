@@ -5,11 +5,9 @@ export function DatesDropdown({ dropdownRef, checkIn, checkOut,onSetDates, isOpe
   
   function handleSelect(dates) {
     const [start, end] = dates
+    console.log("🚀 ~ dates:", dates)
     onSetDates({ checkIn: start, checkOut: end })
   }
-
-  console.log('checkIn:', checkIn)
-  console.log('checkOut:', checkOut)
 
   return (
     <section ref={dropdownRef}>

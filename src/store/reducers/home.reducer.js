@@ -27,13 +27,7 @@ export function homeReducer(state = initialState, action) {
     case SET_HOME:
       newState = { ...state, home: action.home }
       break
-    // case REMOVE_HOME:
-    //   const lastRemovedHome = state.homes.find(
-    //     (home) => home._id === action.homeId
-    //   )
-    //   homes = state.homes.filter((home) => home._id !== action.homeId)
-    //   newState = { ...state, homes, lastRemovedHome }
-    //   break
+    
     // case ADD_HOME:
     //   newState = { ...state, homes: [...state.homes, action.home] }
     //   break
@@ -54,6 +48,7 @@ export function homeReducer(state = initialState, action) {
         ...state,
         filterBy: { ...state.filterBy, ...action.filterBy },
       }
+      console.log("🚀 ~ newState:", newState)
       break
     case ADD_USER_LIKE:
       newState = {

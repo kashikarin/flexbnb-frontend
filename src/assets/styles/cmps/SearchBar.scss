@@ -314,9 +314,12 @@
     min-width: 650px;
 
     .placeholder-content {
-      display: none;
+      color: #999; 
+      display: block;
     }
-
+    .placeholder-content:not(:placeholder-shown) {
+      display: block;       
+    }
     &.scrolled {
       max-width: 350px;
       min-width: 320px;

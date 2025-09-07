@@ -163,15 +163,15 @@ export function getRandom3NightsStayDatesStr() {
     endDay = currentDate + 4
   }
 
-  const startDateObj = new Date(year, month, startDay)
-  const endDateObj = new Date(year, month, endDay)
+  const checkInObj = new Date(year, month, startDay)
+  const checkOutObj = new Date(year, month, endDay)
 
   const format = (date) =>
     `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 
   return {
-    startDate: format(startDateObj),
-    endDate: format(endDateObj),
+    checkIn: format(checkInObj),
+    checkOut: format(checkInObj),
   }
 }
 

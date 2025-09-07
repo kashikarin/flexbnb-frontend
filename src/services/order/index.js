@@ -8,8 +8,8 @@ export function getEmptyOrder() {
     host: { _id: '', fullname: '', imgUrl: '' },
     guest: { _id: '', fullname: '' },
     totalPrice: '',
-    startDate: '',
-    endDate: '',
+    checkIn: '',
+    checkOut: '',
     guests: { adults: '', children: '' },
     home: { _id: '', name: '', imgUrl: '' },
     msgs: [],
@@ -21,8 +21,8 @@ export function getDefaultOrderFilter() {
   return {
     status: '',
     createdAt: '',
-    startDate: '',
-    endDate: '',
+    checkIn: '',
+    checkOut: '',
   }
 }
 

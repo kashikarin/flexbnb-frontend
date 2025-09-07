@@ -17,13 +17,10 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
-import { ScrollContext, ScrollProvider } from './context/ScrollContext.jsx'
 import { PotentialOrderProvider } from './context/potential-order/PotentialOrderContext.jsx'
 import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
-import { HomeEditProvider } from './context/home-edit/HomeEditContext.jsx'
-import { useContext, useRef } from 'react'
-import { LabelsSlider } from './cmps/LabelsSlider.jsx'
+import { useRef } from 'react'
 import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
 
 
@@ -32,18 +29,13 @@ export function RootCmp() {
   const location = useLocation()
   const isIndex = location.pathname === '/'
   const isHomeEdit = location.pathname === '/hosting/edit'
-  const {isScrolled, setIsScrolled} = useContext(ScrollContext)
   
   
   console.log('📍location.pathname:', location.pathname)
 console.log('🏠 isIndex:', isIndex)
   return (
-    
-      <ScrollProvider>
-          <ScrollToTop />
             <PotentialOrderProvider>
-              <HomeEditProvider>
-                
+              <ScrollToTop />
                   <div className='main-container'>
                     <AppHeader scrollContainerRef={mainRef} />
                       
@@ -85,10 +77,7 @@ console.log('🏠 isIndex:', isIndex)
                         {isHomeEdit && <HomeEditFooter />}
                         {/* <AppFooter /> */}
                       </div> 
-                    </HomeEditProvider>
-                  </PotentialOrderProvider>      
-                </ScrollProvider>
-              
+                  </PotentialOrderProvider>             
   )
 }
 

@@ -1,28 +1,27 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaAirbnb } from 'react-icons/fa'
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
 import { userService } from '../services/user/user.service.local'
 import { SET_LOGGEDINUSER } from '../store/reducers/user.reducer'
 import { initUsers } from '../store/actions/user.actions'
-import { ScrollContext } from '../context/ScrollContext'
 import { HeaderHomeDetails } from './HeaderHomeDetails'
 import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
 import { addPotentialHome, loadPotentialHome } from '../store/actions/home-edit.actions'
+import { setHomePageNotScrolled, setHomePageScrolled } from '../store/actions/scroll.actions'
 
 export function AppHeader({scrollContainerRef}) {
   const dispatch = useDispatch()
   const location = useLocation()
-  const {isScrolled, setIsScrolled} = useContext(ScrollContext)
+  const isHomePageScrolled = useSelector(state => state.scrollModule.isHomePageScrolled)
+  const isHDImgScrolled = useSelector(state => state.scrollModule.isHDImgScrolled)
   const isHomeIndex = location.pathname === '/'
   const isHosting = location.pathname.startsWith('/hosting')
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
-  const {isImgScrolledPast, isStickyScrolledPast} = useContext(ScrollContext)
-
 
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
@@ -34,11 +33,14 @@ export function AppHeader({scrollContainerRef}) {
   useEffect(() => {
     const elMain = scrollContainerRef.current
     if (!elMain) return
-    const handleScroll = () => setIsScrolled(elMain.scrollTop > 20)
+    const handleScroll = () => {
+      if (elMain.scrollTop > 20) setHomePageScrolled()
+      else setHomePageNotScrolled()
+    }
     elMain.addEventListener('scroll', handleScroll)
     handleScroll()
     return () => elMain.removeEventListener('scroll', handleScroll)
-  }, [scrollContainerRef, setIsScrolled])
+  }, [scrollContainerRef])
   
   useEffect(() => {
     (async function initAndLoadData() {
@@ -58,7 +60,7 @@ export function AppHeader({scrollContainerRef}) {
     }
   }
   useEffect(()=>{
-    if (!isHomeIndex || isSmallScreen) setIsScrolled(true)
+    if (!isHomeIndex || isSmallScreen) setHomePageScrolled()
   }, [isSmallScreen, isHomeIndex])
   
   async function onCreateNewListing(){
@@ -70,13 +72,13 @@ export function AppHeader({scrollContainerRef}) {
     }
   }
 
-const shouldCollapse = isScrolled || !isHomeIndex || isSmallScreen;
+const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen;
 
   return (
-    <header className={`app-header ${(shouldCollapse)? '' : "expanded"} ${isHosting || isImgScrolledPast? 'one-row-divider' : ''}`}>
-      {isImgScrolledPast && <HeaderHomeDetails />}
+    <header className={`app-header ${(shouldCollapse)? '' : "expanded"} ${isHosting || isHDImgScrolled? 'one-row-divider' : ''}`}>
+      {isHDImgScrolled && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
-      {(!isImgScrolledPast && !isHomeEdit) && (<nav className={`app-header-main-nav ${shouldCollapse ? 'scrolled' : 'expanded'}`}>
+      {(!isHDImgScrolled && !isHomeEdit) && (<nav className={`app-header-main-nav ${shouldCollapse ? 'scrolled' : 'expanded'}`}>
         
           <div className="app-header-main-nav-content">
           {/* main-nav - left section */}
@@ -95,7 +97,7 @@ const shouldCollapse = isScrolled || !isHomeIndex || isSmallScreen;
             </nav>
           ) : (     
             <div className={`searchbar-wrapper ${shouldCollapse? 'scrolled' : 'expanded'}`}>
-              <SearchBar isScrolled={shouldCollapse} />
+              <SearchBar shouldCollapse={shouldCollapse} />
             </div>
           )}
           </div>
@@ -114,8 +116,8 @@ const shouldCollapse = isScrolled || !isHomeIndex || isSmallScreen;
         
       </nav>)}
       <div className="app-header-bottom-row">
-          {isHomeIndex && isScrolled && (<div className="app-header-labels-slider-wrapper">
-            <LabelsSlider isScrolled={isScrolled}/>
+          {isHomeIndex && !isHomePageScrolled && (<div className="app-header-labels-slider-wrapper">
+            <LabelsSlider />
           </div>)}
       </div>
     </header>

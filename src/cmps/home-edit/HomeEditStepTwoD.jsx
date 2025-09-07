@@ -32,7 +32,9 @@ return(
             <div className="home-edit-step-2-d-txt-box">
                 <textarea rows='7' maxLength={500} id='potentialHome.summary' autoComplete="off" value={summary} onChange={(e)=>setSummary(e.target.value) }/>
             </div>   
-        <span>{`${potentialHome?.summary?.length}/${maxLength}`}</span>                
+            <article className="home-edit-step-2-d-tabs-control">
+                <span>{`${potentialHome?.summary?.length ?? 0}/${maxLength}`}</span>                
+            </article>
         </article>
     </section>
     )

@@ -1,7 +1,7 @@
 .app-header {
   display: grid;
   grid-template-columns: 10rem 1fr 10rem;
-  grid-template-rows: auto minmax(4rem, auto);
+  grid-template-rows: auto;
   transition: grid-template-rows 0.3s ease;
   position: sticky;
   top: 0;
@@ -20,7 +20,7 @@
 
    &.expanded {
     min-height: 140px;
-    grid-template-rows: auto;
+    grid-template-rows: auto minmax(4rem, auto);
   }
 
   &.one-row-divider {
@@ -38,7 +38,7 @@
     //border-bottom: 1px solid $divider-color;
     background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
     transition: all 0.3s ease;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
       
     &.scrolled
     {

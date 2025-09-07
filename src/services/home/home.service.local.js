@@ -67,6 +67,7 @@ export const amenityIcons = {
 export const getAmenityIcon = (amenity) => amenityIcons[amenity] || 'MdHome'
 
 export const homeService = {
+  gAmenities,
   query,
   getById,
   remove,
@@ -77,7 +78,8 @@ export const homeService = {
   getMaxHomePrice,
   addHomeMsg,
   getRandomHomeId,
-  getCountry
+  getCountry,
+  getAmenityIcon
 }
 
 

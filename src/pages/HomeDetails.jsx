@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { ReactSVG } from 'react-svg'
-import { Link } from 'react-router-dom'
+
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import {

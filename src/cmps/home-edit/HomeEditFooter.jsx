@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { setNextSubStep, setPreviousSubStep } from "../../store/actions/home-edit.actions"
 import { potentialHomeService } from '../../services/potential-home/potential-home.service.local'
+
 export function HomeEditFooter(){
     const [isLoading, setIsLoading] = useState(false)
     const {currentStep, currentSubStep, currentSubStepStatus } = useSelector(state => state.homeEditModule.potentialHome.editProgress)

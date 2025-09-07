@@ -1,7 +1,7 @@
 .home-edit-step-2-c-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     transition: opacity 0.6s;
     opacity: 1;
@@ -86,6 +86,23 @@
             }
         }
         
+    }
+    .home-edit-step-2-c-tabs-control {
+        transform: translate(0px);
+        opacity: 1;
+        animation-duration: 600ms;
+        animation-iteration-count: 1;
+        animation-fill-mode: both;
+        animation-timing-function: cubic-bezier(0.2,0,0,1);
+        animation-delay: 497.967ms;
+        display: flex;
+        justify-content: flex-start;
+        padding-top: 16px;
+        width: 100%;
+        font-size: 0.875rem;
+        line-height: 1.125rem;
+        color: $secondary-font-gray;
+        font-weight: 700;
     }
 }
 

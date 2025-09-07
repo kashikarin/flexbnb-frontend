@@ -34,7 +34,7 @@ import { useEffect } from 'react'
 export function HomeEditStepTwoA(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
     console.log("🚀 ~ potentialHome:", potentialHome)
-    const {currentSubStepStatus} = potentialHome.editProgress
+    const currentSubStepStatus = potentialHome?.editProgress?.currentSubStepStatus
     const {gAmenities} = homeService
     const iconComponents = {
     MdTv,
@@ -67,12 +67,11 @@ export function HomeEditStepTwoA(){
     useEffect(()=>{
         if (currentSubStepStatus === false) setStepCompleted()
     }, [currentSubStepStatus])
-    console.log("🚀 ~ potentialHome.amenities:", potentialHome.amenities)
     
     function handleClick(amenity){
-        if (potentialHome.amenities.includes(amenity)) {
+        if (potentialHome?.amenities?.includes(amenity)) {
             
-            const updatedAmenities = potentialHome.amenities.filter(a => a !== amenity)
+            const updatedAmenities = potentialHome?.amenities?.filter(a => a !== amenity)
             updatePotentialHome({...potentialHome, amenities: [...updatedAmenities]})
         } else {
             updatePotentialHome({...potentialHome, amenities: [...potentialHome.amenities, amenity]})
@@ -86,11 +85,12 @@ export function HomeEditStepTwoA(){
             </article>
             <article className="home-edit-step-2-a-buttons-container">
                 
-                    {gAmenities.map((amenity, idx) => {
-                    const iconName = homeService.getAmenityIcon(amenity)
-                    const IconComponent = iconComponents[iconName]
+                    {gAmenities?.map((amenity, idx) => {
+                    const IconComponent = iconComponents[homeService.getAmenityIcon(amenity)]
+                    if (!IconComponent) return null
+                    const selected = (potentialHome?.amenities ?? []).includes(amenity)                   
                     return (
-                        <button key={idx} className={`home-edit-step-2-a-button amenity${idx+1} ${potentialHome?.amenities?.includes(amenity)? 'selected' : ''}`} onClick={()=>handleClick(amenity)}>
+                        <button key={idx} className={`home-edit-step-2-a-button amenity${idx+1} ${selected? 'selected' : ''}`} onClick={()=>handleClick(amenity)}>
                             <IconComponent className='home-edit-step-2-amenity-icon' />
                             <span>{amenity}</span>
                         </button>

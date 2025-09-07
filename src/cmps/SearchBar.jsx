@@ -4,13 +4,10 @@ import { ReactSVG } from "react-svg";
 import { useDispatch, useSelector } from "react-redux";
 import { CapacityDropdown } from "./CapacityDropdown.jsx";
 import { SET_FILTERBY } from "../store/reducers/home.reducer.js";
-import { homeService } from "../services/home/home.service.local.js";
 import { DatesDropdown } from "./DatesDropdown.jsx";
-import { ScrollContext } from "../context/ScrollContext.jsx";
 
-export function SearchBar({ isScrolled }) {
+export function SearchBar({ shouldCollapse }) {
   const [openedDropdown, setOpenedDropdown] = useState(null);
-  //const [scrolled, setScrolled] = useState(isScrolled)
   const [forceExpand, setForceExpand] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [activeButton, setActiveButton] = useState(null);
@@ -19,7 +16,6 @@ export function SearchBar({ isScrolled }) {
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
   console.log("🚀 ~ filterByToEdit:", filterByToEdit)
   const searchBarRef = useRef();
-  //const dropdownRef = useRef()
   const whereRef = useRef();
   const datesRef = useRef();
   const capacityRef = useRef();
@@ -61,8 +57,8 @@ export function SearchBar({ isScrolled }) {
   }, []);
 
   useEffect(() => {
-    if (!isScrolled) setForceExpand(false);
-  }, [isScrolled]);
+    if (!shouldCollapse) setForceExpand(false);
+  }, [shouldCollapse]);
 
   useEffect(() => {
     if (!openedDropdown) setForceExpand(false);
@@ -99,12 +95,12 @@ export function SearchBar({ isScrolled }) {
     }));
   }
 
-  const scrolled = isScrolled && !forceExpand;
+  const scrolled = shouldCollapse && !forceExpand;
 
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
     // if (scrolled && !isMobile) setScrolled(false)
-    if (isScrolled && !isMobile) setForceExpand(true);
+    if (shouldCollapse && !isMobile) setForceExpand(true);
 
     setOpenedDropdown((curr) => (curr === btName ? null : btName));
     setActiveButton((curr) => (curr === btName ? null : btName));

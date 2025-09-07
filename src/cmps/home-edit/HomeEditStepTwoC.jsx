@@ -32,7 +32,9 @@ export function HomeEditStepTwoC(){
                 <div className="home-edit-step-2-c-txt-box">
                     <textarea rows='5' maxLength={50} id='potentialHome.name' autoComplete="off" value={name} onChange={(e)=>setName(e.target.value)} />
                 </div>   
-            <span>{`${potentialHome?.name?.length}/${maxLength}`}</span>                
+            </article>
+            <article className="home-edit-step-2-c-tabs-control">
+                <span>{`${potentialHome?.name?.length ?? 0}/${maxLength}`}</span>                
             </article>
         </section>
     )

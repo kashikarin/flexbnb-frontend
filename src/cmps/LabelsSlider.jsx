@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { setFilterBy } from '../store/actions/home.actions'
 import { LabelPreview } from './LabelPreview'
-import { ScrollContext } from '../context/ScrollContext'
 
 const labels = [
   {
@@ -145,7 +144,6 @@ export function LabelsSlider() {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
-  const {isScrolled, setIsScrolled} = useContext(ScrollContext)
 
   const checkScrollPosition = () => {
     if (sliderRef.current) {
@@ -220,8 +218,8 @@ export function LabelsSlider() {
   }
 
   return (
-    <section className={`labels-slider-container full ${isScrolled ? '' : 'hidden'}`}>
-      <div class="separator"></div>
+    <section className={`labels-slider-container full`}>
+      <div className="separator"></div>
       <div className='labels-slider-grid-area'>
         <div className='labels-slider-wrapper'>
           <div

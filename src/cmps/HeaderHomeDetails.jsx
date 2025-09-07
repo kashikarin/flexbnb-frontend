@@ -1,15 +1,14 @@
-import { useContext } from "react";
-import { ScrollContext } from "../context/ScrollContext";
 import { FaStar } from 'react-icons/fa'
 import { useSelector } from "react-redux";
 import { PotentialOrderContext } from "../context/potential-order/PotentialOrderContext";
 import { getAvgRating, roundToDecimals } from "../services/util.service";
 import { BuyingStepOneModal } from "./BuyingStepOneModal";
+import { useContext } from 'react';
 
 export function HeaderHomeDetails() {
-    const {isStickyScrolledPast} = useContext(ScrollContext)
     const {potentialOrder, onConfirmOrder, openConfirmationModal, closeConfirmationModal, isConfirmationModalOpen} = useContext(PotentialOrderContext)
     const home = useSelector(state => state.homeModule.home)
+    const {isHDStickyCardScrolled} = useSelector(state => state.scrollModule.isHDStickyCardScrolled)
     
     return(
         <header className="home-details-scrolled-header">
@@ -18,7 +17,7 @@ export function HeaderHomeDetails() {
                 <div>Amenities</div>
                 <div>Location</div>
             </nav>
-            {isStickyScrolledPast && <div className="reservation-header-modal">
+            {isHDStickyCardScrolled && <div className="reservation-header-modal">
                 <div className="reservation-header-modal-text-container">
                     <div>
                         <span>{roundToDecimals(home.price).toLocaleString()}$</span>

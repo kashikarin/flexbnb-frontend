@@ -11,7 +11,7 @@ const initialState = {
     isHomePageScrolled: false
 }
 
-export function homeEditReducer(state = initialState, action) {
+export function scrollReducer(state = initialState, action) {
   var newState = state
   switch (action.type) {
     case SET_HOMEPAGE_SCROLLED: {

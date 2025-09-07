@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
-
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import {
   loadHome,
@@ -12,7 +10,6 @@ import {
 } from '../store/actions/home.actions'
 import { addLike, removeLike } from '../store/actions/user.actions'
 import { getAvgRating, loadFromStorage } from '../services/util.service'
-import { homeService } from '../services/home'
 import { FaCcVisa, FaHeart, FaStar } from 'react-icons/fa'
 import {
   CiCalendarDate,
@@ -60,10 +57,10 @@ import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
 import { GuestFav } from '../cmps/GuestFav'
 import { orderService } from '../services/order'
 import { addOrder } from '../store/actions/order.actions'
-import { ScrollContext } from '../context/ScrollContext'
 import { PotentialOrderContext } from '../context/potential-order/PotentialOrderContext'
 import { ReviewCard } from '../cmps/ReviewCard'
 import { getAmenityIcon } from '../services/home/home.service.local'
+import { setHomeDetailsImgNotScrolled, setHomeDetailsImgScrolled, setHomeDetailsStickyCardNotScrolled, setHomeDetailsStickyCardScrolled } from '../store/actions/scroll.actions'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -75,6 +72,7 @@ export function HomeDetails() {
   const [isLiked, setIsLiked] = useState(
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
+
   const {
     potentialOrder,
     setPotentialOrder,
@@ -86,15 +84,9 @@ export function HomeDetails() {
     closeConfirmationModal,
     resetPotentialOrder,
   } = useContext(PotentialOrderContext)
-  console.log('🚀 ~ potentialOrder:', potentialOrder)
   const imgBreakPointRef = useRef()
   const stickyBreakPointRef = useRef()
 
-  const {
-    setIsImgScrolledPast,
-    isStickyScrolledPast,
-    setIsStickyScrolledPast,
-  } = useContext(ScrollContext)
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -153,12 +145,11 @@ export function HomeDetails() {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.target === elAfterImg) {
-              setIsImgScrolledPast(!entry.isIntersecting)
-            }
-            if (entry.target === elAfterSticky) {
-              setIsStickyScrolledPast(!entry.isIntersecting)
-            }
+            if (entry.target === elAfterImg) setHomeDetailsImgScrolled()
+            else setHomeDetailsImgNotScrolled()
+            
+            if (entry.target === elAfterSticky) setHomeDetailsStickyCardScrolled() 
+            else setHomeDetailsStickyCardNotScrolled()
           })
         },
         { threshold: 0.5 }
@@ -178,7 +169,7 @@ export function HomeDetails() {
     } catch (err) {
       console.error('💥 IntersectionObserver failed:', err)
     }
-  }, [setIsImgScrolledPast, setIsStickyScrolledPast, home, loggedInUser])
+  }, [home, loggedInUser])
 
   async function onAddHomeMsg(homeId) {
     try {

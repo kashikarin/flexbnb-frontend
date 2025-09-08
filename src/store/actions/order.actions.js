@@ -1,4 +1,3 @@
-
 import { orderService } from '../../services/order/order.service.local'
 import { store } from '../store'
 import {
@@ -10,8 +9,6 @@ import {
   //   ADD_ORDER_MSG,
   SET_FILTERORDERSBY,
 } from '../reducers/order.reducer'
-import { homeService } from '../../services/home/home.service.local'
-import { userService } from '../../services/user'
 
 export async function updateOrderStatus(orderId, status) {
   try {

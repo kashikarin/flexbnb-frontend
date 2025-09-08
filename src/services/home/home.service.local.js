@@ -488,7 +488,7 @@ const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
 if (VITE_LOCAL === 'true') _createHomes()
 
 async function query(filterBy = getDefaultFilter()) {
-  console.log('[HOME SERVICE] LOCAL query called', filterBy)
+  console.log('[HOME SERVICE] LOCAL query called')
 
   try {
     var homes = await storageService.query(STORAGE_KEY)

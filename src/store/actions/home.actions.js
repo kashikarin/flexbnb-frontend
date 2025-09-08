@@ -1,4 +1,4 @@
-import { homeService } from '../../services/home/home.service.local'
+import { homeService } from '../../services/home'
 // import { homeService } from '@/services/home'
 
 import { store } from '../store'

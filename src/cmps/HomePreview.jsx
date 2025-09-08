@@ -5,7 +5,7 @@ import {
   capitalizeStr,
   getAvgRating,
   getStayDatesStr,
-  roundToDecimals
+  roundToDecimals,
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
 
@@ -108,28 +108,29 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
       }
     }
   }
+  console.log('RENDER HOME PREVIEW', home.name)
 
   return (
-    <Link className='home-preview-link' to={`/home/${home._id}`}>
-      <article className='home-preview-container'>
-        <div className='heart-icon-container' onClick={handleLike}>
+    <Link className="home-preview-link" to={`/home/${home._id}`}>
+      <article className="home-preview-container">
+        <div className="heart-icon-container" onClick={handleLike}>
           <FaHeart className={`heart filled ${isLiked ? 'liked' : ''}`} />
-          <FaRegHeart className='heart outline' />
+          <FaRegHeart className="heart outline" />
         </div>
         {getAvgRating(home) >= 4 && (
-          <div className='guest-fav-badge'>Guest favorite</div>
+          <div className="guest-fav-badge">Guest favorite</div>
         )}
         {/* <button className='home-like-btn'>Like</button> */}
-        <div className='home-preview-image-slider-container' ref={containerRef}>
-          <div className='home-preview-image-slider-wrapper'>
+        <div className="home-preview-image-slider-container" ref={containerRef}>
+          <div className="home-preview-image-slider-wrapper">
             <div
-              className='home-preview-image-slider-track'
+              className="home-preview-image-slider-track"
               style={{ '--translate-x-images': `${-firstIdx * imgWidth}px` }}
             >
-              {home.imageUrls.map((imageUrl, idx) => (
+              {home?.imageUrls?.map((imageUrl, idx) => (
                 <div
                   key={idx}
-                  className='images-slider-item'
+                  className="images-slider-item"
                   ref={idx === 0 ? imgRef : null}
                 >
                   <img src={imageUrl} alt={`${home.name} preview image`} />
@@ -137,30 +138,30 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
               ))}
             </div>
           </div>
-          <div className='images-slider-buttons-container'>
-            <div className='images-slider-btn-left'>
+          <div className="images-slider-buttons-container">
+            <div className="images-slider-btn-left">
               {firstIdx > 0 && (
                 <button
                   onClick={(ev) => onPrevClick(ev)}
-                  className='images-slider-btn left'
+                  className="images-slider-btn left"
                 >
-                  <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg' />
+                  <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg" />
                 </button>
               )}
             </div>
-            <div className='images-slider-btn-right'>
-              {firstIdx < home.imageUrls.length - 1 && (
+            <div className="images-slider-btn-right">
+              {firstIdx < home?.imageUrls?.length - 1 && (
                 <button
                   onClick={(ev) => onNextClick(ev)}
-                  className='images-slider-btn right'
+                  className="images-slider-btn right"
                 >
-                  <img src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg' />
+                  <img src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg" />
                 </button>
               )}
             </div>
           </div>
         </div>
-        <div className='home-preview-info-container'>
+        <div className="home-preview-info-container">
           <p>
             {home.loc?.city
               ? `${capitalizeStr(home.type)} in ${capitalizeStr(home.loc.city)}`

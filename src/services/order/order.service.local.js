@@ -1,4 +1,4 @@
-import { homeService } from '../home/home.service.local'
+import { homeService } from '../home'
 import { userService } from '../user/user.service.local'
 import { storageService } from '../async-storage.service'
 import {

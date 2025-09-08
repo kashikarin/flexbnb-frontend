@@ -52,15 +52,17 @@ import {
 } from 'react-icons/md'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { ReservationModal } from '../cmps/ReservationModal'
-import { BuyingStepOneModal } from '../cmps/BuyingStepOneModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
 import { GuestFav } from '../cmps/GuestFav'
-import { orderService } from '../services/order'
-import { addOrder } from '../store/actions/order.actions'
 import { PotentialOrderContext } from '../context/potential-order/PotentialOrderContext'
 import { ReviewCard } from '../cmps/ReviewCard'
 import { getAmenityIcon } from '../services/home/home.service.local'
-import { setHomeDetailsImgNotScrolled, setHomeDetailsImgScrolled, setHomeDetailsStickyCardNotScrolled, setHomeDetailsStickyCardScrolled } from '../store/actions/scroll.actions'
+import {
+  setHomeDetailsImgNotScrolled,
+  setHomeDetailsImgScrolled,
+  setHomeDetailsStickyCardNotScrolled,
+  setHomeDetailsStickyCardScrolled,
+} from '../store/actions/scroll.actions'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -147,8 +149,9 @@ export function HomeDetails() {
           entries.forEach((entry) => {
             if (entry.target === elAfterImg) setHomeDetailsImgScrolled()
             else setHomeDetailsImgNotScrolled()
-            
-            if (entry.target === elAfterSticky) setHomeDetailsStickyCardScrolled() 
+
+            if (entry.target === elAfterSticky)
+              setHomeDetailsStickyCardScrolled()
             else setHomeDetailsStickyCardNotScrolled()
           })
         },
@@ -208,24 +211,24 @@ export function HomeDetails() {
   return (
     <>
       {home && loggedInUser && (
-        <div className='home-details-container'>
-          <div className='home-details-header'>
+        <div className="home-details-container">
+          <div className="home-details-header">
             <h1>
               {home.type} in {home.loc.city}, {home.loc.country}
             </h1>
-            <div className='home-details-heart' onClick={handleHomeSave}>
+            <div className="home-details-heart" onClick={handleHomeSave}>
               <FaHeart
                 className={`home-details-heart-icon ${isLiked ? 'saved' : ''}`}
               />
               <span>{isLiked ? 'Saved' : 'Save'}</span>
             </div>
           </div>
-          <div className='home-details-img-container'>
+          <div className="home-details-img-container">
             {home.imageUrls.map((imageUrl, idx) => {
               return (
                 <img
                   key={idx}
-                  className='home-details-img'
+                  className="home-details-img"
                   src={imageUrl}
                   alt={`Home image ${idx + 1}`}
                 />
@@ -233,10 +236,10 @@ export function HomeDetails() {
             })}
           </div>
           <div ref={imgBreakPointRef} />
-          <section className='mid-section'>
-            <div className='home-details-mid'>
+          <section className="mid-section">
+            <div className="home-details-mid">
               <div
-                className='home-details-amenities'
+                className="home-details-amenities"
                 style={
                   getAvgRating(home) >= 4
                     ? {}
@@ -247,7 +250,7 @@ export function HomeDetails() {
                   {home.type} in {home.loc.city}, {home.loc.country}
                 </h2>
 
-                <div className='home-details-amenities-list'>
+                <div className="home-details-amenities-list">
                   <p>{home.capacity} guests</p>
                   <span>•</span>
                   <p>{home.bedsCount} beds</p>
@@ -255,7 +258,7 @@ export function HomeDetails() {
                   <p>{home.bathCount} bath</p>
                 </div>
                 {getAvgRating(home) < 4 && (
-                  <div className='home-details-reviews'>
+                  <div className="home-details-reviews">
                     <span>
                       <FaStar
                         style={{
@@ -276,36 +279,36 @@ export function HomeDetails() {
               </div>
 
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
-              <section className='home-highlights'>
+              <section className="home-highlights">
                 <article>
-                  <DoorIcon className='home-highlights-icon ' />
+                  <DoorIcon className="home-highlights-icon " />
                   <h4>Self check-in</h4>
                   <p>Check yourself in with the lockbox.</p>
                 </article>
                 <article>
-                  <BedIcon className='home-highlights-icon ' />
+                  <BedIcon className="home-highlights-icon " />
                   <h4>Room in a home</h4>
                   <p>Your own room in a home, plus access to shared spaces.</p>
                 </article>
                 <article>
-                  <CalendarIcon className='home-highlights-icon ' />
+                  <CalendarIcon className="home-highlights-icon " />
                   <h4>Free cancellation before Jul 27</h4>
                   <p>Get a full refund if you change your mind.</p>
                 </article>
               </section>
-              <section className='home-details-description'>
+              <section className="home-details-description">
                 <h3>About this place</h3>
                 <p>{home.summary}</p>
               </section>
-              <section className='home-details-facilities-list'>
+              <section className="home-details-facilities-list">
                 <h3>What this place offers</h3>
-                <ul className='amenities-list'>
+                <ul className="amenities-list">
                   {home.amenities.map((amenity, idx) => {
                     const iconName = getAmenityIcon(amenity)
                     const IconComponent = iconComponents[iconName]
                     return (
-                      <li key={idx} className='amenity-item'>
-                        <IconComponent className='amenity-icon' />
+                      <li key={idx} className="amenity-item">
+                        <IconComponent className="amenity-icon" />
                         <span>{amenity}</span>
                       </li>
                     )
@@ -313,8 +316,8 @@ export function HomeDetails() {
                 </ul>
               </section>
             </div>
-            <aside className='rare-modal'>
-              <IoDiamond className='diamond-icon' />
+            <aside className="rare-modal">
+              <IoDiamond className="diamond-icon" />
               <p>Rare find! This place is usually booked</p>
             </aside>
             {potentialOrder && (
@@ -330,10 +333,10 @@ export function HomeDetails() {
             )}
           </section>
           <div ref={stickyBreakPointRef} />
-          <section className='reviews-section'>
+          <section className="reviews-section">
             <ReviewCard reviews={home.reviews} />
           </section>
-          <section className='google-maps'>
+          <section className="google-maps">
             <h3>Where you'll be</h3>
             <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map

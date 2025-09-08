@@ -322,10 +322,10 @@ console.log('city filter:', filterByToEdit.city)
                 setCheckIn(checkIn);
                 setCheckOut(checkOut);
                 // Close dropdown after selecting both dates
-                if (checkIn && checkOut) {
-                setOpenedDropdown(null);
-                setActiveButton(null);
-                }
+                // if (checkIn && checkOut) {
+                // setOpenedDropdown(null);
+                // setActiveButton(null);
+                // }
               }}
             />
           </div>

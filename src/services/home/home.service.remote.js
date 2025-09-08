@@ -9,7 +9,9 @@ export const homeService = {
 }
 
 async function query(filterBy = { txt: '', price: 0 }) {
-  return httpService.get(`home`, filterBy)
+  console.log('[HOME SERVICE] REMOTE query called', filterBy)
+
+  return httpService.get(`homes`, filterBy)
 }
 
 function getById(homeId) {

@@ -1,3 +1,5 @@
+const { DEV, VITE_LOCAL } = import.meta.env
+
 import { storageService } from '../async-storage.service'
 import {
   getRandomIntInclusive,
@@ -79,9 +81,8 @@ export const homeService = {
   addHomeMsg,
   getRandomHomeId,
   getCountry,
-  getAmenityIcon
+  getAmenityIcon,
 }
-
 
 window.cs = homeService
 const images = [
@@ -484,9 +485,11 @@ const gLocs = [
 ]
 const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
 
-_createHomes()
+if (VITE_LOCAL === 'true') _createHomes()
 
 async function query(filterBy = getDefaultFilter()) {
+  console.log('[HOME SERVICE] LOCAL query called', filterBy)
+
   try {
     var homes = await storageService.query(STORAGE_KEY)
     // const maxHomePrice = await getMaxHomePrice(filter)
@@ -504,9 +507,8 @@ async function query(filterBy = getDefaultFilter()) {
       bathCount,
       labels,
       checkIn,
-      checkOut
+      checkOut,
     } = filterBy
-
 
     if (city) {
       homes = homes.filter((home) =>
@@ -516,7 +518,7 @@ async function query(filterBy = getDefaultFilter()) {
     if (adults || children || pets) {
       let capacity = (adults ?? 0) + (children ?? 0)
       homes = homes.filter((home) => home.capacity >= capacity)
-      if (pets) homes.filter(home => home.petsAllowed)
+      if (pets) homes.filter((home) => home.petsAllowed)
     }
 
     if (type) {
@@ -549,8 +551,10 @@ async function query(filterBy = getDefaultFilter()) {
     if (bathCount) {
       homes = homes.filter((home) => home.bathCount >= bathCount)
     }
-    if (checkIn && checkOut){
-      homes = homes.filter(home => _isHomeAvailable(home.bookings, checkIn, checkOut));
+    if (checkIn && checkOut) {
+      homes = homes.filter((home) =>
+        _isHomeAvailable(home.bookings, checkIn, checkOut)
+      )
     }
 
     return homes
@@ -602,7 +606,7 @@ function getDefaultFilter() {
     bathCount: 0,
     labels: [],
     checkIn: '',
-    checkOut: ''
+    checkOut: '',
   }
 }
 
@@ -675,20 +679,21 @@ function _isHomeAvailable(bookings = [], checkIn, checkOut) {
 
   if (!+checkIn || !+checkOut || checkIn >= checkOut) return false
 
-  return bookings.every(b => {
+  return bookings.every((b) => {
     const bStart = b.start instanceof Date ? b.start : new Date(b.start)
-    const bEnd   = b.end instanceof Date ? b.end   : new Date(b.end)
+    const bEnd = b.end instanceof Date ? b.end : new Date(b.end)
 
     return bEnd <= checkIn || bStart >= checkOut
   })
 }
 
-function _getDemoBookings(horizonDays = 120,
-                          minGap = 2,
-                          maxGap = 10,
-                          minStay = 2,
-                          maxStay = 7
-                          ) {
+function _getDemoBookings(
+  horizonDays = 120,
+  minGap = 2,
+  maxGap = 10,
+  minStay = 2,
+  maxStay = 7
+) {
   const bookings = []
   const today = new Date()
   let pointer = 0
@@ -697,9 +702,9 @@ function _getDemoBookings(horizonDays = 120,
 
   // Try to fill 40-60% of available days
   const targetOccupancy = 0.4 + Math.random() * 0.2
-  const maxBookings = Math.floor(120 * targetOccupancy / 3)
+  const maxBookings = Math.floor((120 * targetOccupancy) / 3)
 
-  for (let i=0; i<maxBookings; i++) {
+  for (let i = 0; i < maxBookings; i++) {
     const gap = minGap + Math.floor(Math.random() * (maxGap - minGap + 1))
     pointer += gap
     const stay = minStay + Math.floor(Math.random() * (maxStay - minStay + 1))
@@ -710,7 +715,7 @@ function _getDemoBookings(horizonDays = 120,
     const end = new Date(start)
     end.setDate(end.getDate() + stay)
 
-    if ((start) >= horizonEnd) break
+    if (start >= horizonEnd) break
     bookings.push({ start, end }) // end is exclusive
     pointer += stay
   }

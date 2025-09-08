@@ -29,7 +29,7 @@ function getDefaultFilter() {
     bathCount: 0,
     labels: [],
     checkIn: '',
-    checkOut: ''
+    checkOut: '',
   }
 }
 
@@ -42,10 +42,15 @@ export function getFilterFromSearchParams(searchParams) {
   return filterBy
 }
 
-// console.log('VITE_LOCAL:', VITE_LOCAL)
+console.log('VITE_LOCAL:', VITE_LOCAL)
 
 const service = VITE_LOCAL === 'true' ? local : remote
-export const homeService = { getEmptyHome, getDefaultFilter, getFilterFromSearchParams, ...service }
+export const homeService = {
+  getEmptyHome,
+  getDefaultFilter,
+  getFilterFromSearchParams,
+  ...service,
+}
 
 //* Easy access to this service from the dev tools console
 //* when using script - dev / dev:local

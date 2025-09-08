@@ -1,4 +1,4 @@
-import { store } from "../store"
+import { store } from '../store'
 
 export const SET_HOMES = 'SET_HOMES'
 export const SET_HOME = 'SET_HOME'
@@ -10,12 +10,10 @@ export const SET_FILTERBY = 'SET_FILTERBY'
 export const ADD_USER_LIKE = 'ADD_USER_LIKE'
 export const REMOVE_USER_LIKE = 'REMOVE_USER_LIKE'
 
-
-
 const initialState = {
   homes: null,
   home: null,
-  filterBy: {}
+  filterBy: {},
 }
 
 export function homeReducer(state = initialState, action) {
@@ -27,7 +25,7 @@ export function homeReducer(state = initialState, action) {
     case SET_HOME:
       newState = { ...state, home: action.home }
       break
-    
+
     // case ADD_HOME:
     //   newState = { ...state, homes: [...state.homes, action.home] }
     //   break
@@ -48,18 +46,31 @@ export function homeReducer(state = initialState, action) {
         ...state,
         filterBy: { ...state.filterBy, ...action.filterBy },
       }
-      console.log("🚀 ~ newState:", newState)
+      // console.log("🚀 ~ newState:", newState)
       break
     case ADD_USER_LIKE:
       newState = {
         ...state,
-        homes: state.homes?.map(home => home._id === action.homeId ? {...home, likedByUsers: [...home.likedByUsers, action.userId] } : home),
+        homes: state.homes?.map((home) =>
+          home._id === action.homeId
+            ? { ...home, likedByUsers: [...home.likedByUsers, action.userId] }
+            : home
+        ),
       }
       break
     case REMOVE_USER_LIKE:
       newState = {
         ...state,
-        homes: state.homes?.map(home => home._id === action.homeId ? { ...home, likedByUsers: home.likedByUsers?.filter(id => id !== action.userId)} : home)
+        homes: state.homes?.map((home) =>
+          home._id === action.homeId
+            ? {
+                ...home,
+                likedByUsers: home.likedByUsers?.filter(
+                  (id) => id !== action.userId
+                ),
+              }
+            : home
+        ),
       }
       break
     default:

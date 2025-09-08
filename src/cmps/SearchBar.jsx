@@ -1,36 +1,36 @@
-import { useState, useEffect, useRef, useContext } from "react";
-import { WhereDropdown } from "./WhereDropdown";
-import { ReactSVG } from "react-svg";
-import { useDispatch, useSelector } from "react-redux";
-import { CapacityDropdown } from "./CapacityDropdown.jsx";
-import { SET_FILTERBY } from "../store/reducers/home.reducer.js";
-import { DatesDropdown } from "./DatesDropdown.jsx";
+import { useState, useEffect, useRef, useContext } from 'react'
+import { WhereDropdown } from './WhereDropdown'
+import { ReactSVG } from 'react-svg'
+import { useDispatch, useSelector } from 'react-redux'
+import { CapacityDropdown } from './CapacityDropdown.jsx'
+import { SET_FILTERBY } from '../store/reducers/home.reducer.js'
+import { DatesDropdown } from './DatesDropdown.jsx'
 
 export function SearchBar({ shouldCollapse }) {
-  const [openedDropdown, setOpenedDropdown] = useState(null);
-  const [forceExpand, setForceExpand] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [activeButton, setActiveButton] = useState(null);
+  const [openedDropdown, setOpenedDropdown] = useState(null)
+  const [forceExpand, setForceExpand] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [activeButton, setActiveButton] = useState(null)
   const [searchButtonWide, setSearchButtonWide] = useState(false)
-  const filterBy = useSelector((state) => state.homeModule.filterBy);
-  const dispatch = useDispatch();
-  const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
-  console.log("🚀 ~ filterByToEdit:", filterByToEdit)
-  const searchBarRef = useRef(null);
-  const whereRef = useRef();
-  const datesRef = useRef();
-  const capacityRef = useRef();
+  const filterBy = useSelector((state) => state.homeModule.filterBy)
+  const dispatch = useDispatch()
+  const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  // console.log('🚀 ~ filterByToEdit:', filterByToEdit)
+  const searchBarRef = useRef(null)
+  const whereRef = useRef()
+  const datesRef = useRef()
+  const capacityRef = useRef()
 
-  const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0);
-  const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0);
-  const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0);
-  const [petsNum, setPetsNum] = useState(filterBy.pets ?? 0);
+  const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(filterBy.pets ?? 0)
 
   const capacity =
-    Number(adultsNum ?? 0) + Number(childrenNum ?? 0) + Number(infantsNum ?? 0);
+    Number(adultsNum ?? 0) + Number(childrenNum ?? 0) + Number(infantsNum ?? 0)
 
-  const [checkIn, setCheckIn] = useState(filterBy.checkIn ?? "");
-  const [checkOut, setCheckOut] = useState(filterBy.checkOut ?? "");
+  const [checkIn, setCheckIn] = useState(filterBy.checkIn ?? '')
+  const [checkOut, setCheckOut] = useState(filterBy.checkOut ?? '')
 
   useEffect(() => {
     setFilterByToEdit((prevFilterByToEdit) => ({
@@ -41,233 +41,236 @@ export function SearchBar({ shouldCollapse }) {
       pets: petsNum,
       checkIn,
       checkOut,
-    }));
-  }, [adultsNum, childrenNum, infantsNum, petsNum, checkIn, checkOut]);
+    }))
+  }, [adultsNum, childrenNum, infantsNum, petsNum, checkIn, checkOut])
 
   useEffect(() => {
     function handleResize() {
-      const width = window.innerWidth;
-      setIsMobile(width <= 820);
+      const width = window.innerWidth
+      setIsMobile(width <= 820)
     }
 
     // Set initial state
-    handleResize();
+    handleResize()
 
-    window.addEventListener("resize", handleResize, { passive: true });
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (!shouldCollapse) setForceExpand(false);
-  }, [shouldCollapse]);
+    window.addEventListener('resize', handleResize, { passive: true })
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
-    if (!openedDropdown) setForceExpand(false);
-  }, [openedDropdown]);
+    if (!shouldCollapse) setForceExpand(false)
+  }, [shouldCollapse])
+
+  useEffect(() => {
+    if (!openedDropdown) setForceExpand(false)
+  }, [openedDropdown])
 
   useEffect(() => {
     function handleClickOutside(ev) {
       if (searchBarRef.current && !searchBarRef.current.contains(ev.target)) {
-        setSearchButtonWide(false);
+        setSearchButtonWide(false)
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   useEffect(() => {
     // Close dropdown when clicking outside
     function handleClickOutside(event) {
       if (
         openedDropdown &&
-        ((openedDropdown === "where" &&
+        ((openedDropdown === 'where' &&
           whereRef.current &&
           !whereRef.current.contains(event.target)) ||
-          (openedDropdown === "dates" &&
+          (openedDropdown === 'dates' &&
             datesRef.current &&
             !datesRef.current.contains(event.target)) ||
-          (openedDropdown === "capacity" &&
+          (openedDropdown === 'capacity' &&
             capacityRef.current &&
             !capacityRef.current.contains(event.target)))
       ) {
         // {setOpenedDropdown(null)}
-        setOpenedDropdown(null);
-        setForceExpand(false);
+        setOpenedDropdown(null)
+        setForceExpand(false)
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [openedDropdown]);
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [openedDropdown])
 
   function onUpdateFilterBy(filter) {
     setFilterByToEdit((prevFilterByToEdit) => ({
       ...prevFilterByToEdit,
-      ...filter
-    }));
+      ...filter,
+    }))
   }
 
-  const scrolled = shouldCollapse && !forceExpand;
+  const scrolled = shouldCollapse && !forceExpand
 
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
     // if (scrolled && !isMobile) setScrolled(false)
-    if (shouldCollapse && !isMobile) setForceExpand(true);
+    if (shouldCollapse && !isMobile) setForceExpand(true)
 
-    setOpenedDropdown((curr) => (curr === btName ? null : btName));
-    setActiveButton((curr) => (curr === btName ? null : btName));
+    setOpenedDropdown((curr) => (curr === btName ? null : btName))
+    setActiveButton((curr) => (curr === btName ? null : btName))
   }
 
   // function onInputChange(ev) {
   //   const val = ev.target.value;
   //   debouncedSetTxt(val);
   // }
-  
+
   function handleSubmit(ev) {
-    ev.preventDefault();
-    ev.stopPropagation();
-    dispatch({ type: SET_FILTERBY, filterBy: filterByToEdit });
+    ev.preventDefault()
+    ev.stopPropagation()
+    dispatch({ type: SET_FILTERBY, filterBy: filterByToEdit })
   }
 
   function getGuestsNumStrToDisplay() {
-    const { adults, children, infants, pets } = filterByToEdit;
-    if (!adults && !children && !infants && !pets) return "Add guests";
+    const { adults, children, infants, pets } = filterByToEdit
+    if (!adults && !children && !infants && !pets) return 'Add guests'
     const guestsNum =
-      Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0);
-    return `${guestsNum} ${guestsNum > 1 ? "guests" : "guest"}`;
+      Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0)
+    return `${guestsNum} ${guestsNum > 1 ? 'guests' : 'guest'}`
   }
 
   function getWhoTitleTxt() {
     if (scrolled) {
-      const { adults, children, infants } = filterByToEdit;
+      const { adults, children, infants } = filterByToEdit
       const guestsNum =
-        Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0);
-      return capacity ? getGuestsNumStrToDisplay() : "Add guests";
+        Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0)
+      return capacity ? getGuestsNumStrToDisplay() : 'Add guests'
     } else {
-      return "Who";
+      return 'Who'
     }
   }
 
   function getWhereTitleText() {
-    let txt;
-    console.log(filterByToEdit.city);
+    let txt
+    // console.log(filterByToEdit.city);
 
     if (scrolled) {
-      txt = filterByToEdit.city ? `${filterByToEdit.city}` : "Anywhere";
+      txt = filterByToEdit.city ? `${filterByToEdit.city}` : 'Anywhere'
     } else {
-      txt = "Where";
+      txt = 'Where'
       // filterByToEdit.city ? `${filterByToEdit.city}, ${homeService.getCountry(filterByToEdit.city)}` : 'Where'
     }
-    return txt;
+    return txt
   }
 
   function getCheckinTitleText() {
-    let txt;
+    let txt
     if (scrolled) {
       if (filterByToEdit.checkIn) {
         //scroll + there is startdate
-        const checkinDate = new Date(filterByToEdit.checkIn);
+        const checkinDate = new Date(filterByToEdit.checkIn)
         const checkoutDate = filterByToEdit.checkOut
           ? new Date(filterByToEdit.checkOut)
-          : new Date(filterByToEdit.checkIn + 86400000);
-        const options = { month: "short", day: "numeric" };
+          : new Date(filterByToEdit.checkIn + 86400000)
+        const options = { month: 'short', day: 'numeric' }
         const shortCheckinDate = new Intl.DateTimeFormat(
-          "en-US",
+          'en-US',
           options
-        ).format(checkinDate);
+        ).format(checkinDate)
         const shortCheckoutDate =
           checkinDate.getMonth() === checkoutDate.getMonth()
             ? checkoutDate.getDate()
-            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-        txt = shortCheckinDate + " - " + shortCheckoutDate;
+            : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+        txt = shortCheckinDate + ' - ' + shortCheckoutDate
       } else if (filterByToEdit.checkOut) {
         //scroll + there is not startdate but there is end date
-        const checkoutDate = new Date(filterByToEdit.checkIn);
-        const checkinDate = new Date(filterByToEdit.checkOut - 86400000);
-        const options = { month: "short", day: "numeric" };
+        const checkoutDate = new Date(filterByToEdit.checkIn)
+        const checkinDate = new Date(filterByToEdit.checkOut - 86400000)
+        const options = { month: 'short', day: 'numeric' }
         const shortCheckinDate = new Intl.DateTimeFormat(
-          "en-US",
+          'en-US',
           options
-        ).format(checkinDate);
+        ).format(checkinDate)
         const shortCheckoutDate =
           checkinDate.getMonth() === checkoutDate.getMonth()
             ? checkoutDate.getDate()
-            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-        txt = shortCheckinDate + " - " + shortCheckoutDate;
-      } else txt = "Anytime"; //scroll + no dates
-    } else txt = "Check in";
-    return txt;
+            : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+        txt = shortCheckinDate + ' - ' + shortCheckoutDate
+      } else txt = 'Anytime' //scroll + no dates
+    } else txt = 'Check in'
+    return txt
   }
 
   function getCheckoutTitleText() {
-    let txt;
+    let txt
     if (!scrolled) {
       if (filterByToEdit.checkOut) {
-        const checkoutDate = new Date(filterByToEdit.checkIn);
-        const checkinDate = new Date(filterByToEdit.checkOut - 86400000);
-        const options = { month: "short", day: "numeric" };
+        const checkoutDate = new Date(filterByToEdit.checkIn)
+        const checkinDate = new Date(filterByToEdit.checkOut - 86400000)
+        const options = { month: 'short', day: 'numeric' }
         const shortCheckinDate = new Intl.DateTimeFormat(
-          "en-US",
+          'en-US',
           options
-        ).format(checkinDate);
+        ).format(checkinDate)
         const shortCheckoutDate =
           checkinDate.getMonth() === checkoutDate.getMonth()
             ? checkoutDate.getDate()
-            : new Intl.DateTimeFormat("en-US", options).format(checkoutDate);
-        txt = shortCheckoutDate;
+            : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+        txt = shortCheckoutDate
       }
     }
   }
 
   function formatDate(date) {
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short", // Jul, Aug...
-      day: "numeric", // 29, 30...
-    }).format(new Date(date));
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short', // Jul, Aug...
+      day: 'numeric', // 29, 30...
+    }).format(new Date(date))
   }
-console.log('city filter:', filterByToEdit.city)
+  // console.log('city filter:', filterByToEdit.city)
   return (
     <search>
-      <div className={`search-bar-container ${scrolled ? "scrolled" : ""} ${ activeButton ? "has-active" : "" }`}
+      <div
+        className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${
+          activeButton ? 'has-active' : ''
+        }`}
         onClick={() => setSearchButtonWide(true)}
-        ref={searchBarRef} >
+        ref={searchBarRef}
+      >
         <div>
-          <div  onClick={() => handleWhereClick("where")}
+          <div
+            onClick={() => handleWhereClick('where')}
             className={`inner-section ${
-              activeButton == "where" ? "active" : ""
+              activeButton == 'where' ? 'active' : ''
             }`}
           >
             <div className="sTitle">{getWhereTitleText()}</div>
             {!scrolled && (
               <input
-                className={`placeholder-content ${scrolled ? "scrolled" : ""}`}
+                className={`placeholder-content ${scrolled ? 'scrolled' : ''}`}
                 // onChange={onInputChange}
                 type="search"
                 placeholder="Search destination"
-                value={
-                  filterByToEdit.city
-                    
-                }
+                value={filterByToEdit.city}
                 readOnly
               />
             )}
 
             <div className="where-dropdown-wrapper" ref={whereRef}>
               <WhereDropdown
-                isOpen={openedDropdown === "where"}
-                onOpen={() => setOpenedDropdown("where")}
+                isOpen={openedDropdown === 'where'}
+                onOpen={() => setOpenedDropdown('where')}
                 dropdownRef={whereRef}
                 onClose={() => setOpenedDropdown(null)}
-                cityFilter={filterByToEdit.city || ""}
+                cityFilter={filterByToEdit.city || ''}
                 onUpdateFilterBy={onUpdateFilterBy}
               />
             </div>
           </div>
-          
+
           {/* <div className="sep"></div> */}
-          <div onClick={() => handleWhereClick("dates")}
+          <div
+            onClick={() => handleWhereClick('dates')}
             className={`inner-section ${
-              activeButton == "dates" ? "active" : ""
+              activeButton == 'dates' ? 'active' : ''
             }`}
           >
             <div className="sTitle">{getCheckinTitleText()}</div>
@@ -280,19 +283,18 @@ console.log('city filter:', filterByToEdit.city)
                 value={
                   filterByToEdit.checkIn
                     ? `${formatDate(filterByToEdit.checkIn)}`
-                    : ""
+                    : ''
                 }
               />
             )}
-
           </div>
-          
+
           {/* <div className="sep"></div> */}
           {!scrolled && (
             <div
-              onClick={() => handleWhereClick("dates")}
+              onClick={() => handleWhereClick('dates')}
               className={`inner-section ${
-                activeButton == "Check out" ? "active" : ""
+                activeButton == 'Check out' ? 'active' : ''
               }`}
             >
               <div className="sTitle">Check out</div>
@@ -304,7 +306,7 @@ console.log('city filter:', filterByToEdit.city)
                 value={
                   filterByToEdit.checkOut
                     ? `${formatDate(filterByToEdit.checkOut)}`
-                    : ""
+                    : ''
                 }
               />
             </div>
@@ -312,28 +314,29 @@ console.log('city filter:', filterByToEdit.city)
 
           <div className="dates-dropdown-wrapper" ref={datesRef}>
             <DatesDropdown
-              isOpen={openedDropdown === "dates"}
-              onOpen={() => setOpenedDropdown("dates")}
+              isOpen={openedDropdown === 'dates'}
+              onOpen={() => setOpenedDropdown('dates')}
               onClose={() => setOpenedDropdown(null)}
               dropdownRef={datesRef}
               checkIn={checkIn}
               checkOut={checkOut}
               onSetDates={({ checkIn, checkOut }) => {
-                setCheckIn(checkIn);
-                setCheckOut(checkOut);
+                setCheckIn(checkIn)
+                setCheckOut(checkOut)
                 // Close dropdown after selecting both dates
                 if (checkIn && checkOut) {
-                setOpenedDropdown(null);
-                setActiveButton(null);
+                  setOpenedDropdown(null)
+                  setActiveButton(null)
                 }
               }}
             />
           </div>
 
           {/* {!scrolled && <div className="sep"></div>} */}
-          <div onClick={() => handleWhereClick("capacity")}
+          <div
+            onClick={() => handleWhereClick('capacity')}
             className={`inner-section ${
-              activeButton == "capacity" ? "active" : ""
+              activeButton == 'capacity' ? 'active' : ''
             }`}
           >
             <div className="sTitle">{getWhoTitleTxt()}</div>
@@ -343,15 +346,19 @@ console.log('city filter:', filterByToEdit.city)
                 type="search"
                 placeholder="Add guests"
                 readOnly
-                value={capacity > 0 ? `${capacity} ${capacity > 1 ? "guests" : "guest"}` : ""}
+                value={
+                  capacity > 0
+                    ? `${capacity} ${capacity > 1 ? 'guests' : 'guest'}`
+                    : ''
+                }
               />
             )}
 
             <div className="capacity-dropdown-wrapper" ref={capacityRef}>
               <CapacityDropdown
-                isOpen={openedDropdown === "capacity"}
+                isOpen={openedDropdown === 'capacity'}
                 onClose={() => setOpenedDropdown(null)}
-                father={"search-bar"}
+                father={'search-bar'}
                 adultsFilter={Number(adultsNum ?? 0)}
                 childrenFilter={Number(childrenNum ?? 0)}
                 infantsFilter={Number(infantsNum ?? 0)}
@@ -366,25 +373,27 @@ console.log('city filter:', filterByToEdit.city)
             </div>
 
             {/* <div className="search-btn-section"> */}
-              <button
-                className={`search-button ${searchButtonWide ? "search-button-wide" : ""}`}
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                }}
-                onClick={handleSubmit}
-              >
-                <div className="search-elements">
-                  <div><ReactSVG src="/svgs/search-icon.svg" /></div>
-                  <div className="search-txt">Search</div>
+            <button
+              className={`search-button ${
+                searchButtonWide ? 'search-button-wide' : ''
+              }`}
+              onMouseDown={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+              }}
+              onClick={handleSubmit}
+            >
+              <div className="search-elements">
+                <div>
+                  <ReactSVG src="/svgs/search-icon.svg" />
                 </div>
-              </button>
+                <div className="search-txt">Search</div>
+              </div>
+            </button>
             {/* </div> */}
           </div>
-          
         </div>
-
       </div>
     </search>
-  );
+  )
 }

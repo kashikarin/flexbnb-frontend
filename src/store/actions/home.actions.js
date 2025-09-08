@@ -1,4 +1,6 @@
 import { homeService } from '../../services/home/home.service.local'
+// import { homeService } from '@/services/home'
+
 import { store } from '../store'
 import {
   ADD_HOME,
@@ -9,7 +11,7 @@ import {
   ADD_HOME_MSG,
   SET_FILTERBY,
   ADD_USER_LIKE,
-  REMOVE_USER_LIKE
+  REMOVE_USER_LIKE,
 } from '../reducers/home.reducer'
 
 export async function loadHomes(filterBy) {
@@ -66,25 +68,25 @@ export async function updateHome(home) {
 
 export async function addUserLike(homeId, userId) {
   try {
-      const home = await homeService.getById(homeId)
-      home.likedByUsers = [ ...home?.likedByUsers, userId ]
-      await homeService.save(home)
-      store.dispatch({type: ADD_USER_LIKE, homeId, userId})
-  } catch(err){
-      console.error('Cannot add user like', err)
-      throw err
+    const home = await homeService.getById(homeId)
+    home.likedByUsers = [...home?.likedByUsers, userId]
+    await homeService.save(home)
+    store.dispatch({ type: ADD_USER_LIKE, homeId, userId })
+  } catch (err) {
+    console.error('Cannot add user like', err)
+    throw err
   }
 }
 
 export async function removeUserLike(homeId, userId) {
   try {
-      const home = await homeService.getById(homeId)
-      home.likedByUsers = home.likedByUsers?.filter(id => id !== userId)
-      await homeService.save(home)
-      store.dispatch({type: REMOVE_USER_LIKE, homeId, userId})
-  } catch(err){
-      console.error('Cannot remove user like', err)
-      throw err
+    const home = await homeService.getById(homeId)
+    home.likedByUsers = home.likedByUsers?.filter((id) => id !== userId)
+    await homeService.save(home)
+    store.dispatch({ type: REMOVE_USER_LIKE, homeId, userId })
+  } catch (err) {
+    console.error('Cannot remove user like', err)
+    throw err
   }
 }
 

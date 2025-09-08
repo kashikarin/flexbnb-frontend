@@ -63,7 +63,6 @@ function getById(homeId) {
   return storageService.get(STORAGE_KEY, homeId)
 }
 
-
 async function getInitialOrderDetails(homeId, userId, filterBy) {
   const home = await homeService.getById(homeId)
   const loggedInUser = await userService.getById(userId)

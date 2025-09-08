@@ -1,4 +1,6 @@
 import { homeService } from '../home/home.service.local'
+// import { homeService } from '@/services/home'
+
 import { userService } from '../user/user.service.local'
 import { storageService } from '../async-storage.service'
 import {
@@ -11,7 +13,6 @@ import {
 import { getDefaultOrderFilter, getEmptyOrder } from './index.js'
 const STORAGE_KEY = 'order'
 import { httpService } from '../http.service'
-
 
 _createOrders()
 
@@ -28,14 +29,14 @@ export const orderService = {
 }
 
 async function query(filterOrdersBy = getDefaultOrderFilter()) {
-    return httpService.get(`home`, filterOrdersBy)
-    // const { status, createdAt, checkIn, checkOut } = filterOrdersBy
-    // if (status) {
-    //   orders = orders.filter((order) =>
-    //     order.status.toLowerCase().includes(status.toLowerCase())
-    //   )
-    // }
-    // return orders
+  return httpService.get(`home`, filterOrdersBy)
+  // const { status, createdAt, checkIn, checkOut } = filterOrdersBy
+  // if (status) {
+  //   orders = orders.filter((order) =>
+  //     order.status.toLowerCase().includes(status.toLowerCase())
+  //   )
+  // }
+  // return orders
 }
 
 async function save(orderToSave) {
@@ -158,4 +159,3 @@ async function updateStatus(orderId, status) {
     throw err
   }
 }
-

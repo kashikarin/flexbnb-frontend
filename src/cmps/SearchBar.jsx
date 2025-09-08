@@ -11,11 +11,12 @@ export function SearchBar({ shouldCollapse }) {
   const [forceExpand, setForceExpand] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [activeButton, setActiveButton] = useState(null);
+  const [searchButtonWide, setSearchButtonWide] = useState(false)
   const filterBy = useSelector((state) => state.homeModule.filterBy);
   const dispatch = useDispatch();
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
   console.log("🚀 ~ filterByToEdit:", filterByToEdit)
-  const searchBarRef = useRef();
+  const searchBarRef = useRef(null);
   const whereRef = useRef();
   const datesRef = useRef();
   const capacityRef = useRef();
@@ -63,6 +64,17 @@ export function SearchBar({ shouldCollapse }) {
   useEffect(() => {
     if (!openedDropdown) setForceExpand(false);
   }, [openedDropdown]);
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (searchBarRef.current && !searchBarRef.current.contains(ev.target)) {
+        setSearchButtonWide(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     // Close dropdown when clicking outside
@@ -217,6 +229,7 @@ console.log('city filter:', filterByToEdit.city)
   return (
     <search>
       <div className={`search-bar-container ${scrolled ? "scrolled" : ""} ${ activeButton ? "has-active" : "" }`}
+        onClick={() => setSearchButtonWide(true)}
         ref={searchBarRef} >
         <div>
           <div  onClick={() => handleWhereClick("where")}
@@ -352,18 +365,21 @@ console.log('city filter:', filterByToEdit.city)
               />
             </div>
 
-            <div className="search-btn-section">
+            {/* <div className="search-btn-section"> */}
               <button
-                className="search-button"
+                className={`search-button ${searchButtonWide ? "search-button-wide" : ""}`}
                 onMouseDown={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
                 }}
                 onClick={handleSubmit}
               >
-                <ReactSVG src="/svgs/search-icon.svg" />
+                <div className="search-elements">
+                  <div><ReactSVG src="/svgs/search-icon.svg" /></div>
+                  <div className="search-txt">Search</div>
+                </div>
               </button>
-            </div>
+            {/* </div> */}
           </div>
           
         </div>

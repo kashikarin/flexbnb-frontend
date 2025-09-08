@@ -19,6 +19,7 @@ export function DatesDropdown({ dropdownRef, checkIn, checkOut,onSetDates, isOpe
           startDate={checkIn}
           endDate={checkOut}
           selectsRange
+          shouldCloseOnSelect={false}
           monthsShown={2}
           inline
           minDate={new Date()}

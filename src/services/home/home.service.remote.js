@@ -8,7 +8,7 @@ export const homeService = {
   addHomeMsg,
 }
 
-async function query(filterBy = { txt: '', price: 0 }) {
+async function query(filterBy = { }) {
   console.log('[HOME SERVICE] REMOTE query called', filterBy)
 
   return httpService.get(`homes`, filterBy)

@@ -11,6 +11,7 @@ import { HeaderHomeDetails } from './HeaderHomeDetails'
 import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
 import { addPotentialHome, loadPotentialHome } from '../store/actions/home-edit.actions'
 import { setHomePageNotScrolled, setHomePageScrolled } from '../store/actions/scroll.actions'
+import { UserMenu } from './UserMenu'
 
 export function AppHeader({scrollContainerRef}) {
   const dispatch = useDispatch()
@@ -104,11 +105,13 @@ const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen;
           {/* main - nav - right section */}
           <div className="app-header-right-section">
             <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
-              {loggedInUser && (
+              {loggedInUser && 
+              (
                 <div className='user-info'>
                   <Link to={`user/${loggedInUser._id}`}>
                     {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
                   </Link>
+                  <UserMenu />
                 </div>
               )}
           </div>

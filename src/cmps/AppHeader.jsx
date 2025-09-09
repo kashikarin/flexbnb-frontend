@@ -9,15 +9,24 @@ import { SET_LOGGEDINUSER } from '../store/reducers/user.reducer'
 import { initUsers } from '../store/actions/user.actions'
 import { HeaderHomeDetails } from './HeaderHomeDetails'
 import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
-import { addPotentialHome, loadPotentialHome } from '../store/actions/home-edit.actions'
-import { setHomePageNotScrolled, setHomePageScrolled } from '../store/actions/scroll.actions'
-import { UserMenu } from './UserMenu'
+import {
+  addPotentialHome,
+  loadPotentialHome,
+} from '../store/actions/home-edit.actions'
+import {
+  setHomePageNotScrolled,
+  setHomePageScrolled,
+} from '../store/actions/scroll.actions'
 
-export function AppHeader({scrollContainerRef}) {
+export function AppHeader({ scrollContainerRef }) {
   const dispatch = useDispatch()
   const location = useLocation()
-  const isHomePageScrolled = useSelector(state => state.scrollModule.isHomePageScrolled)
-  const isHDImgScrolled = useSelector(state => state.scrollModule.isHDImgScrolled)
+  const isHomePageScrolled = useSelector(
+    (state) => state.scrollModule.isHomePageScrolled
+  )
+  const isHDImgScrolled = useSelector(
+    (state) => state.scrollModule.isHDImgScrolled
+  )
   const isHomeIndex = location.pathname === '/'
   const isHosting = location.pathname.startsWith('/hosting')
   const isHomeEdit = location.pathname === '/hosting/edit'
@@ -42,9 +51,9 @@ export function AppHeader({scrollContainerRef}) {
     handleScroll()
     return () => elMain.removeEventListener('scroll', handleScroll)
   }, [scrollContainerRef])
-  
+
   useEffect(() => {
-    (async function initAndLoadData() {
+    ;(async function initAndLoadData() {
       try {
         await initUsers()
         await loadLoggedInUser()
@@ -60,69 +69,90 @@ export function AppHeader({scrollContainerRef}) {
       dispatch({ type: SET_LOGGEDINUSER, user: loggedInUser })
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     if (!isHomeIndex || isSmallScreen) setHomePageScrolled()
   }, [isSmallScreen, isHomeIndex])
-  
-  async function onCreateNewListing(){
+
+  async function onCreateNewListing() {
     try {
       const newPotentialHome = await addPotentialHome()
       await loadPotentialHome(newPotentialHome._id)
-    } catch(err){
+    } catch (err) {
       console.error('Cannot load a new listing', err)
     }
   }
 
-const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen;
+  const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
 
   return (
-    <header className={`app-header ${(shouldCollapse)? '' : "expanded"} ${isHosting || isHDImgScrolled? 'one-row-divider' : ''}`}>
+    <header
+      className={`app-header ${shouldCollapse ? '' : 'expanded'} ${
+        isHosting || isHDImgScrolled ? 'one-row-divider' : ''
+      }`}
+    >
       {isHDImgScrolled && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
-      {(!isHDImgScrolled && !isHomeEdit) && (<nav className={`app-header-main-nav ${shouldCollapse ? 'scrolled' : 'expanded'}`}>
-        
+      {!isHDImgScrolled && !isHomeEdit && (
+        <nav
+          className={`app-header-main-nav ${
+            shouldCollapse ? 'scrolled' : 'expanded'
+          }`}
+        >
           <div className="app-header-main-nav-content">
-          {/* main-nav - left section */}
-          <div className="app-header-left-section">
-            <NavLink to='/' className='logo'>
-              <FaAirbnb className="logo-icon"/>
-              <span>flexbnb</span>
-            </NavLink>
-          </div>
-          {/* main - nav - mid section */}
-          <div className={`app-header-mid-section ${shouldCollapse? 'scrolled' : 'expanded'}`}>
-          {isHosting ? (
-            <nav className='hosting-header-nav'>
-              <NavLink to='/hosting/edit' onClick={onCreateNewListing}>Create a new listing</NavLink>
-              <NavLink to='/hosting/reservations/'>Reservations</NavLink>
-            </nav>
-          ) : (     
-            <div className={`searchbar-wrapper ${shouldCollapse? 'scrolled' : 'expanded'}`}>
-              <SearchBar shouldCollapse={shouldCollapse} />
+            {/* main-nav - left section */}
+            <div className="app-header-left-section">
+              <NavLink to="/" className="logo">
+                <FaAirbnb className="logo-icon" />
+                <span>flexbnb</span>
+              </NavLink>
             </div>
-          )}
-          </div>
-          {/* main - nav - right section */}
-          <div className="app-header-right-section">
-            <Link to={isHosting ? '/' : '/hosting'}>{isHosting ? 'Switch to traveling' : 'Switch to hosting'}</Link>
-              {loggedInUser && 
-              (
-                <div className='user-info'>
+            {/* main - nav - mid section */}
+            <div
+              className={`app-header-mid-section ${
+                shouldCollapse ? 'scrolled' : 'expanded'
+              }`}
+            >
+              {isHosting ? (
+                <nav className="hosting-header-nav">
+                  <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
+                    Create a new listing
+                  </NavLink>
+                  <NavLink to="/hosting/reservations/">Reservations</NavLink>
+                </nav>
+              ) : (
+                <div
+                  className={`searchbar-wrapper ${
+                    shouldCollapse ? 'scrolled' : 'expanded'
+                  }`}
+                >
+                  <SearchBar shouldCollapse={shouldCollapse} />
+                </div>
+              )}
+            </div>
+            {/* main - nav - right section */}
+            <div className="app-header-right-section">
+              <Link to={isHosting ? '/' : '/hosting'}>
+                {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
+              </Link>
+              {loggedInUser && (
+                <div className="user-info">
                   <Link to={`user/${loggedInUser._id}`}>
                     {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
                   </Link>
                   <UserMenu />
                 </div>
               )}
+            </div>
           </div>
-        </div>
-        
-      </nav>)}
+        </nav>
+      )}
       <div className="app-header-bottom-row">
-          {isHomeIndex && !isHomePageScrolled && (<div className="app-header-labels-slider-wrapper">
+        {isHomeIndex && !isHomePageScrolled && (
+          <div className="app-header-labels-slider-wrapper">
             <LabelsSlider />
-          </div>)}
+          </div>
+        )}
       </div>
     </header>
-    )
+  )
 }

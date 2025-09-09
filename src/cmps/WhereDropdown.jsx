@@ -12,7 +12,6 @@ export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFil
     // }, [searchTxt])
 
   useEffectUpdate(()=>{
-        console.log("🚀 ~ cityFilterToEdit:", cityFilterToEdit)
     onUpdateFilterBy(cityFilterToEdit)
   }, [cityFilterToEdit])
 
@@ -26,10 +25,9 @@ export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFil
     ]
 
     function handleClick(ev, city) {
-      console.log("🚀 ~ city:", city)
       ev.preventDefault()
       ev.stopPropagation()
-      setCityFilterToEdit({city})
+      setCityFilterToEdit(prev => ({...prev, city}))
       onClose?.()
     }
     

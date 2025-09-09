@@ -93,9 +93,8 @@ async function getDraftOrder(homeId, userId, filterBy) {
 function _getNumberOfNights(checkIn, checkOut){
     const start = new Date(checkIn)
     const end = new Date(checkOut)
-    const timeDiff = end.getTime() - start.getTime()
-    const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-    return nights
+    const oneDay = 1000 * 60 * 60 * 24
+    return Math.round((end - start) / oneDay)
 }
 
 function _findFirstAvailable(home, nights = 2) {
@@ -107,7 +106,7 @@ function _findFirstAvailable(home, nights = 2) {
     }))
     .sort((a, b) => a.checkIn - b.checkIn)
 
-  let start = today
+  let start = today.setHours(0,0,0,0)
 
   for (const booking of bookings) {
     if ((booking.checkIn - start) / (1000 * 60 * 60 * 24) >= nights) {

@@ -10,9 +10,9 @@ import {
   SET_FILTERORDERSBY,
 } from '../reducers/order.reducer'
 
-export async function updateOrderStatus(orderId, status) {
+export async function updateOrder(orderToUpdate) {
   try {
-    const updatedOrder = await orderService.updateStatus(orderId, status)
+    const updatedOrder = await orderService.save(orderToUpdate)
     store.dispatch(getCmdUpdateOrder(updatedOrder))
     return updatedOrder
   } catch (err) {
@@ -65,17 +65,6 @@ export async function removeOrder(orderId) {
     store.dispatch(getCmdRemoveOrder(orderId))
   } catch (err) {
     console.error('Cannot remove order', err)
-    throw err
-  }
-}
-
-export async function updateOrder(order) {
-  try {
-    const savedOrder = await orderService.save(order)
-    store.dispatch(getCmdUpdateOrder(savedOrder))
-    return savedOrder
-  } catch (err) {
-    console.error('Cannot save order', err)
     throw err
   }
 }

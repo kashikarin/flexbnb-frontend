@@ -7,6 +7,7 @@ import { systemReducer } from './reducers/system.reducer'
 import { orderReducer } from './reducers/order.reducer'
 import { homeEditReducer } from './reducers/home-edit.reducer'
 import { scrollReducer } from './reducers/scroll.reducer'
+import { draftOrderReducer } from './reducers/draft-order.reducer'
 
 const rootReducer = combineReducers({
   homeModule: homeReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   systemModule: systemReducer,
   reviewModule: reviewReducer,
   homeEditModule: homeEditReducer,
-  scrollModule: scrollReducer
+  scrollModule: scrollReducer,
+  draftOrderModule: draftOrderReducer
 })
 
 const middleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

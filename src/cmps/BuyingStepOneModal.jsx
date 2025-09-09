@@ -3,25 +3,25 @@ import { useNavigate } from 'react-router'
 import { roundToDecimals } from '../services/util.service'
 
 export function BuyingStepOneModal({
-  potentialOrder,
+  draftOrder,
   homePrice,
   homeType,
   homeCity,
   homeCountry,
   homeSummary,
-  onConfirmOrder,
-  closeConfirmationModal
+  addOrder,
+  closeOrderConfirmationModal
 }) {
   const [currentStep, setCurrentStep] = useState(1)
   const navigate = useNavigate()
 
   async function handleConfirm() {
-    await onConfirmOrder()
+    await addOrder(draftOrder)
     setCurrentStep(2)
   }
-  const stayNightsNum = Math.floor((potentialOrder.checkOut - potentialOrder.checkIn) / 86400000)
+  const stayNightsNum = Math.floor((draftOrder.checkOut - draftOrder.checkIn) / 86400000)
   const guestsNum =
-    Number(potentialOrder.guests.adults ?? 0) + Number(potentialOrder.guests.children ?? 0)
+    Number(draftOrder.guests.adults ?? 0) + Number(draftOrder.guests.children ?? 0)
   const serviceFeeRate = 0.14
 
   return (
@@ -51,7 +51,7 @@ export function BuyingStepOneModal({
               </h3>
               <p>
                 <span>Trip dates:</span>
-                <span>{`${potentialOrder.checkIn} - ${potentialOrder.checkOut}`}</span>
+                <span>{`${draftOrder.checkIn} - ${draftOrder.checkOut}`}</span>
               </p>
               <p>
                 <span>Guests:</span>
@@ -89,7 +89,7 @@ export function BuyingStepOneModal({
           </div>
 
           <div className='property-image'>
-            <img src={potentialOrder.home.imgUrl} alt='Property' />
+            <img src={draftOrder.home.imgUrl} alt='Property' />
             <div className='property-info'>
               <h4>
                 {homeType} in {homeCity}, {homeCountry}
@@ -104,7 +104,7 @@ export function BuyingStepOneModal({
             className='back-btn'
             onClick={() => {
               if (currentStep === 2) navigate('/')
-              else closeConfirmationModal()
+              else closeOrderConfirmationModal()
             }}
           >
             {currentStep === 2 ? 'Close' : 'Back'}

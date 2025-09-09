@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useContext } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -54,7 +54,6 @@ import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { ReservationModal } from '../cmps/ReservationModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
 import { GuestFav } from '../cmps/GuestFav'
-import { PotentialOrderContext } from '../context/potential-order/PotentialOrderContext'
 import { ReviewCard } from '../cmps/ReviewCard'
 import { getAmenityIcon } from '../services/home/home.service.local'
 import {
@@ -63,6 +62,8 @@ import {
   setHomeDetailsStickyCardNotScrolled,
   setHomeDetailsStickyCardScrolled,
 } from '../store/actions/scroll.actions'
+import { addDraftOrder, closeOrderConfirmationModal, openOrderConfirmationModal, updateDraftOrder } from '../store/actions/draft-order.actions'
+import { addOrder } from '../store/actions/order.actions'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -70,22 +71,12 @@ export function HomeDetails() {
   const { homeId } = useParams()
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const home = useSelector((storeState) => storeState.homeModule.home)
+  const isOrderConfirmationModalOpen = useSelector(state => state.draftOrderModule.isOrderConfirmationModalOpen)
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isLiked, setIsLiked] = useState(
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
-
-  const {
-    potentialOrder,
-    setPotentialOrder,
-    setInitialPOrderDetails,
-    setIsConfirmationModalOpen,
-    isConfirmationModalOpen,
-    openConfirmationModal,
-    onConfirmOrder,
-    closeConfirmationModal,
-    resetPotentialOrder,
-  } = useContext(PotentialOrderContext)
+  const draftOrder = useSelector(state => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
   const stickyBreakPointRef = useRef()
 
@@ -120,20 +111,19 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (!homeId || !loggedInUser) return
-    initHome()
+    initHomeAndDraftOrder()
   }, [homeId, loggedInUser])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
-  async function initHome() {
+  async function initHomeAndDraftOrder() {
     try {
       await loadHome(homeId)
-      resetPotentialOrder()
-      await setInitialPOrderDetails(homeId, loggedInUser._id, filterBy)
+      await addDraftOrder(homeId, loggedInUser._id, filterBy)
     } catch (err) {
-      console.error('Cannot load data', err)
+      console.error('Cannot load home', err)
     }
   }
 
@@ -150,8 +140,7 @@ export function HomeDetails() {
             if (entry.target === elAfterImg) setHomeDetailsImgScrolled()
             else setHomeDetailsImgNotScrolled()
 
-            if (entry.target === elAfterSticky)
-              setHomeDetailsStickyCardScrolled()
+            if (entry.target === elAfterSticky) setHomeDetailsStickyCardScrolled()
             else setHomeDetailsStickyCardNotScrolled()
           })
         },
@@ -174,14 +163,14 @@ export function HomeDetails() {
     }
   }, [home, loggedInUser])
 
-  async function onAddHomeMsg(homeId) {
-    try {
-      await addHomeMsg(homeId, 'bla bla ' + parseInt(Math.random() * 10))
-      showSuccessMsg(`Home msg added`)
-    } catch (err) {
-      showErrorMsg('Cannot add home msg')
-    }
-  }
+  // async function onAddHomeMsg(homeId) {
+  //   try {
+  //     await addHomeMsg(homeId, 'bla bla ' + parseInt(Math.random() * 10))
+  //     showSuccessMsg(`Home msg added`)
+  //   } catch (err) {
+  //     showErrorMsg('Cannot add home msg')
+  //   }
+  // }
 
   async function handleHomeSave(e) {
     e.preventDefault()
@@ -203,14 +192,14 @@ export function HomeDetails() {
     }
   }
 
-  function getIsHomeLiked() {
-    if (!loggedInUser) return
-    return loggedInUser.likedHomes?.includes(homeId)
-  }
+  // function getIsHomeLiked() {
+  //   if (!loggedInUser) return
+  //   return loggedInUser.likedHomes?.includes(homeId)
+  // }
 
   return (
     <>
-      {home && loggedInUser && (
+      {home && loggedInUser && draftOrder && (
         <div className="home-details-container">
           <div className="home-details-header">
             <h1>
@@ -320,17 +309,15 @@ export function HomeDetails() {
               <IoDiamond className="diamond-icon" />
               <p>Rare find! This place is usually booked</p>
             </aside>
-            {potentialOrder && (
-              <ReservationModal
+            <ReservationModal
                 home={home}
-                potentialOrder={potentialOrder}
-                setPotentialOrder={setPotentialOrder}
-                onConfirmOrder={onConfirmOrder}
-                isConfirmationModalOpen={isConfirmationModalOpen}
-                openConfirmationModal={openConfirmationModal}
-                closeConfirmationModal={closeConfirmationModal}
-              />
-            )}
+                draftOrder={draftOrder}
+                updateDraftOrder={updateDraftOrder}
+                addOrder={addOrder}
+                isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
+                openOrderConfirmationModal={openOrderConfirmationModal}
+                closeOrderConfirmationModal={closeOrderConfirmationModal}
+            />
           </section>
           <div ref={stickyBreakPointRef} />
           <section className="reviews-section">

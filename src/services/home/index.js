@@ -52,6 +52,7 @@ export const homeService = {
   ...service,
 }
 
+
 //* Easy access to this service from the dev tools console
 //* when using script - dev / dev:local
 

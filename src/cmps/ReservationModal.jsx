@@ -2,26 +2,20 @@ import { useState, useEffect, useRef } from 'react'
 import { ReactSVG } from 'react-svg'
 import { CapacityDropdown } from './CapacityDropdown'
 import { BuyingStepOneModal } from './BuyingStepOneModal'
-import { useSelector } from 'react-redux'
 import {
   getRandom3NightsStayDatesStr,
   getNightsCount,
   roundToDecimals,
   strDateToTimestamp,
 } from '../services/util.service'
-import { orderService } from '../services/order'
-import { addOrder } from '../store/actions/order.actions'
-
 export function ReservationModal({ home, 
-                                   potentialOrder, 
-                                   setPotentialOrder, 
-                                   onConfirmOrder, 
-                                   isConfirmationModalOpen, 
-                                   openConfirmationModal,
-                                   closeConfirmationModal
+                                   draftOrder, 
+                                   updateDraftOrder,
+                                   addOrder, 
+                                   isOrderConfirmationModalOpen, 
+                                   openOrderConfirmationModal,
+                                   closeOrderConfirmationModal,
                                   }) {
-  const filterBy = useSelector((state) => state.homeModule.filterBy)
-  const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
 
   const [openedDropdown, setOpenedDropdown] = useState(null)
   const [dropdownWidth, setDropdownWidth] = useState(0)
@@ -29,17 +23,17 @@ export function ReservationModal({ home,
   const dropdownWrapperRef = useRef(null)
   const selectionRef = useRef(null)
 
-  const [adultsNum, setAdultsNum] = useState(potentialOrder.guests.adults ?? 0)
-  const [childrenNum, setChildrenNum] = useState(potentialOrder.guests.children ?? 0)
-  const [infantsNum, setInfantsNum] = useState(potentialOrder.guests.infants ?? 0)
-  const [petsNum, setPetsNum] = useState(potentialOrder.guests.pets ?? 0)
+  const [adultsNum, setAdultsNum] = useState(draftOrder.guests.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(draftOrder.guests.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(draftOrder.guests.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(draftOrder.guests.pets ?? 0)
 
   useEffect(() => {
-    setAdultsNum(potentialOrder.guests.adults ?? 0)
-    setChildrenNum(potentialOrder.guests.children ?? 0)
-    setInfantsNum(potentialOrder.guests.infants ?? 0)
-    setPetsNum(potentialOrder.guests.pets ?? 0)
-  }, [filterBy, potentialOrder.guests])
+    setAdultsNum(draftOrder.guests.adults ?? 0)
+    setChildrenNum(draftOrder.guests.children ?? 0)
+    setInfantsNum(draftOrder.guests.infants ?? 0)
+    setPetsNum(draftOrder.guests.pets ?? 0)
+  }, [draftOrder.guests]) // check if filterby is needed as a dependency
 
   useEffect(() => {
     onUpdateGuestsDetails({
@@ -80,7 +74,7 @@ export function ReservationModal({ home,
 
   function handleChange(ev) {
     // let { name: field, value } = target
-    // console.log(ev)
+    console.log(ev)
   }
   function getGuestsNumStrToDisplay() {
     if (!adultsNum && !childrenNum) return 'Add guests'
@@ -93,10 +87,9 @@ export function ReservationModal({ home,
   // }
 
   function onUpdateGuestsDetails(updatedGuests) {
-    setPotentialOrder((prevPotentialOrder) => ({ ...prevPotentialOrder, guests: updatedGuests }))
+    updateDraftOrder({ ...draftOrder, guests: updatedGuests})
   }
 
-  // console.log(order)
   return (
     <>
       <aside className='reservation-section'>
@@ -111,12 +104,12 @@ export function ReservationModal({ home,
             <div className='reservation-selection' ref={selectionRef}>
               <div className='reservation-selection-date-checkin'>
                 <div>CHECK-IN</div>
-                <div>{getRandom3NightsStayDatesStr().checkIn}</div>{' '}
+                <div>{draftOrder.checkOut}</div>{' '}
               </div>
               <div className='reservation-selection-date-checkout'>
                 <div>CHECK-OUT</div>
                 <div name='endDate' onChange={handleChange}>
-                  {getRandom3NightsStayDatesStr().checkOut}
+                  {draftOrder.checkOut}
                 </div>
               </div>
               <div
@@ -169,7 +162,7 @@ export function ReservationModal({ home,
                 </div>
               </div>
             </div>
-            <button onClick={openConfirmationModal}>Reserve</button>
+            <button onClick={openOrderConfirmationModal}>Reserve</button>
             <span>You won't be charged yet</span>
             <div className='reservation-summary-information-container'>
               <div className='cost-breakdown-container'>
@@ -190,16 +183,16 @@ export function ReservationModal({ home,
           </div>
         </div>
       </aside>
-      {isConfirmationModalOpen && (
+      {isOrderConfirmationModalOpen && (
         <BuyingStepOneModal
-          potentialOrder={potentialOrder}
+          draftOrder={draftOrder}
           homePrice={home.price}
           homeType={home.type}
           homeCity={home.loc.city}
           homeCountry={home.loc.country}
           homeSummary={home.summary}
-          onConfirmOrder={onConfirmOrder}
-          closeConfirmationModal={closeConfirmationModal}
+          addOrder={addOrder}
+          closeOrderConfirmationModal={closeOrderConfirmationModal}
         />
       )}
     </>

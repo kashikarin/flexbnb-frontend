@@ -1,15 +1,15 @@
 import { FaStar } from 'react-icons/fa'
 import { useSelector } from "react-redux";
-import { PotentialOrderContext } from "../context/potential-order/PotentialOrderContext";
 import { getAvgRating, roundToDecimals } from "../services/util.service";
 import { BuyingStepOneModal } from "./BuyingStepOneModal";
-import { useContext } from 'react';
+import { closeOrderConfirmationModal, openOrderConfirmationModal } from '../store/actions/draft-order.actions';
+import { addOrder } from '../store/actions/order.actions';
 
 export function HeaderHomeDetails() {
-    const {potentialOrder, onConfirmOrder, openConfirmationModal, closeConfirmationModal, isConfirmationModalOpen} = useContext(PotentialOrderContext)
     const home = useSelector(state => state.homeModule.home)
     const {isHDStickyCardScrolled} = useSelector(state => state.scrollModule.isHDStickyCardScrolled)
-    
+    const draftOrder = useSelector(state => state.draftOrderModule.draftOrder)
+    const isOrderConfirmationModalOpen = useSelector(state => state.draftOrderModule.isOrderConfirmationModalOpen)
     return(
         <header className="home-details-scrolled-header">
             <nav>
@@ -41,19 +41,19 @@ export function HeaderHomeDetails() {
                         <span>{home.reviews.length} reviews </span>
                     </div>
                 </div>
-                <button onClick={openConfirmationModal}>Reserve</button>
+                <button onClick={openOrderConfirmationModal}>Reserve</button>
             </div>}
             
-            {isConfirmationModalOpen && (
+            {isOrderConfirmationModalOpen && (
                 <BuyingStepOneModal
-                potentialOrder={potentialOrder}
+                draftOrder={draftOrder}
                 homePrice={home.price}
                 homeType={home.type}
                 homeCity={home.loc.city}
                 homeCountry={home.loc.country}
                 homeSummary={home.summary}
-                onConfirmOrder={onConfirmOrder}
-                closeConfirmationModal={closeConfirmationModal}
+                addOrder={addOrder}
+                closeOrderConfirmationModal={closeOrderConfirmationModal}
                 />
                   )}
             

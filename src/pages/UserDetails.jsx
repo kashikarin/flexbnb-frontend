@@ -7,7 +7,7 @@ import { showSuccessMsg } from '../services/event-bus.service'
 import {
   loadOrder,
   loadOrders,
-  updateOrderStatus,
+  updateOrder,
 } from '../store/actions/order.actions'
 // import PieChart from '../cmps/PieChart'
 import BasicPie from '../cmps/BasicPie'
@@ -17,12 +17,21 @@ import BasicLineChart from '../cmps/BasicLineCharts'
 
 export function UserDetails() {
   const params = useParams()
-  const user = useSelector((storeState) => storeState.userModule.watchedUser)
+  // const user = useSelector((storeState) => storeState.userModule.watchedUser)
   const orders = useSelector((storeState) => storeState.orderModule.orders)
   useEffect(() => {
     loadUser(params.id)
     loadOrders({})
   }, [params.id])
+
+  async function onUpdateOrderStatus(order, updatedStatus){
+    const orderToUpdate = { ...order, status: updatedStatus}
+    try {
+      await updateOrder(orderToUpdate)
+    } catch(err){
+      console.error('Cannot update order status', err)
+    }
+  }
 
   return (
     <main className='user-details'>
@@ -97,13 +106,13 @@ export function UserDetails() {
                     <>
                       <button
                         className='approve'
-                        onClick={() => updateOrderStatus(order._id, 'approved')}
+                        onClick={()=>onUpdateOrderStatus(order, 'approved')}
                       >
                         Approve
                       </button>
                       <button
                         className='reject'
-                        onClick={() => updateOrderStatus(order._id, 'rejected')}
+                        onClick={()=>onUpdateOrderStatus(order, 'rejected')}
                       >
                         Reject
                       </button>{' '}

@@ -15,19 +15,19 @@ async function query(filterBy = { txt: '', price: 0 }) {
 }
 
 function getById(homeId) {
-  return httpService.get(`home/${homeId}`)
+  return httpService.get(`homes/${homeId}`)
 }
 
 async function remove(homeId) {
-  return httpService.delete(`home/${homeId}`)
+  return httpService.delete(`homes/${homeId}`)
 }
 
 async function save(home) {
   var savedHome
   if (home._id) {
-    savedHome = await httpService.put(`home/${home._id}`, home)
+    savedHome = await httpService.put(`homes/${home._id}`, home)
   } else {
-    savedHome = await httpService.post('home', home)
+    savedHome = await httpService.post('homes', home)
   }
   return savedHome
 }

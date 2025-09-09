@@ -25,7 +25,7 @@ export function HomeEditStepTwoC(){
     return (
         <section className='home-edit-step-2-c-container'>
             <article className="home-edit-step-2-c-title">
-                <h1>Now, let's give your apartment a title</h1>
+                <h1>{`Now, let's give your ${potentialHome?.type.toLowerCase() || 'house'} a title`}</h1>
                 <span>Short titles work best. Have fun with it—you can always change it later.</span>
             </article>
             <article className="home-edit-step-2-c-txt-container">

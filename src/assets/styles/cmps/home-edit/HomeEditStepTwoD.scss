@@ -83,6 +83,16 @@
                 font-weight: 400;
                 border-radius: 8px;
                 overflow-y: hidden;
+                font-family: Airbnb Cereal App Medium;
+                color: $clr7;
+
+                &::placeholder {
+                    color: $clr7;
+                    line-height: 1.75rem;
+                    font-size: 1.125rem;
+                    font-family: Airbnb Cereal App Medium;
+                }
+
             }
         }
         

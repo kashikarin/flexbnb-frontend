@@ -8,6 +8,7 @@ import {
   roundToDecimals,
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   const [firstIdx, setFirstIdx] = useState(0)
@@ -15,7 +16,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   const [isLiked, setIsLiked] = useState(isHomeLiked)
   const imgRef = useRef(null)
   const containerRef = useRef(null)
-
+  const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   function onPrevClick(ev) {
     ev.preventDefault()
     ev.stopPropagation()
@@ -113,10 +114,17 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   return (
     <Link className="home-preview-link" to={`/home/${home._id}`}>
       <article className="home-preview-container">
-        <div className="heart-icon-container" onClick={handleLike}>
-          <FaHeart className={`heart filled ${isLiked ? 'liked' : ''}`} />
-          <FaRegHeart className="heart outline" />
-        </div>
+        {loggedInUser && (
+          <div className="heart-icon-container" onClick={handleLike}>
+            <FaHeart
+              className={`heart filled ${
+                loggedInUser.likedHomes.includes(home._id) ? 'liked' : ''
+              }`}
+            />
+            <FaRegHeart className="heart outline" />
+          </div>
+        )}
+
         {getAvgRating(home) >= 4 && (
           <div className="guest-fav-badge">Guest favorite</div>
         )}

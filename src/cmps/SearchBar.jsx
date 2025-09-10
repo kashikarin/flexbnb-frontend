@@ -137,15 +137,13 @@ export function SearchBar({ shouldCollapse }) {
     if (btName === 'checkIn' || btName === 'checkOut') {
       setOpenedDropdown('dates')
 
-      // מעבר טבעי → עם נסיעה
       if (activeButton === 'where' && btName === 'checkIn') {
         setActiveButton('checkIn')
       } else if (activeButton === 'checkIn' && btName === 'checkOut') {
         setActiveButton('checkOut')
       } else {
-        // לחיצה ישירה → פשוט נסמן כאקטיב, בלי אנימציית מעבר
         setActiveButton(btName)
-        setIndicatorStyle((prev) => ({ ...prev })) // לא משנה מיקום → נשאר יציב
+        setIndicatorStyle((prev) => ({ ...prev }))
       }
     } else {
       setOpenedDropdown(btName)

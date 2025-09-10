@@ -126,16 +126,38 @@ export function AppHeader({ scrollContainerRef }) {
               )}
             </div>
             {/* main - nav - right section */}
+
             <div className="app-header-right-section">
-              <Link to={isHosting ? '/' : '/hosting'}>
-                {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
-              </Link>
-              {loggedInUser && (
-                <div className="user-info">
-                  <Link to={`user/${loggedInUser._id}`}>
-                    {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
+              {loggedInUser ? (
+                <>
+                  <Link to={loggedInUser.isHost ? '/' : '/hosting'}>
+                    {loggedInUser.isHost
+                      ? 'Switch to traveling'
+                      : 'Switch to hosting'}
                   </Link>
-                </div>
+                  <div className="user-info">
+                    <Link to={`user/${loggedInUser._id}`}>
+                      {loggedInUser.imgUrl ? (
+                        <img
+                          src={loggedInUser.imgUrl}
+                          alt={loggedInUser.fullname || loggedInUser.username}
+                        />
+                      ) : (
+                        <div className="user-avatar-placeholder">
+                          {(
+                            loggedInUser.fullname ||
+                            loggedInUser.username ||
+                            'U'
+                          )
+                            .charAt(0)
+                            .toUpperCase()}
+                        </div>
+                      )}
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <Link to={'/'}>Become a host</Link>
               )}
               <UserMenu />
             </div>

@@ -1,6 +1,6 @@
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   capitalizeStr,
   getAvgRating,
@@ -8,14 +8,16 @@ import {
   roundToDecimals,
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
+  const location = useLocation()
   const [firstIdx, setFirstIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
   const [isLiked, setIsLiked] = useState(isHomeLiked)
   const imgRef = useRef(null)
   const containerRef = useRef(null)
-
+  const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   function onPrevClick(ev) {
     ev.preventDefault()
     ev.stopPropagation()
@@ -46,7 +48,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
       setImgWidth(width)
     }
 
-    // Initial calculation
     updateImageWidth()
 
     const handleResize = () => {
@@ -91,7 +92,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
     const nextIsLiked = !isLiked
     setIsLiked(nextIsLiked)
     if (nextIsLiked) {
-      //user likes the home
       try {
         await onAddLike(home._id)
       } catch (err) {
@@ -99,7 +99,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
         console.error('Failed to like the home', err)
       }
     } else {
-      //user dislikes the home
       try {
         await onRemoveLike(home._id)
       } catch (err) {
@@ -108,15 +107,21 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
       }
     }
   }
-  // console.log('RENDER HOME PREVIEW', home.name)
 
   return (
     <Link className="home-preview-link" to={`/home/${home._id}`}>
       <article className="home-preview-container">
-        <div className="heart-icon-container" onClick={handleLike}>
-          <FaHeart className={`heart filled ${isLiked ? 'liked' : ''}`} />
-          <FaRegHeart className="heart outline" />
-        </div>
+        {loggedInUser && (
+          <div className="heart-icon-container" onClick={handleLike}>
+            <FaHeart
+              className={`heart filled ${
+                loggedInUser.likedHomes.includes(home._id) ? 'liked' : ''
+              }`}
+            />
+            <FaRegHeart className="heart outline" />
+          </div>
+        )}
+
         {getAvgRating(home) >= 4 && (
           <div className="guest-fav-badge">Guest favorite</div>
         )}
@@ -167,8 +172,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
               ? `${capitalizeStr(home.type)} in ${capitalizeStr(home.loc.city)}`
               : capitalizeStr(home.type)}
           </p>
-
-          <p>{getStayDatesStr()}</p>
+          {location.pathname !== '/wishlists' && <p>{getStayDatesStr()}</p>}
           <p>
             {`${roundToDecimals(home.price).toLocaleString()}$`}
             {` for 3 nights`} · ★ <span>{getAvgRating(home)}</span>

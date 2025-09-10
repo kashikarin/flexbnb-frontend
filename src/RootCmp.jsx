@@ -21,6 +21,7 @@ import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
 import { useRef } from 'react'
 import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
+import { Wishlist } from './cmps/Wishlist.jsx'
 
 export function RootCmp() {
   const mainRef = useRef()
@@ -49,6 +50,7 @@ export function RootCmp() {
             </Route>
             <Route path="home" element={<HomeIndex />} />
             <Route path="home/:homeId" element={<HomeDetails />} />
+            <Route path="/wishlists" element={<Wishlist />} />
 
             <Route path="review" element={<ReviewIndex />} />
             <Route path="chat" element={<ChatApp />} />

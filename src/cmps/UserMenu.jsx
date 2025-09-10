@@ -142,6 +142,13 @@ export function UserMenu() {
                   My Profile
                 </Link>
                 <Link
+                  to="/wishlists"
+                  className="menu-item"
+                  onClick={() => setIsDropdownOpen(false)}
+                >
+                  Wishlists
+                </Link>
+                <Link
                   to="/my-travels"
                   className="menu-item"
                   onClick={() => setIsDropdownOpen(false)}

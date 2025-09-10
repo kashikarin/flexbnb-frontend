@@ -235,7 +235,7 @@
   &.scrolled {
     grid-row: 1 / 2;
     position: absolute;
-
+    background-color: white;
     top: 15px;
     max-width: 375px;
     min-width: 375px;
@@ -243,6 +243,7 @@
     border-radius: $search-bar-border-radius-scroll;
     margin: 0;
     transition: all 0.3s ease;
+    
 
     > div {
       display: grid;
@@ -263,7 +264,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 0 1rem;
+      padding: 0 ;
       height: 100%;
       border-radius: $search-bar-border-radius-scroll;
       box-sizing: border-box;
@@ -286,6 +287,11 @@
 
 
     }
+
+      .active-indicator {
+        display: none;
+        
+      }
 
 
     .sTitle {
@@ -332,11 +338,18 @@
 
     }
 
+    .inner-section.capacity {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start; 
+      padding-left: 1.5rem; 
+    }
+
     .inner-section.capacity .sTitle,
     .inner-section.capacity .placeholder-content {
+      width: auto;
       text-align: left;
-      width: 100%;
-      align-self: flex-start;
     }
 
   }

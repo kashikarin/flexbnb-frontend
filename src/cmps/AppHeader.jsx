@@ -4,7 +4,7 @@ import { FaAirbnb } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SearchBar } from './SearchBar'
 import { LabelsSlider } from './LabelsSlider'
-import { userService } from '../services/user/user.service.local'
+import { userService } from '../services/user/index'
 import { SET_LOGGEDINUSER } from '../store/reducers/user.reducer'
 import { initUsers } from '../store/actions/user.actions'
 import { HeaderHomeDetails } from './HeaderHomeDetails'
@@ -17,6 +17,7 @@ import {
   setHomePageNotScrolled,
   setHomePageScrolled,
 } from '../store/actions/scroll.actions'
+import { UserMenu } from './UserMenu'
 
 export function AppHeader({ scrollContainerRef }) {
   const dispatch = useDispatch()
@@ -31,7 +32,9 @@ export function AppHeader({ scrollContainerRef }) {
   const isHosting = location.pathname.startsWith('/hosting')
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
+  console.log('loggedInUser', loggedInUser)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
+  // const loggedInUser = false
 
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
@@ -139,9 +142,9 @@ export function AppHeader({ scrollContainerRef }) {
                   <Link to={`user/${loggedInUser._id}`}>
                     {loggedInUser.imgUrl && <img src={loggedInUser.imgUrl} />}
                   </Link>
-                  <UserMenu />
                 </div>
               )}
+              <UserMenu />
             </div>
           </div>
         </nav>

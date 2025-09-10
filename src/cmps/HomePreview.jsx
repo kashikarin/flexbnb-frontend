@@ -108,7 +108,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
       }
     }
   }
-  console.log('RENDER HOME PREVIEW', home.name)
+  // console.log('RENDER HOME PREVIEW', home.name)
 
   return (
     <Link className="home-preview-link" to={`/home/${home._id}`}>

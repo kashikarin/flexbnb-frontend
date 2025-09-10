@@ -62,7 +62,12 @@ import {
   setHomeDetailsStickyCardNotScrolled,
   setHomeDetailsStickyCardScrolled,
 } from '../store/actions/scroll.actions'
-import { addDraftOrder, closeOrderConfirmationModal, openOrderConfirmationModal, updateDraftOrder } from '../store/actions/draft-order.actions'
+import {
+  addDraftOrder,
+  closeOrderConfirmationModal,
+  openOrderConfirmationModal,
+  updateDraftOrder,
+} from '../store/actions/draft-order.actions'
 import { addOrder } from '../store/actions/order.actions'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
@@ -71,14 +76,18 @@ export function HomeDetails() {
   const { homeId } = useParams()
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const home = useSelector((storeState) => storeState.homeModule.home)
-  const isOrderConfirmationModalOpen = useSelector(state => state.draftOrderModule.isOrderConfirmationModalOpen)
+  const isOrderConfirmationModalOpen = useSelector(
+    (state) => state.draftOrderModule.isOrderConfirmationModalOpen
+  )
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [isLiked, setIsLiked] = useState(
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
-  const draftOrder = useSelector(state => state.draftOrderModule.draftOrder)
+  const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
   const stickyBreakPointRef = useRef()
+
+  console.log(home)
 
   const iconComponents = {
     MdTv,
@@ -140,7 +149,8 @@ export function HomeDetails() {
             if (entry.target === elAfterImg) setHomeDetailsImgScrolled()
             else setHomeDetailsImgNotScrolled()
 
-            if (entry.target === elAfterSticky) setHomeDetailsStickyCardScrolled()
+            if (entry.target === elAfterSticky)
+              setHomeDetailsStickyCardScrolled()
             else setHomeDetailsStickyCardNotScrolled()
           })
         },
@@ -309,15 +319,15 @@ export function HomeDetails() {
               <IoDiamond className="diamond-icon" />
               <p>Rare find! This place is usually booked</p>
             </aside>
-            <ReservationModal
-                home={home}
-                draftOrder={draftOrder}
-                updateDraftOrder={updateDraftOrder}
-                addOrder={addOrder}
-                isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
-                openOrderConfirmationModal={openOrderConfirmationModal}
-                closeOrderConfirmationModal={closeOrderConfirmationModal}
-            />
+            {/* <ReservationModal
+              home={home}
+              draftOrder={draftOrder}
+              updateDraftOrder={updateDraftOrder}
+              addOrder={addOrder}
+              isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
+              openOrderConfirmationModal={openOrderConfirmationModal}
+              closeOrderConfirmationModal={closeOrderConfirmationModal}
+            /> */}
           </section>
           <div ref={stickyBreakPointRef} />
           <section className="reviews-section">

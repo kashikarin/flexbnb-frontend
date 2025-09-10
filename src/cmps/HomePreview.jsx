@@ -1,6 +1,6 @@
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   capitalizeStr,
   getAvgRating,
@@ -11,6 +11,7 @@ import { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
+  const location = useLocation()
   const [firstIdx, setFirstIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
   const [isLiked, setIsLiked] = useState(isHomeLiked)
@@ -47,7 +48,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
       setImgWidth(width)
     }
 
-    // Initial calculation
     updateImageWidth()
 
     const handleResize = () => {
@@ -92,7 +92,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
     const nextIsLiked = !isLiked
     setIsLiked(nextIsLiked)
     if (nextIsLiked) {
-      //user likes the home
       try {
         await onAddLike(home._id)
       } catch (err) {
@@ -100,7 +99,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
         console.error('Failed to like the home', err)
       }
     } else {
-      //user dislikes the home
       try {
         await onRemoveLike(home._id)
       } catch (err) {
@@ -109,7 +107,6 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
       }
     }
   }
-  // console.log('RENDER HOME PREVIEW', home.name)
 
   return (
     <Link className="home-preview-link" to={`/home/${home._id}`}>
@@ -175,8 +172,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
               ? `${capitalizeStr(home.type)} in ${capitalizeStr(home.loc.city)}`
               : capitalizeStr(home.type)}
           </p>
-
-          <p>{getStayDatesStr()}</p>
+          {location.pathname !== '/wishlists' && <p>{getStayDatesStr()}</p>}
           <p>
             {`${roundToDecimals(home.price).toLocaleString()}$`}
             {` for 3 nights`} · ★ <span>{getAvgRating(home)}</span>

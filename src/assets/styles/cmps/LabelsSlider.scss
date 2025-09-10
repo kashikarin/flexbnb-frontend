@@ -8,7 +8,7 @@
   // overflow-x: clip;
   display: grid;
   transition: opacity 0.3s ease, padding 0.3s;
-  grid-template-columns: 10rem 1fr 10rem;
+  grid-template-columns: 5rem 1fr 5rem;
   grid-template-rows: auto auto;
   padding-block-end: 1rem;
   overflow-x: auto; // ✅ enables horizontal scroll

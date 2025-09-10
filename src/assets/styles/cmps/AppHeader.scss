@@ -1,6 +1,6 @@
 .app-header {
   display: grid;
-  grid-template-columns: 10rem 1fr 10rem;
+  grid-template-columns: 5rem 1fr 5rem;
   grid-template-rows: auto;
   transition: grid-template-rows 0.3s ease;
   position: sticky;
@@ -13,7 +13,7 @@
   min-height: 65px;
   overflow: visible;
   background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
-  transition: min-height 0.3s ease, grid-template-rows;
+  transition: all 0.3s ease, grid-template-rows;
   // &.expanded {
   //   // grid-template-rows: minmax(140px, auto) 1fr; // push down or hide row 2
   // }
@@ -31,7 +31,7 @@
   & > .app-header-main-nav {
     grid-column: 1 / -1; // spans full width of the main layout
     display: grid;
-    grid-template-columns: 10rem 1fr 10rem;
+    grid-template-columns: 5rem 1fr 5rem;
     width: 100%;
     min-height: 65px;
     // padding-block: 0.5rem;
@@ -158,7 +158,7 @@
           margin: 0 auto;
           // position: relative;
           // margin-top: -2.5rem;
-          transition: margin-top 0.3s ease;
+          transition: all 0.3s ease;
 
           &.expanded {
             margin-top: 2rem;
@@ -218,12 +218,22 @@
     display: flex;
     justify-content: center;
     align-items: stretch;
-    height: fit-content;
+    //height: fit-content;
     transition: all 0.4s ease;
     padding-block: 0.75rem;
     row-gap: 0;
     margin: 0;
     padding: 0;
+
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+
+    &.expanded {
+      max-height: 200px; 
+      opacity: 1;
+    }
 
     & > .app-header-labels-slider-wrapper {
       width: 100%;

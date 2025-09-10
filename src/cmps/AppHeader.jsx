@@ -96,7 +96,9 @@ export function AppHeader({ scrollContainerRef }) {
           <div className="app-header-main-nav-content">
             {/* main-nav - left section */}
             <div className="app-header-left-section">
-              <NavLink to="/" className="logo">
+              <NavLink to="/" className="logo" onClick={() => {
+                setTimeout(() => dispatch(setHomePageNotScrolled()), 50)
+              }}>
                 <FaAirbnb className="logo-icon" />
                 <span>flexbnb</span>
               </NavLink>
@@ -163,7 +165,7 @@ export function AppHeader({ scrollContainerRef }) {
           </div>
         </nav>
       )}
-      <div className="app-header-bottom-row">
+      <div className={`app-header-bottom-row ${!isHomePageScrolled ? 'expanded' : ''}`}>
         {isHomeIndex && !isHomePageScrolled && (
           <div className="app-header-labels-slider-wrapper">
             <LabelsSlider />

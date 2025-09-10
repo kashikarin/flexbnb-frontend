@@ -11,10 +11,12 @@
   width: 100%;
   height: auto;
   min-height: 65px;
-  max-height: 220px;;
+  max-height: 250px;;
   overflow: visible;
   background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
   transition: all 0.3s ease, grid-template-rows;
+  //background: #ffffff;
+ 
   // &.expanded {
   //   // grid-template-rows: minmax(140px, auto) 1fr; // push down or hide row 2
   // }
@@ -22,8 +24,9 @@
   &.expanded {
     min-height: 140px;
     grid-template-rows: auto minmax(4rem, auto);
-    background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
+    //background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
   }
+  
   &.one-row-divider {
     grid-template-rows: auto;
     border-bottom: 1px solid $divider-color;
@@ -37,14 +40,14 @@
     width: 100%;
     min-height: 65px;
     // padding-block: 0.5rem;
-    //border-bottom: 1px solid $divider-color;
-    background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
+    //background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
     transition: all 0.3s ease;
     padding-bottom: 2rem;
+    border-bottom: 1px solid $divider-color;// #ececec;
 
-    &.scrolled {
-      border-bottom: 1px solid $divider-color;
-    }
+    // &.scrolled {
+    //   border-bottom: 1px solid $divider-color;
+    // }
 
     & > .app-header-main-nav-content {
       grid-row: 1;
@@ -62,7 +65,7 @@
       .app-header-right-section {
         display: flex;
         align-items: center;
-        border: 1px solid blue;
+        //border: 1px solid blue;
       }
       .app-header-left-section {
         grid-column: 1; 
@@ -190,7 +193,7 @@
         flex: 1 1 auto;
         min-width: 0;
         position: relative;
-        border:1px solid red;
+        //border:1px solid red;
         // padding-block: 1rem;
 
         .hosting-header-nav {
@@ -252,16 +255,10 @@
 
         .searchbar-wrapper {
           width: 100%;
-          border:1px solid yellow;
+          //border:1px solid yellow;
           max-width: 850px;
-          //margin: 0 auto;
-          // position: relative;
-          margin-top00: -0.5rem;
           transition: all 0.3s ease;
 
-          &.expanded {
-           // margin-top00: 0.1rem;
-          }
         }
 
         &.scrolled {
@@ -318,21 +315,28 @@
   }
   .app-header-bottom-row {
     grid-row: 2;
-    grid-column: 2;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    //height: fit-content;
+    //grid-column: 2;
+    grid-column: 1 / -1;
+    // display: flex;
+    // justify-content: center;
+    // align-items: start;
+    display: grid;   
+    grid-template-columns: 5rem 1fr 5rem;
+
     transition: all 0.4s ease;
     padding-block: 0.75rem;
     row-gap: 0;
     margin: 0;
     padding: 0;
+    left: 0;
 
     max-height: 0;
     opacity: 0;
     overflow: hidden;
     transition: max-height 0.3s ease, opacity 0.3s ease;
+    //border:1px solid green;
+    background: #ffffff;
+    width: 100%;
 
     &.expanded {
       max-height: 200px;
@@ -341,14 +345,14 @@
     }
 
     & > .app-header-labels-slider-wrapper {
+      grid-column: 2;
       width: 100%;
       // padding-block: 0.5rem;
-      display: flex;
+      //display: flex;
       // gap: 1rem;
       overflow-x: auto;
       scrollbar-width: none; // Firefox
       -ms-overflow-style: none; // IE/Edge
-      background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
       &::-webkit-scrollbar {
         display: none;
       }

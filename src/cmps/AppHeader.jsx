@@ -93,6 +93,7 @@ export function AppHeader({ scrollContainerRef }) {
             shouldCollapse ? 'scrolled' : 'expanded'
           }`}
         >
+          {/* first row */}
           <div className="app-header-main-nav-content">
             {/* main-nav - left section */}
             <div className="app-header-left-section">
@@ -101,29 +102,6 @@ export function AppHeader({ scrollContainerRef }) {
                 <span>flexbnb</span>
               </NavLink>
             </div>
-            {/* main - nav - mid section */}
-            {/* <div
-              className={`app-header-mid-section ${
-                shouldCollapse ? 'scrolled' : 'expanded'
-              }`}
-            >
-              {isHosting ? (
-                <nav className="hosting-header-nav">
-                  <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
-                    Create a new listing
-                  </NavLink>
-                  <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                </nav>
-              ) : (
-                <div
-                  className={`searchbar-wrapper ${
-                    shouldCollapse ? 'scrolled' : 'expanded'
-                  }`}
-                >
-                  <SearchBar shouldCollapse={shouldCollapse} />
-                </div>
-              )}
-            </div> */}
             {/* main - nav - right section */}
 
             <div className="app-header-right-section">
@@ -161,6 +139,8 @@ export function AppHeader({ scrollContainerRef }) {
               <UserMenu />
             </div>
           </div>
+          {/* second row */}
+          {/* main - nav - mid section */}
           <div
             className={`app-header-mid-section ${
               shouldCollapse ? 'scrolled' : 'expanded'

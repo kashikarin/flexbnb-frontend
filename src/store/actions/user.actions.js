@@ -1,4 +1,4 @@
-import { userService } from '../../services/user/user.service.local'
+import { userService } from '../../services/user/index'
 // import { socketService } from '../services/socket.service'
 import { store } from '../store'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
@@ -10,6 +10,7 @@ import {
   ADD_LIKE_HOME,
   REMOVE_LIKE_HOME,
 } from '../reducers/user.reducer'
+const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
 export async function loadUsers() {
   try {
@@ -88,10 +89,16 @@ export async function loadUser(userId) {
 
 export async function addLike(homeId, userId) {
   try {
-    const user = await userService.getById(userId)
-    user.likedHomes = [...user.likedHomes, homeId]
-    await userService.update(user)
+    await userService.toggleHomeLike(homeId)
     store.dispatch({ type: ADD_LIKE_HOME, homeId, userId })
+
+    const currentUser = store.getState().userModule.loggedInUser
+    if (currentUser) {
+      sessionStorage.setItem(
+        STORAGE_KEY_LOGGEDIN_USER,
+        JSON.stringify(currentUser)
+      )
+    }
   } catch (err) {
     console.error('Cannot add like', err)
     throw err
@@ -100,13 +107,16 @@ export async function addLike(homeId, userId) {
 
 export async function removeLike(homeId, userId) {
   try {
-    const user = await userService.getById(userId)
-    if (!user || !user.likedHomes) return
-    user.likedHomes = user?.likedHomes?.filter(
-      (likedHome) => likedHome !== homeId
-    )
-    await userService.update(user)
+    await userService.toggleHomeLike(homeId)
     store.dispatch({ type: REMOVE_LIKE_HOME, homeId, userId })
+
+    const currentUser = store.getState().userModule.loggedInUser
+    if (currentUser) {
+      sessionStorage.setItem(
+        STORAGE_KEY_LOGGEDIN_USER,
+        JSON.stringify(currentUser)
+      )
+    }
   } catch (err) {
     console.error('Cannot remove like', err)
     throw err

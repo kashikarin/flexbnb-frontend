@@ -22,8 +22,8 @@
   &.expanded {
     min-height: 140px;
     grid-template-rows: auto minmax(4rem, auto);
+    background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
   }
-
   &.one-row-divider {
     grid-template-rows: auto;
     border-bottom: 1px solid $divider-color;

@@ -11,10 +11,11 @@ export const userService = {
   remove,
   update,
   getLoggedinUser,
+  toggleHomeLike,
+  getUserLikes,
 }
 
 function getUsers() {
-  return httpService.get(`users`)
   return httpService.get(`user`)
 }
 
@@ -24,13 +25,12 @@ async function getById(userId) {
 }
 
 function remove(userId) {
-  return httpService.delete(`users/${userId}`)
   return httpService.delete(`user/${userId}`)
 }
 
 async function update({ _id, score }) {
   // const user = await httpService.put(`users/${_id}`, { _id, score })
-  const user = await httpService.put(`user/${_id}`, { _id, score })
+  const user = await httpService.post('user', userCred)
 
   // When admin updates other user's details, do not update loggedinUser
   const loggedinUser = getLoggedinUser() // Might not work because its defined in the main service???
@@ -45,10 +45,9 @@ async function login(userCred) {
 }
 
 async function signup(userCred) {
-  if (!userCred.imgUrl)
-    userCred.imgUrl =
-      'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
-  userCred.score = 10000
+  if (!userCred.imgUrl) userCred.imgUrl = ''
+  //https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png
+  userCred.likedHomes = []
 
   const user = await httpService.post('auth/signup', userCred)
   return _saveLocalUser(user)
@@ -73,7 +72,18 @@ function _saveLocalUser(user) {
     score: user.score || 10000,
     isAdmin: user.isAdmin,
     isHost: user.isHost,
+    likedHomes: user.likedHomes || [],
   }
   sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToSave))
   return userToSave
+}
+
+async function toggleHomeLike(homeId) {
+  const result = await httpService.post(`users/like/${homeId}`)
+  return result
+}
+
+async function getUserLikes() {
+  const result = await httpService.get('users/likes/me')
+  return result.likedHomes
 }

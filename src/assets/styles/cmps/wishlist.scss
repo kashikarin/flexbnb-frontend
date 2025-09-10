@@ -1,0 +1,128 @@
+.wishlist-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  min-height: 70vh;
+}
+
+.wishlist-header {
+  margin-bottom: 48px;
+  text-align: left;
+}
+
+.wishlist-header h1 {
+  font-size: 32px;
+  font-weight: 600;
+  color: $primary-font-black;
+  margin: 0 0 8px 0;
+  line-height: 1.25;
+}
+
+.wishlist-header p {
+  font-size: 16px;
+  color: $secondary-font-gray;
+  margin: 0;
+  font-weight: 400;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.loading {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid $primary-pink;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-wishlist {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.empty-wishlist h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: $primary-font-black;
+  margin: 0 0 16px 0;
+  line-height: 1.25;
+}
+
+.empty-wishlist p {
+  font-size: 16px;
+  color: $secondary-font-gray;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.wishlist-container .wishlist-header p {
+  font-size: 18px;
+  color: $secondary-font-gray;
+  text-align: center;
+  margin-top: 24px;
+  padding: 40px 20px;
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  border: 1px solid #dddddd;
+}
+
+@media (max-width: 768px) {
+  .wishlist-container {
+    padding: 24px 16px;
+  }
+
+  .wishlist-header {
+    margin-bottom: 32px;
+  }
+
+  .wishlist-header h1 {
+    font-size: 28px;
+  }
+
+  .empty-wishlist {
+    padding: 60px 20px;
+  }
+
+  .empty-wishlist h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wishlist-container {
+    padding: 20px 12px;
+  }
+
+  .wishlist-header h1 {
+    font-size: 24px;
+  }
+
+  .wishlist-header p {
+    font-size: 14px;
+  }
+
+  .empty-wishlist h2 {
+    font-size: 18px;
+  }
+
+  .empty-wishlist p {
+    font-size: 14px;
+  }
+}

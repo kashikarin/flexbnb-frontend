@@ -30,18 +30,6 @@ function remove(userId) {
   return storageService.remove('user', userId)
 }
 
-// async function updateScore({ _id, score }) {
-//     const user = await storageService.get('user', _id)
-//     user.score = score
-//     await storageService.put('user', user)
-
-// 	// When admin updates other user's details, do not update loggedinUser
-//     const loggedinUser = getLoggedinUser()
-//     if (loggedinUser._id === user._id) _saveLocalUser(user)
-
-//     return user
-// }
-
 async function update(userToUpdate) {
   const user = await getById(userToUpdate._id)
   const loggedInUser = await getLoggedinUser()
@@ -140,47 +128,3 @@ async function createUsers() {
     return users
   }
 }
-
-// To quickly create an admin user, uncomment the next line
-// _createAdmin()
-// async function _createAdmin() {
-//     const user = {
-//         username: 'admin',
-//         password: 'admin',
-//         fullname: 'Mustafa Adminsky',
-//         imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-//         score: 10000,
-//     }
-
-//     const newUser = await storageService.post('user', userCred)
-//     console.log('newUser: ', newUser)
-// }
-
-// const users = [
-// 	{
-// 		_id: 'u101',
-// 		fullname: 'User 1',
-// 		imgUrl: '/img/img1.jpg',
-// 		username: 'user1',
-// 		password: 'secret',
-// 		reviews: [
-// 			{
-// 				id: 'madeId',
-// 				txt: 'Quiet guest...',
-// 				rate: 4,
-// 				by: {
-// 					_id: 'u102',
-// 					fullname: 'user2',
-// 					imgUrl: '/img/img2.jpg',
-// 				},
-// 			},
-// 		],
-// 	},
-// 	{
-// 		_id: 'u102',
-// 		fullname: 'User 2',
-// 		imgUrl: '/img/img2.jpg',
-// 		username: 'user2',
-// 		password: 'secret',
-// 	},
-// ]

@@ -96,15 +96,13 @@ export function AppHeader({ scrollContainerRef }) {
           <div className="app-header-main-nav-content">
             {/* main-nav - left section */}
             <div className="app-header-left-section">
-              <NavLink to="/" className="logo" onClick={() => {
-                setTimeout(() => dispatch(setHomePageNotScrolled()), 50)
-              }}>
+              <NavLink to="/" className="logo" onClick={() => dispatch(setHomePageNotScrolled())}>
                 <FaAirbnb className="logo-icon" />
                 <span>flexbnb</span>
               </NavLink>
             </div>
             {/* main - nav - mid section */}
-            <div
+            {/* <div
               className={`app-header-mid-section ${
                 shouldCollapse ? 'scrolled' : 'expanded'
               }`}
@@ -125,7 +123,7 @@ export function AppHeader({ scrollContainerRef }) {
                   <SearchBar shouldCollapse={shouldCollapse} />
                 </div>
               )}
-            </div>
+            </div> */}
             {/* main - nav - right section */}
 
             <div className="app-header-right-section">
@@ -163,6 +161,29 @@ export function AppHeader({ scrollContainerRef }) {
               <UserMenu />
             </div>
           </div>
+          <div
+            className={`app-header-mid-section ${
+              shouldCollapse ? 'scrolled' : 'expanded'
+            }`}
+          >
+            {isHosting ? (
+              <nav className="hosting-header-nav">
+                <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
+                  Create a new listing
+                </NavLink>
+                <NavLink to="/hosting/reservations/">Reservations</NavLink>
+              </nav>
+            ) : (
+              <div
+                className={`searchbar-wrapper ${
+                  shouldCollapse ? 'scrolled' : 'expanded'
+                }`}
+              >
+                <SearchBar shouldCollapse={shouldCollapse} />
+              </div>
+            )}
+          </div>
+
         </nav>
       )}
       <div className={`app-header-bottom-row ${!isHomePageScrolled ? 'expanded' : ''}`}>

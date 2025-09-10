@@ -5,7 +5,7 @@
   height: $search-bar-height;
   justify-self: center;
   position: relative;
-  top: 1rem;
+  top00: 1rem;
   display: flex;
   align-items: center;
   border-radius: $search-bar-border-radius;
@@ -234,9 +234,11 @@
 
   &.scrolled {
     grid-row: 1 / 2;
-    position: absolute;
+    grid-column: 2; /* אמצע */
+    justify-self: center; 
+    //position: absolute;
     background-color: white;
-    top: 15px;
+    top: 1rem;
     max-width: 375px;
     min-width: 375px;
     height: $search-bar-height-scroll;

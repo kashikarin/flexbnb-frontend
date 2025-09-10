@@ -1,7 +1,7 @@
 .app-header {
   display: grid;
   grid-template-columns: 5rem 1fr 5rem;
-  grid-template-rows: auto;
+  grid-template-rows: auto auto;
   transition: grid-template-rows 0.3s ease;
   position: sticky;
   top: 0;
@@ -11,6 +11,7 @@
   width: 100%;
   height: auto;
   min-height: 65px;
+  max-height: 220px;;
   overflow: visible;
   background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
   transition: all 0.3s ease, grid-template-rows;
@@ -29,6 +30,7 @@
   }
 
   & > .app-header-main-nav {
+    grid-row: 1;
     grid-column: 1 / -1; // spans full width of the main layout
     display: grid;
     grid-template-columns: 5rem 1fr 5rem;
@@ -45,9 +47,10 @@
     }
 
     & > .app-header-main-nav-content {
+      grid-row: 1;
       grid-column: 2;
       display: flex;
-      margin-block-start: 0.5rem;
+      margin-block-start: 1.5rem;
       align-items: start;
       justify-content: space-between;
       width: 100%;
@@ -59,6 +62,14 @@
       .app-header-right-section {
         display: flex;
         align-items: center;
+        border: 1px solid blue;
+      }
+      .app-header-left-section {
+        grid-column: 1; 
+      }
+
+      .app-header-right-section {
+        grid-column: 3;
       }
       .app-header-left-section {
         .logo {
@@ -85,14 +96,101 @@
           }
         }
       }
-      .app-header-mid-section {
-        align-self: flex-start;
+      // .app-header-mid-section {
+      //   grid-row: 2;
+      //   //align-self: flex-start;
+      //   display: flex;
+      //   justify-content: center;
+      //   align-items: center;
+      //   flex: 1 1 auto;
+      //   min-width: 0;
+      //   position: relative;
+      //   border:5px solid red;
+      //   // padding-block: 1rem;
+
+      //   .hosting-header-nav {
+      //     display: flex;
+      //     align-items: center;
+      //     justify-content: center;
+      //     flex-wrap: nowrap;
+      //     gap: 8px;
+      //     width: 100%;
+      //     flex: 1 1 auto;
+      //     min-width: 0;
+      //     position: relative;
+      //     & > a {
+      //       padding: 12px;
+      //       border-radius: 12px;
+      //       line-height: 1.125rem;
+      //       font-size: 14px;
+      //       color: $secondary-font-gray;
+      //       outline: none;
+      //       width: auto;
+      //       position: relative;
+      //       text-decoration: none;
+      //       white-space: nowrap;
+      //       transition: color;
+      //       font-weight: 500;
+
+      //       &::after {
+      //         content: '';
+      //         position: absolute;
+      //         bottom: -1px;
+      //         left: 5%;
+      //         height: 3px;
+      //         width: 90%;
+      //         transform: scaleX(0);
+      //         transform-origin: right;
+      //         background-color: $primary-font-black;
+      //         transition: transform 0.3s ease;
+      //       }
+      //       &:hover {
+      //         color: $primary-font-black;
+      //       }
+      //       &.active::after {
+      //         transform: scaleX(1);
+      //       }
+
+      //       &:nth-child(1).active::after {
+      //         transform-origin: right;
+      //       }
+
+      //       &:nth-child(2).active::after {
+      //         transform-origin: left;
+      //       }
+
+      //       &.active {
+      //         color: $primary-font-black;
+      //       }
+      //     }
+      //   }
+
+      //   .searchbar-wrapper {
+      //     width: 100%;
+      //     max-width: 850px;
+      //     //margin: 0 auto;
+      //     // position: relative;
+      //     // margin-top: -2.5rem;
+      //     transition: all 0.3s ease;
+
+      //     &.expanded {
+      //       margin-top: 2rem;
+      //     }
+      //   }
+      // }
+    }
+
+    .app-header-mid-section {
+        grid-row: 2;
+        //align-self: flex-start;
+        grid-column: 2;
         display: flex;
         justify-content: center;
         align-items: center;
         flex: 1 1 auto;
         min-width: 0;
         position: relative;
+        border:1px solid red;
         // padding-block: 1rem;
 
         .hosting-header-nav {
@@ -154,18 +252,24 @@
 
         .searchbar-wrapper {
           width: 100%;
-          // max-width: 600px;
-          margin: 0 auto;
+          border:1px solid yellow;
+          max-width: 850px;
+          //margin: 0 auto;
           // position: relative;
-          // margin-top: -2.5rem;
+          margin-top00: -0.5rem;
           transition: all 0.3s ease;
 
           &.expanded {
-            margin-top: 2rem;
+           // margin-top00: 0.1rem;
           }
         }
+
+        &.scrolled {
+          grid-row: 1; 
+          grid-column: 2; 
+           transition: all 0.3s ease;
+        }
       }
-    }
   }
   .app-header-right-section {
     display: flex;
@@ -231,8 +335,9 @@
     transition: max-height 0.3s ease, opacity 0.3s ease;
 
     &.expanded {
-      max-height: 200px; 
+      max-height: 200px;
       opacity: 1;
+      z-index: 0;
     }
 
     & > .app-header-labels-slider-wrapper {

@@ -6,6 +6,8 @@ import { addHome } from "../../store/actions/home.actions"
 
 export function HomeEditFooter(){
     const [isLoading, setIsLoading] = useState(false)
+    const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+    console.log("🚀 ~ potentialHome:", potentialHome)
     const {currentStep, currentSubStep, currentSubStepStatus } = useSelector(state => state.homeEditModule.potentialHome.editProgress)
     const {gTotalSteps, gSubStepsPerStep} = potentialHomeService
     // const {isStepCompleted} = useSelector(state => state.homeEditModule.isStepCompleted)
@@ -36,7 +38,7 @@ export function HomeEditFooter(){
 
        try {
             if (isLastStep) {
-                await addHome()
+                await addHome(potentialHome)
             } else {
                 setNextSubStep()
             }

@@ -61,7 +61,8 @@
     color: rgb(34, 34, 34);
     cursor: pointer;
     box-sizing: border-box;
-    transition: padding 0.3s ease, background-color 0.2s ease;
+    background-color: transparent;
+    z-index: 1;
 
     &:not(:first-of-type)::before {
       content: '';
@@ -88,10 +89,40 @@
       opacity: 0;
     }
 
-    &:hover {
-      background-color: $gray5;
-    }
 }
+
+  .inner-section:not(.active):hover {
+    background-color: $gray5;
+  }
+
+  /* מעלימים מפריד משמאל של האקטיב */
+  .inner-section.active::before {
+    opacity: 0;
+  }
+
+  .inner-section.active + .inner-section::before {
+    opacity: 0 !important;
+  }
+
+  .inner-section.active + .dates-dropdown-wrapper + .inner-section::before {
+    opacity: 0;
+  }
+
+   
+
+  .active-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;  
+    width: 0;   
+    background-color: white;
+    border-radius: $search-bar-border-radius;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 0;
+  }
+
 
   .sTitle {
     display: block;
@@ -204,14 +235,15 @@
   &.scrolled {
     grid-row: 1 / 2;
     position: absolute;
-
+    background-color: white;
     top: 15px;
     max-width: 375px;
-    min-width: 342px;
+    min-width: 375px;
     height: $search-bar-height-scroll;
     border-radius: $search-bar-border-radius-scroll;
     margin: 0;
     transition: all 0.3s ease;
+    
 
     > div {
       display: grid;
@@ -232,7 +264,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 0 1rem;
+      padding: 0 ;
       height: 100%;
       border-radius: $search-bar-border-radius-scroll;
       box-sizing: border-box;
@@ -255,6 +287,12 @@
 
 
     }
+
+      .active-indicator {
+        display: none;
+        
+      }
+
 
     .sTitle {
       font-size: 14px;
@@ -297,7 +335,23 @@
       .search-txt{ display: none;}
 
       &:hover{ background:$primary-pink;}
+
     }
+
+    .inner-section.capacity {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start; 
+      padding-left: 1.5rem; 
+    }
+
+    .inner-section.capacity .sTitle,
+    .inner-section.capacity .placeholder-content {
+      width: auto;
+      text-align: left;
+    }
+
   }
 }
 
@@ -317,19 +371,9 @@
 
 .search-bar-container.has-active {
   background-color: $gray5;
-  .inner-section {
-    &:hover {
-      background-color: $gray6;
-    }
 
-    &.active {
-      background-color: white;
-      border: 1px solid #ececec;
-
-      &::after {
-        background-color: transparent;
-      }
-    }
+  .inner-section:not(.active):hover {
+    background-color: $gray6;
   }
 }
 

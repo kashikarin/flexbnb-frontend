@@ -66,8 +66,6 @@ export const amenityIcons = {
   'Security cameras': 'MdSecurity',
 }
 
-export const getAmenityIcon = (amenity) => amenityIcons[amenity] || 'MdHome'
-
 export const homeService = {
   gAmenities,
   query,
@@ -81,7 +79,8 @@ export const homeService = {
   addHomeMsg,
   getRandomHomeId,
   getCountry,
-  getAmenityIcon,
+  getAmenityIcon
+
 }
 
 window.cs = homeService
@@ -486,6 +485,10 @@ const gLocs = [
 const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
 
 if (VITE_LOCAL === 'true') _createHomes()
+
+function getAmenityIcon(amenity) {
+  return amenityIcons[amenity] || 'MdHome' 
+} 
 
 async function query(filterBy = getDefaultFilter()) {
   console.log('[HOME SERVICE] LOCAL query called')

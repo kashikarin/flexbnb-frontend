@@ -191,6 +191,8 @@
     }
     .user-info {
       display: flex;
+      position: relative;      
+
       gap: 10px;
       & > a {
         // align-self: center;

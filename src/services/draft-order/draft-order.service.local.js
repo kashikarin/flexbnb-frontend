@@ -1,14 +1,6 @@
 import { storageService } from '../async-storage.service'
 import { homeService } from '../home'
 import { userService } from '../user'
-import {
-  getRandomIntInclusive,
-  makeId,
-  randomFutureTime,
-  randomPastTime,
-  utilService,
-} from '../util.service'
-// const STORAGE_KEY = 'draft-order'
 
 export const draftOrderService = {
   // query,
@@ -78,6 +70,8 @@ async function getDraftOrder(homeId, userId, filterBy) {
     fullname: home.host.fullname,
     imgUrl: home.host.imageUrl,
   }
+  console.log('🚀 ~ host:', host)
+
   const serviceFeeRate = 0.14
 
   // console.log("🚀 ~ checkIn:", checkIn)

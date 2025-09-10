@@ -2,6 +2,7 @@
   width: 100%;
   display: block;
   position: relative;
+  
 }
 .reservation-section {
   grid-column: 3 / 4;
@@ -15,44 +16,57 @@
     width: clamp(240px, 22vw, 350px);
     min-width: 240px;
     border-radius: 0.75rem;
-    border: 1px solid $primary-hover-gray;
+    border: 0px solid $primary-hover-gray;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0;
     padding: 1.5rem;
     margin-inline-start: 2rem;
     z-index: 4;
+    color: $clr7;
+    line-height: 1.25rem;
+    overflow-x: hidden;
+
 
     .reservation-details {
       display: grid;
       grid-auto-flow: row;
+      width: 100%;
 
       .reservation-header {
         display: flex;
         justify-content: space-between;
         margin-block-end: 1.5rem;
-        line-height: 1.25rem;
+        
         align-items: end;
         .reservation-header-price-container {
           span:nth-child(1) {
             font-size: 1.375rem;
             font-weight: 700;
-            color: $clr7;
           }
           span:nth-child(2) {
             font-size: 1.2rem;
-            color: $clr7;
           }
         }
       }
       .reservation-selection {
         border: 1px solid gray;
         border-radius: 0.5rem;
-        margin-bottom: 15px;
+        margin-bottom: 16px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
         width: 100%;
         cursor: pointer;
-
+        * {
+        min-width: 0;
+        }
+        input {
+          max-width: 100%;
+          min-width: 0;
+          outline: none;
+          border: none;
+          background: transparent;
+          font: inherit;
+        }
         .reservation-selection-date-checkin {
           position: relative;
           padding: 26px 12px 10px;
@@ -72,7 +86,6 @@
             font-size: 0.625rem;
           }
           div:nth-child(2) {
-            color: $clr7;
           }
         }
         .reservation-selection-date-checkout {
@@ -93,7 +106,6 @@
             font-size: 0.625rem;
           }
           div:nth-child(2) {
-            color: $clr7;
           }
         }
       }
@@ -117,12 +129,10 @@
           gap: 2px;
           div:nth-child(1) {
             font-size: 0.625rem;
-            color: $clr7;
             margin-bottom: 2px;
             position: static;
           }
           div:nth-child(2) {
-            color: $clr7;
             line-height: 1.2;
             font-size: 1rem;
           }

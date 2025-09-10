@@ -14,6 +14,7 @@ export const userService = {
 }
 
 function getUsers() {
+  return httpService.get(`users`)
   return httpService.get(`user`)
 }
 
@@ -23,10 +24,12 @@ async function getById(userId) {
 }
 
 function remove(userId) {
+  return httpService.delete(`users/${userId}`)
   return httpService.delete(`user/${userId}`)
 }
 
 async function update({ _id, score }) {
+  const user = await httpService.put(`users/${_id}`, { _id, score })
   const user = await httpService.put(`user/${_id}`, { _id, score })
 
   // When admin updates other user's details, do not update loggedinUser

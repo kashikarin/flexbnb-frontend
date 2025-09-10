@@ -1,7 +1,7 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-export function DatesDropdown({ dropdownRef, checkIn, checkOut,onSetDates, isOpen }) {
+export function DatesDropdown({ isOpen, checkIn, checkOut, onSetDates }) {
   
   function handleSelect(dates) {
     const [start, end] = dates
@@ -10,7 +10,7 @@ export function DatesDropdown({ dropdownRef, checkIn, checkOut,onSetDates, isOpe
   }
 
   return (
-    <section ref={dropdownRef}>
+    <section>
       {isOpen && (
       <div className="dates-dropdown-panel">
         <DatePicker

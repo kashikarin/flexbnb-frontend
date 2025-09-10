@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { setNextSubStep, setPreviousSubStep } from "../../store/actions/home-edit.actions"
 import { potentialHomeService } from '../../services/potential-home/potential-home.service.local'
+import { addHome } from "../../store/actions/home.actions"
 
 export function HomeEditFooter(){
     const [isLoading, setIsLoading] = useState(false)
@@ -13,6 +14,9 @@ export function HomeEditFooter(){
         map[step] = Array.from({length: gSubStepsPerStep[step-1]}, (_, i) => i + 1)
         return map
     }, {})
+    const isLastStep =
+        currentStep === gTotalSteps &&
+        currentSubStep === gSubStepsPerStep[gTotalSteps - 1]
     
     function getProgress(stepNumber, currentStepNumber, currentSubStepNumber, subStepsMap) {
         if (stepNumber < currentStepNumber) {
@@ -25,18 +29,35 @@ export function HomeEditFooter(){
         return (currentSubStepNumber / totalSubsteps) * 100
     }
 
-    function onNextClick() {
+    async function onNextClick() {
        setIsLoading(true)
-       setTimeout(() => {
-            setNextSubStep()
-            setIsLoading(false)
-        }, 1000)
-    }
+       const MIN_DELAY = 800
+       const start = Date.now()
 
+       try {
+            if (isLastStep) {
+                await addHome()
+            } else {
+                setNextSubStep()
+            }
+        } catch (err) {
+            console.error("Failed to save home", err)
+        } finally {
+            const elapsed = Date.now() - start
+            const remaining = MIN_DELAY - elapsed
+            if (remaining > 0) {
+                setTimeout(() => setIsLoading(false), remaining)
+            } else {
+                setIsLoading(false)
+            }
+        }
+    }
+    
     function onBackClick(){
         setPreviousSubStep()
     }
    
+    
     return(
         <footer className="home-edit-footer">
             <div className="home-edit-footer-loader-container">

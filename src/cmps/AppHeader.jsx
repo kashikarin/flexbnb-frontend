@@ -9,7 +9,7 @@ import { SET_LOGGEDINUSER } from '../store/reducers/user.reducer'
 import { initUsers } from '../store/actions/user.actions'
 import { HeaderHomeDetails } from './HeaderHomeDetails'
 import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
-import { addPotentialHome, loadPotentialHome } from '../store/actions/home-edit.actions'
+import { setPotentialHome } from '../store/actions/home-edit.actions'
 import { setHomePageNotScrolled, setHomePageScrolled } from '../store/actions/scroll.actions'
 import { UserMenu } from './UserMenu'
 
@@ -64,13 +64,8 @@ export function AppHeader({scrollContainerRef}) {
     if (!isHomeIndex || isSmallScreen) setHomePageScrolled()
   }, [isSmallScreen, isHomeIndex])
   
-  async function onCreateNewListing(){
-    try {
-      const newPotentialHome = await addPotentialHome()
-      await loadPotentialHome(newPotentialHome._id)
-    } catch(err){
-      console.error('Cannot load a new listing', err)
-    }
+  function onCreateNewListing(){
+      setPotentialHome(loggedInUser._id)
   }
 
 const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen;

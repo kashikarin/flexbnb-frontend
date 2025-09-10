@@ -1,9 +1,8 @@
 import { 
          SET_COMPLETED, 
-         ADD_POTENTIAL_HOME, 
-         SET_POTENTIAL_HOMES, 
          SET_NOT_COMPLETED, 
          UPDATE_POTENTIAL_HOME, 
+         CLEAR_POTENTIAL_HOME,
          SET_POTENTIAL_HOME,
          SET_NEXT_SUBSTEP,
          SET_PREVIOUS_SUBSTEP
@@ -11,48 +10,38 @@ import {
 import { store } from "../store"
 import { potentialHomeService } from "../../services/potential-home/potential-home.service.local"
 
-export async function loadPotentialHome(potentialHomeId) {
-  try {
-    const potentialHome = await potentialHomeService.getById(potentialHomeId)
+// export async function loadPotentialHome(potentialHomeId) {
+//   try {
+//     const potentialHome = await potentialHomeService.getById(potentialHomeId)
+//     store.dispatch(getCmdSetPotentialHome(potentialHome))
+//   } catch (err) {
+//     console.error('Cannot load potential home', err)
+//     throw err
+//   }
+// }
+
+// export async function loadPotentialHomes() {
+//   try {
+//     const potentialHomes = await potentialHomeService.query()
+//     store.dispatch(getCmdSetPotentialHomes(potentialHomes))
+//   } catch (err) {
+//     console.error('Cannot load potential homes', err)
+//     throw err
+//   }
+// }
+export async function setPotentialHome(userId) {
+    const potentialHome = potentialHomeService.getEmptyPotentialHome(userId)
     store.dispatch(getCmdSetPotentialHome(potentialHome))
-  } catch (err) {
-    console.error('Cannot load potential home', err)
-    throw err
-  }
+    return potentialHome
 }
 
-export async function loadPotentialHomes() {
-  try {
-    const potentialHomes = await potentialHomeService.query()
-    store.dispatch(getCmdSetPotentialHomes(potentialHomes))
-  } catch (err) {
-    console.error('Cannot load potential homes', err)
-    throw err
-  }
+export function updatePotentialHome(potentialHome) {
+    store.dispatch(getCmdUpdatePotentialHome(potentialHome))
+    return potentialHome
 }
 
-export async function updatePotentialHome(potentialHome) {
-  try {
-    const savedPotentialHome = await potentialHomeService.save(potentialHome)
-    store.dispatch(getCmdUpdatePotentialHome(savedPotentialHome))
-    store.dispatch(getCmdSetPotentialHome(savedPotentialHome))
-    return savedPotentialHome
-  } catch (err) {
-    console.error('Cannot update potential home', err)
-    throw err
-  }
-}
-export async function addPotentialHome() {
-    try {
-        const savedPotentialHome = await potentialHomeService.save(potentialHomeService.getEmptyPotentialHome())
-        console.log("🚀 ~ savedPotentialHome:", savedPotentialHome)
-        
-        store.dispatch(getCmdAddPotentialHome(savedPotentialHome))
-        return savedPotentialHome
-    } catch(err){
-        console.error('Cannot add potential home', err)
-        throw err
-    }
+export function clearPotentialHome() {
+    store.dispatch(getCmdClearPotentialHome())
 }
 
 export function setStepCompleted() {
@@ -80,24 +69,16 @@ function getCmdSetPotentialHome(potentialHome) {
     }
 }
 
-function getCmdSetPotentialHomes(potentialHomes) {
-    return {
-        type: SET_POTENTIAL_HOMES,
-        potentialHomes
-    }
-}
-
-function getCmdAddPotentialHome(potentialHome) {
-  return {
-    type: ADD_POTENTIAL_HOME,
-    potentialHome,
-  }
-}
-
 function getCmdUpdatePotentialHome(potentialHome) {
   return {
     type: UPDATE_POTENTIAL_HOME,
     potentialHome,
+  }
+}
+
+function getCmdClearPotentialHome() {
+  return {
+    type: CLEAR_POTENTIAL_HOME
   }
 }
 

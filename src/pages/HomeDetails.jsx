@@ -55,7 +55,7 @@ import { ReservationModal } from '../cmps/ReservationModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
 import { GuestFav } from '../cmps/GuestFav'
 import { ReviewCard } from '../cmps/ReviewCard'
-import { getAmenityIcon } from '../services/home/home.service.local'
+import { homeService } from '../services/home'
 import {
   setHomeDetailsImgNotScrolled,
   setHomeDetailsImgScrolled,
@@ -294,7 +294,7 @@ export function HomeDetails() {
                 <h3>What this place offers</h3>
                 <ul className="amenities-list">
                   {home.amenities.map((amenity, idx) => {
-                    const iconName = getAmenityIcon(amenity)
+                    const iconName = homeService.getAmenityIcon(amenity)
                     const IconComponent = iconComponents[iconName]
                     return (
                       <li key={idx} className="amenity-item">

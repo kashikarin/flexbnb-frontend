@@ -8,7 +8,7 @@ export function HeaderHomeEdit(){
             <NavLink to='hosting' className='logo-black'>
                 <FaAirbnb />
             </NavLink>
-            <NavLink to='hosting'>Save & exit</NavLink>
+            <NavLink to='hosting'>Exit without saving</NavLink>
         </header>
         
     )

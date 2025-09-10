@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import {
   addUserLike,
@@ -15,12 +16,24 @@ export function HomeIndex() {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const setExistSearchParams = useFilterSearchParams()
 
+  const [showLoader, setShowLoader] = useState(true)
+  const loadStartRef = useRef(Date.now())
+
   console.log(homes)
 
   useEffectUpdate(() => {
     loadHomes(filterBy)
     setExistSearchParams(filterBy)
   }, [filterBy])
+
+  useEffect(() => {
+    if (!Array.isArray(homes)) return
+    const MIN_LOADER_MS = 3000
+    const elapsed = Date.now() - loadStartRef.current
+    const wait = Math.max(0, MIN_LOADER_MS - elapsed)
+    const t = setTimeout(() => setShowLoader(false), wait)
+    return () => clearTimeout(t)
+  }, [homes])
 
   async function onAddLike(homeId) {
     try {
@@ -51,8 +64,11 @@ export function HomeIndex() {
   )
   return (
     <section className="home-index-container">
-      {!Array.isArray(homes) || !loggedInUser ? (
-        <h1>Loading...</h1>
+      {!Array.isArray(homes) || showLoader ? (
+        // <h1>Loading...</h1>
+        <div className="loader-container">
+          <span className="loading"></span>
+        </div>
       ) : (
         <HomeList
           homes={homes}

@@ -135,22 +135,22 @@ export function SearchBar({ shouldCollapse }) {
     if (shouldCollapse && !isMobile) setForceExpand(true)
 
     if (btName === 'checkIn' || btName === 'checkOut') {
-    setOpenedDropdown('dates')
+      setOpenedDropdown('dates')
 
-    // מעבר טבעי → עם נסיעה
-    if (activeButton === 'where' && btName === 'checkIn') {
-      setActiveButton('checkIn')
-    } else if (activeButton === 'checkIn' && btName === 'checkOut') {
-      setActiveButton('checkOut')
+      // מעבר טבעי → עם נסיעה
+      if (activeButton === 'where' && btName === 'checkIn') {
+        setActiveButton('checkIn')
+      } else if (activeButton === 'checkIn' && btName === 'checkOut') {
+        setActiveButton('checkOut')
+      } else {
+        // לחיצה ישירה → פשוט נסמן כאקטיב, בלי אנימציית מעבר
+        setActiveButton(btName)
+        setIndicatorStyle((prev) => ({ ...prev })) // לא משנה מיקום → נשאר יציב
+      }
     } else {
-      // לחיצה ישירה → פשוט נסמן כאקטיב, בלי אנימציית מעבר
+      setOpenedDropdown(btName)
       setActiveButton(btName)
-      setIndicatorStyle((prev) => ({ ...prev })) // לא משנה מיקום → נשאר יציב
     }
-  } else {
-    setOpenedDropdown(btName)
-    setActiveButton(btName)
-  }
   }
 
   // function onInputChange(ev) {
@@ -188,7 +188,7 @@ export function SearchBar({ shouldCollapse }) {
     // console.log(filterByToEdit.city);
 
     if (scrolled) {
-      txt = filterByToEdit.city ? `${filterByToEdit.city}` : 'Anywhere'
+      txt = filterByToEdit.city ? `${filterByToEdit.city}` : `Anywhere`
     } else {
       txt = 'Where'
       // filterByToEdit.city ? `${filterByToEdit.city}, ${homeService.getCountry(filterByToEdit.city)}` : 'Where'
@@ -256,8 +256,8 @@ export function SearchBar({ shouldCollapse }) {
 
   function handleSelectCity(city) {
     onUpdateFilterBy({ city })
-    setOpenedDropdown("dates")
-    setActiveButton("checkIn") 
+    setOpenedDropdown('dates')
+    setActiveButton('checkIn')
   }
 
   function formatDate(date) {
@@ -367,7 +367,7 @@ export function SearchBar({ shouldCollapse }) {
                 setCheckOut(checkOut)
 
                 if (checkIn && !checkOut) {
-                  setActiveButton("checkOut")
+                  setActiveButton('checkOut')
                 }
                 // Close dropdown after selecting both dates
                 // if (checkIn && checkOut) {

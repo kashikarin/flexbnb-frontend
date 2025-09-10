@@ -49,9 +49,12 @@ async function save(pHomeToSave) {
   }
 }
 
-function getEmptyPotentialHome(name = '', summary = '', price = '', labels = [], amenities = [], capacity = 1, bathCount
+ function getEmptyPotentialHome(userId, type = '', name = '', summary = '', price = '', labels = [], amenities = [], capacity = 1, bathCount
  = 1, bedroomsCount = 1, bedsCount = 1, loc) {
-  return { name, 
+  return { 
+           userId,
+           type,
+           name, 
            summary,
            imageUrls: [],
            price,
@@ -62,11 +65,11 @@ function getEmptyPotentialHome(name = '', summary = '', price = '', labels = [],
            bedsCount, 
            bathCount, 
            loc,
-            editProgress: {
-              currentStep: 1,
-              currentStepStatus: false,
-              currentSubStep: 1,
-              currentSubStepStatus: false
-            } 
+          editProgress: {
+            currentStep: 1,
+            currentStepStatus: false,
+            currentSubStep: 1,
+            currentSubStepStatus: false
+          } 
         }
 }

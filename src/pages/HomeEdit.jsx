@@ -13,7 +13,7 @@ import { HomeEditStepThreeTitle } from '../cmps/home-edit/HomeEditStepThreeTitle
 import { HomeEditStepThreeA } from '../cmps/home-edit/HomeEditStepThreeA'
 
 export function HomeEdit(){
-    const {currentSubStep, currentStep} = useSelector(state => state.homeEditModule.potentialHome.editProgress)
+    const {currentSubStep, currentStep} = useSelector(state => state.homeEditModule.potentialHome?.editProgress)
     console.log("🚀 ~ currentSubStep:", currentSubStep)
     const [displayedStep, setDisplayedStep] = useState(currentStep)
     const [displayedSubStep, setDisplayedSubStep] = useState(currentSubStep)

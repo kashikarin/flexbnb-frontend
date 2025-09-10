@@ -115,18 +115,18 @@ async function getRandomUserId() {
   }
 }
 
-async function _createDemoUser() {
-  const demoUser = {
-    _id: 'u101',
-    fullname: 'Justin Time',
-    imgUrl: '/img/user/justin-img.jpg',
-    username: 'just_in_time',
-    password: 'bieber123',
-    likedHomes: [],
-  }
-  demoUser.reviews = await getUserReviews(demoUser._id)
-  return _saveLocalUser(demoUser)
-}
+// async function _createDemoUser() {
+//   const demoUser = {
+//     _id: 'u101',
+//     fullname: 'Justin Time',
+//     imgUrl: '/img/user/justin-img.jpg',
+//     username: 'just_in_time',
+//     password: 'bieber123',
+//     likedHomes: [],
+//   }
+//   demoUser.reviews = await getUserReviews(demoUser._id)
+//   return _saveLocalUser(demoUser)
+// }
 
 async function createUsers() {
   let users = utilService.loadFromStorage('user')

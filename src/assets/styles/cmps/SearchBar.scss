@@ -238,7 +238,7 @@
 
     top: 15px;
     max-width: 375px;
-    min-width: 342px;
+    min-width: 375px;
     height: $search-bar-height-scroll;
     border-radius: $search-bar-border-radius-scroll;
     margin: 0;
@@ -287,6 +287,7 @@
 
     }
 
+
     .sTitle {
       font-size: 14px;
       transition: font-size 0.3s ease;
@@ -328,7 +329,16 @@
       .search-txt{ display: none;}
 
       &:hover{ background:$primary-pink;}
+
     }
+
+    .inner-section.capacity .sTitle,
+    .inner-section.capacity .placeholder-content {
+      text-align: left;
+      width: 100%;
+      align-self: flex-start;
+    }
+
   }
 }
 

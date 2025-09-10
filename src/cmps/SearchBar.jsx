@@ -381,7 +381,7 @@ export function SearchBar({ shouldCollapse }) {
           <div
             ref={capacityRef}
             onClick={() => handleWhereClick('capacity')}
-            className={`inner-section ${
+            className={`inner-section capacity ${
               activeButton == 'capacity' ? 'active' : ''
             }`}
           >

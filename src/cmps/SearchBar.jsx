@@ -15,11 +15,15 @@ export function SearchBar({ shouldCollapse }) {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const dispatch = useDispatch()
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-  // console.log('🚀 ~ filterByToEdit:', filterByToEdit)
   const searchBarRef = useRef(null)
   const whereRef = useRef()
   const datesRef = useRef()
   const capacityRef = useRef()
+  //..for animation active btn
+  const checkInRef = useRef(null)
+  const checkOutRef = useRef(null)
+
+  const [indicatorStyle, setIndicatorStyle] = useState({})
 
   const [adultsNum, setAdultsNum] = useState(filterBy.adults ?? 0)
   const [childrenNum, setChildrenNum] = useState(filterBy.children ?? 0)
@@ -100,6 +104,22 @@ export function SearchBar({ shouldCollapse }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
 
+  useEffect(() => {
+    let ref
+    if (activeButton === 'where') ref = whereRef
+    if (activeButton === 'checkIn') ref = checkInRef
+    if (activeButton === 'checkOut') ref = checkOutRef
+    if (activeButton === 'capacity') ref = capacityRef
+
+    if (ref?.current) {
+      const { offsetLeft, offsetWidth } = ref.current
+      setIndicatorStyle({
+        left: offsetLeft,
+        width: offsetWidth,
+      })
+    }
+  }, [activeButton])
+
   function onUpdateFilterBy(filter) {
     setFilterByToEdit((prevFilterByToEdit) => ({
       ...prevFilterByToEdit,
@@ -114,8 +134,23 @@ export function SearchBar({ shouldCollapse }) {
     // if (scrolled && !isMobile) setScrolled(false)
     if (shouldCollapse && !isMobile) setForceExpand(true)
 
-    setOpenedDropdown((curr) => (curr === btName ? null : btName))
-    setActiveButton((curr) => (curr === btName ? null : btName))
+    if (btName === 'checkIn' || btName === 'checkOut') {
+    setOpenedDropdown('dates')
+
+    // מעבר טבעי → עם נסיעה
+    if (activeButton === 'where' && btName === 'checkIn') {
+      setActiveButton('checkIn')
+    } else if (activeButton === 'checkIn' && btName === 'checkOut') {
+      setActiveButton('checkOut')
+    } else {
+      // לחיצה ישירה → פשוט נסמן כאקטיב, בלי אנימציית מעבר
+      setActiveButton(btName)
+      setIndicatorStyle((prev) => ({ ...prev })) // לא משנה מיקום → נשאר יציב
+    }
+  } else {
+    setOpenedDropdown(btName)
+    setActiveButton(btName)
+  }
   }
 
   // function onInputChange(ev) {
@@ -219,6 +254,12 @@ export function SearchBar({ shouldCollapse }) {
     }
   }
 
+  function handleSelectCity(city) {
+    onUpdateFilterBy({ city })
+    setOpenedDropdown("dates")
+    setActiveButton("checkIn") 
+  }
+
   function formatDate(date) {
     return new Intl.DateTimeFormat('en-US', {
       month: 'short', // Jul, Aug...
@@ -237,6 +278,7 @@ export function SearchBar({ shouldCollapse }) {
       >
         <div>
           <div
+            ref={whereRef}
             onClick={() => handleWhereClick('where')}
             className={`inner-section ${
               activeButton == 'where' ? 'active' : ''
@@ -246,7 +288,6 @@ export function SearchBar({ shouldCollapse }) {
             {!scrolled && (
               <input
                 className={`placeholder-content ${scrolled ? 'scrolled' : ''}`}
-                // onChange={onInputChange}
                 type="search"
                 placeholder="Search destination"
                 value={filterByToEdit.city}
@@ -262,15 +303,16 @@ export function SearchBar({ shouldCollapse }) {
                 onClose={() => setOpenedDropdown(null)}
                 cityFilter={filterByToEdit.city || ''}
                 onUpdateFilterBy={onUpdateFilterBy}
+                onSelectCity={handleSelectCity}
               />
             </div>
           </div>
 
-          {/* <div className="sep"></div> */}
           <div
-            onClick={() => handleWhereClick('dates')}
+            ref={checkInRef}
+            onClick={() => handleWhereClick('checkIn')}
             className={`inner-section ${
-              activeButton == 'dates' ? 'active' : ''
+              activeButton == 'checkIn' ? 'active' : ''
             }`}
           >
             <div className="sTitle">{getCheckinTitleText()}</div>
@@ -289,12 +331,12 @@ export function SearchBar({ shouldCollapse }) {
             )}
           </div>
 
-          {/* <div className="sep"></div> */}
           {!scrolled && (
             <div
-              onClick={() => handleWhereClick('dates')}
+              ref={checkOutRef}
+              onClick={() => handleWhereClick('checkOut')}
               className={`inner-section ${
-                activeButton == 'Check out' ? 'active' : ''
+                activeButton == 'checkOut' ? 'active' : ''
               }`}
             >
               <div className="sTitle">Check out</div>
@@ -323,6 +365,10 @@ export function SearchBar({ shouldCollapse }) {
               onSetDates={({ checkIn, checkOut }) => {
                 setCheckIn(checkIn)
                 setCheckOut(checkOut)
+
+                if (checkIn && !checkOut) {
+                  setActiveButton("checkOut")
+                }
                 // Close dropdown after selecting both dates
                 // if (checkIn && checkOut) {
                 // setOpenedDropdown(null);
@@ -332,10 +378,10 @@ export function SearchBar({ shouldCollapse }) {
             />
           </div>
 
-          {/* {!scrolled && <div className="sep"></div>} */}
           <div
+            ref={capacityRef}
             onClick={() => handleWhereClick('capacity')}
-            className={`inner-section ${
+            className={`inner-section capacity ${
               activeButton == 'capacity' ? 'active' : ''
             }`}
           >
@@ -372,7 +418,6 @@ export function SearchBar({ shouldCollapse }) {
               />
             </div>
 
-            {/* <div className="search-btn-section"> */}
             <button
               className={`search-button ${
                 searchButtonWide ? 'search-button-wide' : ''
@@ -390,8 +435,9 @@ export function SearchBar({ shouldCollapse }) {
                 <div className="search-txt">Search</div>
               </div>
             </button>
-            {/* </div> */}
           </div>
+          {/* active btn effect */}
+          <div className="active-indicator" style={indicatorStyle}></div>
         </div>
       </div>
     </search>

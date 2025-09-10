@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 
-export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFilterBy, dropdownRef }){
+export function WhereDropdown({ 
+  isOpen, 
+  onClose, 
+  cityFilter, 
+  onUpdateFilterBy, 
+  dropdownRef, 
+  onSelectCity
+}) {
 
-    //const dropdownRef = useRef()
     const [cityFilterToEdit, setCityFilterToEdit] = useState({city: cityFilter || ''})
-   // const onSetFilterByDebounce = useRef(dispatch(debounce(setFilterBy({ ...filterBy, txt: searchTxt }), 400))).current
-
-    // useEffect(() => {
-    //     onSetFilterByDebounce(searchTxt)
-    // }, [searchTxt])
 
   useEffectUpdate(()=>{
     onUpdateFilterBy(cityFilterToEdit)
@@ -28,7 +29,11 @@ export function WhereDropdown({ isOpen, onOpen, onClose, cityFilter, onUpdateFil
       ev.preventDefault()
       ev.stopPropagation()
       setCityFilterToEdit(prev => ({...prev, city}))
-      onClose?.()
+      if (onSelectCity) {
+        onSelectCity(city) 
+      } else {
+        onClose?.()
+      }
     }
     
     return (

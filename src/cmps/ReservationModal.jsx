@@ -8,6 +8,7 @@ import {
   roundToDecimals,
   strDateToTimestamp,
 } from '../services/util.service'
+import { DatesDropdown } from './DatesDropdown'
 export function ReservationModal({ home, 
                                    draftOrder, 
                                    updateDraftOrder,
@@ -18,10 +19,11 @@ export function ReservationModal({ home,
                                   }) {
 
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  const [dropdownWidth, setDropdownWidth] = useState(0)
+  // const [dropdownWidth, setDropdownWidth] = useState(0)
 
-  const dropdownWrapperRef = useRef(null)
-  const selectionRef = useRef(null)
+  const rmSelectionRef = useRef(null)
+  const rmDatesRef = useRef()
+  const rmCapacityDropdownRef = useRef()
 
   const [adultsNum, setAdultsNum] = useState(draftOrder.guests.adults ?? 0)
   const [childrenNum, setChildrenNum] = useState(draftOrder.guests.children ?? 0)
@@ -44,16 +46,19 @@ export function ReservationModal({ home,
     })
   }, [adultsNum, childrenNum, infantsNum, petsNum])
 
-  
   useEffect(() => {
     // Close dropdown when clicking outside
     function handleClickOutside(event) {
-      if (
-        openedDropdown &&
-        dropdownWrapperRef.current &&
-        !dropdownWrapperRef.current.contains(event.target)
-      ) {
-        setOpenedDropdown(null)
+      if (openedDropdown === 'checkIn' || openedDropdown === 'checkOut') {
+        if (rmDatesRef.current && !rmDatesRef.current.contains(event.target)) {
+          onCloseDropdown()
+        }
+      }
+
+      if (openedDropdown === 'capacity') {
+        if (rmCapacityDropdownRef.current && !rmCapacityDropdownRef.current.contains(event.target)) {
+          onCloseDropdown()
+        }
       }
     }
 
@@ -61,20 +66,24 @@ export function ReservationModal({ home,
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
 
-  useEffect(() => {
-    if (selectionRef.current) {
-      setDropdownWidth(selectionRef.current.offsetWidth)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (rmSelectionRef.current) {
+  //     setDropdownWidth(rmSelectionRef.current.offsetWidth)
+  //   }
+  // }, [])
 
-  function handleCapacityClick(e) {
+  function handleWhereClick(e, btName) {
     e.stopPropagation()
-    setOpenedDropdown(openedDropdown === 'capacity' ? null : 'capacity')
+    setOpenedDropdown(curr => curr === btName ? null : btName)
+  }
+
+  function onCloseDropdown(){
+    setOpenedDropdown(null)
   }
 
   function handleChange(ev) {
     // let { name: field, value } = target
-    console.log(ev)
+    
   }
   function getGuestsNumStrToDisplay() {
     if (!adultsNum && !childrenNum) return 'Add guests'
@@ -101,17 +110,53 @@ export function ReservationModal({ home,
                 <span>night</span>
               </div>
             </div>
-            <div className='reservation-selection' ref={selectionRef}>
-              <div className='reservation-selection-date-checkin'>
-                <div>CHECK-IN</div>
-                <div>{draftOrder.checkOut}</div>{' '}
+            <div className='reservation-selection' ref={rmSelectionRef}>
+              <div 
+                className={`reservation-selection-date-checkin ${openedDropdown === 'checkIn'? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleWhereClick(e, 'checkIn')
+                }}
+              >
+                <div className="rmTitle">CHECK-IN</div>
+                  <input
+                    className='placeholder-content'
+                    type="search"
+                    placeholder="Add Dates"
+                    value={draftOrder.checkIn? draftOrder.checkIn.toLocaleDateString() : ''}
+                    readOnly
+                  />
               </div>
-              <div className='reservation-selection-date-checkout'>
-                <div>CHECK-OUT</div>
-                <div name='endDate' onChange={handleChange}>
-                  {draftOrder.checkOut}
-                </div>
+              <div 
+                className={`reservation-selection-date-checkout ${openedDropdown === 'checkOut'? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleWhereClick(e, 'checkOut')
+                }}
+              >
+                <div className="rmTitle">CHECK-OUT</div>
+                <input
+                    className='rm-placeholder-content'
+                    type="search"
+                    placeholder="Add Dates"
+                    value={draftOrder.checkOut? draftOrder.checkOut.toLocaleDateString() : ''}
+                    readOnly
+                />
               </div>
+              <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+                <DatesDropdown
+                  isOpen={openedDropdown === 'checkIn' || openedDropdown === 'checkOut'}
+                  // onClose={() => setOpenedDropdown(null)}
+                  // rmDatesRef={rmDatesRef}
+                  checkIn={draftOrder.checkIn}
+                  checkOut={draftOrder.checkOut}
+                  onSetDates={({ checkIn, checkOut }) => {
+                    updateDraftOrder({ ...draftOrder, checkIn, checkOut })
+                    if (checkIn && checkOut) onCloseDropdown()
+                  }}
+                />
+              </div>
+              
               <div
                 className='reservation-selection-guest-dropdown-wrapper'
                 style={{
@@ -121,8 +166,11 @@ export function ReservationModal({ home,
                 }}
               >
                 <div
-                  className='reservation-selection-guest-container'
-                  onClick={handleCapacityClick}
+                  className={`reservation-selection-guest-container ${openedDropdown === 'capacity'? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleWhereClick(e, 'capacity')
+                  }}
                 >
                   <div className='reservation-selection-guest-container-guests'>
                     <div>GUESTS</div>
@@ -141,12 +189,12 @@ export function ReservationModal({ home,
                   </div>
                 </div>
                 <div
-                  ref={dropdownWrapperRef}
+                  ref={rmCapacityDropdownRef}
                   className='reservation-modal-capacity-dropdown-wrapper'
                 >
                   <CapacityDropdown
                     isOpen={openedDropdown === 'capacity'}
-                    onClose={() => setOpenedDropdown(null)}
+                    onClose={onCloseDropdown}
                     father={'reservation-modal'}
                     adultsFilter={Number(adultsNum ?? 0)}
                     childrenFilter={Number(childrenNum ?? 0)}

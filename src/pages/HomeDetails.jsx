@@ -111,6 +111,7 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (!homeId || !loggedInUser) return
+
     initHomeAndDraftOrder()
   }, [homeId, loggedInUser])
 
@@ -121,7 +122,7 @@ export function HomeDetails() {
   async function initHomeAndDraftOrder() {
     try {
       await loadHome(homeId)
-      await addDraftOrder(homeId, loggedInUser._id, filterBy)
+      await addDraftOrder(homeId, '68c0615a899984d302f063f5', filterBy)
     } catch (err) {
       console.error('Cannot load home', err)
     }

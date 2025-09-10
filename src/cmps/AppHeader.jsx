@@ -74,6 +74,7 @@ export function AppHeader({ scrollContainerRef }) {
   }, [isSmallScreen, isHomeIndex])
 
   function onCreateNewListing() {
+    if (!loggedInUser) return console.warn("No logged in user yet!")
     setPotentialHome(loggedInUser._id)
   }
 

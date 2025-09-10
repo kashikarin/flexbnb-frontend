@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { setNextSubStep, setPreviousSubStep } from "../../store/actions/home-edit.actions"
+import { openHomeEditCompletionModal, setNextSubStep, setPreviousSubStep } from "../../store/actions/home-edit.actions"
 import { potentialHomeService } from '../../services/potential-home/potential-home.service.local'
 import { addHome } from "../../store/actions/home.actions"
 
@@ -8,7 +8,15 @@ export function HomeEditFooter(){
     const [isLoading, setIsLoading] = useState(false)
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
     console.log("🚀 ~ potentialHome:", potentialHome)
-    const {currentStep, currentSubStep, currentSubStepStatus } = useSelector(state => state.homeEditModule.potentialHome.editProgress)
+    const currentSubStepStatus = useSelector(
+        state => state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ?? false
+    )
+    const currentSubStep = useSelector(
+        state => state.homeEditModule.potentialHome?.editProgress?.currentSubStep ?? 1
+    )
+    const currentStep = useSelector(
+        state => state.homeEditModule.potentialHome?.editProgress?.currentStep ?? 1
+    )
     const {gTotalSteps, gSubStepsPerStep} = potentialHomeService
     // const {isStepCompleted} = useSelector(state => state.homeEditModule.isStepCompleted)
     const steps = Array.from({ length: gTotalSteps }, (_, i) => i + 1)
@@ -31,28 +39,14 @@ export function HomeEditFooter(){
         return (currentSubStepNumber / totalSubsteps) * 100
     }
 
-    async function onNextClick() {
+    function onNextClick() {
        setIsLoading(true)
-       const MIN_DELAY = 800
-       const start = Date.now()
-
-       try {
-            if (isLastStep) {
-                await addHome(potentialHome)
-            } else {
-                setNextSubStep()
-            }
-        } catch (err) {
-            console.error("Failed to save home", err)
-        } finally {
-            const elapsed = Date.now() - start
-            const remaining = MIN_DELAY - elapsed
-            if (remaining > 0) {
-                setTimeout(() => setIsLoading(false), remaining)
-            } else {
-                setIsLoading(false)
-            }
-        }
+       
+       setTimeout(()=>{
+            if (isLastStep) openHomeEditCompletionModal()
+            setNextSubStep()
+            setIsLoading(false)
+       }, 1000)
     }
     
     function onBackClick(){

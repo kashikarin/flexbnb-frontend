@@ -15,7 +15,7 @@ export function HomeEditStepTwoC(){
         if (!potentialHome) return
         const shouldBeCompleted = !!name && !potentialHome.editProgress.currentSubStepStatus
         if (shouldBeCompleted) setStepCompleted()
-        else setStepNotCompleted()
+        // else setStepNotCompleted()
     }, [name])
 
     useEffect(()=>{

@@ -5,7 +5,10 @@ import {
          CLEAR_POTENTIAL_HOME,
          SET_POTENTIAL_HOME,
          SET_NEXT_SUBSTEP,
-         SET_PREVIOUS_SUBSTEP
+         SET_PREVIOUS_SUBSTEP,
+         CLOSE_HOME_EDIT_COMLPETION_MODAL,
+         OPEN_HOME_EDIT_COMLPETION_MODAL,
+         GO_TO_HOME_EDIT_START
         } from "../reducers/home-edit.reducer"
 import { store } from "../store"
 import { potentialHomeService } from "../../services/potential-home/potential-home.service.local"
@@ -60,6 +63,18 @@ export function setPreviousSubStep(){
   store.dispatch(getCmdSetPreviousSubStep())
 }
 
+export function closeHomeEditCompletionModal(){
+    store.dispatch(getCmdCloseHomeEditCompletionModal())
+}
+
+export function openHomeEditCompletionModal(){
+    store.dispatch(getCmdOpenHomeEditCompletionModal())
+}
+
+export function goToHomeEditStart(){
+  store.dispatch(getCmdGoToHomeEditStart())
+}
+
 // Command Creators:
 
 function getCmdSetPotentialHome(potentialHome) {
@@ -104,4 +119,22 @@ function getCmdSetPreviousSubStep() {
     return {
        type: SET_PREVIOUS_SUBSTEP 
     }
+}
+
+function getCmdCloseHomeEditCompletionModal(){
+  return {
+    type: CLOSE_HOME_EDIT_COMLPETION_MODAL
+  }
+}
+
+function getCmdOpenHomeEditCompletionModal(){
+  return {
+    type: OPEN_HOME_EDIT_COMLPETION_MODAL
+  }
+}
+
+function getCmdGoToHomeEditStart(){
+  return {
+    type: GO_TO_HOME_EDIT_START
+  }
 }

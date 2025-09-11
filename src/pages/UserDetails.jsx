@@ -14,11 +14,15 @@ import BasicPie from '../cmps/BasicPie'
 import { BarChart } from '@mui/x-charts'
 import BasicBars from '../cmps/BasicBars'
 import BasicLineChart from '../cmps/BasicLineCharts'
+import { draftOrderService } from '../services/draft-order/draft-order.service.local'
 
 export function UserDetails() {
   const params = useParams()
+  const {getNumberOfNights} = draftOrderService
   // const user = useSelector((storeState) => storeState.userModule.watchedUser)
   const orders = useSelector((storeState) => storeState.orderModule.orders)
+  console.log("🚀 ~ orders:", orders)
+  
   useEffect(() => {
     loadUser(params.id)
     loadOrders({})
@@ -33,6 +37,11 @@ export function UserDetails() {
     }
   }
 
+  function getPricePerNight(totalPrice, nightsNum){
+    return Math.round(totalPrice / (nightsNum * (1 + 0.14)))    
+  }
+
+  
   return (
     <main className='user-details'>
       <section
@@ -73,21 +82,14 @@ export function UserDetails() {
         </thead>
         <tbody>
           {orders.map((order) => {
-            const stayNightsNum = Math.max(
-              1,
-              Math.floor((order.checkOut - order.checkIn) / 86400000)
-            )
+            const stayNightsNum = getNumberOfNights(order.checkIn, order.checkOut)
             const guestsNum =
-              (Number(order.guests.adults) || 0) +
-              (Number(order.guests.children) || 0) +
-              (Number(order.guests.infants) || 0) +
-              (Number(order.guests.pets) || 0)
-            const pricePerNight = stayNightsNum
-              ? Math.round(order.totalPrice / stayNightsNum)
-              : order.totalPrice
+              (Number(order.guests?.adults) ?? 0) +
+              (Number(order.guests?.children) ?? 0)
+              
             return (
               <tr key={order._id}>
-                <td>{order.guest.fullname}</td>
+                <td>{order.purchaser.fullname}</td>
                 <td>{order.home.name}</td>
                 <td>
                   {`${new Date(
@@ -98,7 +100,7 @@ export function UserDetails() {
                 </td>
                 <td className='center'>{stayNightsNum}</td>
                 <td className='center'>{guestsNum}</td>
-                <td className='center'>${pricePerNight}</td>
+                <td className='center'>${getPricePerNight(order.totalPrice, stayNightsNum)}</td>
                 <td className='center'> ${Math.round(order.totalPrice)}</td>
                 <td className={`${order.status} center`}>{order.status}</td>
                 <td className='center'>

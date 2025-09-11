@@ -73,18 +73,8 @@ export function HomeEditStepThreeA(){
                     closeHomeEditCompletionModal={closeHomeEditCompletionModal}
                     addHome={addHome}
                     clearPotentialHome={clearPotentialHome}
-                />
-                    // <
-                    //   draftOrder={draftOrder}
-                    //   homePrice={home.price}
-                    //   homeType={home.type}
-                    //   homeCity={home.loc.city}
-                    //   homeCountry={home.loc.country}
-                    //   homeSummary={home.summary}
-                    //   addOrder={addOrder}
-                    //   closeOrderConfirmationModal={closeOrderConfirmationModal}
-                    // />
-                  )}
+                />    
+            )}
         </>
         
     )

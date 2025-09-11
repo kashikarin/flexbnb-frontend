@@ -9,6 +9,7 @@ export const draftOrderService = {
   // remove,
   getDraftOrder,
   _findFirstAvailable,
+  getNumberOfNights
 }
 
 window.cs = draftOrderService
@@ -83,12 +84,11 @@ async function getDraftOrder(homeId, userId, filterBy) {
 
   const serviceFeeRate = 0.14
 
-
   return {
     host,
     purchaser,
     totalPrice:
-      home.price * _getNumberOfNights(checkIn, checkOut) * (1 + serviceFeeRate),
+      home.price * getNumberOfNights(checkIn, checkOut) * (1 + serviceFeeRate),
     checkIn,
     checkOut,
     guests,
@@ -96,7 +96,7 @@ async function getDraftOrder(homeId, userId, filterBy) {
   }
 }
 
-function _getNumberOfNights(checkIn, checkOut) {
+function getNumberOfNights(checkIn, checkOut) {
   const start = new Date(checkIn)
   const end = new Date(checkOut)
   const oneDay = 1000 * 60 * 60 * 24

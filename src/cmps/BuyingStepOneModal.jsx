@@ -5,6 +5,7 @@ import { roundToDecimals } from '../services/util.service'
 export function BuyingStepOneModal({
   draftOrder,
   homePrice,
+  nightsNum,
   homeType,
   homeCity,
   homeCountry,
@@ -15,11 +16,17 @@ export function BuyingStepOneModal({
   const [currentStep, setCurrentStep] = useState(1)
   const navigate = useNavigate()
 
-  async function handleConfirm() {
-    await addOrder(draftOrder)
-    setCurrentStep(2)
+  async function handleConfirm(e) {
+    e.preventDefault()
+    try {
+      const savedOrder = await addOrder(draftOrder)
+    } catch(err) {
+      console.error('Failed to add order', err)
+    } finally {
+      setCurrentStep(2)
+    } 
   }
-  const stayNightsNum = Math.floor((draftOrder.checkOut - draftOrder.checkIn) / 86400000)
+  
   const guestsNum =
     Number(draftOrder.guests.adults ?? 0) + Number(draftOrder.guests.children ?? 0)
   const serviceFeeRate = 0.14
@@ -65,23 +72,23 @@ export function BuyingStepOneModal({
               <h3>Price Details</h3>
               <div className='price-amount'>
                 <p>
-                  <span>{`${roundToDecimals(homePrice).toLocaleString()} x ${stayNightsNum} ${
-                    stayNightsNum > 1 ? 'nights' : 'night'
+                  <span>{`${roundToDecimals(homePrice).toLocaleString()} x ${nightsNum} ${
+                    nightsNum > 1 ? 'nights' : 'night'
                   }`}</span>
-                  <span>${roundToDecimals(homePrice * stayNightsNum).toLocaleString()}</span>
+                  <span>${roundToDecimals(homePrice * nightsNum).toLocaleString()}</span>
                 </p>
               </div>
               <div className='service-fee'>
                 <p>
                   <span>Service fee</span>
-                  <span>{roundToDecimals(homePrice * stayNightsNum * serviceFeeRate).toLocaleString()}</span>
+                  <span>{roundToDecimals(homePrice * nightsNum * serviceFeeRate).toLocaleString()}</span>
                 </p>
               </div>
               <div className='total'>
                 <p>
                   <span>Total</span>
                   <span>
-                    {roundToDecimals(homePrice * stayNightsNum * (1 + serviceFeeRate)).toLocaleString()}
+                    {roundToDecimals(homePrice * nightsNum * (1 + serviceFeeRate)).toLocaleString()}
                   </span>
                 </p>
               </div>
@@ -103,7 +110,10 @@ export function BuyingStepOneModal({
           <button
             className='back-btn'
             onClick={() => {
-              if (currentStep === 2) navigate('/')
+              if (currentStep === 2) {
+                navigate('/')
+                closeOrderConfirmationModal()
+              }
               else closeOrderConfirmationModal()
             }}
           >

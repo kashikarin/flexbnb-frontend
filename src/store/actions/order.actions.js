@@ -1,4 +1,4 @@
-import { orderService } from '../../services/order/order.service.local'
+import { orderService } from '../../services/order'
 import { store } from '../store'
 import {
   ADD_ORDER,
@@ -14,6 +14,7 @@ export async function updateOrder(orderToUpdate) {
   try {
     const updatedOrder = await orderService.save(orderToUpdate)
     store.dispatch(getCmdUpdateOrder(updatedOrder))
+    await loadOrders({})
     return updatedOrder
   } catch (err) {
     console.error('Cannot update order status', err)
@@ -49,9 +50,12 @@ export async function loadOrder(orderId) {
 }
 
 export async function addOrder(order) {
+  
   try {
     const savedOrder = await orderService.save(order)
+    console.log("🚀 ~ savedOrder:", savedOrder)
     store.dispatch(getCmdAddOrder(savedOrder))
+    await loadOrders({})
     return savedOrder
   } catch (err) {
     console.error('Cannot add order', err)
@@ -63,6 +67,7 @@ export async function removeOrder(orderId) {
   try {
     await orderService.remove(orderId)
     store.dispatch(getCmdRemoveOrder(orderId))
+    await loadOrders({})
   } catch (err) {
     console.error('Cannot remove order', err)
     throw err

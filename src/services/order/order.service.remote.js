@@ -1,7 +1,7 @@
 import { homeService } from '../home'
 // import { homeService } from '@/services/home'
 
-import { userService } from '../user/user.service.local'
+import { userService } from '../user'
 import { storageService } from '../async-storage.service'
 import {
   getRandomIntInclusive,
@@ -29,7 +29,7 @@ export const orderService = {
 }
 
 async function query(filterOrdersBy = getDefaultOrderFilter()) {
-  return httpService.get(`home`, filterOrdersBy)
+  return httpService.get(`orders`, filterOrdersBy)
   // const { status, createdAt, checkIn, checkOut } = filterOrdersBy
   // if (status) {
   //   orders = orders.filter((order) =>

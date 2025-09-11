@@ -1,4 +1,4 @@
-import { userService } from '../../services/user/index'
+import { userService } from '../../services/user'
 // import { socketService } from '../services/socket.service'
 import { store } from '../store'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'

@@ -32,7 +32,7 @@ export function AppHeader({ scrollContainerRef }) {
   console.log('loggedInUser', loggedInUser)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   // const loggedInUser = false
-
+  const [forceExpand, setForceExpand] = useState(false)
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
@@ -77,14 +77,16 @@ export function AppHeader({ scrollContainerRef }) {
     if (!loggedInUser) return console.warn("No logged in user yet!")
     setPotentialHome(loggedInUser._id)
   }
-
+  
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
+  
+
+
 
   return (
     <header
-      className={`app-header ${shouldCollapse ? '' : 'expanded'} ${
-        isHosting || isHDImgScrolled ? 'one-row-divider' : ''
-      }`}
+      className={`app-header ${shouldCollapse && !forceExpand ? 'scrolled' : ''} ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
+      ${forceExpand ? 'expanded' : ''}`}
     >
       {isHDImgScrolled && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
@@ -94,36 +96,14 @@ export function AppHeader({ scrollContainerRef }) {
             shouldCollapse ? 'scrolled' : 'expanded'
           }`}
         >
+          {/* first row */}
           <div className="app-header-main-nav-content">
             {/* main-nav - left section */}
             <div className="app-header-left-section">
-              <NavLink to="/" className="logo">
+              <NavLink to="/" className="logo" onClick={() => dispatch(setHomePageNotScrolled())}>
                 <FaAirbnb className="logo-icon" />
                 <span>flexbnb</span>
               </NavLink>
-            </div>
-            {/* main - nav - mid section */}
-            <div
-              className={`app-header-mid-section ${
-                shouldCollapse ? 'scrolled' : 'expanded'
-              }`}
-            >
-              {isHosting ? (
-                <nav className="hosting-header-nav">
-                  <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
-                    Create a new listing
-                  </NavLink>
-                  <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                </nav>
-              ) : (
-                <div
-                  className={`searchbar-wrapper ${
-                    shouldCollapse ? 'scrolled' : 'expanded'
-                  }`}
-                >
-                  <SearchBar shouldCollapse={shouldCollapse} />
-                </div>
-              )}
             </div>
             {/* main - nav - right section */}
 
@@ -162,9 +142,37 @@ export function AppHeader({ scrollContainerRef }) {
               <UserMenu />
             </div>
           </div>
+          {/* second row */}
+          {/* main - nav - mid section */}
+          <div
+            className={`app-header-mid-section ${
+              shouldCollapse ? 'scrolled' : 'expanded'
+            }`}
+          >
+            {isHosting ? (
+              <nav className="hosting-header-nav">
+                <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
+                  Create a new listing
+                </NavLink>
+                <NavLink to="/hosting/reservations/">Reservations</NavLink>
+              </nav>
+            ) : (
+              <div
+                className={`searchbar-wrapper ${
+                  shouldCollapse ? 'scrolled' : 'expanded'
+                }`}
+              >
+                <SearchBar shouldCollapse={shouldCollapse} 
+                  forceExpand={forceExpand} 
+                  setForceExpand={setForceExpand}
+                  scrollContainerRef={scrollContainerRef} />
+              </div>
+            )}
+          </div>
+
         </nav>
       )}
-      <div className="app-header-bottom-row">
+      <div className={`app-header-bottom-row ${!isHomePageScrolled ? 'expanded' : ''}`}>
         {isHomeIndex && !isHomePageScrolled && (
           <div className="app-header-labels-slider-wrapper">
             <LabelsSlider />

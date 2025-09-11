@@ -6,9 +6,9 @@ import { CapacityDropdown } from './CapacityDropdown.jsx'
 import { SET_FILTERBY } from '../store/reducers/home.reducer.js'
 import { DatesDropdown } from './DatesDropdown.jsx'
 
-export function SearchBar({ shouldCollapse }) {
+export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollContainerRef }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  const [forceExpand, setForceExpand] = useState(false)
+  //const [forceExpand, setForceExpand] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [activeButton, setActiveButton] = useState(null)
   const [searchButtonWide, setSearchButtonWide] = useState(false)
@@ -120,6 +120,8 @@ export function SearchBar({ shouldCollapse }) {
     }
   }, [activeButton])
 
+  
+
   function onUpdateFilterBy(filter) {
     setFilterByToEdit((prevFilterByToEdit) => ({
       ...prevFilterByToEdit,
@@ -129,10 +131,21 @@ export function SearchBar({ shouldCollapse }) {
 
   const scrolled = shouldCollapse && !forceExpand
 
+  // useEffect(() => {
+  //   if (scrolled) {
+  //     setOpenedDropdown(null)
+  //     setActiveButton(null)
+  //   }
+  // }, [scrolled])
+
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
     // if (scrolled && !isMobile) setScrolled(false)
-    if (shouldCollapse && !isMobile) setForceExpand(true)
+    if (shouldCollapse && !isMobile) 
+    {
+      setForceExpand(true)
+    }
+    //if (scrolled && !isMobile) setForceExpand(true)
 
     if (btName === 'checkIn' || btName === 'checkOut') {
       setOpenedDropdown('dates')
@@ -268,10 +281,19 @@ export function SearchBar({ shouldCollapse }) {
   return (
     <search>
       <div
-        className={`search-bar-container ${scrolled ? 'scrolled' : ''} ${
-          activeButton ? 'has-active' : ''
-        }`}
-        onClick={() => setSearchButtonWide(true)}
+        className={`search-bar-container ${scrolled ? 'scrolled' : ''} 
+        ${activeButton ? 'has-active' : ''} ${forceExpand ? 'expanded' : ''}` }
+        onClick={() => {
+          setSearchButtonWide(true)
+          scrolled && !isMobile && setForceExpand(true)
+          if (scrollContainerRef?.current) {
+            scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' }) // גלילה לראש
+          }
+          setTimeout(() => {
+            setForceExpand(true)
+          }, 50)
+        }}
+        
         ref={searchBarRef}
       >
         <div>

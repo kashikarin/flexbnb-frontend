@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { userService } from '../services/user/index'
 import { SET_LOGGEDINUSER } from '../store/reducers/user.reducer'
 
-export function UserMenu() {
+export function UserMenu({ openAuthModal: externalOpenAuthModal }) {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   // const loggedInUser = false
 
@@ -52,6 +52,11 @@ export function UserMenu() {
     setIsAuthModalOpen(true)
     setIsDropdownOpen(false)
     setError('')
+  }
+  
+  // Export the openAuthModal function for external use
+  if (externalOpenAuthModal) {
+    window.openAuthModalGlobal = openAuthModal
   }
 
   function closeAuthModal() {
@@ -191,10 +196,8 @@ export function UserMenu() {
         )}
       </div>
 
-      {/* Auth Modal - Only shows when clicking Login/Signup */}
       {isAuthModalOpen && (
         <>
-          {/* Dark overlay */}
           <div className="modal-overlay" onClick={closeAuthModal}></div>
 
           {/* Floating window */}

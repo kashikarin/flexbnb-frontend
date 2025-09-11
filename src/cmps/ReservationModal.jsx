@@ -190,7 +190,7 @@ export function ReservationModal({ home,
                 </div>
                 <div
                   ref={rmCapacityDropdownRef}
-                  className='reservation-modal-capacity-dropdown-wrapper'
+                  className="reservation-selection-guest-dropdown-wrapper"
                 >
                   <CapacityDropdown
                     isOpen={openedDropdown === 'capacity'}

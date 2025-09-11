@@ -331,7 +331,7 @@ export function HomeDetails() {
               <IoDiamond className="diamond-icon" />
               <p>Rare find! This place is usually booked</p>
             </aside>
-            {/* <ReservationModal
+            <ReservationModal
               home={home}
               draftOrder={draftOrder}
               updateDraftOrder={updateDraftOrder}
@@ -339,7 +339,7 @@ export function HomeDetails() {
               isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
               openOrderConfirmationModal={openOrderConfirmationModal}
               closeOrderConfirmationModal={closeOrderConfirmationModal}
-            /> */}
+            />
           </section>
           <div ref={stickyBreakPointRef} />
           <section className="reviews-section">

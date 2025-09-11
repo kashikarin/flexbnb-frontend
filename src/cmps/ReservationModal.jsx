@@ -3,12 +3,10 @@ import { ReactSVG } from 'react-svg'
 import { CapacityDropdown } from './CapacityDropdown'
 import { BuyingStepOneModal } from './BuyingStepOneModal'
 import {
-  getRandom3NightsStayDatesStr,
-  getNightsCount,
-  roundToDecimals,
-  strDateToTimestamp,
+  roundToDecimals
 } from '../services/util.service'
 import { DatesDropdown } from './DatesDropdown'
+import { draftOrderService } from '../services/draft-order/draft-order.service.local'
 export function ReservationModal({ home, 
                                    draftOrder, 
                                    updateDraftOrder,
@@ -30,6 +28,9 @@ export function ReservationModal({ home,
   const [infantsNum, setInfantsNum] = useState(draftOrder.guests?.infants ?? 0)
   const [petsNum, setPetsNum] = useState(draftOrder.guests?.pets ?? 0)
 
+  const {getNumberOfNights} = draftOrderService
+  const nightsNum = getNumberOfNights(draftOrder.checkIn, draftOrder.checkOut)
+
  useEffect(() => {
   if (!draftOrder?.guests) return
     setAdultsNum(draftOrder.guests.adults ?? 0)
@@ -38,6 +39,11 @@ export function ReservationModal({ home,
     setPetsNum(draftOrder.guests.pets ?? 0)
   }, [draftOrder?.guests])
  // check if filterby is needed as a dependency
+
+  useEffect(() => {
+    onUpdateDatesDetails(home.price * nightsNum * 1.14)
+    console.log("🚀 ~ home.price * nightsNum * 1.14:", home.price * nightsNum * 1.14)
+  }, [nightsNum])
 
   useEffect(() => {
     onUpdateGuestsDetails({
@@ -93,14 +99,15 @@ export function ReservationModal({ home,
     return `${guestsNum} ${guestsNum > 1 ? 'guests' : 'guest'}`
   }
 
-  // function onUpdateDatesDetails() {
-  //   setOrder(prevOrder => ({ ...prevOrder, ...updatedOrderDetails}))
-  // }
+  function onUpdateDatesDetails(updatedTotalPrice) {
+    updateDraftOrder({ ...draftOrder, totalPrice: updatedTotalPrice})
+  }
 
   function onUpdateGuestsDetails(updatedGuests) {
     updateDraftOrder({ ...draftOrder, guests: updatedGuests})
   }
 
+  console.log("🚀 ~ draftOrder:", draftOrder)
   if (!draftOrder) return null
   return (
     
@@ -221,16 +228,16 @@ export function ReservationModal({ home,
             <div className='reservation-summary-information-container'>
               <div className='cost-breakdown-container'>
                 <div className='reservation-summary-row price'>
-                  <span>${roundToDecimals(home.price).toLocaleString()} x 3 nights</span>
-                  <span>${roundToDecimals(home.price * 3).toLocaleString()}</span>
+                  <span>{roundToDecimals(home.price).toLocaleString()} x {nightsNum} {nightsNum > 1 ? 'nights' : 'night'}</span>
+                  <span>{roundToDecimals(home.price * nightsNum).toLocaleString()}</span>
                 </div>
                 <div className='reservation-summary-row service-fee'>
                   <span>Flexbnb service fee</span>
-                  <span>${roundToDecimals(home.price * 3 * 0.14).toLocaleString()}</span>
+                  <span>${roundToDecimals(home.price * nightsNum * 0.14).toLocaleString()}</span>
                 </div>
                 <div className='reservation-summary-row total'>
                   <span>Total</span>
-                  <span>${roundToDecimals(home.price * 3 * 0.14).toLocaleString()}</span>
+                  <span>${roundToDecimals(home.price * nightsNum * 1.14).toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -241,6 +248,7 @@ export function ReservationModal({ home,
         <BuyingStepOneModal
           draftOrder={draftOrder}
           homePrice={home.price}
+          nightsNum={nightsNum}
           homeType={home.type}
           homeCity={home.loc.city}
           homeCountry={home.loc.country}

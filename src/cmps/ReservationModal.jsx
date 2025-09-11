@@ -25,17 +25,19 @@ export function ReservationModal({ home,
   const rmDatesRef = useRef()
   const rmCapacityDropdownRef = useRef()
 
-  const [adultsNum, setAdultsNum] = useState(draftOrder.guests.adults ?? 0)
-  const [childrenNum, setChildrenNum] = useState(draftOrder.guests.children ?? 0)
-  const [infantsNum, setInfantsNum] = useState(draftOrder.guests.infants ?? 0)
-  const [petsNum, setPetsNum] = useState(draftOrder.guests.pets ?? 0)
+  const [adultsNum, setAdultsNum] = useState(draftOrder?.guests?.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(draftOrder?.guests?.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(draftOrder?.guests?.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(draftOrder?.guests?.pets ?? 0)
 
-  useEffect(() => {
+ useEffect(() => {
+  if (!draftOrder?.guests) return
     setAdultsNum(draftOrder.guests.adults ?? 0)
     setChildrenNum(draftOrder.guests.children ?? 0)
     setInfantsNum(draftOrder.guests.infants ?? 0)
     setPetsNum(draftOrder.guests.pets ?? 0)
-  }, [draftOrder.guests]) // check if filterby is needed as a dependency
+  }, [draftOrder?.guests])
+ // check if filterby is needed as a dependency
 
   useEffect(() => {
     onUpdateGuestsDetails({
@@ -99,6 +101,8 @@ export function ReservationModal({ home,
     updateDraftOrder({ ...draftOrder, guests: updatedGuests})
   }
 
+  if (!draftOrder) return null
+  
   return (
     <>
       <aside className='reservation-section'>
@@ -123,7 +127,7 @@ export function ReservationModal({ home,
                     className='placeholder-content'
                     type="search"
                     placeholder="Add Dates"
-                    value={draftOrder.checkIn? draftOrder.checkIn.toLocaleDateString() : ''}
+                    value={draftOrder?.checkIn ? draftOrder.checkIn.toLocaleDateString() : ''}
                     readOnly
                   />
               </div>
@@ -139,7 +143,8 @@ export function ReservationModal({ home,
                     className='rm-placeholder-content'
                     type="search"
                     placeholder="Add Dates"
-                    value={draftOrder.checkOut? draftOrder.checkOut.toLocaleDateString() : ''}
+                    value={draftOrder?.checkOut ? draftOrder.checkOut.toLocaleDateString() : ''}
+
                     readOnly
                 />
               </div>
@@ -158,7 +163,7 @@ export function ReservationModal({ home,
               </div>
               
               <div
-                className='reservation-selection-guest-dropdown-wrapper'
+                // className='reservation-selection-guest-dropdown-wrapper'
                 style={{
                   position: 'relative',
                   display: 'inline-block',

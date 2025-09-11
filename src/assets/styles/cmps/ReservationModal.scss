@@ -18,7 +18,7 @@
       background: $clr8;
       border-radius: 1.5rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      z-index: 1000000;
+      z-index: 10000000;
       opacity: 0;
       transform: translateY(-10px);
       transition: all 0.3s ease, opacity 0.3s ease, transform 0.3s ease,
@@ -140,7 +140,7 @@
   position: sticky;
   top: 17rem;
   margin-top: 6rem;
-
+  
   .reservation-container {
     width: clamp(240px, 22vw, 350px);
     min-width: 240px;

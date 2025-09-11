@@ -1,22 +1,20 @@
 import { gHomeTypes } from "../../services/home/home.service.local.js"
 import { ReactSVG } from 'react-svg'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions.js"
-import { useEffectUpdate } from "../../customHooks/useEffectUpdate.js"
 
 export function HomeEditStepOneA(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
-    console.log("🚀 ~ potentialHome:", potentialHome)
     const {type} = potentialHome
     
-    useEffectUpdate(()=>{
+    useEffect(()=>{
         const shouldBeCompleted = !!type && !potentialHome.editProgress.currentSubStepStatus
         if (shouldBeCompleted) setStepCompleted()
         else setStepNotCompleted()
     }, [type])
 
-console.log(potentialHome);
+console.log(potentialHome)
 
     return(
         <section className='home-edit-step-one-a-container'>

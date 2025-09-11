@@ -34,13 +34,16 @@ import {
 } from 'react-icons/md'
 import { useEffect } from 'react'
 
+
 export function HomeEditStepTwoA() {
+  
   const potentialHome = useSelector(
     (state) => state.homeEditModule.potentialHome
   )
+  
   console.log('🚀 ~ potentialHome:', potentialHome)
   const currentSubStepStatus = potentialHome?.editProgress?.currentSubStepStatus
-  const { gAmenities } = homeService
+  const { gAmenities, getAmenityIcon } = homeService
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -69,9 +72,13 @@ export function HomeEditStepTwoA() {
     MdSecurity,
     MdHome,
   }
-  useEffect(() => {
-    if (currentSubStepStatus === false) setStepCompleted()
-  }, [currentSubStepStatus])
+  // useEffect(() => {
+  //   if (currentSubStepStatus === false) setStepCompleted()
+  // }, [currentSubStepStatus])
+
+  useEffect(()=>{
+          if (currentSubStepStatus === false) setStepCompleted()
+      }, [currentSubStepStatus])
 
   function handleClick(amenity) {
     if (potentialHome?.amenities?.includes(amenity)) {
@@ -98,7 +105,7 @@ export function HomeEditStepTwoA() {
       <article className="home-edit-step-2-a-buttons-container">
         {gAmenities?.map((amenity, idx) => {
           const IconComponent =
-            iconComponents[homeService.getAmenityIcon(amenity)]
+            iconComponents[getAmenityIcon(amenity)]
           if (!IconComponent) return null
           const selected = (potentialHome?.amenities ?? []).includes(amenity)
           return (

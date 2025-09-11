@@ -1,11 +1,22 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { setNextSubStep, setPreviousSubStep } from "../../store/actions/home-edit.actions"
+import { openHomeEditCompletionModal, setNextSubStep, setPreviousSubStep } from "../../store/actions/home-edit.actions"
 import { potentialHomeService } from '../../services/potential-home/potential-home.service.local'
+import { addHome } from "../../store/actions/home.actions"
 
 export function HomeEditFooter(){
     const [isLoading, setIsLoading] = useState(false)
-    const {currentStep, currentSubStep, currentSubStepStatus } = useSelector(state => state.homeEditModule.potentialHome.editProgress)
+    const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+    console.log("🚀 ~ potentialHome:", potentialHome)
+    const currentSubStepStatus = useSelector(
+        state => state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ?? false
+    )
+    const currentSubStep = useSelector(
+        state => state.homeEditModule.potentialHome?.editProgress?.currentSubStep ?? 1
+    )
+    const currentStep = useSelector(
+        state => state.homeEditModule.potentialHome?.editProgress?.currentStep ?? 1
+    )
     const {gTotalSteps, gSubStepsPerStep} = potentialHomeService
     // const {isStepCompleted} = useSelector(state => state.homeEditModule.isStepCompleted)
     const steps = Array.from({ length: gTotalSteps }, (_, i) => i + 1)
@@ -13,6 +24,9 @@ export function HomeEditFooter(){
         map[step] = Array.from({length: gSubStepsPerStep[step-1]}, (_, i) => i + 1)
         return map
     }, {})
+    const isLastStep =
+        currentStep === gTotalSteps &&
+        currentSubStep === gSubStepsPerStep[gTotalSteps - 1]
     
     function getProgress(stepNumber, currentStepNumber, currentSubStepNumber, subStepsMap) {
         if (stepNumber < currentStepNumber) {
@@ -27,16 +41,19 @@ export function HomeEditFooter(){
 
     function onNextClick() {
        setIsLoading(true)
-       setTimeout(() => {
+       
+       setTimeout(()=>{
+            if (isLastStep) openHomeEditCompletionModal()
             setNextSubStep()
             setIsLoading(false)
-        }, 1000)
+       }, 1000)
     }
-
+    
     function onBackClick(){
         setPreviousSubStep()
     }
    
+    
     return(
         <footer className="home-edit-footer">
             <div className="home-edit-footer-loader-container">

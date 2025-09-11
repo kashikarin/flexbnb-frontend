@@ -1,5 +1,6 @@
 import { httpService } from '../http.service'
 
+
 export const homeService = {
   query,
   getById,

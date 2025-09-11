@@ -29,7 +29,7 @@ export function HomeEditStepOneC(){
                         >
                             <ReactSVG src='/svgs/minus-icon.svg'/>
                         </button>
-                        <span>{capacity}</span>
+                        <span>{Number(capacity)}</span>
                         <button
                             onClick={()=>updatePotentialHome({...potentialHome, capacity: capacity + 1})}
                         >
@@ -46,7 +46,7 @@ export function HomeEditStepOneC(){
                         >
                             <ReactSVG src='/svgs/minus-icon.svg'/>
                         </button>
-                        <span>{bedroomsCount}</span>
+                        <span>{Number(bedroomsCount)}</span>
                         <button
                             onClick={()=>updatePotentialHome({...potentialHome, bedroomsCount: bedroomsCount + 1})}
                         >
@@ -63,7 +63,7 @@ export function HomeEditStepOneC(){
                         >
                             <ReactSVG src='/svgs/minus-icon.svg'/>
                         </button>
-                        <span>{bedsCount}</span>
+                        <span>{Number(bedsCount)}</span>
                         <button
                             onClick={()=>updatePotentialHome({...potentialHome, bedsCount: bedsCount + 1})}
                         >
@@ -80,7 +80,7 @@ export function HomeEditStepOneC(){
                         >
                             <ReactSVG src='/svgs/minus-icon.svg'/>
                         </button>
-                        <span>{bathCount}</span>
+                        <span>{Number(bathCount)}</span>
                         <button
                             onClick={()=>updatePotentialHome({...potentialHome, bathCount: bathCount + 1})}
                         >

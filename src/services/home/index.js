@@ -42,6 +42,70 @@ export function getFilterFromSearchParams(searchParams) {
   return filterBy
 }
 
+const gHomeTypes = ['House', 'Apartment', 'Guesthouse', 'Hotel']
+
+const gAmenities = [
+  'TV',
+  'Kitchen',
+  'Wifi',
+  'Smoking allowed',
+  'Pets allowed',
+  'Cooking basics',
+  'Free parking on premises',
+  'Air conditioning',
+  'Heating',
+  'Washer',
+  'Dryer',
+  'Pool',
+  'Hot tub',
+  'Gym',
+  'Beach access',
+  'Balcony',
+  'Garden',
+  'BBQ grill',
+  'Fireplace',
+  'Piano',
+  'Game room',
+  'Office space',
+  'Baby crib',
+  'High chair',
+  'Security cameras',
+]
+
+const amenityIcons = {
+  TV: 'MdTv',
+  Kitchen: 'MdKitchen',
+  Wifi: 'MdWifi',
+  'Smoking allowed': 'MdSmokingRooms',
+  'Pets allowed': 'MdPets',
+  'Cooking basics': 'MdRestaurantMenu',
+  'Free parking on premises': 'MdLocalParking',
+  'Air conditioning': 'MdAcUnit',
+  Heating: 'MdThermostat',
+  Washer: 'MdLocalLaundryService',
+  Dryer: 'MdDryCleaning',
+  Pool: 'MdPool',
+  'Hot tub': 'MdHotTub',
+  Gym: 'MdFitnessCenter',
+  'Beach access': 'MdBeachAccess',
+  Balcony: 'MdBalcony',
+  Garden: 'MdLocalFlorist',
+  'BBQ grill': 'MdOutdoorGrill',
+  Fireplace: 'MdFireplace',
+  Piano: 'MdPiano',
+  'Game room': 'MdSportsEsports',
+  'Office space': 'MdWork',
+  'Baby crib': 'MdChildCare',
+  'High chair': 'MdChair',
+  'Security cameras': 'MdSecurity',
+}
+
+const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
+
+function getAmenityIcon(amenity){
+  return amenityIcons[amenity] || 'MdHome'
+} 
+
 console.log('VITE_LOCAL:', VITE_LOCAL)
 
 const service = VITE_LOCAL === 'true' ? local : remote
@@ -49,6 +113,11 @@ export const homeService = {
   getEmptyHome,
   getDefaultFilter,
   getFilterFromSearchParams,
+  gHomeTypes,
+  gAmenities,
+  getAmenityIcon,
+  amenityIcons,
+  gHomeLabels,
   ...service,
 }
 
@@ -57,3 +126,4 @@ export const homeService = {
 //* when using script - dev / dev:local
 
 if (DEV) window.homeService = homeService
+

@@ -1,0 +1,47 @@
+.home-edit-completion-modal-container {
+    position: fixed !important;
+  inset: 0 !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 99999 !important;
+
+  .home-edit-completion-modal-wrapper {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 3rem;
+    width: 90vw;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+    h3 {
+      color: $primary-font-black;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: $secondary-font-gray;
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+    }
+
+    .home-edit-completion-modal-buttons-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        button {
+            background-color: $primary-pink;
+            color: white;
+            border: none;
+        }
+    }
+
+  }
+}

@@ -2,7 +2,6 @@ import { useSelector } from "react-redux"
 import { setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions"
 import { utilService } from "../../services/util.service"
 import { useRef, useState, useEffect } from "react"
-import { useEffectUpdate } from "../../customHooks/useEffectUpdate"
 
 export function HomeEditStepTwoD(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
@@ -10,17 +9,22 @@ export function HomeEditStepTwoD(){
     const maxLength = 500
     const {debounce} = utilService
     const debouncedUpdatePotentialHomeRef = useRef(debounce(updatePotentialHome, 300)).current
-    const [summary, setSummary] = useState(potentialHome?.summary || null)
-    const currentPlaceHolder = "You'll always remember your time at this unique place to stay."
+    const [summary, setSummary] = useState(potentialHome?.summary || '')
+    const summaryPlaceHolder = "You'll always remember your time at this unique place to stay."
 
-    useEffectUpdate(()=>{
-                const shouldBeCompleted = !!potentialHome.summary
-                if (shouldBeCompleted) setStepCompleted()
-                else setStepNotCompleted()
-        
-            }, [potentialHome.summary]
+    useEffect(()=>{
+        if (!potentialHome) return
+        const shouldBeCompleted = (!!summary || summary === summaryPlaceHolder) && 
+            !potentialHome.editProgress.currentSubStepStatus
+        if (shouldBeCompleted) setStepCompleted()
+        // else setStepNotCompleted()
+
+    }, [summary]
     )
-
+    function handleChange(e){
+        setSummary(e.target.value)
+    }
+    
     useEffect(()=>{
         debouncedUpdatePotentialHomeRef({...potentialHome, summary})
     }, [summary])
@@ -33,10 +37,10 @@ return(
         </article>
         <article className="home-edit-step-2-d-txt-container">
             <div className="home-edit-step-2-d-txt-box">
-                <textarea rows='7' maxLength={500} id='potentialHome.summary' placeholder={currentPlaceHolder} autoComplete="off" value={summary} onChange={(e)=>setSummary(e.target.value) }/>
+                <textarea rows='7' maxLength={500} id='potentialHome.summary' placeholder={summaryPlaceHolder} autoComplete="off" value={summary} onChange={handleChange}/>
             </div>   
             <article className="home-edit-step-2-d-tabs-control">
-                <span>{`${potentialHome?.summary?.length ?? 0}/${maxLength}`}</span>                
+                <span>{`${summary.length ?? 0}/${maxLength}`}</span>                
             </article>
         </article>
     </section>

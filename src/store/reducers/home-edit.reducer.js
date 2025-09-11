@@ -1,75 +1,67 @@
 import { potentialHomeService } from '../../services/potential-home/potential-home.service.local'
-export const SET_POTENTIAL_HOMES = 'SET_POTENTIAL_HOMES'
 export const SET_POTENTIAL_HOME = 'SET_POTENTIAL_HOME'
-export const ADD_POTENTIAL_HOME = 'ADD_POTENTIAL_HOME'
 export const UPDATE_POTENTIAL_HOME = 'UPDATE_POTENTIAL_HOME'
+export const CLEAR_POTENTIAL_HOME = 'CLEAR_POTENTIAL_HOME'
 export const SET_COMPLETED = 'SET_COMPLETED'
 export const SET_NOT_COMPLETED = 'SET_NOT_COMPLETED'
 export const SET_NEXT_SUBSTEP = 'SET_NEXT_SUBSTEP'
 export const SET_PREVIOUS_SUBSTEP = 'SET_PREVIOUS_SUBSTEP'
-// const gTotalSteps = 3
-
-// const gSubStepsPerStep = [4, 5, 2]
-const {gTotalSteps, gSubStepsPerStep} = potentialHomeService
-
+export const OPEN_HOME_EDIT_COMLPETION_MODAL = 'OPEN_HOME_EDIT_COMLPETION_MODAL'
+export const CLOSE_HOME_EDIT_COMLPETION_MODAL = 'CLOSE_HOME_EDIT_COMLPETION_MODAL'
+export const GO_TO_HOME_EDIT_START = 'GO_TO_HOME_EDIT_START'
 const initialState = {
-  potentialHome: potentialHomeService.getEmptyPotentialHome(),
-  potentialHomes: []
+  potentialHome: null,
+  isHomeEditCompletionModalOpen: false
 }
 
 export function homeEditReducer(state = initialState, action) {
   var newState = state
+  const { gTotalSteps, gSubStepsPerStep} = potentialHomeService
   switch (action.type) {
-    case SET_POTENTIAL_HOMES: {
-      newState = { ...state, potentialHomes: action.potentialHomes }
-      break
-    }
-    case SET_POTENTIAL_HOME:
-      newState = { ...state, potentialHome: action.potentialHome }
-      break
-    case ADD_POTENTIAL_HOME:{
-      newState = { ...state, 
-                   potentialHomes: [ ...state.potentialHomes, action.potentialHome ],
-                   potentialHome: action.potentialHome
-                  } 
+    case SET_POTENTIAL_HOME: {
+      const defaultEditProgress = {
+        currentStep: 1,
+        currentStepStatus: false,
+        currentSubStep: 1,
+        currentSubStepStatus: false
+      }
+
+  const incoming = action.potentialHome || {}
+      newState = { ...state, potentialHome: {...incoming, 
+                                             editProgress: { ...defaultEditProgress, ...incoming.editProgress} } }
       break
     }
     case UPDATE_POTENTIAL_HOME: {
       const updatedPotentialHome = action.potentialHome
-      const { currentStep, currentSubStep } = state.potentialHome.editProgress
-      let isCompleted = false
-      if (currentStep === 1 && currentSubStep === 1) {
-        isCompleted = !!updatedPotentialHome.type
+      
+      const merged = Object.entries(updatedPotentialHome).reduce((acc, [key, value]) => {
+      if (value !== undefined && value !== null) {
+        acc[key] = value
       }
-      if (currentStep === 1 && currentSubStep === 2) {
-        isCompleted = !!updatedPotentialHome.loc;
-      }
-      if (currentStep === 1 && currentSubStep === 3) {
-        isCompleted = !!(bathCount && bedsCount && bedroomsCount && capacity)
-      }
-  
-  // ...repeat for other steps/substeps
+      return acc
+      }, { ...state.potentialHome })
 
-      const updatedPotentialHomes = state.potentialHomes.map((pHome) =>
-        pHome._id === updatedPotentialHome._id ? updatedPotentialHome : pHome
-      )
-     
-      newState = { ...state, 
-                   potentialHomes: updatedPotentialHomes, 
-                   potentialHome: { ...updatedPotentialHome, 
-                                    editProgress: {
-                                      ...state.potentialHome.editProgress,
-                                      currentSubStepStatus: isCompleted
-                                    }
-                   }
-                  }
+      newState = {
+        ...state,
+        potentialHome: {
+          ...merged,
+          editProgress: {
+            ...state.potentialHome?.editProgress,
+            ...updatedPotentialHome?.editProgress
+          }
+        }
+      }
+      break
+    }
+    case CLEAR_POTENTIAL_HOME: {
+      newState = { ...state, potentialHome: null}
       break
     }
     case SET_COMPLETED:{
-      if (state.potentialHome.editProgress.currentSubStepStatus) return state
+      if (state.potentialHome?.editProgress?.currentSubStepStatus) return state
       newState = { ...state, potentialHome: { ...state.potentialHome,
                                               editProgress: {
-                                                ...state.potentialHome.editProgress,
+                                                ...state.potentialHome?.editProgress,
                                                 currentSubStepStatus: true
                                               }
                                             }
@@ -89,11 +81,14 @@ export function homeEditReducer(state = initialState, action) {
     }
       
     case SET_NEXT_SUBSTEP: {
-      const {editProgress} = state.potentialHome
-      let nextSubStep = editProgress.currentSubStep
-      let nextStep = editProgress.currentStep
-      if (editProgress.currentStep === gTotalSteps && editProgress.currentSubStep === gSubStepsPerStep[gSubStepsPerStep.length - 1]) break
-      if (editProgress.currentSubStep === gSubStepsPerStep[editProgress.currentStep - 1]) {
+      const editProgress = state.potentialHome?.editProgress
+      if (!editProgress) return state 
+
+      console.log("gSubStepsPerStep:", gSubStepsPerStep)
+      let nextSubStep = editProgress.currentSubStep ?? 1
+      let nextStep = editProgress.currentStep ?? 1
+      if (nextStep === gTotalSteps && nextSubStep === gSubStepsPerStep[gSubStepsPerStep.length - 1]) break
+      if (nextSubStep === gSubStepsPerStep[nextStep - 1]) {
         nextStep++
         nextSubStep = 1
       } else nextSubStep++
@@ -112,14 +107,17 @@ export function homeEditReducer(state = initialState, action) {
       break
     }
     case SET_PREVIOUS_SUBSTEP: {
-      const { editProgress } = state.potentialHome  
-      let previousSubStep = editProgress.currentSubStep
-      console.log("🚀 ~ editProgress:", editProgress)
-      let previousStep = editProgress.currentStep
-      if (editProgress.currentStep === 1 && editProgress.currentSubStep === 1) break
-      if (editProgress.currentSubStep === 1) {
-        previousStep --
-        previousSubStep = gSubStepsPerStep[previousStep - 1]
+      const editProgress = state.potentialHome?.editProgress
+      if (!editProgress) return state
+
+      let previousSubStep = editProgress.currentSubStep ?? 1
+      let previousStep = editProgress.currentStep ?? 1
+
+      if (previousStep === 1 && previousSubStep === 1) break
+      
+      if (previousSubStep === 1) {
+        previousStep--
+        previousSubStep = gSubStepsPerStep[previousStep - 1] ?? 1
       } else previousSubStep--
       
       newState = { ...state, potentialHome: { ...state.potentialHome,
@@ -134,6 +132,23 @@ export function homeEditReducer(state = initialState, action) {
                                             }
                   }
       break
+    }
+    case OPEN_HOME_EDIT_COMLPETION_MODAL: {
+      newState = { ...state, isHomeEditCompletionModalOpen: true }
+      break
+    }
+    case CLOSE_HOME_EDIT_COMLPETION_MODAL: {
+      newState = { ...state, isHomeEditCompletionModalOpen: false }
+      break
+    }
+    case GO_TO_HOME_EDIT_START: {
+      newState = { ...state, 
+                   potentialHome: { ...state.potentialHome, 
+                      editProgress: { ...state.potentialHome.editProgress,
+                                      currentStep: 1,
+                                      currentSubStep: 1 }
+                                  }
+                  }
     }
     default:
   }

@@ -1,27 +1,31 @@
 import { useSelector } from "react-redux"
 import { setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions"
-import {useEffectUpdate } from '../../customHooks/useEffectUpdate'
 import { useEffect, useRef, useState } from "react"
 import { utilService } from "../../services/util.service"
 
 export function HomeEditStepTwoC(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+    console.log("🚀 ~ potentialHome:", potentialHome)
     const maxLength = 50
     const {debounce} = utilService
     const debouncedUpdatePotentialHomeRef = useRef(debounce(updatePotentialHome, 300)).current
-
-    useEffectUpdate(()=>{
-            const shouldBeCompleted = !!potentialHome.name
-            if (shouldBeCompleted) setStepCompleted()
-            else setStepNotCompleted()
-    
-        }, [potentialHome.name])
-    
-    const [name, setName] = useState(potentialHome?.name || null)
+    const [name, setName] = useState(potentialHome?.name || '')
+     
     useEffect(()=>{
-        debouncedUpdatePotentialHomeRef({...potentialHome, name})
+        if (!potentialHome) return
+        const shouldBeCompleted = !!name && !potentialHome.editProgress.currentSubStepStatus
+        if (shouldBeCompleted) setStepCompleted()
+        // else setStepNotCompleted()
     }, [name])
 
+    useEffect(()=>{
+        debouncedUpdatePotentialHomeRef({ ...potentialHome, name })
+    }, [name])
+
+    function handleChange(e){
+        setName(e.target.value)
+    }
+    
     return (
         <section className='home-edit-step-2-c-container'>
             <article className="home-edit-step-2-c-title">
@@ -30,11 +34,11 @@ export function HomeEditStepTwoC(){
             </article>
             <article className="home-edit-step-2-c-txt-container">
                 <div className="home-edit-step-2-c-txt-box">
-                    <textarea rows='5' maxLength={50} id='potentialHome.name' autoComplete="off" value={name} onChange={(e)=>setName(e.target.value)} />
+                    <textarea rows='5' maxLength={50} id='potentialHome.name' autoComplete="off" value={name} onChange={handleChange} />
                 </div>   
             </article>
             <article className="home-edit-step-2-c-tabs-control">
-                <span>{`${potentialHome?.name?.length ?? 0}/${maxLength}`}</span>                
+                <span>{`${name.length ?? 0}/${maxLength}`}</span>                
             </article>
         </section>
     )

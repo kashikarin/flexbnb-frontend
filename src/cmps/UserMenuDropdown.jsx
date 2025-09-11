@@ -1,25 +1,28 @@
-import { useSelector } from "react-redux"
-
-export function UserMenuDropdown(){
-  const loggedInUser = useSelector(state => state.userModule.loggedInUser)
+export function UserMenuDropdown({loggedInUser, isOpen, onOpen, UserMenuDropdownRef, onClose}){
+  
+  function handleClick(ev) {
+    console.log("🚀 ~ ev:", ev)
+    onClose()
+  }
 
     return(
-        <div ref={}> 
-        {/* {isOpen && ( */}
-          <div className=".user-menu-dropdown-container">
-            {!loggedInUser && (
+        isOpen && (<div className='user-menu-dropdown-container'>
+            <div className="user-menu-content-no-loggedinuser">
+                    <span onClick={handleClick}>Log in</span>
+                    <span onClick={handleClick}>Sign up</span>
+            </div>
+            
+            {/* {!loggedInUser && (
                 <div className="user-menu-content-no-loggedinuser">
-                    <span>Log in</span>
-                    <span>Sign up</span>
+                    <span onClick={handleClick}>Log in</span>
+                    <span onClick={handleClick}>Sign up</span>
                 </div>
             )}
             {loggedInUser && (
                 <div className="user-menu-content-with-loggedinuser">
-                    <span>Log out</span>
+                    <span onClick={handleClick}>Log out</span>
                 </div>
-            )}
-          </div>
-        {/* )} */}
-      </div>
+            )} */}
+          </div>)
     )
 }

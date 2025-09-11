@@ -3,8 +3,9 @@ import { setStepCompleted } from "../../store/actions/home-edit.actions"
 import { useSelector } from "react-redux"
 
 export function HomeEditStepOneTitle(){
-    const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
-    const {currentSubStepStatus} = potentialHome.editProgress
+    const currentSubStepStatus = useSelector(
+        state => state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ?? false
+    )
 
     useEffect(()=>{
         if (currentSubStepStatus === false) setStepCompleted()

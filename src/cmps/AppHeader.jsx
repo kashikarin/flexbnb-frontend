@@ -13,6 +13,9 @@ import { setPotentialHome } from '../store/actions/home-edit.actions'
 import {
   setHomePageNotScrolled,
   setHomePageScrolled,
+  setHomeDetailsImgScrolled,
+  setHomeDetailsImgNotScrolled,
+
 } from '../store/actions/scroll.actions'
 import { UserMenu } from './UserMenu'
 
@@ -46,6 +49,9 @@ export function AppHeader({ scrollContainerRef }) {
     const handleScroll = () => {
       if (elMain.scrollTop > 20) setHomePageScrolled()
       else setHomePageNotScrolled()
+
+      if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
+      else setHomeDetailsImgNotScrolled()
     }
     elMain.addEventListener('scroll', handleScroll)
     handleScroll()
@@ -81,7 +87,7 @@ export function AppHeader({ scrollContainerRef }) {
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
   
 
-
+console.log("isHDImgScrolled = ",isHDImgScrolled)
 
   return (
     <header

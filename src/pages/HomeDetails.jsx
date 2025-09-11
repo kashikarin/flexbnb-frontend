@@ -119,24 +119,35 @@ export function HomeDetails() {
   }
 
   useEffect(() => {
-    if (!homeId || !loggedInUser) return
-
-    initHomeAndDraftOrder()
+    if (!homeId) return
+    initHome()
   }, [homeId, loggedInUser])
+
+  useEffect(()=>{
+    if (!loggedInUser) return
+    initdraftOrder()
+  }, [loggedInUser])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
-  async function initHomeAndDraftOrder() {
+  async function initHome() {
     try {
       await loadHome(homeId)
-      await addDraftOrder(homeId, '68c0615a899984d302f063f5', filterBy)
     } catch (err) {
       console.error('Cannot load home', err)
     }
   }
 
+  async function initdraftOrder(){
+    try {
+      await addDraftOrder(homeId, '68c0615a899984d302f063f5', filterBy)
+    } catch (err) {
+      console.error('Cannot load draft order', err)
+    }
+
+  }
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current
@@ -210,7 +221,7 @@ export function HomeDetails() {
 
   return (
     <>
-      {home && loggedInUser && draftOrder && (
+      {home && (
         <div className="home-details-container">
           <div className="home-details-header">
             <h1>

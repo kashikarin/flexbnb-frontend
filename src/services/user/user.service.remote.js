@@ -28,19 +28,10 @@ function remove(userId) {
 	return httpService.delete(`users/${userId}`)
 }
 
-async function update({ _id, score }) {
-	const user = await httpService.put(`users/${_id}`, { _id, score })
-  return httpService.get(`user`)
-}
-
-async function getById(userId) {
-  const user = await httpService.get(`user/${userId}`)
-  return user
-}
-
-function remove(userId) {
-  return httpService.delete(`user/${userId}`)
-}
+// async function update({ _id, score }) {
+// 	const user = await httpService.put(`users/${_id}`, { _id, score })
+//   return httpService.get(`user`)
+// }
 
 async function update({ _id, score }) {
   const user = await httpService.put(`users/${_id}`, { _id, score })

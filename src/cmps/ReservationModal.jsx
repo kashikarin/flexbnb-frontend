@@ -110,7 +110,9 @@ export function ReservationModal({ home,
   console.log("🚀 ~ draftOrder:", draftOrder)
   if (!draftOrder) return null
   return (
+    
     <>
+
       <aside className='reservation-section'>
         <div className='reservation-container'>
           <div className='reservation-details'>

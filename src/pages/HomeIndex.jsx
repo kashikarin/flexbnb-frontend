@@ -10,6 +10,7 @@ import { HomeList } from '../cmps/HomeList'
 import { useFilterSearchParams } from '../customHooks/useFilterSearchParams.js'
 import { useEffectUpdate } from '../customHooks/useEffectUpdate.js'
 import { addLike, removeLike } from '../store/actions/user.actions.js'
+
 export function HomeIndex() {
   const filterBy = useSelector((state) => state.homeModule.filterBy)
   const homes = useSelector((state) => state.homeModule.homes)

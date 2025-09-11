@@ -13,6 +13,9 @@ import { setPotentialHome } from '../store/actions/home-edit.actions'
 import {
   setHomePageNotScrolled,
   setHomePageScrolled,
+  setHomeDetailsImgScrolled,
+  setHomeDetailsImgNotScrolled,
+
 } from '../store/actions/scroll.actions'
 import { UserMenu } from './UserMenu'
 
@@ -46,6 +49,9 @@ export function AppHeader({ scrollContainerRef }) {
     const handleScroll = () => {
       if (elMain.scrollTop > 20) setHomePageScrolled()
       else setHomePageNotScrolled()
+
+      if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
+      else setHomeDetailsImgNotScrolled()
     }
     elMain.addEventListener('scroll', handleScroll)
     handleScroll()
@@ -74,18 +80,17 @@ export function AppHeader({ scrollContainerRef }) {
   }, [isSmallScreen, isHomeIndex])
 
   function onCreateNewListing() {
-    if (!loggedInUser) return console.warn("No logged in user yet!")
+    if (!loggedInUser) return console.warn('No logged in user yet!')
     setPotentialHome(loggedInUser._id)
   }
-  
+
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
-  
-
-
 
   return (
     <header
-      className={`app-header ${shouldCollapse && !forceExpand ? 'scrolled' : ''} ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
+      className={`app-header ${
+        shouldCollapse && !forceExpand ? 'scrolled' : ''
+      } ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
       ${forceExpand ? 'expanded' : ''}`}
     >
       {isHDImgScrolled && <HeaderHomeDetails />}
@@ -100,7 +105,11 @@ export function AppHeader({ scrollContainerRef }) {
           <div className="app-header-main-nav-content">
             {/* main-nav - left section */}
             <div className="app-header-left-section">
-              <NavLink to="/" className="logo" onClick={() => dispatch(setHomePageNotScrolled())}>
+              <NavLink
+                to="/"
+                className="logo"
+                onClick={() => dispatch(setHomePageNotScrolled())}
+              >
                 <FaAirbnb className="logo-icon" />
                 <span>flexbnb</span>
               </NavLink>
@@ -162,17 +171,22 @@ export function AppHeader({ scrollContainerRef }) {
                   shouldCollapse ? 'scrolled' : 'expanded'
                 }`}
               >
-                <SearchBar shouldCollapse={shouldCollapse} 
-                  forceExpand={forceExpand} 
+                <SearchBar
+                  shouldCollapse={shouldCollapse}
+                  forceExpand={forceExpand}
                   setForceExpand={setForceExpand}
-                  scrollContainerRef={scrollContainerRef} />
+                  scrollContainerRef={scrollContainerRef}
+                />
               </div>
             )}
           </div>
-
         </nav>
       )}
-      <div className={`app-header-bottom-row ${!isHomePageScrolled ? 'expanded' : ''}`}>
+      <div
+        className={`app-header-bottom-row ${
+          !isHomePageScrolled ? 'expanded' : ''
+        }`}
+      >
         {isHomeIndex && !isHomePageScrolled && (
           <div className="app-header-labels-slider-wrapper">
             <LabelsSlider />

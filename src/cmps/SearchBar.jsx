@@ -104,6 +104,24 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
 
+  const scrolled = shouldCollapse && !forceExpand
+  
+  // useEffect(() => {
+  //   let ref
+  //   if (activeButton === 'where') ref = whereRef
+  //   if (activeButton === 'checkIn') ref = checkInRef
+  //   if (activeButton === 'checkOut') ref = checkOutRef
+  //   if (activeButton === 'capacity') ref = capacityRef
+
+  //   if (ref?.current) {
+  //     const { offsetLeft, offsetWidth } = ref.current
+  //     setIndicatorStyle({
+  //       left: offsetLeft,
+  //       width: offsetWidth,
+  //     })
+  //   }
+  // }, [activeButton])
+
   useEffect(() => {
     let ref
     if (activeButton === 'where') ref = whereRef
@@ -118,7 +136,7 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
         width: offsetWidth,
       })
     }
-  }, [activeButton])
+  }, [activeButton, scrolled, forceExpand])
 
   
 
@@ -129,14 +147,14 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
     }))
   }
 
-  const scrolled = shouldCollapse && !forceExpand
+  
 
-  // useEffect(() => {
-  //   if (scrolled) {
-  //     setOpenedDropdown(null)
-  //     setActiveButton(null)
-  //   }
-  // }, [scrolled])
+  useEffect(() => {
+    if (scrolled) {
+      setOpenedDropdown(null)
+      setActiveButton(null)
+    }
+  }, [scrolled])
 
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile

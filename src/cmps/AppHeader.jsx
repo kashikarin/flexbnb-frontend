@@ -50,8 +50,8 @@ export function AppHeader({ scrollContainerRef }) {
       if (elMain.scrollTop > 20) setHomePageScrolled()
       else setHomePageNotScrolled()
 
-      if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
-      else setHomeDetailsImgNotScrolled()
+      // if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
+      // else setHomeDetailsImgNotScrolled()
     }
     elMain.addEventListener('scroll', handleScroll)
     handleScroll()
@@ -93,7 +93,7 @@ export function AppHeader({ scrollContainerRef }) {
       } ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
       ${forceExpand ? 'expanded' : ''}`}
     >
-      {isHDImgScrolled && <HeaderHomeDetails />}
+      {/* {isHDImgScrolled && <HeaderHomeDetails />} */}
       {isHomeEdit && <HeaderHomeEdit />}
       {!isHDImgScrolled && !isHomeEdit && (
         <nav

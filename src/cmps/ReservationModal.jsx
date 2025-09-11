@@ -102,7 +102,6 @@ export function ReservationModal({ home,
   }
 
   if (!draftOrder) return null
-  console.log("we are here!!!!!")
   return (
     
     <>

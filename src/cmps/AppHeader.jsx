@@ -87,7 +87,6 @@ export function AppHeader({ scrollContainerRef }) {
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
   
 
-console.log("isHDImgScrolled = ",isHDImgScrolled)
 
   return (
     <header

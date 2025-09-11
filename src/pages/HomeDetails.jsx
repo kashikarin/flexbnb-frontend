@@ -244,7 +244,7 @@ export function HomeDetails() {
               <span>{isLiked ? 'Saved' : 'Save'}</span>
             </div>
           </div>
-          <div className="home-details-img-container">
+          <div className="home-details-img-container" id='hd-images-container'>
             {home.imageUrls.map((imageUrl, idx) => {
               return (
                 <img
@@ -260,6 +260,7 @@ export function HomeDetails() {
           <section className="mid-section">
             <div className="home-details-mid">
               <div
+                id='hd-amenities-container'
                 className="home-details-amenities"
                 style={
                   getAvgRating(home) >= 4
@@ -355,7 +356,7 @@ export function HomeDetails() {
           <section className="reviews-section">
             <ReviewCard reviews={home.reviews} />
           </section>
-          <section className="google-maps">
+          <section className="google-maps" id='hd-location-container'>
             <h3>Where you'll be</h3>
             <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map

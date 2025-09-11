@@ -124,6 +124,11 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
   // }, [activeButton])
 
   useEffect(() => {
+    if (!activeButton) {
+      setIndicatorStyle({ display: 'none' })
+      return
+    }
+
     let ref
     if (activeButton === 'where') ref = whereRef
     if (activeButton === 'checkIn') ref = checkInRef

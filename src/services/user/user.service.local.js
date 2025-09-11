@@ -18,8 +18,14 @@ export const userService = {
   createUsers,
 }
 
-function getUsers() {
-  return storageService.query('user')
+async function getUsers() {
+  let users = storageService.query('user')
+
+  if (!users || !users.length) {
+    users = await createUsers()   // call only here
+  }
+
+  return users
 }
 
 async function getById(userId) {

@@ -10,7 +10,15 @@ import {
 import { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
+export function HomePreview({
+  home,
+  isHomeLiked,
+  onAddLike,
+  onRemoveLike,
+  onLoginPrompt,
+}) {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [isSignup, setIsSignup] = useState(false)
   const location = useLocation()
   const [firstIdx, setFirstIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
@@ -89,6 +97,12 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   async function handleLike(e) {
     e.preventDefault()
     e.stopPropagation()
+
+    if (!loggedInUser) {
+      onLoginPrompt && onLoginPrompt()
+      return
+    }
+
     const nextIsLiked = !isLiked
     setIsLiked(nextIsLiked)
     if (nextIsLiked) {
@@ -111,11 +125,20 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   return (
     <Link className="home-preview-link" to={`/home/${home._id}`}>
       <article className="home-preview-container">
-        {loggedInUser && (
+        {loggedInUser ? (
           <div className="heart-icon-container" onClick={handleLike}>
             <FaHeart
               className={`heart filled ${
                 loggedInUser.likedHomes.includes(home._id) ? 'liked' : ''
+              }`}
+            />
+            <FaRegHeart className="heart outline" />
+          </div>
+        ) : (
+          <div className="heart-icon-container" onClick={handleLike}>
+            <FaHeart
+              className={`heart filled ${
+                loggedInUser?.likedHomes.includes(home._id) ? 'liked' : ''
               }`}
             />
             <FaRegHeart className="heart outline" />

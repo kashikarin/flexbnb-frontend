@@ -6,7 +6,12 @@ import { CapacityDropdown } from './CapacityDropdown.jsx'
 import { SET_FILTERBY } from '../store/reducers/home.reducer.js'
 import { DatesDropdown } from './DatesDropdown.jsx'
 
-export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollContainerRef }) {
+export function SearchBar({
+  shouldCollapse,
+  forceExpand,
+  setForceExpand,
+  scrollContainerRef,
+}) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
   //const [forceExpand, setForceExpand] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -105,7 +110,7 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
   }, [openedDropdown])
 
   const scrolled = shouldCollapse && !forceExpand
-  
+
   // useEffect(() => {
   //   let ref
   //   if (activeButton === 'where') ref = whereRef
@@ -138,16 +143,12 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
     }
   }, [activeButton, scrolled, forceExpand])
 
-  
-
   function onUpdateFilterBy(filter) {
     setFilterByToEdit((prevFilterByToEdit) => ({
       ...prevFilterByToEdit,
       ...filter,
     }))
   }
-
-  
 
   useEffect(() => {
     if (scrolled) {
@@ -159,8 +160,7 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
   function handleWhereClick(btName) {
     // Don't expand SearchBar on mobile
     // if (scrolled && !isMobile) setScrolled(false)
-    if (shouldCollapse && !isMobile) 
-    {
+    if (shouldCollapse && !isMobile) {
       setForceExpand(true)
     }
     //if (scrolled && !isMobile) setForceExpand(true)
@@ -300,7 +300,7 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
     <search>
       <div
         className={`search-bar-container ${scrolled ? 'scrolled' : ''} 
-        ${activeButton ? 'has-active' : ''} ${forceExpand ? 'expanded' : ''}` }
+        ${activeButton ? 'has-active' : ''} ${forceExpand ? 'expanded' : ''}`}
         onClick={() => {
           setSearchButtonWide(true)
           scrolled && !isMobile && setForceExpand(true)
@@ -311,7 +311,6 @@ export function SearchBar({ shouldCollapse, forceExpand, setForceExpand, scrollC
             setForceExpand(true)
           }, 50)
         }}
-        
         ref={searchBarRef}
       >
         <div>

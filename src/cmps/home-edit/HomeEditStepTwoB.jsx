@@ -29,13 +29,16 @@ export function HomeEditStepTwoB(){
             <article className="home-edit-step-2-b-image-upload">
                 <div className="home-edit-step-2-b-image-upload-content">
                     {/* Cover photo (first image) */}
-                    {imageUrls[0] ? (
+                    {imageUrls.length > 0 ? (
+                    <div className="cover-photo-wrapper">
                         <img
                             src={imageUrls[0]}
                             alt="cover"
                             className="uploaded-photo cover-photo"
                         />
-                        ) : (
+                        <span className="photo-label">Cover photo</span>
+                        </div>
+                    ) : (
                         <div className="upload-tile cover-photo">
                         <CloudinaryUploadButton
                             preset="flexbnb_listings_preset"

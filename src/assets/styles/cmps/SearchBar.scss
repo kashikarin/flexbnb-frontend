@@ -245,6 +245,7 @@
     border-radius: $search-bar-border-radius-scroll;
     margin: 0;
     transition: all 0.3s ease;
+    z-index: 110;
     
 
     > div {
@@ -355,6 +356,12 @@
     }
 
   }
+
+  &.expanded {
+    grid-row: 2 / 3;
+    grid-column: 2;
+  }
+
 }
 
 .search-bar-container:not(.has-active) {

@@ -32,7 +32,7 @@ export function AppHeader({ scrollContainerRef }) {
   console.log('loggedInUser', loggedInUser)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   // const loggedInUser = false
-
+  const [forceExpand, setForceExpand] = useState(false)
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
@@ -76,14 +76,16 @@ export function AppHeader({ scrollContainerRef }) {
   function onCreateNewListing() {
     setPotentialHome(loggedInUser._id)
   }
-
+  
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
+  
+
+
 
   return (
     <header
-      className={`app-header ${shouldCollapse ? '' : 'expanded'} ${
-        isHosting || isHDImgScrolled ? 'one-row-divider' : ''
-      }`}
+      className={`app-header ${shouldCollapse && !forceExpand ? 'scrolled' : ''} ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
+      ${forceExpand ? 'expanded' : ''}`}
     >
       {isHDImgScrolled && <HeaderHomeDetails />}
       {isHomeEdit && <HeaderHomeEdit />}
@@ -159,7 +161,10 @@ export function AppHeader({ scrollContainerRef }) {
                   shouldCollapse ? 'scrolled' : 'expanded'
                 }`}
               >
-                <SearchBar shouldCollapse={shouldCollapse} />
+                <SearchBar shouldCollapse={shouldCollapse} 
+                  forceExpand={forceExpand} 
+                  setForceExpand={setForceExpand}
+                  scrollContainerRef={scrollContainerRef} />
               </div>
             )}
           </div>

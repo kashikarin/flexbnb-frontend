@@ -4,6 +4,7 @@ import { ReactSVG } from 'react-svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { CapacityDropdown } from './CapacityDropdown.jsx'
 import { SET_FILTERBY } from '../store/reducers/home.reducer.js'
+import { SET_HOMEPAGE_SCROLLED } from '../store/reducers/scroll.reducer.js'
 import { DatesDropdown } from './DatesDropdown.jsx'
 
 export function SearchBar({
@@ -11,6 +12,7 @@ export function SearchBar({
   forceExpand,
   setForceExpand,
   scrollContainerRef,
+  setShouldCollapse,
 }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
   //const [forceExpand, setForceExpand] = useState(false)
@@ -128,6 +130,11 @@ export function SearchBar({
   // }, [activeButton])
 
   useEffect(() => {
+    if (!activeButton) {
+      setIndicatorStyle({ display: 'none' })
+      return
+    }
+
     let ref
     if (activeButton === 'where') ref = whereRef
     if (activeButton === 'checkIn') ref = checkInRef
@@ -191,6 +198,16 @@ export function SearchBar({
     ev.preventDefault()
     ev.stopPropagation()
     dispatch({ type: SET_FILTERBY, filterBy: filterByToEdit })
+
+    setOpenedDropdown(null)
+    setActiveButton(null)
+    setForceExpand(false)
+
+    dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: true })
+
+    if (scrollContainerRef?.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   function getGuestsNumStrToDisplay() {
@@ -206,7 +223,8 @@ export function SearchBar({
       const { adults, children, infants } = filterByToEdit
       const guestsNum =
         Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0)
-      return capacity ? getGuestsNumStrToDisplay() : 'Add guests'
+      //return capacity ? getGuestsNumStrToDisplay() : 'Add guests'
+      return 'Add guests'
     } else {
       return 'Who'
     }
@@ -217,7 +235,8 @@ export function SearchBar({
     // console.log(filterByToEdit.city);
 
     if (scrolled) {
-      txt = filterByToEdit.city ? `${filterByToEdit.city}` : `Anywhere`
+      //txt = filterByToEdit.city ? `${filterByToEdit.city}` : `Anywhere`
+      txt = `Anywhere`
     } else {
       txt = 'Where'
       // filterByToEdit.city ? `${filterByToEdit.city}, ${homeService.getCountry(filterByToEdit.city)}` : 'Where'
@@ -228,37 +247,38 @@ export function SearchBar({
   function getCheckinTitleText() {
     let txt
     if (scrolled) {
-      if (filterByToEdit.checkIn) {
-        //scroll + there is startdate
-        const checkinDate = new Date(filterByToEdit.checkIn)
-        const checkoutDate = filterByToEdit.checkOut
-          ? new Date(filterByToEdit.checkOut)
-          : new Date(filterByToEdit.checkIn + 86400000)
-        const options = { month: 'short', day: 'numeric' }
-        const shortCheckinDate = new Intl.DateTimeFormat(
-          'en-US',
-          options
-        ).format(checkinDate)
-        const shortCheckoutDate =
-          checkinDate.getMonth() === checkoutDate.getMonth()
-            ? checkoutDate.getDate()
-            : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
-        txt = shortCheckinDate + ' - ' + shortCheckoutDate
-      } else if (filterByToEdit.checkOut) {
-        //scroll + there is not startdate but there is end date
-        const checkoutDate = new Date(filterByToEdit.checkIn)
-        const checkinDate = new Date(filterByToEdit.checkOut - 86400000)
-        const options = { month: 'short', day: 'numeric' }
-        const shortCheckinDate = new Intl.DateTimeFormat(
-          'en-US',
-          options
-        ).format(checkinDate)
-        const shortCheckoutDate =
-          checkinDate.getMonth() === checkoutDate.getMonth()
-            ? checkoutDate.getDate()
-            : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
-        txt = shortCheckinDate + ' - ' + shortCheckoutDate
-      } else txt = 'Anytime' //scroll + no dates
+      txt = 'Anytime'
+      // if (filterByToEdit.checkIn) {
+      //   //scroll + there is startdate
+      //   const checkinDate = new Date(filterByToEdit.checkIn)
+      //   const checkoutDate = filterByToEdit.checkOut
+      //     ? new Date(filterByToEdit.checkOut)
+      //     : new Date(filterByToEdit.checkIn + 86400000)
+      //   const options = { month: 'short', day: 'numeric' }
+      //   const shortCheckinDate = new Intl.DateTimeFormat(
+      //     'en-US',
+      //     options
+      //   ).format(checkinDate)
+      //   const shortCheckoutDate =
+      //     checkinDate.getMonth() === checkoutDate.getMonth()
+      //       ? checkoutDate.getDate()
+      //       : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+      //   txt = shortCheckinDate + ' - ' + shortCheckoutDate
+      // } else if (filterByToEdit.checkOut) {
+      //   //scroll + there is not startdate but there is end date
+      //   const checkoutDate = new Date(filterByToEdit.checkIn)
+      //   const checkinDate = new Date(filterByToEdit.checkOut - 86400000)
+      //   const options = { month: 'short', day: 'numeric' }
+      //   const shortCheckinDate = new Intl.DateTimeFormat(
+      //     'en-US',
+      //     options
+      //   ).format(checkinDate)
+      //   const shortCheckoutDate =
+      //     checkinDate.getMonth() === checkoutDate.getMonth()
+      //       ? checkoutDate.getDate()
+      //       : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
+      //   txt = shortCheckinDate + ' - ' + shortCheckoutDate
+      // } else txt = 'Anytime' //scroll + no dates
     } else txt = 'Check in'
     return txt
   }

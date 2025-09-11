@@ -88,14 +88,13 @@
      & + .inner-section:hover::before {
       opacity: 0;
     }
-
 }
 
   .inner-section:not(.active):hover {
     background-color: $gray5;
   }
 
-  /* מעלימים מפריד משמאל של האקטיב */
+  /* מעלימים מפרידים משמאל וימין של האקטיב */
   .inner-section.active::before {
     opacity: 0;
   }
@@ -107,15 +106,13 @@
   .inner-section.active + .dates-dropdown-wrapper + .inner-section::before {
     opacity: 0;
   }
-
-   
-
+  
   .active-indicator {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;  
-    width: 0;   
+    // left: 0;  
+    // width: 0;   
     background-color: white;
     border-radius: $search-bar-border-radius;
     transition: all 0.3s ease;

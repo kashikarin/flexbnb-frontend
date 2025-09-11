@@ -16,17 +16,22 @@ export const userService = {
 }
 
 function getUsers() {
-  return httpService.get(`user`)
+	return httpService.get(`users`)
 }
 
 async function getById(userId) {
-  const user = await httpService.get(`user/${userId}`)
-  return user
+	const user = await httpService.get(`users/${userId}`)
+	return user
 }
 
 function remove(userId) {
-  return httpService.delete(`user/${userId}`)
+	return httpService.delete(`users/${userId}`)
 }
+
+// async function update({ _id, score }) {
+// 	const user = await httpService.put(`users/${_id}`, { _id, score })
+//   return httpService.get(`user`)
+// }
 
 async function update({ _id, score }) {
   const user = await httpService.put(`users/${_id}`, { _id, score })

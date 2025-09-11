@@ -125,7 +125,7 @@ export async function removeLike(homeId, userId) {
 
 export async function initUsers() {
   try {
-    const users = await userService.createUsers()
+    const users = await userService.getUsers()
     store.dispatch({ type: SET_USERS, users })
   } catch (err) {
     console.error('Cannot init users', err)

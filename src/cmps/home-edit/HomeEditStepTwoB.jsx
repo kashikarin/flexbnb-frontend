@@ -1,14 +1,24 @@
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { setStepCompleted } from "../../store/actions/home-edit.actions"
+import { CloudinaryUploadButton } from "../../cmps/CloudinaryUploadButton"
 
 export function HomeEditStepTwoB(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
     const {currentSubStepStatus} = potentialHome.editProgress
+    const { imageUrls = [] } = potentialHome
 
     useEffect(() => {
             if (!currentSubStepStatus) setStepCompleted()
         }, [currentSubStepStatus])
+
+    function handlePhotoUpload(url) {
+        const updatedHome = {
+        ...potentialHome,
+        imageUrls: [...imageUrls, url], // add uploaded photo
+        }
+        updatePotentialHome(updatedHome)
+    }
 
     return (
         <section className='home-edit-step-2-b-container'>
@@ -18,9 +28,42 @@ export function HomeEditStepTwoB(){
             </article>
             <article className="home-edit-step-2-b-image-upload">
                 <div className="home-edit-step-2-b-image-upload-content">
-                    <img src="https://a0.muscache.com/im/pictures/mediaverse/mys-amenities-n8/original/c83b2a87-3be4-43c9-ad47-12dd2aee24c4.jpeg" data-original-uri="https://a0.muscache.com/im/pictures/mediaverse/mys-amenities-n8/original/c83b2a87-3be4-43c9-ad47-12dd2aee24c4.jpeg">
-                    </img>
-                    <button>Add photos</button>
+                    {/* Cover photo (first image) */}
+                    {imageUrls.length > 0 ? (
+                    <div className="cover-photo-wrapper">
+                        <img
+                            src={imageUrls[0]}
+                            alt="cover"
+                            className="uploaded-photo cover-photo"
+                        />
+                        <span className="photo-label">Cover photo</span>
+                        </div>
+                    ) : (
+                        <div className="upload-tile cover-photo">
+                        <CloudinaryUploadButton
+                            preset="flexbnb_listings_preset"
+                            onUpload={handlePhotoUpload}
+                        />
+                        </div>
+                    )}
+
+                    {/* Next 4 photos */}
+                    {imageUrls.slice(1, 5).map((url, idx) => (
+                        <img
+                        key={idx}
+                        src={url}
+                        alt={`home-${idx + 1}`}
+                        className="uploaded-photo"
+                        />
+                    ))}
+
+                    {/* Upload tile at the end */}
+                    <div className="upload-tile">
+                        <CloudinaryUploadButton
+                        preset="flexbnb_listings_preset"
+                        onUpload={handlePhotoUpload}
+                        />
+                    </div>
                 </div>
             </article>
         </section>

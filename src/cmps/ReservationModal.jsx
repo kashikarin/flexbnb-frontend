@@ -25,16 +25,16 @@ export function ReservationModal({ home,
   const rmDatesRef = useRef()
   const rmCapacityDropdownRef = useRef()
 
-  const [adultsNum, setAdultsNum] = useState(draftOrder.guests.adults ?? 0)
-  const [childrenNum, setChildrenNum] = useState(draftOrder.guests.children ?? 0)
-  const [infantsNum, setInfantsNum] = useState(draftOrder.guests.infants ?? 0)
-  const [petsNum, setPetsNum] = useState(draftOrder.guests.pets ?? 0)
+  const [adultsNum, setAdultsNum] = useState(draftOrder.guests?.adults ?? 0)
+  const [childrenNum, setChildrenNum] = useState(draftOrder.guests?.children ?? 0)
+  const [infantsNum, setInfantsNum] = useState(draftOrder.guests?.infants ?? 0)
+  const [petsNum, setPetsNum] = useState(draftOrder.guests?.pets ?? 0)
 
   useEffect(() => {
-    setAdultsNum(draftOrder.guests.adults ?? 0)
-    setChildrenNum(draftOrder.guests.children ?? 0)
-    setInfantsNum(draftOrder.guests.infants ?? 0)
-    setPetsNum(draftOrder.guests.pets ?? 0)
+    setAdultsNum(draftOrder.guests?.adults ?? 0)
+    setChildrenNum(draftOrder.guests?.children ?? 0)
+    setInfantsNum(draftOrder.guests?.infants ?? 0)
+    setPetsNum(draftOrder.guests?.pets ?? 0)
   }, [draftOrder.guests]) // check if filterby is needed as a dependency
 
   useEffect(() => {

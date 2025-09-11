@@ -80,6 +80,7 @@ export function HomeDetails() {
     (state) => state.draftOrderModule.isOrderConfirmationModalOpen
   )
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
+  const loggedInUserId = loggedInUser ? loggedInUser._id : null
   const [isLiked, setIsLiked] = useState(
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
@@ -120,34 +121,43 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (!homeId) return
-    initHome()
+    initHomeAndDraftOrder()
   }, [homeId, loggedInUser])
 
   useEffect(()=>{
-    if (!loggedInUser) return
-    initdraftOrder()
+    let purchaser = null
+    if (!loggedInUser) updateDraftOrder({ ...draftOrder, purchaser: null })
+    else {
+      purchaser = {
+        userId: loggedInUserId,
+        fullname: loggedInUser.fullname
+      }
+      updateDraftOrder({ ...draftOrder, purchaser })
+    }
+    console.log(draftOrder)
   }, [loggedInUser])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
-  async function initHome() {
+  async function initHomeAndDraftOrder() {
     try {
       await loadHome(homeId)
+      await addDraftOrder(homeId, loggedInUserId, filterBy)
     } catch (err) {
       console.error('Cannot load home', err)
     }
   }
 
-  async function initdraftOrder(){
-    try {
-      await addDraftOrder(homeId, '68c0615a899984d302f063f5', filterBy)
-    } catch (err) {
-      console.error('Cannot load draft order', err)
-    }
+  // async function initdraftOrder(){
+  //   try {
+  //     await addDraftOrder(homeId, '68c0615a899984d302f063f5', filterBy)
+  //   } catch (err) {
+  //     console.error('Cannot load draft order', err)
+  //   }
 
-  }
+  // }
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current
@@ -331,7 +341,7 @@ export function HomeDetails() {
               <IoDiamond className="diamond-icon" />
               <p>Rare find! This place is usually booked</p>
             </aside>
-            {/* <ReservationModal
+            {draftOrder && home && (<ReservationModal
               home={home}
               draftOrder={draftOrder}
               updateDraftOrder={updateDraftOrder}
@@ -339,7 +349,7 @@ export function HomeDetails() {
               isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
               openOrderConfirmationModal={openOrderConfirmationModal}
               closeOrderConfirmationModal={closeOrderConfirmationModal}
-            /> */}
+            />)}
           </section>
           <div ref={stickyBreakPointRef} />
           <section className="reviews-section">

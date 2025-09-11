@@ -50,8 +50,23 @@ async function getDraftOrder(homeId, userId, filterBy) {
     children: filterBy.children,
     infants: filterBy.infants,
     pets: filterBy.pets,
-  }
+  }  
   if (!guests.adults) guests.adults = 1
+  console.log("🚀 ~ guests:", guests)
+
+  let purchaser
+  if (!userId) purchaser = null
+  else {
+     const loggedInUser = JSON.parse(sessionStorage.getItem('loggedinUser'))
+     if (loggedInUser) {
+      const {fullname} = loggedInUser
+      purchaser = {
+        userId,
+        fullname
+      }
+     }
+  }
+
   let { checkIn, checkOut } = filterBy
   const home = await homeService.getById(homeId)
   if (!checkIn || !checkOut) {
@@ -59,26 +74,19 @@ async function getDraftOrder(homeId, userId, filterBy) {
     checkIn = firstAvailableBooking.checkIn
     checkOut = firstAvailableBooking.checkOut
   }
-  const loggedInUser = JSON.parse(localStorage.getItem('loggedinUser')) || {
-    _id: userId,
-    fullname: 'User',
-  }
-  console.log(loggedInUser)
 
   const host = {
     userId: home.host.userId,
     fullname: home.host.fullname,
     imgUrl: home.host.imageUrl,
   }
-  console.log('🚀 ~ host:', host)
 
   const serviceFeeRate = 0.14
 
-  // console.log("🚀 ~ checkIn:", checkIn)
-  // console.log("🚀 ~ checkOut:", checkOut)
+
   return {
     host,
-    purchaser: { userId: loggedInUser._id, fullname: loggedInUser.fullname },
+    purchaser,
     totalPrice:
       home.price * _getNumberOfNights(checkIn, checkOut) * (1 + serviceFeeRate),
     checkIn,

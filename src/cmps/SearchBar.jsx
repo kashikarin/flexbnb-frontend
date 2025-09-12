@@ -341,7 +341,10 @@ export function SearchBar({
               activeButton == 'where' ? 'active' : ''
             }`}
           >
-            <div className="sTitle">{getWhereTitleText()}</div>
+            <div className="sTitle">{}
+              {scrolled && <img src='/img/house-icon.png' className='house-title-scolled'/> }
+              {getWhereTitleText()}
+            </div>
             {!scrolled && (
               <input
                 className={`placeholder-content ${scrolled ? 'scrolled' : ''}`}

@@ -13,19 +13,20 @@ export const userService = {
   getLoggedinUser,
   toggleHomeLike,
   getUserLikes,
+  googleAuth,
 }
 
 function getUsers() {
-	return httpService.get(`users`)
+  return httpService.get(`users`)
 }
 
 async function getById(userId) {
-	const user = await httpService.get(`users/${userId}`)
-	return user
+  const user = await httpService.get(`users/${userId}`)
+  return user
 }
 
 function remove(userId) {
-	return httpService.delete(`users/${userId}`)
+  return httpService.delete(`users/${userId}`)
 }
 
 // async function update({ _id, score }) {
@@ -91,4 +92,32 @@ async function toggleHomeLike(homeId) {
 async function getUserLikes() {
   const result = await httpService.get('users/likes/me')
   return result.likedHomes
+}
+
+async function googleAuth(credentials) {
+  try {
+    console.log('🔄 שולח Google JWT לשרת...')
+
+    const response = await fetch(`api/auth/google`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+      credentials: 'include', // חשוב לsessions/cookies
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || 'Google authentication failed')
+    }
+
+    const user = await response.json()
+    console.log('✅ Google Auth הצליח:', user)
+
+    return user
+  } catch (error) {
+    console.error('❌ Google Auth failed:', error)
+    throw error
+  }
 }

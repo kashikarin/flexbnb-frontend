@@ -10,15 +10,7 @@ import {
 import { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-export function HomePreview({
-  home,
-  isHomeLiked,
-  onAddLike,
-  onRemoveLike,
-  onLoginPrompt,
-}) {
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-  const [isSignup, setIsSignup] = useState(false)
+export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   const location = useLocation()
   const [firstIdx, setFirstIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
@@ -97,11 +89,6 @@ export function HomePreview({
   async function handleLike(e) {
     e.preventDefault()
     e.stopPropagation()
-
-    if (!loggedInUser) {
-      onLoginPrompt && onLoginPrompt()
-      return
-    }
 
     const nextIsLiked = !isLiked
     setIsLiked(nextIsLiked)

@@ -13,7 +13,7 @@ export function DotsIndicator({ slidesNum, currentIdx, maxDots = 5, onDotClick }
         return (
           <span
             key={slideIdx}
-            className={`dot ${slideIdx === currentIdx ? "active" : ""}`}
+            className={`dot ${slideIdx === currentIdx ? "active" : ""} ${startIdx + (dotsToRender - 1) === slidesNum - 1? '' : 'dot-more'}`}
             onClick={(e) => onDotClick(e, slideIdx)}
           />
         )

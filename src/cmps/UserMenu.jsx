@@ -36,6 +36,12 @@ export function UserMenu() {
     setError('')
 
     try {
+      console.log('🔍 Google Response:', response)
+      console.log(
+        '🎫 JWT Token:',
+        response.credential?.substring(0, 50) + '...'
+      )
+
       alert(
         'Google Callback עובד! JWT: ' +
           response.credential.substring(0, 20) +
@@ -70,7 +76,22 @@ export function UserMenu() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isDropdownOpen])
+  useEffect(() => {
+    const initUser = async () => {
+      try {
+        const user = await userService.getCurrentUser()
+        if (user) {
+          dispatch({ type: SET_LOGGEDINUSER, user })
+        }
+      } catch (err) {
+        console.log('No user session found')
+      }
+    }
 
+    if (!loggedInUser) {
+      initUser()
+    }
+  }, [dispatch, loggedInUser])
   useEffect(() => {
     const loadGoogleScript = () => {
       return new Promise((resolve, reject) => {

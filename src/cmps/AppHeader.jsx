@@ -15,7 +15,6 @@ import {
   setHomePageScrolled,
   setHomeDetailsImgScrolled,
   setHomeDetailsImgNotScrolled,
-
 } from '../store/actions/scroll.actions'
 import { UserMenu } from './UserMenu'
 
@@ -63,7 +62,7 @@ export function AppHeader({ scrollContainerRef }) {
   useEffect(() => {
     ;(async function initAndLoadData() {
       try {
-        await initUsers()
+        // await initUsers()
         await loadLoggedInUser()
       } catch (err) {
         console.error('Cannot create or load data', err)

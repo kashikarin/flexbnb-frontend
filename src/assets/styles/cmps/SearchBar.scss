@@ -5,7 +5,7 @@
   height: $search-bar-height;
   justify-self: center;
   position: relative;
-  top00: 1rem;
+  top: 1rem;
   display: flex;
   align-items: center;
   border-radius: $search-bar-border-radius;
@@ -122,7 +122,9 @@
 
 
   .sTitle {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-align: start;
     padding-bottom: 2px;
     font-size: 12px;
@@ -132,6 +134,13 @@
     color: $clr7;
     cursor: pointer;
     transition: font-size 0.3s ease;
+    
+    .house-title-scolled {
+      width: 48px;
+      height: 48px;
+      margin-inline-start: 8px;
+
+    }
   }
 
   .placeholder-content {

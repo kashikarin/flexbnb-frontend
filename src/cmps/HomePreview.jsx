@@ -9,10 +9,11 @@ import {
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { DotsIndicator } from './DotsIndicator'
 
 export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   const location = useLocation()
-  const [firstIdx, setFirstIdx] = useState(0)
+  const [currentIdx, setCurrentIdx] = useState(0)
   const [imgWidth, setImgWidth] = useState(0)
   const [isLiked, setIsLiked] = useState(isHomeLiked)
   const imgRef = useRef(null)
@@ -21,15 +22,15 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
   function onPrevClick(ev) {
     ev.preventDefault()
     ev.stopPropagation()
-    if (firstIdx === 0) return
-    setFirstIdx((prev) => Math.max(0, prev - 1))
+    if (currentIdx === 0) return
+    setCurrentIdx((prev) => Math.max(0, prev - 1))
   }
 
   function onNextClick(ev) {
     ev.preventDefault()
     ev.stopPropagation()
-    if (firstIdx + 1 >= home.imageUrls.length) return
-    setFirstIdx((prev) => Math.min(prev + 1, home.imageUrls.length - 1))
+    if (currentIdx + 1 >= home.imageUrls.length) return
+    setCurrentIdx((prev) => Math.min(prev + 1, home.imageUrls.length - 1))
   }
 
   const getWidthByScreen = () => {
@@ -109,6 +110,12 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
     }
   }
 
+  function onDotClick(e, index){
+    e.preventDefault()
+    e.stopPropagation()
+    setCurrentIdx(index)
+  }
+  
   return (
     <Link className="home-preview-link" to={`/home/${home._id}`}>
       <article className="home-preview-container">
@@ -140,7 +147,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
           <div className="home-preview-image-slider-wrapper">
             <div
               className="home-preview-image-slider-track"
-              style={{ '--translate-x-images': `${-firstIdx * imgWidth}px` }}
+              style={{ '--translate-x-images': `${-currentIdx * imgWidth}px` }}
             >
               {home?.imageUrls?.map((imageUrl, idx) => (
                 <div
@@ -155,7 +162,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
           </div>
           <div className="images-slider-buttons-container">
             <div className="images-slider-btn-left">
-              {firstIdx > 0 && (
+              {currentIdx > 0 && (
                 <button
                   onClick={(ev) => onPrevClick(ev)}
                   className="images-slider-btn left"
@@ -165,7 +172,7 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
               )}
             </div>
             <div className="images-slider-btn-right">
-              {firstIdx < home?.imageUrls?.length - 1 && (
+              {currentIdx < home?.imageUrls?.length - 1 && (
                 <button
                   onClick={(ev) => onNextClick(ev)}
                   className="images-slider-btn right"
@@ -174,6 +181,9 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
                 </button>
               )}
             </div>
+          </div>
+          <div className="home-preview-dots-indicator-wrapper">
+            <DotsIndicator slidesNum={home?.imageUrls?.length} currentIdx={currentIdx} onDotClick={onDotClick}/>
           </div>
         </div>
         <div className="home-preview-info-container">

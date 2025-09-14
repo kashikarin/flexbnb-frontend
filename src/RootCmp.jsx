@@ -22,6 +22,7 @@ import { HomeEdit } from './pages/HomeEdit.jsx'
 import { useRef } from 'react'
 import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
 import { Wishlist } from './cmps/Wishlist.jsx'
+import MyTravels from './cmps/MyTravels.jsx'
 
 export function RootCmp() {
   const mainRef = useRef()
@@ -51,6 +52,7 @@ export function RootCmp() {
             <Route path="home" element={<HomeIndex />} />
             <Route path="home/:homeId" element={<HomeDetails />} />
             <Route path="/wishlists" element={<Wishlist />} />
+            <Route path="/my-travels" element={<MyTravels />} />
 
             <Route path="review" element={<ReviewIndex />} />
             <Route path="chat" element={<ChatApp />} />

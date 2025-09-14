@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { setFilterBy } from '../store/actions/home.actions'
 import { LabelPreview } from './LabelPreview'
+import { useSearchParams } from 'react-router-dom'
 
 const labels = [
   {
@@ -144,7 +145,7 @@ export function LabelsSlider() {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
-
+  const [searchParams, setSearchParams] = useSearchParams()
   const checkScrollPosition = () => {
     if (sliderRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current
@@ -213,18 +214,21 @@ export function LabelsSlider() {
   }
 
   function handleLabelClick(labelName) {
-    let updatedFilter = structuredClone(filterBy)
-    setFilterBy({ ...filterBy, labels: [labelName] })
+    // let updatedFilter = structuredClone(filterBy)
+    // setFilterBy({ ...filterBy, labels: [labelName] })
+    const newSearchParams = new URLSearchParams(searchParams)
+    newSearchParams.set('labels', labelName)
+    setSearchParams(newSearchParams)
   }
 
   return (
     <section className={`labels-slider-container full`}>
       <div className="separator"></div>
-      <div className='labels-slider-grid-area'>
-        <div className='labels-slider-wrapper'>
+      <div className="labels-slider-grid-area">
+        <div className="labels-slider-wrapper">
           <div
             ref={sliderRef}
-            className='labels-slider-track'
+            className="labels-slider-track"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleDragEnd}
@@ -234,7 +238,7 @@ export function LabelsSlider() {
             onTouchEnd={handleDragEnd}
           >
             {labels.map((label, idx) => (
-              <div className='labels-slider-item' key={idx}>
+              <div className="labels-slider-item" key={idx}>
                 <LabelPreview
                   label={label}
                   handleLabelClick={handleLabelClick}
@@ -245,28 +249,34 @@ export function LabelsSlider() {
         </div>
       </div>
 
-      <div className='labels-slider-buttons-container'>
-        <div className={`labels-slider-btn-left ${canScrollLeft? 'visible' : ''}`}>
+      <div className="labels-slider-buttons-container">
+        <div
+          className={`labels-slider-btn-left ${canScrollLeft ? 'visible' : ''}`}
+        >
           <button
             onClick={() => scrollSlider('left')}
-            className={`labels-slider-btn left ${canScrollLeft? 'visible' : ''}`}
-            aria-label='Scroll left'
+            className={`labels-slider-btn left ${
+              canScrollLeft ? 'visible' : ''
+            }`}
+            aria-label="Scroll left"
           >
             <img
-              src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg'
-              alt='Previous'
+              src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218785/left-arrow_ap8jfr.svg"
+              alt="Previous"
             />
           </button>
         </div>
-        <div className='labels-slider-btn-right'> 
+        <div className="labels-slider-btn-right">
           <button
             onClick={() => scrollSlider('right')}
-            className={`labels-slider-btn right ${canScrollRight? 'visible' : ''}`}
-            aria-label='Scroll right'
+            className={`labels-slider-btn right ${
+              canScrollRight ? 'visible' : ''
+            }`}
+            aria-label="Scroll right"
           >
             <img
-              src='https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg'
-              alt='Next'
+              src="https://res.cloudinary.com/do0a92wpm/image/upload/v1699218790/right-arrow_pxdlnj.svg"
+              alt="Next"
             />
           </button>
         </div>

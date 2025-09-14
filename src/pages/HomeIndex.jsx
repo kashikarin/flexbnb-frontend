@@ -24,7 +24,7 @@ export function HomeIndex() {
 
   useEffectUpdate(() => {
     loadHomes(filterBy)
-    setExistSearchParams(filterBy)
+    // setExistSearchParams(filterBy)
   }, [filterBy])
 
   useEffect(() => {

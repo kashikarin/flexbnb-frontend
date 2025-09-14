@@ -6,6 +6,7 @@ import { orderService as remote } from './order.service.remote'
 export function getEmptyOrder() {
   return {
     host: { _id: '', fullname: '', imgUrl: '' },
+    purchaser: { _id: '', fullname: '', imgUrl: '' },
     guest: { _id: '', fullname: '' },
     totalPrice: '',
     checkIn: '',

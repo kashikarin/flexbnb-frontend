@@ -86,7 +86,7 @@ export function HomeDetails() {
   )
   const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
-  const stickyBreakPointRef = useRef()
+  // const stickyBreakPointRef = useRef()
 
   console.log(home)
 
@@ -161,9 +161,11 @@ export function HomeDetails() {
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current
-      const elAfterSticky = stickyBreakPointRef.current
+      // const elAfterSticky = stickyBreakPointRef.current
 
-      if (!elAfterImg || !elAfterSticky || !home) return
+      // if (!elAfterImg || !elAfterSticky || !home) return
+      if (!elAfterImg || !home) return
+
 
       const observer = new IntersectionObserver(
         (entries) => {
@@ -173,27 +175,61 @@ export function HomeDetails() {
               else setHomeDetailsImgScrolled()
             }
 
-            if (entry.target === elAfterSticky) {
-              if (entry.isIntersecting) setHomeDetailsStickyCardScrolled()
-              else setHomeDetailsStickyCardNotScrolled()
-            }
+            // if (entry.target === elAfterSticky) {
+            //   if (entry.isIntersecting) setHomeDetailsStickyCardScrolled()
+            //   else setHomeDetailsStickyCardNotScrolled()
+            // }
           })
         },
-        { threshold: 0 }
+        { root: null,
+          threshold: 1.0,
+          rootMargin: "-80px 0px 0px 0px"
+          
+        }
       )
 
-      if (elAfterImg) observer.observe(elAfterImg)
-      if (elAfterSticky) observer.observe(elAfterSticky)
+          if (elAfterImg) observer.observe(elAfterImg)
+          // if (elAfterSticky) observer.observe(elAfterSticky)
 
-      return () => {
-        if (elAfterImg) observer.unobserve(elAfterImg)
-        if (elAfterSticky) observer.unobserve(elAfterSticky)
-        observer.disconnect()
-      }
-    } catch (err) {
-      console.error('💥 IntersectionObserver failed:', err)
-    }
-  }, [home])
+          return () => {
+            if (elAfterImg) observer.unobserve(elAfterImg)
+            // if (elAfterSticky) observer.unobserve(elAfterSticky)
+            observer.disconnect()
+          }
+        } catch (err) {
+          console.error('💥 IntersectionObserver failed:', err)
+        }
+      }, [home])
+      
+      useEffect(() => {
+        const header = document.querySelector(".home-details-header")
+        const headerHeight = header?.offsetHeight || 0
+        const sentinel = document.querySelector("#sticky-sentinel")
+        if (!sentinel) return
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const entry = entries[0]
+            if (entry.isIntersecting) {
+              // Sentinel is visible -> sticky still in view
+              setHomeDetailsStickyCardNotScrolled()
+            } else {
+              // Sentinel went out -> sticky scrolled past header
+              setHomeDetailsStickyCardScrolled()
+            }
+          },
+          {
+            root: null,
+            threshold: 0,
+            rootMargin: `-${headerHeight}px 0px 0px 0px`, // account for header
+          }
+        )
+
+        observer.observe(sentinel)
+
+        return () => observer.disconnect()
+      }, [])
+      
 
   // async function onAddHomeMsg(homeId) {
   //   try {
@@ -354,11 +390,11 @@ export function HomeDetails() {
                   closeOrderConfirmationModal={closeOrderConfirmationModal}
                 />)}
               </section>  
+              <div id="sticky-sentinel" style={{ height: "1px" }} />
             </div>
-
           </section>
           {/* <div /> */}
-          <section className='home-details-reviews-section' ref={stickyBreakPointRef} >
+          <section className='home-details-reviews-section' >
             <ReviewCard reviews={home.reviews} />
           </section>
           <section className="home-details-google-maps-section" id='hd-location-container'>

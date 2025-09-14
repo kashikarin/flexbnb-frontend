@@ -20,8 +20,8 @@ export function WhereDropdown({
         // { title: 'Nearby', subtitle: "Find what's around you" },
         // { title: 'Eilat, Israel', subtitle: 'For a trip abroad' },
         { city: 'Tel Aviv-Yafo', country: 'Israel', subtitle: 'Popular beach destination' },
-        { city: 'London', country: 'United Kingdom', subtitle: 'bla bla bla'},
-        { city: 'Barcelona', country: 'Spain', subtitle: 'bla bla bla'},
+        { city: 'London', country: 'United Kingdom', subtitle: 'For its stunning architecturebla bla bla'},
+        { city: 'Barcelona', country: 'Spain', subtitle: 'Popular beach destination'},
         // { title: 'Jerusalem, Israel', subtitle: 'For sights like Church of the Holy Sepulchre' },
     ]
 
@@ -40,12 +40,18 @@ export function WhereDropdown({
       <div ref={dropdownRef}>
         {isOpen && (
           <div className="where-dropdown-panel dropdown-wrapper">
-            <h4>Suggested destinations</h4>
+            <div>Suggested destinations</div>
             <ul>
               {suggestedPlaces.map((place, idx) => (
                 <li key={idx} onPointerDown={(ev) => handleClick(ev, place.city)}>
-                  <strong>{place.city}, {place.country}</strong>
-                  <div className="subtitle">{place.subtitle}</div>
+                  <div className="where-dropdown-row-content">
+                    <img src={`/img/cities/${place.city.toLowerCase().replace(/[^a-z0-9]/g, "")}.png`} alt={place.city} className="where-dropdown-city-image" />
+                    <div className="where-dropdown-city-txt">
+                      <strong>{place.city}, {place.country}</strong>
+                      <div className="subtitle">{place.subtitle}</div>
+                    </div>
+                  </div>
+                  
                 </li>
               ))}
             </ul>

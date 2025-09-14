@@ -1,94 +1,120 @@
 import { httpService } from '../http.service'
 
-const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
-
 export const userService = {
   login,
-  logout,
   signup,
-  getUsers,
-  getById,
-  remove,
-  update,
+  logout,
+  googleAuth,
+  getCurrentUser,
   getLoggedinUser,
+  getById,
+  getUsers,
+  update,
+  remove,
   toggleHomeLike,
-  getUserLikes,
-}
-
-function getUsers() {
-	return httpService.get(`users`)
-}
-
-async function getById(userId) {
-	const user = await httpService.get(`users/${userId}`)
-	return user
-}
-
-function remove(userId) {
-	return httpService.delete(`users/${userId}`)
-}
-
-// async function update({ _id, score }) {
-// 	const user = await httpService.put(`users/${_id}`, { _id, score })
-//   return httpService.get(`user`)
-// }
-
-async function update({ _id, score }) {
-  const user = await httpService.put(`users/${_id}`, { _id, score })
-  // const user = await httpService.post('user', userCred)
-
-  // When admin updates other user's details, do not update loggedinUser
-  const loggedinUser = getLoggedinUser() // Might not work because its defined in the main service???
-  if (loggedinUser._id === user._id) _saveLocalUser(user)
-
-  return user
 }
 
 async function login(userCred) {
-  const user = await httpService.post('auth/login', userCred)
-  if (user) return _saveLocalUser(user)
+  try {
+    const user = await httpService.post('auth/login', userCred)
+    if (user) {
+      _saveLocalUser(user)
+    }
+    return user
+  } catch (err) {
+    throw err
+  }
 }
 
 async function signup(userCred) {
-  if (!userCred.imgUrl) userCred.imgUrl = ''
-  //https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png
-  userCred.likedHomes = []
-
-  const user = await httpService.post('auth/signup', userCred)
-  return _saveLocalUser(user)
+  try {
+    const user = await httpService.post('auth/signup', userCred)
+    if (user) {
+      _saveLocalUser(user)
+    }
+    return user
+  } catch (err) {
+    throw err
+  }
 }
 
-async function logout() {
-  sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
-  return await httpService.post('auth/logout')
+async function googleAuth(credentials) {
+  try {
+    const user = await httpService.post('auth/google', credentials)
+    if (user) {
+      _saveLocalUser(user)
+    }
+    return user
+  } catch (err) {
+    throw err
+  }
+}
+
+async function getCurrentUser() {
+  try {
+    const user = await httpService.get('auth/me')
+    if (user) {
+      _saveLocalUser(user)
+    }
+    return user
+  } catch (err) {
+    throw err
+  }
 }
 
 function getLoggedinUser() {
-  return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+  return JSON.parse(sessionStorage.getItem('loggedInUser') || 'null')
 }
 
-function _saveLocalUser(user) {
-  const userToSave = {
-    _id: user._id,
-    fullname: user.fullname,
-    username: user.username,
-    email: user.email,
-    imgUrl: user.imgUrl,
-    score: user.score || 10000,
-    isAdmin: user.isAdmin,
-    isHost: user.isHost,
-    likedHomes: user.likedHomes || [],
+async function logout() {
+  try {
+    await httpService.post('auth/logout')
+    _clearLocalUser()
+  } catch (err) {
+    throw err
   }
-  sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToSave))
-  return userToSave
+}
+
+async function getById(userId) {
+  return await httpService.get(`users/${userId}`)
+}
+
+async function getUsers() {
+  return await httpService.get('users')
+}
+
+async function update(user) {
+  const updatedUser = await httpService.put(`users/${user._id}`, user)
+  if (updatedUser) {
+    _saveLocalUser(updatedUser)
+  }
+  return updatedUser
+}
+
+async function remove(userId) {
+  return await httpService.delete(`users/${userId}`)
 }
 
 async function toggleHomeLike(homeId) {
-  const result = await httpService.post(`users/like/${homeId}`)
-  return result
+  return await httpService.post(`users/like/${homeId}`)
 }
 
-async function getUserLikes() {
-  const result = await httpService.get('users/likes/me')
-  return result.likedHomes
+function _saveLocalUser(user) {
+  user = {
+    _id: user._id,
+    fullname: user.fullname,
+    username: user.username,
+    imgUrl: user.imgUrl,
+    email: user.email,
+    isHost: user.isHost,
+    isAdmin: user.isAdmin,
+    likedHomes: user.likedHomes,
+    createdAt: user.createdAt,
+  }
+  sessionStorage.setItem('loggedInUser', JSON.stringify(user))
+  return user
+}
+
+function _clearLocalUser() {
+  sessionStorage.removeItem('loggedInUser')
 }

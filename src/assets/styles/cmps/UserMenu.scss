@@ -22,6 +22,7 @@
   width: 24px;
   height: 24px;
 }
+
 .user-avatar-placeholder {
   background-color: #000;
   color: #fff;
@@ -32,12 +33,13 @@
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  // font-weight: bold;
   text-transform: uppercase;
 }
+
 .user-avatar-placeholder:hover {
   text-decoration: none;
 }
+
 .user-menu-dropdown {
   position: absolute;
   top: 100%;
@@ -52,6 +54,7 @@
   animation: dropdownSlideIn 0.2s ease-out;
   margin-top: 8px;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 @keyframes dropdownSlideIn {
@@ -85,6 +88,7 @@
   text-decoration: none;
   font-size: 14px;
   font-weight: 400;
+  letter-spacing: 0.2px;
   border: none;
   background: none;
   cursor: pointer;
@@ -133,7 +137,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
-  max-width: 400px;
+  max-width: 500px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
@@ -197,6 +201,128 @@
   gap: 20px;
 }
 
+.signup-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.profile-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.image-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.image-preview {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #e0e0e0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder {
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.upload-btn:hover:not(:disabled) {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.upload-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.upload-hint {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  margin: 0;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .input-group {
   display: flex;
   flex-direction: column;
@@ -220,7 +346,6 @@
 
 .input-group input:focus {
   outline: none;
-
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
@@ -299,6 +424,41 @@
   text-align: center;
 }
 
+.menu-item:focus,
+.toggle-link:focus,
+.auth-submit-btn:focus,
+.input-group input:focus {
+  outline: 2px solid $primary-font-black !important;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .signup-layout {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .profile-image-section {
+    align-self: center;
+    min-width: auto;
+    padding: 15px;
+  }
+
+  .image-preview {
+    width: 70px;
+    height: 70px;
+  }
+
+  .upload-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .auth-modal {
+    max-width: 400px;
+  }
+}
+
 @media (max-width: 480px) {
   .user-menu-dropdown {
     right: -20px;
@@ -315,19 +475,61 @@
   }
 }
 
-.user-menu-dropdown {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+/* הוסף את ה-CSS הזה לקובץ העיצוב שלך */
+
+.auth-divider {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
 }
 
-.menu-item {
-  font-weight: 400;
-  letter-spacing: 0.2px;
+.auth-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ddd;
 }
 
-.menu-item:focus,
-.toggle-link:focus,
-.auth-submit-btn:focus,
-.input-group input:focus {
-  outline: 2px solid $primary-font-black !important;
-  outline-offset: 2px;
+.auth-divider span {
+  background-color: white;
+  padding: 0 15px;
+  color: #666;
+  font-size: 14px;
+  text-transform: lowercase;
+}
+
+.google-auth-btn {
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  background-color: white;
+  color: #3c4043;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+}
+
+.google-auth-btn:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-color: #c6c6c6;
+}
+
+.google-auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.google-logo {
+  width: 18px;
+  height: 18px;
 }

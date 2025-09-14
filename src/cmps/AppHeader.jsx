@@ -15,7 +15,6 @@ import {
   setHomePageScrolled,
   setHomeDetailsImgScrolled,
   setHomeDetailsImgNotScrolled,
-
 } from '../store/actions/scroll.actions'
 import { UserMenu } from './UserMenu'
 
@@ -50,18 +49,20 @@ export function AppHeader({ scrollContainerRef }) {
       if (elMain.scrollTop > 20) setHomePageScrolled()
       else setHomePageNotScrolled()
 
-      if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
-      else setHomeDetailsImgNotScrolled()
+      if (location.pathname.startsWith('/home/')) {
+        if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
+        else setHomeDetailsImgNotScrolled()
+      }
     }
     elMain.addEventListener('scroll', handleScroll)
     handleScroll()
     return () => elMain.removeEventListener('scroll', handleScroll)
-  }, [scrollContainerRef])
+  }, [scrollContainerRef, location.pathname])
 
   useEffect(() => {
     ;(async function initAndLoadData() {
       try {
-        await initUsers()
+        // await initUsers()
         await loadLoggedInUser()
       } catch (err) {
         console.error('Cannot create or load data', err)

@@ -13,50 +13,52 @@ export function HeaderHomeDetails() {
 
     return(
         <header className="home-details-scrolled-header">
-            <nav>
-                <div>Photos</div>
-                <div>Amenities</div>
-                <div>Location</div>
-            </nav>
-            {isHDStickyCardScrolled && <div className="reservation-header-modal">
-                <div className="reservation-header-modal-text-container">
-                    <div>
-                        <span>{roundToDecimals(home.price).toLocaleString()}$</span>
-                        <span>{'\u00A0'}night</span> 
-                    </div>
-                    <div className='home-details-reviews'>
-                        <span>
-                            <FaStar
-                                style={{
-                                width: '8px',
-                                height: '8px',
-                                marginInlineEnd: '2px',
-                                verticalAlign: 'middle',
-                                }}
-                            />
-                            <span style={{ fontWeight: 'bold' }}>
-                                {roundToDecimals(getAvgRating(home)).toLocaleString()}{' '}
+            <div className="header-home-details-wrapper">
+                <nav>
+                    <div>Photos</div>
+                    <div>Amenities</div>
+                    <div>Location</div>
+                </nav>
+                {isHDStickyCardScrolled && <div className="reservation-header-modal">
+                    <div className="reservation-header-modal-text-container">
+                        <div>
+                            <span>{roundToDecimals(home.price).toLocaleString()}$</span>
+                            <span>{'\u00A0'}night</span> 
+                        </div>
+                        <div className='home-details-reviews'>
+                            <span>
+                                <FaStar
+                                    style={{
+                                    width: '8px',
+                                    height: '8px',
+                                    marginInlineEnd: '2px',
+                                    verticalAlign: 'middle',
+                                    }}
+                                />
+                                <span style={{ fontWeight: 'bold' }}>
+                                    {roundToDecimals(getAvgRating(home)).toLocaleString()}{' '}
+                                </span>
                             </span>
-                        </span>
-                        <span>•</span>
-                        <span>{home.reviews.length} reviews </span>
+                            <span>•</span>
+                            <span>{home.reviews.length} reviews </span>
+                        </div>
                     </div>
-                </div>
-                <button onClick={openOrderConfirmationModal}>Reserve</button>
-            </div>}
-            
-            {isOrderConfirmationModalOpen && (
-                <BuyingStepOneModal
-                draftOrder={draftOrder}
-                homePrice={home.price}
-                homeType={home.type}
-                homeCity={home.loc.city}
-                homeCountry={home.loc.country}
-                homeSummary={home.summary}
-                addOrder={addOrder}
-                closeOrderConfirmationModal={closeOrderConfirmationModal}
-                />
-                  )}
+                    <button onClick={openOrderConfirmationModal}>Reserve</button>
+                </div>}
+                
+                {isOrderConfirmationModalOpen && (
+                    <BuyingStepOneModal
+                    draftOrder={draftOrder}
+                    homePrice={home.price}
+                    homeType={home.type}
+                    homeCity={home.loc.city}
+                    homeCountry={home.loc.country}
+                    homeSummary={home.summary}
+                    addOrder={addOrder}
+                    closeOrderConfirmationModal={closeOrderConfirmationModal}
+                    />
+                    )}
+            </div>
         </header>
     )
 }

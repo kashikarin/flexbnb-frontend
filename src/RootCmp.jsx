@@ -26,7 +26,7 @@ import { Wishlist } from './cmps/Wishlist.jsx'
 export function RootCmp() {
   const mainRef = useRef()
   const location = useLocation()
-  const isIndex = location.pathname === '/'
+  const isHomeIndex = location.pathname === '/'
   const isHomeEdit = location.pathname === '/hosting/edit'
 
   //   console.log('📍location.pathname:', location.pathname)
@@ -34,7 +34,7 @@ export function RootCmp() {
   return (
     <PotentialOrderProvider>
       <ScrollToTop />
-      <div className="main-container">
+      <div className={isHomeIndex ? 'wide-layout' : 'narrow-layout'}>
         <AppHeader scrollContainerRef={mainRef} />
 
         {/* <UserMsg /> */}

@@ -35,6 +35,7 @@ export function AppHeader({ scrollContainerRef }) {
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   // const loggedInUser = false
   const [forceExpand, setForceExpand] = useState(false)
+  
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
@@ -49,10 +50,10 @@ export function AppHeader({ scrollContainerRef }) {
       if (elMain.scrollTop > 20) setHomePageScrolled()
       else setHomePageNotScrolled()
 
-      if (location.pathname.startsWith('/home/')) {
-        if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
-        else setHomeDetailsImgNotScrolled()
-      }
+      // if (location.pathname.startsWith('/home/')) {
+      //   if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
+      //   else setHomeDetailsImgNotScrolled()
+      // }
     }
     elMain.addEventListener('scroll', handleScroll)
     handleScroll()
@@ -86,6 +87,7 @@ export function AppHeader({ scrollContainerRef }) {
   }
 
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
+  console.log("🚀 ~ shouldCollapse:", shouldCollapse)
 
   return (
     <header
@@ -94,9 +96,12 @@ export function AppHeader({ scrollContainerRef }) {
       } ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
       ${forceExpand ? 'expanded' : ''}`}
     >
-      {isHDImgScrolled && <HeaderHomeDetails />}
-      {isHomeEdit && <HeaderHomeEdit />}
-      {!isHDImgScrolled && !isHomeEdit && (
+      {isHomeEdit ? (
+      <HeaderHomeEdit />
+    ) : isHDImgScrolled ? (
+      <HeaderHomeDetails />
+    ) : (
+      <>
         <nav
           className={`app-header-main-nav ${
             shouldCollapse ? 'scrolled' : 'expanded'
@@ -182,18 +187,18 @@ export function AppHeader({ scrollContainerRef }) {
             )}
           </div>
         </nav>
-      )}
-      <div
-        className={`app-header-bottom-row ${
-          !isHomePageScrolled ? 'expanded' : ''
-        }`}
-      >
-        {isHomeIndex && !isHomePageScrolled && (
-          <div className="app-header-labels-slider-wrapper">
-            <LabelsSlider />
-          </div>
-        )}
-      </div>
+        <div
+          className={`app-header-bottom-row ${
+            !isHomePageScrolled ? 'expanded' : ''
+          }`}
+        >
+          {isHomeIndex && !isHomePageScrolled && (
+            <div className="app-header-labels-slider-wrapper">
+              <LabelsSlider />
+            </div>
+          )}
+        </div>
+      </>)}
     </header>
   )
 }

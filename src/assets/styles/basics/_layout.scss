@@ -1,38 +1,52 @@
-.main-container {
+.wide-layout {
   display: grid;
-  grid-template-columns: 5rem 1fr 5rem;
+  grid-template-columns: minmax(2rem, 1fr) minmax(0, 1400px) minmax(2rem, 1fr);
   grid-template-rows: auto 1fr auto;
   height: 100vh;
-  overflow-y: auto;
+}
 
-  & > header {
-    grid-row: 1;
-    grid-column: 1/-1;
-  }
+.narrow-layout {
+  display: grid;
+  grid-template-columns: minmax(2rem, 1fr) minmax(0, 1120px) minmax(2rem, 1fr);
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+}
 
-  & > footer {
-    grid-row: 3;
-    grid-column: 1/-1;
-  }
 
-  & > .home-edit-footer {
-    grid-row: 3;
-    grid-column: 1 / -1;
-  }
-
-  & > main {
-    grid-column: 2;
+.wide-layout > main,
+.narrow-layout > main {
+   grid-column: 2;
     grid-row: 2;
     min-height: 0;
     overflow-y: auto;
     -ms-overflow-style: none;
-  }
+}
+
+.wide-layout > header,
+.narrow-layout > header {
+  grid-row: 1;
+  grid-column: 1/-1;
+}
+
+.wide-layout > footer,
+.narrow-layout > footer,
+.home-edit-footer
+ {
+  grid-row: 3;
+  grid-column: 1/-1;
+}
+
   main::-webkit-scrollbar {
-    //works on safari and opera
     display: none;
   }
-  .full {
-    grid-column: 1 / -1;
+
+.full {
+  grid-column: 1 / -1;
+}
+
+
+
+  
     // }
     //   @include for-narrow-layout {
     //       grid-template-columns:
@@ -52,22 +66,15 @@
     //         minmax(auto, $normal-breakpoint)
     //         minmax(20px, 1fr);
     // }
-  }
-}
-
-.homed-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 20px;
-}
+  
 
 @media (max-width: 600px) {
-  .main-container {
+  .wide-layout {
     grid-template-columns: 1rem 1fr 1rem;
   }
 }
 @media (max-width: 900px) {
-  .main-container {
+  .wide-layout {
     grid-template-columns: 1rem 1fr 1rem;
   }
 }

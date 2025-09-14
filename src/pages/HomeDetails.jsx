@@ -232,7 +232,7 @@ export function HomeDetails() {
   return (
     <>
       {home && (
-        <div className="home-details-container">
+        <div className="home-details-container narrow-layout">
           <div className="home-details-header">
             <h1>
               {home.type} in {home.loc.city}, {home.loc.country}

@@ -1,10 +1,8 @@
 .home-details-container {
   font-family: 'Airbnb Cereal App Medium', sans-serif;
-  display: grid;
-  grid-template-columns: 1fr minmax(280px, 350px); // main + sidebar
   column-gap: 2rem;
-  max-width: 1120px;
-  margin: 0 auto; 
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 350px);
 
   .home-details-header {
     grid-column: 1 / -1;

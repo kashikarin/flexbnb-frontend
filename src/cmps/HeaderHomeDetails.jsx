@@ -7,9 +7,10 @@ import { addOrder } from '../store/actions/order.actions';
 
 export function HeaderHomeDetails() {
     const home = useSelector(state => state.homeModule.home)
-    const {isHDStickyCardScrolled} = useSelector(state => state.scrollModule.isHDStickyCardScrolled)
+    const isHDStickyCardScrolled = useSelector(state => state.scrollModule.isHDStickyCardScrolled)
     const draftOrder = useSelector(state => state.draftOrderModule.draftOrder)
     const isOrderConfirmationModalOpen = useSelector(state => state.draftOrderModule.isOrderConfirmationModalOpen)
+
     return(
         <header className="home-details-scrolled-header">
             <nav>
@@ -56,8 +57,6 @@ export function HeaderHomeDetails() {
                 closeOrderConfirmationModal={closeOrderConfirmationModal}
                 />
                   )}
-            
-
         </header>
     )
 }

@@ -163,24 +163,24 @@ export function HomeDetails() {
       const elAfterImg = imgBreakPointRef.current
       const elAfterSticky = stickyBreakPointRef.current
 
-      if (!elAfterImg || !elAfterSticky || !home || !loggedInUser) return
+      if (!elAfterImg || !elAfterSticky || !home) return
 
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.target === elAfterImg) setHomeDetailsImgScrolled()
-            else setHomeDetailsImgNotScrolled()
+            if (entry.target === elAfterImg) {
+              if (entry.isIntersecting) setHomeDetailsImgNotScrolled()
+              else setHomeDetailsImgScrolled()
+            }
 
-            if (entry.target === elAfterSticky)
-              setHomeDetailsStickyCardScrolled()
-            else setHomeDetailsStickyCardNotScrolled()
+            if (entry.target === elAfterSticky) {
+              if (entry.isIntersecting) setHomeDetailsStickyCardScrolled()
+              else setHomeDetailsStickyCardNotScrolled()
+            }
           })
         },
-        { threshold: 0.5 }
+        { threshold: 0 }
       )
-
-      if (elAfterImg) observer.observe(elAfterImg)
-      if (elAfterSticky) observer.observe(elAfterSticky)
 
       if (elAfterImg) observer.observe(elAfterImg)
       if (elAfterSticky) observer.observe(elAfterSticky)
@@ -193,7 +193,7 @@ export function HomeDetails() {
     } catch (err) {
       console.error('💥 IntersectionObserver failed:', err)
     }
-  }, [home, loggedInUser])
+  }, [home])
 
   // async function onAddHomeMsg(homeId) {
   //   try {
@@ -244,7 +244,7 @@ export function HomeDetails() {
               <span>{isLiked ? 'Saved' : 'Save'}</span>
             </div>
           </div>
-          <div className="home-details-img-container" id='hd-images-container'>
+          <div className="home-details-img-container" id='hd-images-container' ref={imgBreakPointRef}>
             {home.imageUrls.map((imageUrl, idx) => {
               return (
                 <img
@@ -256,7 +256,7 @@ export function HomeDetails() {
               )
             })}
           </div>
-          <div ref={imgBreakPointRef} />
+          {/* <div /> */}
           <section className="home-details-mid-section">
             <div className="home-details-mid-left-part-wrapper">
               <div
@@ -357,9 +357,8 @@ export function HomeDetails() {
             </div>
 
           </section>
-            
-          <div ref={stickyBreakPointRef} />
-          <section className='home-details-reviews-section'>
+          {/* <div /> */}
+          <section className='home-details-reviews-section' ref={stickyBreakPointRef} >
             <ReviewCard reviews={home.reviews} />
           </section>
           <section className="home-details-google-maps-section" id='hd-location-container'>

@@ -11,6 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     h1 {
       grid-column: span 2 / span 2;
       margin: 0;
@@ -124,9 +125,8 @@
     grid-template-columns: 1fr minmax(280px, 350px);
     column-gap: 2rem;
     row-gap: 2rem;
-    margin-block-start: 22px;
     align-items: start;
-    
+        
     .home-details-mid-left-part-wrapper {
       .home-details-amenities {
         display: flex;
@@ -269,25 +269,26 @@
       }
     }
     .home-details-mid-right-part-wrapper {
-      top: 80px;
       width: 100%;
       z-index: 10;
-      padding-inline-end: 1px;
-      align-self: stretch;
-      height: fit-content;
-      height: auto; 
+      // padding-inline-end: 1px;
+      align-self: start;
+      height: 100%; 
       display: flex;     
       flex-direction: column;
+      overflow: visible;
+      height: 200vh;
       
       .home-details-sticky-sidebars {
-        display: inline-flex;
+        display: flex;
         flex-direction: column;
         gap: 1rem;      
         position: sticky;
-        top: 0;
-        width: 100%;
+        top: 20px;
         align-self: flex-start;
         max-width: 350px;
+        margin-inline-start: auto;
+        width: clamp(240px, 22vw, 350px);
         
         .rare-modal {
           display: flex;
@@ -322,12 +323,11 @@
           opacity: 0;
           pointer-events: none;
         }
-        .home-details-reservation-modal-section {
-          width: 100%;
-          display: block;
-          position: relative;
+        // .home-details-reservation-modal-section {
+        //   width: 100%;
+        //   display: block;
 
-        }
+        // }
       }
     }
   }
@@ -336,6 +336,7 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
+        height: 200vh;
   }
 
   .home-details-google-maps-section {

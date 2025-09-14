@@ -111,135 +111,131 @@ export function ReservationModal({ home,
   if (!draftOrder) return null
   return (
     <aside className="home-details-reservation-modal-section">
-      <div className='reservation-container'>
-          <div className='reservation-details'>
-            <div className='reservation-header'>
-              <div className='reservation-header-price-container'>
-                <span>{`${roundToDecimals(home.price).toLocaleString()}$ `}</span>
-                <span>night</span>
-              </div>
+          <div className='reservation-header'>
+            <div className='reservation-header-price-container'>
+              <span>{`${roundToDecimals(home.price).toLocaleString()}$ `}</span>
+              <span>night</span>
             </div>
-            <div className='reservation-selection' ref={rmSelectionRef}>
-              <div 
-                className={`reservation-selection-date-checkin ${openedDropdown === 'checkIn'? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleWhereClick(e, 'checkIn')
-                }}
-              >
-                <div className="rmTitle">CHECK-IN</div>
-                  <input
-                    className='placeholder-content'
-                    type="search"
-                    placeholder="Add Dates"
-                    value={draftOrder?.checkIn ? draftOrder.checkIn.toLocaleDateString() : ''}
-                    readOnly
-                  />
-              </div>
-              <div 
-                className={`reservation-selection-date-checkout ${openedDropdown === 'checkOut'? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleWhereClick(e, 'checkOut')
-                }}
-              >
-                <div className="rmTitle">CHECK-OUT</div>
+          </div>
+          <div className='reservation-selection' ref={rmSelectionRef}>
+            <div 
+              className={`reservation-selection-date-checkin ${openedDropdown === 'checkIn'? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleWhereClick(e, 'checkIn')
+              }}
+            >
+              <div className="rmTitle">CHECK-IN</div>
                 <input
-                    className='rm-placeholder-content'
-                    type="search"
-                    placeholder="Add Dates"
-                    value={draftOrder?.checkOut ? draftOrder.checkOut.toLocaleDateString() : ''}
+                  className='placeholder-content'
+                  type="search"
+                  placeholder="Add Dates"
+                  value={draftOrder?.checkIn ? draftOrder.checkIn.toLocaleDateString() : ''}
+                  readOnly
+                />
+            </div>
+            <div 
+              className={`reservation-selection-date-checkout ${openedDropdown === 'checkOut'? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleWhereClick(e, 'checkOut')
+              }}
+            >
+              <div className="rmTitle">CHECK-OUT</div>
+              <input
+                  className='rm-placeholder-content'
+                  type="search"
+                  placeholder="Add Dates"
+                  value={draftOrder?.checkOut ? draftOrder.checkOut.toLocaleDateString() : ''}
 
-                    readOnly
-                />
-              </div>
-              <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
-                <DatesDropdown
-                  isOpen={openedDropdown === 'checkIn' || openedDropdown === 'checkOut'}
-                  // onClose={() => setOpenedDropdown(null)}
-                  // rmDatesRef={rmDatesRef}
-                  checkIn={draftOrder.checkIn}
-                  checkOut={draftOrder.checkOut}
-                  onSetDates={({ checkIn, checkOut }) => {
-                    updateDraftOrder({ ...draftOrder, checkIn, checkOut })
-                    if (checkIn && checkOut) onCloseDropdown()
-                  }}
-                />
-              </div>
-              
+                  readOnly
+              />
+            </div>
+            <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+              <DatesDropdown
+                isOpen={openedDropdown === 'checkIn' || openedDropdown === 'checkOut'}
+                // onClose={() => setOpenedDropdown(null)}
+                // rmDatesRef={rmDatesRef}
+                checkIn={draftOrder.checkIn}
+                checkOut={draftOrder.checkOut}
+                onSetDates={({ checkIn, checkOut }) => {
+                  updateDraftOrder({ ...draftOrder, checkIn, checkOut })
+                  if (checkIn && checkOut) onCloseDropdown()
+                }}
+              />
+            </div>
+            
+            <div
+              // className='reservation-selection-guest-dropdown-wrapper'
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+                gridColumn: 'span 2',
+              }}
+            >
               <div
-                // className='reservation-selection-guest-dropdown-wrapper'
-                style={{
-                  position: 'relative',
-                  display: 'inline-block',
-                  gridColumn: 'span 2',
+                className={`reservation-selection-guest-container ${openedDropdown === 'capacity'? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleWhereClick(e, 'capacity')
                 }}
               >
-                <div
-                  className={`reservation-selection-guest-container ${openedDropdown === 'capacity'? 'active' : ''}`}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleWhereClick(e, 'capacity')
-                  }}
-                >
-                  <div className='reservation-selection-guest-container-guests'>
-                    <div>GUESTS</div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <div style={{ fontSize: '14px' }} onChange={handleChange}>
-                        {getGuestsNumStrToDisplay()}
-                      </div>
-                      <ReactSVG src='/svgs/arrow-down.svg' />
+                <div className='reservation-selection-guests-input'>
+                  <div>GUESTS</div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div style={{ fontSize: '14px' }} onChange={handleChange}>
+                      {getGuestsNumStrToDisplay()}
                     </div>
+                    <ReactSVG src='/svgs/arrow-down.svg' />
                   </div>
                 </div>
-                <div
-                  ref={rmCapacityDropdownRef}
-                  className="reservation-selection-guest-dropdown-wrapper"
-                >
-                  <CapacityDropdown
-                    isOpen={openedDropdown === 'capacity'}
-                    onClose={onCloseDropdown}
-                    father={'reservation-modal'}
-                    adultsFilter={Number(adultsNum ?? 0)}
-                    childrenFilter={Number(childrenNum ?? 0)}
-                    infantsFilter={Number(infantsNum ?? 0)}
-                    petsFilter={Number(petsNum ?? 0)}
-                    setAdultsNum={setAdultsNum}
-                    setChildrenNum={setChildrenNum}
-                    setInfantsNum={setInfantsNum}
-                    setPetsNum={setPetsNum}
-                    homeCapacity={home.capacity}
-                    petsAllowed={home.petsAllowed}
-                  />
-                </div>
               </div>
-            </div>
-            <button onClick={openOrderConfirmationModal}>Reserve</button>
-            <span>You won't be charged yet</span>
-            <div className='reservation-summary-information-container'>
-              <div className='cost-breakdown-container'>
-                <div className='reservation-summary-row price'>
-                  <span>{roundToDecimals(home.price).toLocaleString()} x {nightsNum} {nightsNum > 1 ? 'nights' : 'night'}</span>
-                  <span>{roundToDecimals(home.price * nightsNum).toLocaleString()}</span>
-                </div>
-                <div className='reservation-summary-row service-fee'>
-                  <span>Flexbnb service fee</span>
-                  <span>${roundToDecimals(home.price * nightsNum * 0.14).toLocaleString()}</span>
-                </div>
-                <div className='reservation-summary-row total'>
-                  <span>Total</span>
-                  <span>${roundToDecimals(home.price * nightsNum * 1.14).toLocaleString()}</span>
-                </div>
+              <div
+                ref={rmCapacityDropdownRef}
+                className="reservation-selection-guest-dropdown-wrapper"
+              >
+                <CapacityDropdown
+                  isOpen={openedDropdown === 'capacity'}
+                  onClose={onCloseDropdown}
+                  father={'reservation-modal'}
+                  adultsFilter={Number(adultsNum ?? 0)}
+                  childrenFilter={Number(childrenNum ?? 0)}
+                  infantsFilter={Number(infantsNum ?? 0)}
+                  petsFilter={Number(petsNum ?? 0)}
+                  setAdultsNum={setAdultsNum}
+                  setChildrenNum={setChildrenNum}
+                  setInfantsNum={setInfantsNum}
+                  setPetsNum={setPetsNum}
+                  homeCapacity={home.capacity}
+                  petsAllowed={home.petsAllowed}
+                />
               </div>
             </div>
           </div>
-        </div>
+          <button onClick={openOrderConfirmationModal}>Reserve</button>
+          <span>You won't be charged yet</span>
+          <div className='reservation-summary-information-container'>
+            <div className='cost-breakdown-container'>
+              <div className='reservation-summary-row price'>
+                <span>{roundToDecimals(home.price).toLocaleString()} x {nightsNum} {nightsNum > 1 ? 'nights' : 'night'}</span>
+                <span>{roundToDecimals(home.price * nightsNum).toLocaleString()}</span>
+              </div>
+              <div className='reservation-summary-row service-fee'>
+                <span>Flexbnb service fee</span>
+                <span>${roundToDecimals(home.price * nightsNum * 0.14).toLocaleString()}</span>
+              </div>
+              <div className='reservation-summary-row total'>
+                <span>Total</span>
+                <span>${roundToDecimals(home.price * nightsNum * 1.14).toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
         {isOrderConfirmationModalOpen && (
         <BuyingStepOneModal
           draftOrder={draftOrder}
@@ -252,7 +248,7 @@ export function ReservationModal({ home,
           addOrder={addOrder}
           closeOrderConfirmationModal={closeOrderConfirmationModal}
         />
-      )}
+        )}
       </aside>
   )
 }

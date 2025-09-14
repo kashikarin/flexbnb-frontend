@@ -60,7 +60,7 @@ export function AppHeader({ scrollContainerRef }) {
   }, [scrollContainerRef, location.pathname])
 
   useEffect(() => {
-    ;(async function initAndLoadData() {
+    (async function initAndLoadData() {
       try {
         // await initUsers()
         await loadLoggedInUser()

@@ -31,7 +31,7 @@ export function AppHeader({ scrollContainerRef }) {
   const isHosting = location.pathname.startsWith('/hosting')
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-  console.log('loggedInUser', loggedInUser)
+  // console.log('loggedInUser', loggedInUser)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   // const loggedInUser = false
   const [forceExpand, setForceExpand] = useState(false)
@@ -61,7 +61,7 @@ export function AppHeader({ scrollContainerRef }) {
   }, [scrollContainerRef, location.pathname])
 
   useEffect(() => {
-    (async function initAndLoadData() {
+    ;(async function initAndLoadData() {
       try {
         // await initUsers()
         await loadLoggedInUser()

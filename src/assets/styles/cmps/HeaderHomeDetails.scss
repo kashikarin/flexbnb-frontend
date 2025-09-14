@@ -1,7 +1,7 @@
 .home-details-scrolled-header {
   grid-column: 2;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 350px);
   //fontsize smaller than the origin, full layout -> full separation line
   & > nav {
     display: flex;

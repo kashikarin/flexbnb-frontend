@@ -110,11 +110,8 @@ export function ReservationModal({ home,
   console.log("🚀 ~ draftOrder:", draftOrder)
   if (!draftOrder) return null
   return (
-    
-    <>
-
-      <aside className='reservation-section'>
-        <div className='reservation-container'>
+    <aside className="home-details-reservation-modal-section">
+      <div className='reservation-container'>
           <div className='reservation-details'>
             <div className='reservation-header'>
               <div className='reservation-header-price-container'>
@@ -243,8 +240,7 @@ export function ReservationModal({ home,
             </div>
           </div>
         </div>
-      </aside>
-      {isOrderConfirmationModalOpen && (
+        {isOrderConfirmationModalOpen && (
         <BuyingStepOneModal
           draftOrder={draftOrder}
           homePrice={home.price}
@@ -257,6 +253,6 @@ export function ReservationModal({ home,
           closeOrderConfirmationModal={closeOrderConfirmationModal}
         />
       )}
-    </>
+      </aside>
   )
 }

@@ -257,10 +257,10 @@ export function HomeDetails() {
             })}
           </div>
           <div ref={imgBreakPointRef} />
-          <section className="mid-section">
-            <div className="home-details-mid">
+          <section className="home-details-mid-section">
+            <div className="home-details-mid-left-part-wrapper">
               <div
-                id='hd-amenities-container'
+                id='home-details-amenities-container'
                 className="home-details-amenities"
                 style={
                   getAvgRating(home) >= 4
@@ -280,7 +280,7 @@ export function HomeDetails() {
                   <p>{home.bathCount} bath</p>
                 </div>
                 {getAvgRating(home) < 4 && (
-                  <div className="home-details-reviews">
+                  <div className="home-details-reviews-headline">
                     <span>
                       <FaStar
                         style={{
@@ -301,7 +301,7 @@ export function HomeDetails() {
               </div>
 
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
-              <section className="home-highlights">
+              <section className="home-details-home-highlights">
                 <article>
                   <DoorIcon className="home-highlights-icon " />
                   <h4>Self check-in</h4>
@@ -338,25 +338,31 @@ export function HomeDetails() {
                 </ul>
               </section>
             </div>
-            <aside className="rare-modal">
-              <IoDiamond className="diamond-icon" />
-              <p>Rare find! This place is usually booked</p>
-            </aside>
-            {draftOrder && home && (<ReservationModal
-              home={home}
-              draftOrder={draftOrder}
-              updateDraftOrder={updateDraftOrder}
-              addOrder={addOrder}
-              isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
-              openOrderConfirmationModal={openOrderConfirmationModal}
-              closeOrderConfirmationModal={closeOrderConfirmationModal}
-            />)}
+            <div className="home-details-mid-right-part-wrapper">
+              <section className="home-details-sticky-sidebars">
+                <aside className="rare-modal">
+                  <IoDiamond className="diamond-icon" />
+                  <p>Rare find! This place is usually booked</p>
+                </aside>
+                {draftOrder && home && (<ReservationModal
+                  home={home}
+                  draftOrder={draftOrder}
+                  updateDraftOrder={updateDraftOrder}
+                  addOrder={addOrder}
+                  isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
+                  openOrderConfirmationModal={openOrderConfirmationModal}
+                  closeOrderConfirmationModal={closeOrderConfirmationModal}
+                />)}
+              </section>  
+            </div>
+
           </section>
+            
           <div ref={stickyBreakPointRef} />
-          <section className="reviews-section">
+          <section className='home-details-reviews-section'>
             <ReviewCard reviews={home.reviews} />
           </section>
-          <section className="google-maps" id='hd-location-container'>
+          <section className="home-details-google-maps-section" id='hd-location-container'>
             <h3>Where you'll be</h3>
             <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
@@ -380,6 +386,9 @@ export function HomeDetails() {
         </div>
       )}
     </>
+    
+    
+    
     // <button
     //   onClick={() => {
     //     onAddHomeMsg(home._id)

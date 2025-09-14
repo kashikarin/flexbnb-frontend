@@ -324,6 +324,65 @@
       }
     }
   }
+
+  .reservation-selection-date-checkin,
+.reservation-selection-date-checkout {
+  position: relative;
+
+  .dates-dropdown-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+
+    // שורה קריטית: לא להגביל לרוחב האינפוט אלא לתת רוחב מלא
+    min-width: 600px; // אפשר לשחק עם הערך עד שייראה טוב
+    max-width: none;
+
+    .react-datepicker {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between;
+      width: 100%;
+      gap: 2rem;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      padding: 1rem;
+    }
+
+    .react-datepicker__month-container {
+      flex: 1 1 0; // כל חודש יתפוס חצי
+    }
+  }
+}
+
+//   .reservation-selection-date-checkin,
+// .reservation-selection-date-checkout {
+//   position: relative; 
+
+//   .dates-dropdown-wrapper {
+//     position: absolute;
+//     top: 100%;      
+//     left: 0;
+//     z-index: 1000;
+
+//     .react-datepicker {
+//     display: flex !important;       // חשוב: לשים Flex
+//     flex-direction: row !important; // חודשי זה לצד זה
+//     gap: 2rem;
+//     background: #fff;
+//     border-radius: 1.5rem;
+//     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+//     padding: 1rem;
+//   }
+
+//   .react-datepicker__month-container {
+//     width: auto !important; // שימנע רוחב צר מדי
+//   }
+//   }
+// }
+
 }
 
 

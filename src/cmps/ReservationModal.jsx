@@ -133,7 +133,23 @@ export function ReservationModal({ home,
                   value={draftOrder?.checkIn ? draftOrder.checkIn.toLocaleDateString() : ''}
                   readOnly
                 />
+              <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+                <DatesDropdown
+                  isOpen={openedDropdown === 'checkIn' || openedDropdown === 'checkOut'}
+                  // onClose={() => setOpenedDropdown(null)}
+                  // rmDatesRef={rmDatesRef}
+                  checkIn={draftOrder.checkIn}
+                  checkOut={draftOrder.checkOut}
+                  onSetDates={({ checkIn, checkOut }) => {
+                    updateDraftOrder({ ...draftOrder, checkIn, checkOut })
+                    if (checkIn && checkOut) onCloseDropdown()
+                  }}
+              />
             </div>
+
+            </div>
+
+
             <div 
               className={`reservation-selection-date-checkout ${openedDropdown === 'checkOut'? 'active' : ''}`}
               onClick={(e) => {
@@ -151,7 +167,7 @@ export function ReservationModal({ home,
                   readOnly
               />
             </div>
-            <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+            {/* <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
               <DatesDropdown
                 isOpen={openedDropdown === 'checkIn' || openedDropdown === 'checkOut'}
                 // onClose={() => setOpenedDropdown(null)}
@@ -163,7 +179,7 @@ export function ReservationModal({ home,
                   if (checkIn && checkOut) onCloseDropdown()
                 }}
               />
-            </div>
+            </div> */}
             
             <div
               // className='reservation-selection-guest-dropdown-wrapper'

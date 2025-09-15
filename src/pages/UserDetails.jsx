@@ -89,7 +89,7 @@ export function UserDetails() {
               
             return (
               <tr key={order._id}>
-                <td>{order.purchaser.fullname}</td>
+                <td>{order?.purchaser?.fullname}</td>
                 <td>{order.home.name}</td>
                 <td>
                   {`${new Date(

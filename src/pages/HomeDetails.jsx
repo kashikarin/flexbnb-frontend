@@ -161,10 +161,11 @@ export function HomeDetails() {
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current
-      // const elAfterSticky = stickyBreakPointRef.current
+      const stickySentinel = document.querySelector("#sticky-sentinel")
+      const header = document.querySelector(".home-details-header")
+      const headerHeight = header?.offsetHeight ?? 0
 
-      // if (!elAfterImg || !elAfterSticky || !home) return
-      if (!elAfterImg || !home) return
+      if (!header || !elAfterImg || !stickySentinel) return
 
 
       const observer = new IntersectionObserver(
@@ -175,25 +176,25 @@ export function HomeDetails() {
               else setHomeDetailsImgScrolled()
             }
 
-            // if (entry.target === elAfterSticky) {
-            //   if (entry.isIntersecting) setHomeDetailsStickyCardScrolled()
-            //   else setHomeDetailsStickyCardNotScrolled()
-            // }
+            if (entry.target === stickySentinel) {
+              if (entry.isIntersecting) setHomeDetailsStickyCardNotScrolled()
+              else setHomeDetailsStickyCardScrolled()
+            }
           })
         },
         { root: null,
-          threshold: 1.0,
+          threshold: 0,
           rootMargin: "-80px 0px 0px 0px"
           
         }
       )
 
           if (elAfterImg) observer.observe(elAfterImg)
-          // if (elAfterSticky) observer.observe(elAfterSticky)
-
-          return () => {
+          if (stickySentinel) observer.observe(stickySentinel)
+          
+            return () => {
             if (elAfterImg) observer.unobserve(elAfterImg)
-            // if (elAfterSticky) observer.unobserve(elAfterSticky)
+            if (stickySentinel) observer.unobserve(stickySentinel)
             observer.disconnect()
           }
         } catch (err) {
@@ -201,35 +202,58 @@ export function HomeDetails() {
         }
       }, [home])
       
-      useEffect(() => {
-        const header = document.querySelector(".home-details-header")
-        const headerHeight = header?.offsetHeight || 0
-        const sentinel = document.querySelector("#sticky-sentinel")
-        if (!sentinel) return
+      // useEffect(() => {
+      //   const header = document.querySelector(".home-details-header")
+      //   const headerHeight = header?.offsetHeight
+      //   const sentinel = document.querySelector("#sticky-sentinel")
+      //   if (!sentinel || !header) return
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            const entry = entries[0]
-            if (entry.isIntersecting) {
-              // Sentinel is visible -> sticky still in view
-              setHomeDetailsStickyCardNotScrolled()
-            } else {
-              // Sentinel went out -> sticky scrolled past header
-              setHomeDetailsStickyCardScrolled()
-            }
-          },
-          {
-            root: null,
-            threshold: 0,
-            rootMargin: `-${headerHeight}px 0px 0px 0px`, // account for header
-          }
-        )
+      //   const observer = new IntersectionObserver(
+      //     (entries) => {
+      //       const entry = entries[0]
+      //       if (entry.isIntersecting) {
+      //         // Sentinel is visible -> sticky still in view
+      //         setHomeDetailsStickyCardNotScrolled()
+      //       } else {
+      //         // Sentinel went out -> sticky scrolled past header
+      //         setHomeDetailsStickyCardScrolled()
+      //       }
+      //     },
+      //     {
+      //       root: null,
+      //       threshold: 0,
+      //       rootMargin: `-${headerHeight}px 0px 0px 0px`, // account for header
+      //     }
+      //   )
 
-        observer.observe(sentinel)
+      //   observer.observe(sentinel)
 
-        return () => observer.disconnect()
-      }, [])
+      //   return () => observer.disconnect()
+      // }, [])
       
+      // useEffect(() => {
+      //   const reservationEl = document.querySelector("#reservation-sentinel")
+      //   const header = document.querySelector(".home-details-header")
+      //   if (!reservationEl) return
+
+      //   const headerHeight = header.offsetHeight
+
+      //   function onScroll() {
+      //     const rect = reservationEl.getBoundingClientRect()
+      //     // rect.bottom tells you where the sticky card ends relative to viewport
+      //     console.log("sentinel rect.top:", rect.bottom, "headerHeight:", headerHeight)
+      //     if (rect.bottom <= headerHeight) {
+      //       // card is fully above header -> show button
+      //       setHomeDetailsStickyCardScrolled()
+      //     } else {
+      //       setHomeDetailsStickyCardNotScrolled()
+      //     }
+      //   }
+
+      //   window.addEventListener("scroll", onScroll, { passive: true })
+      //   onScroll() // run once initially
+      //   return () => window.removeEventListener("scroll", onScroll)
+      // }, [])
 
   // async function onAddHomeMsg(homeId) {
   //   try {
@@ -372,6 +396,7 @@ export function HomeDetails() {
                     )
                   })}
                 </ul>
+
               </section>
             </div>
             <div className="home-details-mid-right-part-wrapper">
@@ -389,10 +414,12 @@ export function HomeDetails() {
                   openOrderConfirmationModal={openOrderConfirmationModal}
                   closeOrderConfirmationModal={closeOrderConfirmationModal}
                 />)}
-              </section>  
-              <div id="sticky-sentinel" style={{ height: "1px" }} />
+              </section> 
+              <div id="sticky-sentinel" style={{ height: "250px"}} /> 
             </div>
           </section>
+          {/* <div id="reservation-sentinel" style={{ height: "1px" }} /> */}
+
           {/* <div /> */}
           <section className='home-details-reviews-section' >
             <ReviewCard reviews={home.reviews} />

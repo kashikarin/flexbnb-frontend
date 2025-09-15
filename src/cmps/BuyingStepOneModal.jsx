@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { roundToDecimals } from '../services/util.service'
+import { removeDraftOrder } from '../store/actions/draft-order.actions'
 
 export function BuyingStepOneModal({
   draftOrder,
@@ -20,6 +21,8 @@ export function BuyingStepOneModal({
     e.preventDefault()
     try {
       const savedOrder = await addOrder(draftOrder)
+      removeDraftOrder()
+      return savedOrder
     } catch(err) {
       console.error('Failed to add order', err)
     } finally {
@@ -28,8 +31,27 @@ export function BuyingStepOneModal({
   }
   
   const guestsNum =
-    Number(draftOrder.guests.adults ?? 0) + Number(draftOrder.guests.children ?? 0)
+    Number(draftOrder?.guests?.adults ?? 0) + Number(draftOrder?.guests?.children ?? 0)
   const serviceFeeRate = 0.14
+
+  function formatDate(date) {
+    if (!date) return ''
+    
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    })
+  }
+
+  function formatAmount(num) {
+    if (num == null || isNaN(num)) return '$0'
+    
+    return Number(num).toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+  }
 
   return (
     <div className='buying-modal-step-one'>
@@ -58,7 +80,7 @@ export function BuyingStepOneModal({
               </h3>
               <p>
                 <span>Trip dates:</span>
-                <span>{`${draftOrder.checkIn} - ${draftOrder.checkOut}`}</span>
+                <span>{`${formatDate(draftOrder?.checkIn)} - ${formatDate(draftOrder?.checkOut)}`}</span>
               </p>
               <p>
                 <span>Guests:</span>
@@ -72,23 +94,23 @@ export function BuyingStepOneModal({
               <h3>Price Details</h3>
               <div className='price-amount'>
                 <p>
-                  <span>{`${roundToDecimals(homePrice).toLocaleString()} x ${nightsNum} ${
+                  <span>{`${formatAmount(homePrice)} x ${nightsNum} ${
                     nightsNum > 1 ? 'nights' : 'night'
                   }`}</span>
-                  <span>${roundToDecimals(homePrice * nightsNum).toLocaleString()}</span>
+                  <span>{formatAmount(homePrice * nightsNum)}</span>
                 </p>
               </div>
               <div className='service-fee'>
                 <p>
                   <span>Service fee</span>
-                  <span>{roundToDecimals(homePrice * nightsNum * serviceFeeRate).toLocaleString()}</span>
+                  <span>{formatAmount(homePrice * nightsNum * serviceFeeRate)}</span>
                 </p>
               </div>
               <div className='total'>
                 <p>
                   <span>Total</span>
                   <span>
-                    {roundToDecimals(homePrice * nightsNum * (1 + serviceFeeRate)).toLocaleString()}
+                    {formatAmount(homePrice * nightsNum * (1 + serviceFeeRate))}
                   </span>
                 </p>
               </div>
@@ -96,7 +118,7 @@ export function BuyingStepOneModal({
           </div>
 
           <div className='property-image'>
-            <img src={draftOrder.home.imgUrl} alt='Property' />
+            <img src={draftOrder?.home?.imageUrl} alt='Property' />
             <div className='property-info'>
               <h4>
                 {homeType} in {homeCity}, {homeCountry}

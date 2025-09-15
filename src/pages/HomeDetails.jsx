@@ -87,9 +87,11 @@ export function HomeDetails() {
   const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
   // const stickyBreakPointRef = useRef()
-
+  
+  console.log("🚀 ~ draftOrder:", draftOrder)
   console.log(home)
-
+  console.log("🚀 ~ loggedInUser:", loggedInUser)
+  
   const iconComponents = {
     MdTv,
     MdKitchen,
@@ -126,16 +128,20 @@ export function HomeDetails() {
 
   useEffect(()=>{
     let purchaser = null
-    if (!loggedInUser) updateDraftOrder({ ...draftOrder, purchaser: null })
-    else {
+    if (loggedInUser) {
       purchaser = {
         userId: loggedInUserId,
-        fullname: loggedInUser.fullname
+        fullname: loggedInUser.fullname,
+        imageUrl: loggedInUser.imageUrl
       }
       updateDraftOrder({ ...draftOrder, purchaser })
     }
+    
+    updateDraftOrder({ ...draftOrder, purchaser })
+    
     console.log(draftOrder)
-  }, [loggedInUser])
+    
+  }, [loggedInUserId])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -144,7 +150,7 @@ export function HomeDetails() {
   async function initHomeAndDraftOrder() {
     try {
       await loadHome(homeId)
-      await addDraftOrder(homeId, loggedInUserId, filterBy)
+      await addDraftOrder(homeId, filterBy, loggedInUser)
     } catch (err) {
       console.error('Cannot load home', err)
     }
@@ -189,71 +195,18 @@ export function HomeDetails() {
         }
       )
 
-          if (elAfterImg) observer.observe(elAfterImg)
-          if (stickySentinel) observer.observe(stickySentinel)
-          
-            return () => {
-            if (elAfterImg) observer.unobserve(elAfterImg)
-            if (stickySentinel) observer.unobserve(stickySentinel)
-            observer.disconnect()
-          }
-        } catch (err) {
-          console.error('💥 IntersectionObserver failed:', err)
+      if (elAfterImg) observer.observe(elAfterImg)
+      if (stickySentinel) observer.observe(stickySentinel)
+      
+        return () => {
+        if (elAfterImg) observer.unobserve(elAfterImg)
+        if (stickySentinel) observer.unobserve(stickySentinel)
+        observer.disconnect()
         }
-      }, [home])
-      
-      // useEffect(() => {
-      //   const header = document.querySelector(".home-details-header")
-      //   const headerHeight = header?.offsetHeight
-      //   const sentinel = document.querySelector("#sticky-sentinel")
-      //   if (!sentinel || !header) return
-
-      //   const observer = new IntersectionObserver(
-      //     (entries) => {
-      //       const entry = entries[0]
-      //       if (entry.isIntersecting) {
-      //         // Sentinel is visible -> sticky still in view
-      //         setHomeDetailsStickyCardNotScrolled()
-      //       } else {
-      //         // Sentinel went out -> sticky scrolled past header
-      //         setHomeDetailsStickyCardScrolled()
-      //       }
-      //     },
-      //     {
-      //       root: null,
-      //       threshold: 0,
-      //       rootMargin: `-${headerHeight}px 0px 0px 0px`, // account for header
-      //     }
-      //   )
-
-      //   observer.observe(sentinel)
-
-      //   return () => observer.disconnect()
-      // }, [])
-      
-      // useEffect(() => {
-      //   const reservationEl = document.querySelector("#reservation-sentinel")
-      //   const header = document.querySelector(".home-details-header")
-      //   if (!reservationEl) return
-
-      //   const headerHeight = header.offsetHeight
-
-      //   function onScroll() {
-      //     const rect = reservationEl.getBoundingClientRect()
-      //     // rect.bottom tells you where the sticky card ends relative to viewport
-      //     console.log("sentinel rect.top:", rect.bottom, "headerHeight:", headerHeight)
-      //     if (rect.bottom <= headerHeight) {
-      //       // card is fully above header -> show button
-      //       setHomeDetailsStickyCardScrolled()
-      //     } else {
-      //       setHomeDetailsStickyCardNotScrolled()
-      //     }
-      //   }
-
-      //   window.addEventListener("scroll", onScroll, { passive: true })
-      //   onScroll() // run once initially
-      //   return () => window.removeEventListener("scroll", onScroll)
-      // }, [])
+    } catch (err) {
+        console.error('💥 IntersectionObserver failed:', err)
+      }
+  }, [home])
 
   // async function onAddHomeMsg(homeId) {
   //   try {

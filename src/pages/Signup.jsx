@@ -15,7 +15,7 @@ export function Signup() {
       username: '',
       password: '',
       fullname: '',
-      imgUrl: '',
+      imageUrl: '',
       score: 100,
     })
   }
@@ -36,8 +36,8 @@ export function Signup() {
     navigate('/')
   }
 
-  function onUploaded(imgUrl) {
-    setCredentials((credentials) => ({ ...credentials, imgUrl }))
+  function onUploaded(imageUrl) {
+    setCredentials((credentials) => ({ ...credentials, imageUrl }))
   }
 
   return (

@@ -16,7 +16,6 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
-import { PotentialOrderProvider } from './context/potential-order/PotentialOrderContext.jsx'
 import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
 import { useRef } from 'react'
@@ -33,7 +32,7 @@ export function RootCmp() {
   //   console.log('📍location.pathname:', location.pathname)
   // console.log('🏠 isIndex:', isIndex)
   return (
-    <PotentialOrderProvider>
+    <>
       <ScrollToTop />
       <div className={isHomeIndex ? 'wide-layout' : 'narrow-layout'}>
         <AppHeader scrollContainerRef={mainRef} />
@@ -78,7 +77,8 @@ export function RootCmp() {
         {isHomeEdit && <HomeEditFooter />}
         {/* <AppFooter /> */}
       </div>
-    </PotentialOrderProvider>
+    </>
+      
   )
 }
 

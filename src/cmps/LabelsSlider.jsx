@@ -7,132 +7,132 @@ import { useSearchParams } from 'react-router-dom'
 const labels = [
   {
     name: 'Windmills',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389305/categories/windmills_w3vhf0.png',
   },
   {
     name: 'Vineyards',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389305/categories/vineyards_sncj7b.png',
   },
   {
     name: 'Trulli',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389304/categories/trulli_zrbree.png',
   },
   {
     name: 'Tropical',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389306/categories/tropical_mm3pay.png',
   },
   {
     name: 'Trending',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389306/categories/trending_biwv7z.png',
   },
   {
     name: 'Treehouses',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389310/categories/treehouses_ibcbkj.png',
   },
   {
     name: 'Top of the world',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/do0a92wpm/image/upload/v1699389310/categories/top-of-the-world_tkz2oj.png',
   },
   {
     name: 'Skiing',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389309/categories/skiing_dzzvek.png',
   },
   {
     name: 'Ryokans',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389309/categories/ryokans_u9ttti.png',
   },
   {
     name: 'Play',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389309/categories/play_ob15se.png',
   },
   {
     name: 'OMG!',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389309/categories/omg_k799gw.png',
   },
   {
     name: 'Off-the-grid',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389309/categories/off-the-grid_sp3rxf.png',
   },
   {
     name: 'National Park',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389308/categories/national-parks_v4840m.png',
   },
   {
     name: 'Manisons',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389308/categories/mansions_djibz4.png',
   },
   {
     name: 'Lakefront',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389308/categories/lakefront_ts7hqm.png',
   },
   {
     name: 'Islands',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389308/categories/islands_ie5rjh.png',
   },
   {
     name: 'Iconic cities',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389298/categories/iconic-cities_ntvyrx.png',
   },
   {
     name: 'Historical homes',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389298/categories/historical-homes_x4xpbj.png',
   },
   {
     name: 'Grand Piano',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389298/categories/grand-piano_qpamz1.png',
   },
   {
     name: 'Golfing',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389298/categories/golfing_nh8qsb.png',
   },
   {
     name: 'Farms',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389298/categories/farms_ks0esw.png',
   },
   {
     name: 'Towers',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389310/categories/towers_zcxnhk.png',
   },
   {
     name: 'Adopted',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389301/categories/adapted_wlqwsm.png',
   },
   {
     name: 'Amazing pools',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389301/categories/amazing-pools_za9hhr.png',
   },
   {
     name: 'Amazing views',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389301/categories/amazing-views_dncatp.png',
   },
   {
     name: 'Arctic',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/do0a92wpm/image/upload/v1699389302/categories/arctics_obddis.png',
   },
 ]

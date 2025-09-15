@@ -5,15 +5,13 @@ import { orderService as remote } from './order.service.remote'
 
 export function getEmptyOrder() {
   return {
-    host: { _id: '', fullname: '', imgUrl: '' },
-    purchaser: { _id: '', fullname: '', imgUrl: '' },
-    guest: { _id: '', fullname: '' },
+    host: { _id: '', fullname: '', imageUrl: '' },
+    purchaser: { _id: '', fullname: '', imageUrl: '' },
     totalPrice: '',
     checkIn: '',
     checkOut: '',
     guests: { adults: '', children: '' },
-    home: { _id: '', name: '', imgUrl: '' },
-    msgs: [],
+    home: { _id: '', name: '', imageUrl: '' },
     status: 'pending',
   }
 }
@@ -24,6 +22,7 @@ export function getDefaultOrderFilter() {
     createdAt: '',
     checkIn: '',
     checkOut: '',
+    totalPrice: ''
   }
 }
 

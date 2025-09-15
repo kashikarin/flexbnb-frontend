@@ -28,7 +28,7 @@ export function UserMenu() {
     password: '',
     fullname: '',
     username: '',
-    imgUrl: null,
+    imageUrl: null,
   })
 
   const handleGoogleCallback = useCallback(async (response) => {
@@ -190,7 +190,7 @@ export function UserMenu() {
       password: '',
       fullname: '',
       username: '',
-      imgUrl: null,
+      imageUrl: null,
     })
     setError('')
   }
@@ -208,7 +208,7 @@ export function UserMenu() {
       password: '',
       fullname: '',
       username: '',
-      imgUrl: null,
+      imageUrl: null,
     })
   }
 
@@ -235,7 +235,7 @@ export function UserMenu() {
       if (imgData?.secure_url) {
         setCredentials((prev) => ({
           ...prev,
-          imgUrl: imgData.secure_url,
+          imageUrl: imgData.secure_url,
         }))
         console.log('Image uploaded:', imgData.secure_url)
       } else {
@@ -261,7 +261,7 @@ export function UserMenu() {
           username: credentials.username,
           password: credentials.password,
           fullname: credentials.fullname,
-          imgUrl: credentials.imgUrl,
+          imageUrl: credentials.imageUrl
         })
       } else {
         user = await userService.login({
@@ -389,9 +389,9 @@ export function UserMenu() {
                       <div className="profile-image-section">
                         <div className="image-upload-container">
                           <div className="image-preview">
-                            {credentials.imgUrl ? (
+                            {credentials.imageUrl? (
                               <img
-                                src={credentials.imgUrl}
+                                src={credentials.a}e
                                 alt="Profile preview"
                                 className="preview-image"
                               />
@@ -415,7 +415,7 @@ export function UserMenu() {
                             className="upload-btn"
                           >
                             <Camera size={16} />
-                            {credentials.imgUrl ? 'Change' : 'Add Photo'}
+                            {credentials.imageUrl? 'Change' : 'Add Photo'}
                           </button>
 
                           <input

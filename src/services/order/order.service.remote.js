@@ -21,7 +21,6 @@ export const orderService = {
   save,
   remove,
   getEmptyOrder,
-  // getInitialOrderDetails,
   getById,
   // updateStatus,
   // createOrder,
@@ -61,36 +60,6 @@ function getById(orderId) {
   return httpService.get(`orders/${orderId}`)
 }
 
-// async function getInitialOrderDetails(homeId, userId, filterBy) {
-//   const home = await httpService.get(`home/${homeId}`)
-//   const loggedInUser = await httpService.get(`user/${userId}`)
-//   const host = {
-//     _id: home.host._id,
-//     fullname: home.host.fullname,
-//     imgUrl: home.host.imageUrl,
-//   }
-//   const serviceFeeRate = 0.14
-//   const checkIn = filterBy.checkIn || randomFutureTime()
-//   const checkOut = filterBy.checkOut || checkIn + 3 * 86400000
-//   return {
-//     host,
-//     guest: { _id: loggedInUser._id, fullname: loggedInUser.fullname },
-//     totalPrice:
-//       home.price *
-//       Math.floor((Math.max(checkOut) - Math.min(checkIn)) / 86400000) *
-//       (1 + serviceFeeRate),
-//     checkIn,
-//     checkOut,
-//     guests: {
-//       adults: filterBy.adults,
-//       children: filterBy.children,
-//       infants: filterBy.infants,
-//       pets: filterBy.pets,
-//     },
-//     home: { _id: homeId, name: home.name, imgUrl: home.imageUrls[0] },
-//   }
-// }
-
 // async function _createOrder() {
 //   let order = {}
 //   const serviceFeeRate = 0.14
@@ -106,7 +75,7 @@ function getById(orderId) {
 //   order.home._id = await homeService.getRandomHomeId()
 //   const reservedHome = await homeService.getById(order.home._id)
 //   order.home.name = reservedHome.name
-//   order.home.imgUrl = reservedHome.imageUrls[0]
+//   order.home.imageUrl = reservedHome.imageUrls[0]
 //   order.home.name = reservedHome.name
 //   //order-guests
 //   order.guests.adults = Math.ceil(Math.random() * getRandomIntInclusive(1, 5))
@@ -130,7 +99,7 @@ function getById(orderId) {
 //   order.host._id = await userService.getRandomUserId()
 //   const host = await userService.getById(order.host._id)
 //   order.host.fullname = host.fullname
-//   order.host.imgUrl = host.imgUrl
+//   order.host.imageUrl = host.imageUrl
 //   //order.guest
 //   order.guest._id = await userService.getRandomUserId()
 //   const { fullname } = await userService.getById(order.guest._id)

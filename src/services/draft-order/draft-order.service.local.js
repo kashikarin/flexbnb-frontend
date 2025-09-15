@@ -1,5 +1,6 @@
 import { storageService } from '../async-storage.service'
 import { homeService } from '../home'
+import { getEmptyOrder, orderService } from '../order'
 import { userService } from '../user'
 
 export const draftOrderService = {
@@ -45,55 +46,61 @@ window.cs = draftOrderService
 //   }
 // }
 
-async function getDraftOrder(homeId, userId, filterBy) {
-  const guests = {
-    adults: filterBy.adults,
-    children: filterBy.children,
-    infants: filterBy.infants,
-    pets: filterBy.pets,
-  }  
-  if (!guests.adults) guests.adults = 1
-  console.log("🚀 ~ guests:", guests)
+async function getDraftOrder(homeId, filterBy, loggedInUser) {
+  let draftOrder = getEmptyOrder()
 
-  let purchaser
-  if (!userId) purchaser = null
+  draftOrder.guests = {
+    adults: filterBy.adults || 1,
+    children: filterBy.children || 0,
+    infants: filterBy.infants || 0,
+    pets: filterBy.pets || 0
+  } 
+
+  if (!loggedInUser) draftOrder.purchaser = null
   else {
-     const loggedInUser = JSON.parse(sessionStorage.getItem('loggedinUser'))
-     if (loggedInUser) {
-      const {fullname} = loggedInUser
-      purchaser = {
-        userId,
-        fullname
-      }
-     }
+    const { _id: userId, fullname, imageUrl } = loggedInUser
+    draftOrder.purchaser = { userId, fullname, imageUrl }
   }
 
   let { checkIn, checkOut } = filterBy
   const home = await homeService.getById(homeId)
+
   if (!checkIn || !checkOut) {
     const firstAvailableBooking = _findFirstAvailable(home)
-    checkIn = firstAvailableBooking.checkIn
-    checkOut = firstAvailableBooking.checkOut
-  }
+    draftOrder.checkIn = firstAvailableBooking.checkIn
+    draftOrder.checkOut = firstAvailableBooking.checkOut
+  } else {
+      parsedCheckIn = new Date(checkIn)
+      const parsedCheckOut = new Date(checkOut)
 
-  const host = {
-    userId: home.host.userId,
+  // fallback if parsing failed
+      if (isNaN(parsedCheckIn.getTime()) || isNaN(parsedCheckOut.getTime())) {
+        const firstAvailableBooking = _findFirstAvailable(home)
+        draftOrder.checkIn = firstAvailableBooking.checkIn
+        draftOrder.checkOut = firstAvailableBooking.checkOut
+      } else {
+        draftOrder.checkIn = parsedCheckIn
+        draftOrder.checkOut = parsedCheckOut
+      }
+  }
+  
+  draftOrder.host = {
+    userId: home.host.userId || home.host.id,
     fullname: home.host.fullname,
-    imgUrl: home.host.imageUrl,
+    imageUrl: home.host.imageUrl,
   }
 
+  const nights = getNumberOfNights(draftOrder.checkIn, draftOrder.checkOut)
   const serviceFeeRate = 0.14
+  draftOrder.totalPrice = home.price * nights * (1 + serviceFeeRate)
 
-  return {
-    host,
-    purchaser,
-    totalPrice:
-      home.price * getNumberOfNights(checkIn, checkOut) * (1 + serviceFeeRate),
-    checkIn,
-    checkOut,
-    guests,
-    home: { homeId, name: home.name, imgUrl: home.imageUrls[0] },
+  draftOrder.home = {
+    homeId,
+    name: home.name,
+    imageUrl: home.imageUrls[0]
   }
+
+  return draftOrder
 }
 
 function getNumberOfNights(checkIn, checkOut) {

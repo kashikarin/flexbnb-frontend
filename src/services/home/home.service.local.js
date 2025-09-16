@@ -9,65 +9,7 @@ import {
 } from '../util.service'
 const STORAGE_KEY = 'home'
 
-export const gHomeTypes = ['House', 'Apartment', 'Guesthouse', 'Hotel']
-const gAmenities = [
-  'TV',
-  'Kitchen',
-  'Wifi',
-  'Smoking allowed',
-  'Pets allowed',
-  'Cooking basics',
-  'Free parking on premises',
-  'Air conditioning',
-  'Heating',
-  'Washer',
-  'Dryer',
-  'Pool',
-  'Hot tub',
-  'Gym',
-  'Beach access',
-  'Balcony',
-  'Garden',
-  'BBQ grill',
-  'Fireplace',
-  'Piano',
-  'Game room',
-  'Office space',
-  'Baby crib',
-  'High chair',
-  'Security cameras',
-]
-
-export const amenityIcons = {
-  TV: 'MdTv',
-  Kitchen: 'MdKitchen',
-  Wifi: 'MdWifi',
-  'Smoking allowed': 'MdSmokingRooms',
-  'Pets allowed': 'MdPets',
-  'Cooking basics': 'MdRestaurantMenu',
-  'Free parking on premises': 'MdLocalParking',
-  'Air conditioning': 'MdAcUnit',
-  Heating: 'MdThermostat',
-  Washer: 'MdLocalLaundryService',
-  Dryer: 'MdDryCleaning',
-  Pool: 'MdPool',
-  'Hot tub': 'MdHotTub',
-  Gym: 'MdFitnessCenter',
-  'Beach access': 'MdBeachAccess',
-  Balcony: 'MdBalcony',
-  Garden: 'MdLocalFlorist',
-  'BBQ grill': 'MdOutdoorGrill',
-  Fireplace: 'MdFireplace',
-  Piano: 'MdPiano',
-  'Game room': 'MdSportsEsports',
-  'Office space': 'MdWork',
-  'Baby crib': 'MdChildCare',
-  'High chair': 'MdChair',
-  'Security cameras': 'MdSecurity',
-}
-
 export const homeService = {
-  gAmenities,
   query,
   getById,
   remove,
@@ -79,7 +21,6 @@ export const homeService = {
   addHomeMsg,
   getRandomHomeId,
   getCountry,
-  getAmenityIcon
 
 }
 
@@ -88,151 +29,151 @@ const images = [
   {
     id: 1,
     label: 'Image 1',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/dmtlr2viw/image/upload/v1663436912/xle8ueqxjeazbs4bp09p.jpg',
   },
   {
     id: 2,
     label: 'Image 2',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/dmtlr2viw/image/upload/v1663436460/qi3vkpts37b4k0dedosc.jpg',
   },
   {
     id: 3,
     label: 'Image 3',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/dmtlr2viw/image/upload/v1663436481/tqwkxtbalipudzhivoag.jpg',
   },
   {
     id: 4,
     label: 'Image 4',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/dmtlr2viw/image/upload/v1663437250/o8uutj3t2bvfafvxkr9j.jpg',
   },
   {
     id: 5,
     label: 'Image 5',
-    imgUrl:
+    imageUrl:
       'https://res.cloudinary.com/dmtlr2viw/image/upload/v1663436855/khyvb5q3yzcqaoscuppz.jpg',
   },
   {
     id: 6,
     label: 'Image 6',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436917/mqkfjmfpmyqpqmzmqgau.jpg',
   },
   {
     id: 7,
     label: 'Image 7',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436204/wzbrvr4mcsuub6gvwbry.jpg',
   },
   {
     id: 8,
     label: 'Image 8',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436523/ptcgbydjsamgf67a0npw.jpg',
   },
   {
     id: 9,
     label: 'Image 9',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436597/l90ukcpzpv6yvv6vhsnd.jpg',
   },
   {
     id: 10,
     label: 'Image 10',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436368/noebywqae4x0u42srsv3.jpg',
   },
   {
     id: 11,
     label: 'Image 11',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436823/af6elioxovkhvp6cg1un.jpg',
   },
   {
     id: 12,
     label: 'Image 12',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663437327/epcnh2tzpafwmvi3srcp.jpg',
   },
   {
     id: 13,
     label: 'Image 13',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663437310/tus71yfpnvgulenrli6a.jpg',
   },
   {
     id: 14,
     label: 'Image 14',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436453/ndl8odasqgnyquvsbalp.jpg',
   },
   {
     id: 15,
     label: 'Image 15',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436821/b4ejulqdhsvyseyfnfr0.jpg',
   },
   {
     id: 16,
     label: 'Image 16',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436321/g2cs1w7tkxsx58penq9j.jpg',
   },
   {
     id: 17,
     label: 'Image 17',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436542/e96nrbkjz8mecvsbzukk.jpg',
   },
   {
     id: 18,
     label: 'Image 18',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663437250/o8uutj3t2bvfafvxkr9j.jpg',
   }, // כפולה של 4
   {
     id: 19,
     label: 'Image 19',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436957/ehhcyscwtvxw55mptkok.jpg',
   },
   {
     id: 20,
     label: 'Image 20',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436294/mvhb3iazpiar6duvy9we.jpg',
   },
   {
     id: 21,
     label: 'Image 21',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436406/id1oo8krwgxvdf9s02qp.jpg',
   },
   {
     id: 22,
     label: 'Image 22',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436961/rj6eo6v6npy65bckaxvr.jpg',
   },
   {
     id: 23,
     label: 'Image 23',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663437040/oarfkdxx7gyyvcynvwko.jpg',
   },
   {
     id: 24,
     label: 'Image 24',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663436933/ysvap4wzv8ziwtpbznf8.jpg',
   },
   {
     id: 25,
     label: 'Image 25',
-    imgUrl:
+    imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663437272/e2id7kpaglrrdug3i6if.jpg',
   },
 ]
@@ -486,10 +427,6 @@ const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
 
 if (VITE_LOCAL === 'true') _createHomes()
 
-function getAmenityIcon(amenity) {
-  return amenityIcons[amenity] || 'MdHome' 
-} 
-
 async function query(filterBy = getDefaultFilter()) {
   console.log('[HOME SERVICE] LOCAL query called')
 
@@ -653,7 +590,7 @@ function _getImageUrl() {
   const selectedImages = []
   for (let i = 0; i < 5; i++) {
     const randomIndex = getRandomIntInclusive(0, images.length - 1)
-    selectedImages.push(images[randomIndex].imgUrl)
+    selectedImages.push(images[randomIndex].imageUrl)
   }
   return selectedImages
 }
@@ -673,8 +610,8 @@ function getCountry(city) {
 
 function _getSingleImageUrl() {
   const randomIndex = getRandomIntInclusive(0, images.length - 1)
-  return images[randomIndex].imgUrl
-}
+  return images[randomIndex].a
+e}
 
 function _isHomeAvailable(bookings = [], checkIn, checkOut) {
   if (!(checkIn instanceof Date)) checkIn = new Date(checkIn)
@@ -802,7 +739,7 @@ function _createHomes() {
 //   _id: 's101',
 //   name: 'Ribeira Charming Duplex',
 //   type: 'House',
-//   imgUrls: ['https://e26e9b.jpg', 'otherImg.jpg'],
+//   ase: ['https://e26e9b.jpg', 'otherImg.jpg'],
 //   price: 80.0,
 //   summary: 'Fantastic duplex apartment...',
 //   capacity: 8,
@@ -818,7 +755,7 @@ function _createHomes() {
 //   host: {
 //     _id: 'u101',
 //     fullname: 'Davit Pok',
-//     imgUrl:
+//     a:e
 //       'https://a0.muscache.com/im/pictures/fab79f25-2e10-4f0f-9711-663cb69dc7d8.jpg?aki_policy=profile_small',
 //   },
 //   loc: {
@@ -837,7 +774,7 @@ function _createHomes() {
 //       by: {
 //         _id: 'u102',
 //         fullname: 'user2',
-//         imgUrl: '/img/img2.jpg',
+//         a:e '/img/img2.jpg',
 //       },
 //     },
 //   ],

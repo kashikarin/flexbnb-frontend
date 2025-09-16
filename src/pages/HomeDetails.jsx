@@ -22,34 +22,6 @@ import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
 import { PiDoorOpenThin, PiVideoCameraLight } from 'react-icons/pi'
-import {
-  MdTv,
-  MdKitchen,
-  MdWifi,
-  MdSmokingRooms,
-  MdPets,
-  MdRestaurantMenu,
-  MdLocalParking,
-  MdAcUnit,
-  MdThermostat,
-  MdLocalLaundryService,
-  MdDryCleaning,
-  MdPool,
-  MdHotTub,
-  MdFitnessCenter,
-  MdBeachAccess,
-  MdBalcony,
-  MdLocalFlorist,
-  MdOutdoorGrill,
-  MdFireplace,
-  MdPiano,
-  MdSportsEsports,
-  MdWork,
-  MdChildCare,
-  MdChair,
-  MdSecurity,
-  MdHome,
-} from 'react-icons/md'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { ReservationModal } from '../cmps/ReservationModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
@@ -69,6 +41,7 @@ import {
   updateDraftOrder,
 } from '../store/actions/draft-order.actions'
 import { addOrder } from '../store/actions/order.actions'
+import { ReactSVG } from 'react-svg'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -87,38 +60,11 @@ export function HomeDetails() {
   const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
   // const stickyBreakPointRef = useRef()
-
+  
+  console.log("🚀 ~ draftOrder:", draftOrder)
   console.log(home)
-
-  const iconComponents = {
-    MdTv,
-    MdKitchen,
-    MdWifi,
-    MdSmokingRooms,
-    MdPets,
-    MdRestaurantMenu,
-    MdLocalParking,
-    MdAcUnit,
-    MdThermostat,
-    MdLocalLaundryService,
-    MdDryCleaning,
-    MdPool,
-    MdHotTub,
-    MdFitnessCenter,
-    MdBeachAccess,
-    MdBalcony,
-    MdLocalFlorist,
-    MdOutdoorGrill,
-    MdFireplace,
-    MdPiano,
-    MdSportsEsports,
-    MdWork,
-    MdChildCare,
-    MdChair,
-    MdSecurity,
-    MdHome,
-  }
-
+  console.log("🚀 ~ loggedInUser:", loggedInUser)
+  
   useEffect(() => {
     if (!homeId) return
     initHomeAndDraftOrder()
@@ -126,16 +72,20 @@ export function HomeDetails() {
 
   useEffect(()=>{
     let purchaser = null
-    if (!loggedInUser) updateDraftOrder({ ...draftOrder, purchaser: null })
-    else {
+    if (loggedInUser) {
       purchaser = {
         userId: loggedInUserId,
-        fullname: loggedInUser.fullname
+        fullname: loggedInUser.fullname,
+        imageUrl: loggedInUser.imageUrl
       }
       updateDraftOrder({ ...draftOrder, purchaser })
     }
+    
+    updateDraftOrder({ ...draftOrder, purchaser })
+    
     console.log(draftOrder)
-  }, [loggedInUser])
+    
+  }, [loggedInUserId])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -144,7 +94,7 @@ export function HomeDetails() {
   async function initHomeAndDraftOrder() {
     try {
       await loadHome(homeId)
-      await addDraftOrder(homeId, loggedInUserId, filterBy)
+      await addDraftOrder(homeId, filterBy, loggedInUser)
     } catch (err) {
       console.error('Cannot load home', err)
     }
@@ -189,71 +139,18 @@ export function HomeDetails() {
         }
       )
 
-          if (elAfterImg) observer.observe(elAfterImg)
-          if (stickySentinel) observer.observe(stickySentinel)
-          
-            return () => {
-            if (elAfterImg) observer.unobserve(elAfterImg)
-            if (stickySentinel) observer.unobserve(stickySentinel)
-            observer.disconnect()
-          }
-        } catch (err) {
-          console.error('💥 IntersectionObserver failed:', err)
+      if (elAfterImg) observer.observe(elAfterImg)
+      if (stickySentinel) observer.observe(stickySentinel)
+      
+        return () => {
+        if (elAfterImg) observer.unobserve(elAfterImg)
+        if (stickySentinel) observer.unobserve(stickySentinel)
+        observer.disconnect()
         }
-      }, [home])
-      
-      // useEffect(() => {
-      //   const header = document.querySelector(".home-details-header")
-      //   const headerHeight = header?.offsetHeight
-      //   const sentinel = document.querySelector("#sticky-sentinel")
-      //   if (!sentinel || !header) return
-
-      //   const observer = new IntersectionObserver(
-      //     (entries) => {
-      //       const entry = entries[0]
-      //       if (entry.isIntersecting) {
-      //         // Sentinel is visible -> sticky still in view
-      //         setHomeDetailsStickyCardNotScrolled()
-      //       } else {
-      //         // Sentinel went out -> sticky scrolled past header
-      //         setHomeDetailsStickyCardScrolled()
-      //       }
-      //     },
-      //     {
-      //       root: null,
-      //       threshold: 0,
-      //       rootMargin: `-${headerHeight}px 0px 0px 0px`, // account for header
-      //     }
-      //   )
-
-      //   observer.observe(sentinel)
-
-      //   return () => observer.disconnect()
-      // }, [])
-      
-      // useEffect(() => {
-      //   const reservationEl = document.querySelector("#reservation-sentinel")
-      //   const header = document.querySelector(".home-details-header")
-      //   if (!reservationEl) return
-
-      //   const headerHeight = header.offsetHeight
-
-      //   function onScroll() {
-      //     const rect = reservationEl.getBoundingClientRect()
-      //     // rect.bottom tells you where the sticky card ends relative to viewport
-      //     console.log("sentinel rect.top:", rect.bottom, "headerHeight:", headerHeight)
-      //     if (rect.bottom <= headerHeight) {
-      //       // card is fully above header -> show button
-      //       setHomeDetailsStickyCardScrolled()
-      //     } else {
-      //       setHomeDetailsStickyCardNotScrolled()
-      //     }
-      //   }
-
-      //   window.addEventListener("scroll", onScroll, { passive: true })
-      //   onScroll() // run once initially
-      //   return () => window.removeEventListener("scroll", onScroll)
-      // }, [])
+    } catch (err) {
+        console.error('💥 IntersectionObserver failed:', err)
+      }
+  }, [home])
 
   // async function onAddHomeMsg(homeId) {
   //   try {
@@ -386,11 +283,17 @@ export function HomeDetails() {
                 <h3>What this place offers</h3>
                 <ul className="amenities-list">
                   {home.amenities.map((amenity, idx) => {
-                    const iconName = homeService.getAmenityIcon(amenity)
-                    const IconComponent = iconComponents[iconName]
+                    const iconPath = homeService.getAmenityIcon(amenity)
                     return (
                       <li key={idx} className="amenity-item">
-                        <IconComponent className="amenity-icon" />
+                        <ReactSVG 
+                          src={iconPath} 
+                          className="svg-icon"
+                          beforeInjection={(svg) => {
+                            svg.removeAttribute('width')
+                            svg.removeAttribute('height')
+                          }}
+                        />
                         <span>{amenity}</span>
                       </li>
                     )

@@ -252,12 +252,24 @@
             gap: 1.25rem;
             // padding: 0.5rem 0;
             // border-bottom: 1px solid #f0f0f0;
-
-            .amenity-icon {
+            .svg-icon {
+              
               width: 32px;
-              height: 32px;
-              color: $secondary-font-gray;
-              flex-shrink: 0;
+              height: 32px;              
+              display: flex;
+              .injected-svg {
+                  width: 100% !important;
+                  height: 100% !important;
+                  max-width: none !important;
+                  max-height: none !important;
+                  stroke: currentColor;
+                  fill: none;
+                  // transform: none !important;
+                  flex-shrink: 0;
+                  // max-width: none;
+              }
+            }
+              
             }
 
             span {
@@ -265,6 +277,7 @@
             }
           }
         }
+        
       }
     }
     .home-details-mid-right-part-wrapper {
@@ -328,7 +341,7 @@
         // }
       }
     }
-  }
+  
   .home-details-reviews-section {
         grid-column: 1 / -1;
         display: flex;

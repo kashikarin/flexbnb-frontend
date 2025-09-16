@@ -50,16 +50,15 @@
         & > button {
             transform: translate(0px);
             opacity: 1;
-            
             animation-name: fadeInUp;
             animation-duration: 600ms;
             animation-timing-function: cubic-bezier(0.2,0,0,1);
             animation-fill-mode: both;
             animation-iteration-count: 1;
             flex: 1 1 150px;
-            background-color: $secondary-hover-gray;
+            background-color: $clr6;
             padding: 1rem;
-            min-height: 100px;
+            min-height: 88px;
             max-width: 200px;
             border-radius: 8px;
             display: flex;
@@ -67,9 +66,10 @@
             align-items: flex-start;
             justify-content: space-between;
             transition: box-shadow 0.2s cubic-bezier(0.2,0,0,1), transform 0.1s cubic-bezier(0.2,0,0,1);
-            border: 1px solid $gray6;
+            border: 1px solid $gray1;
             width: 100%;
-            height: auto;
+            height: 100%;
+            outline: none;
             font-size: 100%;
             color: $primary-black-inverted;
             &:hover {
@@ -77,6 +77,26 @@
             }
             &.selected {
                 box-shadow: 0 0 0 2px black;
+                transform: scale(0.96);
+            }
+
+            .home-edit-step-2-amenity-icon {
+                width: 45px;
+                height: 45px;
+                // padding: 8px;
+                font-size: 100%;
+                transform: translate3d(0px, 0px, 0px);
+                display: block;
+                transform: scale(0.9);
+                
+            }
+
+            & > span {
+                text-align: left;
+                font-size: 14px;
+                font-weight: 600;
+                margin-block-start: 0.25rem;
+
             }
         }
     }

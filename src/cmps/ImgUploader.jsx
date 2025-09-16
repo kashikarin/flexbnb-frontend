@@ -3,7 +3,7 @@ import { uploadService } from '../services/upload.service'
 
 export function ImgUploader({ onUploaded }) {
     const [imgData, setImgData] = useState({
-        imgUrl: null,
+        imageUrl: null,
         height: 500,
         width: 500,
     })
@@ -14,19 +14,19 @@ export function ImgUploader({ onUploaded }) {
         setIsUploading(true)
         const { secure_url, height, width } = await uploadService.uploadImg(ev)
         console.log(secure_url)
-        setImgData({ imgUrl: secure_url, width, height })
+        setImgData({ imageUrl: secure_url, width, height })
         setIsUploading(false)
         onUploaded && onUploaded(secure_url)
     }
 
     function getUploadLabel() {
-        if (imgData.imgUrl) return 'Upload Another?'
+        if (imgData.imageUrl) return 'Upload Another?'
         return isUploading ? 'Uploading....' : 'Upload Image'
     }
 
     return (
         <div className="upload-preview">
-            {imgData.imgUrl && <img src={imgData.imgUrl} style={{ maxWidth: '50px', float: 'right' }} />}
+            {imgData.imageUrl && <img src={imgData.imageUrl} style={{ maxWidth: '50px', float: 'right' }} />}
             <label htmlFor="imgUpload">{getUploadLabel()}</label>
             <input type="file" onChange={uploadImg} accept="img/*" id="imgUpload" />
         </div>

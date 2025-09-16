@@ -4,34 +4,6 @@ import {
   updatePotentialHome,
 } from '../../store/actions/home-edit.actions.js'
 import { homeService } from '../../services/home'
-import {
-  MdTv,
-  MdKitchen,
-  MdWifi,
-  MdSmokingRooms,
-  MdPets,
-  MdRestaurantMenu,
-  MdLocalParking,
-  MdAcUnit,
-  MdThermostat,
-  MdLocalLaundryService,
-  MdDryCleaning,
-  MdPool,
-  MdHotTub,
-  MdFitnessCenter,
-  MdBeachAccess,
-  MdBalcony,
-  MdLocalFlorist,
-  MdOutdoorGrill,
-  MdFireplace,
-  MdPiano,
-  MdSportsEsports,
-  MdWork,
-  MdChildCare,
-  MdChair,
-  MdSecurity,
-  MdHome,
-} from 'react-icons/md'
 import { useEffect } from 'react'
 
 
@@ -44,34 +16,7 @@ export function HomeEditStepTwoA() {
   console.log('🚀 ~ potentialHome:', potentialHome)
   const currentSubStepStatus = potentialHome?.editProgress?.currentSubStepStatus
   const { gAmenities, getAmenityIcon } = homeService
-  const iconComponents = {
-    MdTv,
-    MdKitchen,
-    MdWifi,
-    MdSmokingRooms,
-    MdPets,
-    MdRestaurantMenu,
-    MdLocalParking,
-    MdAcUnit,
-    MdThermostat,
-    MdLocalLaundryService,
-    MdDryCleaning,
-    MdPool,
-    MdHotTub,
-    MdFitnessCenter,
-    MdBeachAccess,
-    MdBalcony,
-    MdLocalFlorist,
-    MdOutdoorGrill,
-    MdFireplace,
-    MdPiano,
-    MdSportsEsports,
-    MdWork,
-    MdChildCare,
-    MdChair,
-    MdSecurity,
-    MdHome,
-  }
+  
   // useEffect(() => {
   //   if (currentSubStepStatus === false) setStepCompleted()
   // }, [currentSubStepStatus])
@@ -104,8 +49,8 @@ export function HomeEditStepTwoA() {
       </article>
       <article className="home-edit-step-2-a-buttons-container">
         {gAmenities?.map((amenity, idx) => {
-          const IconComponent =
-            iconComponents[getAmenityIcon(amenity)]
+          const iconName = getAmenityIcon(amenity)
+          const IconComponent = homeService.icons.filled[iconName] || homeService.icons.filled.MdHome
           if (!IconComponent) return null
           const selected = (potentialHome?.amenities ?? []).includes(amenity)
           return (

@@ -113,7 +113,7 @@ async function getRandomUserId() {
 //   const demoUser = {
 //     _id: 'u101',
 //     fullname: 'Justin Time',
-//     imgUrl: '/img/user/justin-img.jpg',
+//     imageUrl: '/img/user/justin-img.jpg',
 //     username: 'just_in_time',
 //     password: 'bieber123',
 //     likedHomes: [],

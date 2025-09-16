@@ -104,7 +104,7 @@ function _saveLocalUser(user) {
     _id: user._id,
     fullname: user.fullname,
     username: user.username,
-    imgUrl: user.imgUrl,
+    imageUrl: user.imageUrl,
     email: user.email,
     isHost: user.isHost,
     isAdmin: user.isAdmin,

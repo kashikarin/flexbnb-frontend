@@ -8,12 +8,12 @@ import {
 } from '../reducers/draft-order.reducer'
 import { store } from '../store'
 
-export async function addDraftOrder(homeId, userId, filterBy) {
+export async function addDraftOrder(homeId, filterBy, loggedInUser) {
   try {
     const draftOrder = await draftOrderService.getDraftOrder(
       homeId,
-      userId,
-      filterBy
+      filterBy,
+      loggedInUser
     )
     store.dispatch(getCmdAddDraftOrder(draftOrder))
     return draftOrder

@@ -35,7 +35,7 @@ export function AppHeader({ scrollContainerRef }) {
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   // const loggedInUser = false
   const [forceExpand, setForceExpand] = useState(false)
-  
+
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
     window.addEventListener('resize', handleResize)
@@ -87,7 +87,7 @@ export function AppHeader({ scrollContainerRef }) {
   }
 
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
-  console.log("🚀 ~ shouldCollapse:", shouldCollapse)
+  console.log('🚀 ~ shouldCollapse:', shouldCollapse)
 
   return (
     <header
@@ -97,108 +97,109 @@ export function AppHeader({ scrollContainerRef }) {
       ${forceExpand ? 'expanded' : ''}`}
     >
       {isHomeEdit ? (
-      <HeaderHomeEdit />
-    ) : isHDImgScrolled ? (
-      <HeaderHomeDetails />
-    ) : (
-      <>
-        <nav
-          className={`app-header-main-nav ${
-            shouldCollapse ? 'scrolled' : 'expanded'
-          }`}
-        >
-          {/* first row */}
-          <div className="app-header-main-nav-content">
-            {/* main-nav - left section */}
-            <div className="app-header-left-section">
-              <NavLink
-                to="/"
-                className="logo"
-                onClick={() => dispatch(setHomePageNotScrolled())}
-              >
-                <FaAirbnb className="logo-icon" />
-                <span>flexbnb</span>
-              </NavLink>
-            </div>
-            {/* main - nav - right section */}
-
-            <div className="app-header-right-section">
-              {loggedInUser ? (
-                <>
-                  <Link to={loggedInUser.isHost ? '/' : '/hosting'}>
-                    {loggedInUser.isHost
-                      ? 'Switch to traveling'
-                      : 'Switch to hosting'}
-                  </Link>
-                  <div className="user-info">
-                    <Link to={`user/${loggedInUser._id}`}>
-                      {loggedInUser.imgUrl ? (
-                        <img
-                          src={loggedInUser.imgUrl}
-                          alt={loggedInUser.fullname || loggedInUser.username}
-                        />
-                      ) : (
-                        <div className="user-avatar-placeholder">
-                          {(
-                            loggedInUser.fullname ||
-                            loggedInUser.username ||
-                            'U'
-                          )
-                            .charAt(0)
-                            .toUpperCase()}
-                        </div>
-                      )}
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                <Link to={'/'}>Become a host</Link>
-              )}
-              <UserMenu />
-            </div>
-          </div>
-          {/* second row */}
-          {/* main - nav - mid section */}
-          <div
-            className={`app-header-mid-section ${
+        <HeaderHomeEdit />
+      ) : isHDImgScrolled ? (
+        <HeaderHomeDetails />
+      ) : (
+        <>
+          <nav
+            className={`app-header-main-nav ${
               shouldCollapse ? 'scrolled' : 'expanded'
             }`}
           >
-            {isHosting ? (
-              <nav className="hosting-header-nav">
-                <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
-                  Create a new listing
+            {/* first row */}
+            <div className="app-header-main-nav-content">
+              {/* main-nav - left section */}
+              <div className="app-header-left-section">
+                <NavLink
+                  to="/"
+                  className="logo"
+                  onClick={() => dispatch(setHomePageNotScrolled())}
+                >
+                  <FaAirbnb className="logo-icon" />
+                  <span>flexbnb</span>
                 </NavLink>
-                <NavLink to="/hosting/reservations/">Reservations</NavLink>
-              </nav>
-            ) : (
-              <div
-                className={`searchbar-wrapper ${
-                  shouldCollapse ? 'scrolled' : 'expanded'
-                }`}
-              >
-                <SearchBar
-                  shouldCollapse={shouldCollapse}
-                  forceExpand={forceExpand}
-                  setForceExpand={setForceExpand}
-                  scrollContainerRef={scrollContainerRef}
-                />
+              </div>
+              {/* main - nav - right section */}
+
+              <div className="app-header-right-section">
+                {loggedInUser ? (
+                  <>
+                    <Link to={loggedInUser.isHost ? '/hosting' : '/'}>
+                      {loggedInUser.isHost
+                        ? 'Switch to hosting'
+                        : 'Switch to traveling'}
+                    </Link>
+                    <div className="user-info">
+                      <Link to={`user/${loggedInUser._id}`}>
+                        {loggedInUser.imgUrl ? (
+                          <img
+                            src={loggedInUser.imgUrl}
+                            alt={loggedInUser.fullname || loggedInUser.username}
+                          />
+                        ) : (
+                          <div className="user-avatar-placeholder">
+                            {(
+                              loggedInUser.fullname ||
+                              loggedInUser.username ||
+                              'U'
+                            )
+                              .charAt(0)
+                              .toUpperCase()}
+                          </div>
+                        )}
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <Link to={'/'}>Become a host</Link>
+                )}
+                <UserMenu />
+              </div>
+            </div>
+            {/* second row */}
+            {/* main - nav - mid section */}
+            <div
+              className={`app-header-mid-section ${
+                shouldCollapse ? 'scrolled' : 'expanded'
+              }`}
+            >
+              {isHosting ? (
+                <nav className="hosting-header-nav">
+                  <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
+                    Create a new listing
+                  </NavLink>
+                  <NavLink to="/hosting/reservations/">Reservations</NavLink>
+                </nav>
+              ) : (
+                <div
+                  className={`searchbar-wrapper ${
+                    shouldCollapse ? 'scrolled' : 'expanded'
+                  }`}
+                >
+                  <SearchBar
+                    shouldCollapse={shouldCollapse}
+                    forceExpand={forceExpand}
+                    setForceExpand={setForceExpand}
+                    scrollContainerRef={scrollContainerRef}
+                  />
+                </div>
+              )}
+            </div>
+          </nav>
+          <div
+            className={`app-header-bottom-row ${
+              !isHomePageScrolled ? 'expanded' : ''
+            }`}
+          >
+            {isHomeIndex && !isHomePageScrolled && (
+              <div className="app-header-labels-slider-wrapper">
+                <LabelsSlider />
               </div>
             )}
           </div>
-        </nav>
-        <div
-          className={`app-header-bottom-row ${
-            !isHomePageScrolled ? 'expanded' : ''
-          }`}
-        >
-          {isHomeIndex && !isHomePageScrolled && (
-            <div className="app-header-labels-slider-wrapper">
-              <LabelsSlider />
-            </div>
-          )}
-        </div>
-      </>)}
+        </>
+      )}
     </header>
   )
 }

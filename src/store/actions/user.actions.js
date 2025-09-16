@@ -131,3 +131,27 @@ export async function initUsers() {
     console.error('Cannot init users', err)
   }
 }
+
+export async function initUser() {
+  try {
+    const localUser = userService.getLoggedinUser()
+    if (localUser) {
+      store.dispatch({
+        type: SET_LOGGEDINUSER,
+        user: localUser,
+      })
+      return localUser
+    }
+
+    const serverUser = await userService.getCurrentUser()
+    if (serverUser) {
+      store.dispatch({
+        type: SET_LOGGEDINUSER,
+        user: serverUser,
+      })
+      return serverUser
+    }
+  } catch (err) {
+    console.error('Cannot init user', err)
+  }
+}

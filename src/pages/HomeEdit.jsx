@@ -64,7 +64,7 @@ export function HomeEdit(){
     }, [currentStep, currentSubStep])
     
     return(
-        <section className='home-edit-container narrow-layout'>
+        <section className='home-edit-container'>
             <div className={`home-edit-main ${isVisible? 'fade-in' : 'fade-out' }`}>
                 {renderStepComponent()}
             </div>

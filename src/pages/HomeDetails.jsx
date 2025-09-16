@@ -22,34 +22,6 @@ import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
 import { PiDoorOpenThin, PiVideoCameraLight } from 'react-icons/pi'
-import {
-  MdTv,
-  MdKitchen,
-  MdWifi,
-  MdSmokingRooms,
-  MdPets,
-  MdRestaurantMenu,
-  MdLocalParking,
-  MdAcUnit,
-  MdThermostat,
-  MdLocalLaundryService,
-  MdDryCleaning,
-  MdPool,
-  MdHotTub,
-  MdFitnessCenter,
-  MdBeachAccess,
-  MdBalcony,
-  MdLocalFlorist,
-  MdOutdoorGrill,
-  MdFireplace,
-  MdPiano,
-  MdSportsEsports,
-  MdWork,
-  MdChildCare,
-  MdChair,
-  MdSecurity,
-  MdHome,
-} from 'react-icons/md'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { ReservationModal } from '../cmps/ReservationModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
@@ -69,6 +41,7 @@ import {
   updateDraftOrder,
 } from '../store/actions/draft-order.actions'
 import { addOrder } from '../store/actions/order.actions'
+import { ReactSVG } from 'react-svg'
 
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
@@ -92,35 +65,6 @@ export function HomeDetails() {
   console.log(home)
   console.log("🚀 ~ loggedInUser:", loggedInUser)
   
-  const iconComponents = {
-    MdTv,
-    MdKitchen,
-    MdWifi,
-    MdSmokingRooms,
-    MdPets,
-    MdRestaurantMenu,
-    MdLocalParking,
-    MdAcUnit,
-    MdThermostat,
-    MdLocalLaundryService,
-    MdDryCleaning,
-    MdPool,
-    MdHotTub,
-    MdFitnessCenter,
-    MdBeachAccess,
-    MdBalcony,
-    MdLocalFlorist,
-    MdOutdoorGrill,
-    MdFireplace,
-    MdPiano,
-    MdSportsEsports,
-    MdWork,
-    MdChildCare,
-    MdChair,
-    MdSecurity,
-    MdHome,
-  }
-
   useEffect(() => {
     if (!homeId) return
     initHomeAndDraftOrder()
@@ -339,11 +283,17 @@ export function HomeDetails() {
                 <h3>What this place offers</h3>
                 <ul className="amenities-list">
                   {home.amenities.map((amenity, idx) => {
-                    const iconName = homeService.getAmenityIcon(amenity)
-                    const IconComponent = iconComponents[iconName]
+                    const iconPath = homeService.getAmenityIcon(amenity)
                     return (
                       <li key={idx} className="amenity-item">
-                        <IconComponent className="amenity-icon" />
+                        <ReactSVG 
+                          src={iconPath} 
+                          className="svg-icon"
+                          beforeInjection={(svg) => {
+                            svg.removeAttribute('width')
+                            svg.removeAttribute('height')
+                          }}
+                        />
                         <span>{amenity}</span>
                       </li>
                     )

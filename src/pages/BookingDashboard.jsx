@@ -3,17 +3,8 @@ import { useSelector } from 'react-redux'
 import { loadOrders, updateOrder } from '../store/actions/order.actions'
 
 export const BookingDashboard = () => {
-  // Get logged in user and orders from Redux store
-  // Make sure you have loggedInUser in your Redux store at: storeState.userModule.loggedInUser
-  const loggedInUser = useSelector(
-    (storeState) => storeState.userModule.loggedInUser
-  )
-  const orders = useSelector((storeState) => storeState.orderModule.orders)
-
-  // Debug console logs - remove these after fixing
-  console.log('🚀 loggedInUser:', loggedInUser)
-  console.log('🚀 isHost:', loggedInUser?.isHost)
-  console.log('🚀 Full user object:', JSON.stringify(loggedInUser, null, 2))
+  const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
+  const orders = useSelector((state) => state.orderModule.orders)
 
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
@@ -21,9 +12,9 @@ export const BookingDashboard = () => {
   const [confirmAction, setConfirmAction] = useState(null)
   const [selectedBooking, setSelectedBooking] = useState(null)
 
-  // Load orders on component mount (only if user is logged in and is host)
+  // Load orders on component mount (for any logged in user)
   useEffect(() => {
-    if (loggedInUser && loggedInUser?.isHost) {
+    if (loggedInUser) {
       loadOrders({})
     }
   }, [loggedInUser])
@@ -35,6 +26,19 @@ export const BookingDashboard = () => {
       month: '2-digit',
       year: '2-digit',
     })
+  }
+
+  const getRandomPlaceholder = (name) => {
+    const genders = ['men', 'women']
+    const randomGender = genders[Math.floor(Math.random() * genders.length)]
+    const randomId = Math.floor(Math.random() * 99) + 1
+    return `https://randomuser.me/api/portraits/med/${randomGender}/${randomId}.jpg`
+  }
+
+  const getRandomPropertyPlaceholder = () => {
+    const houseIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    const randomId = houseIds[Math.floor(Math.random() * houseIds.length)]
+    return `https://picsum.photos/seed/house${randomId}/80/60`
   }
 
   const calculateNights = (checkIn, checkOut) => {
@@ -62,7 +66,6 @@ export const BookingDashboard = () => {
     return count
   }
 
-  // Booking management functions
   const handleBookingAction = (bookingId, action) => {
     setSelectedBooking(bookingId)
     setConfirmAction(action)
@@ -107,7 +110,7 @@ export const BookingDashboard = () => {
 
   // Filter orders
   const filteredBookings = useMemo(() => {
-    if (!orders || !loggedInUser?.isHost) return []
+    if (!orders || !loggedInUser) return []
 
     return orders.filter((order) => {
       const matchesSearch =
@@ -126,9 +129,9 @@ export const BookingDashboard = () => {
     })
   }, [orders, searchTerm, statusFilter, loggedInUser])
 
-  // Calculate statistics
+  //  statistics
   const stats = useMemo(() => {
-    if (!orders || !loggedInUser?.isHost)
+    if (!orders || !loggedInUser)
       return { total: 0, approved: 0, pending: 0, rejected: 0, revenue: 0 }
 
     return {
@@ -142,9 +145,11 @@ export const BookingDashboard = () => {
     }
   }, [orders, loggedInUser])
 
+  const canManageBookings = loggedInUser?.isHost || true
+
   return (
     <div className="booking-dashboard">
-      {loggedInUser && loggedInUser?.isHost ? (
+      {loggedInUser ? (
         <div className="container">
           {/* Header */}
           <header className="header">
@@ -225,7 +230,7 @@ export const BookingDashboard = () => {
                       <th>Guests</th>
                       <th>Total</th>
                       <th>Status</th>
-                      <th>Actions</th>
+                      {canManageBookings && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -235,14 +240,17 @@ export const BookingDashboard = () => {
                           <div className="property-info">
                             <img
                               src={
-                                order.home?.imgUrl ||
-                                'https://via.placeholder.com/80x60/f0f0f0/666666?text=No+Image'
+                                order.home?.imageUrl ||
+                                getRandomPropertyPlaceholder()
                               }
                               alt={order.home?.name || 'Property'}
                               className="property-image"
                               onError={(e) => {
-                                e.target.src =
-                                  'https://via.placeholder.com/80x60/f0f0f0/666666?text=No+Image'
+                                if (!e.target.hasAttribute('data-fallback')) {
+                                  e.target.setAttribute('data-fallback', 'true')
+                                  e.target.src =
+                                    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA4MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yNSAyMEgzNVYzMEgyNVYyMFoiIGZpbGw9IiNEREREREQiLz4KPHBhdGggZD0iTTQwIDI1SDUwVjM1SDQwVjI1WiIgZmlsbD0iI0RERERERCIvPgo8dGV4dCB4PSI0MCIgeT0iNDUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SG91c2U8L3RleHQ+Cjwvc3ZnPgo='
+                                }
                               }}
                             />
                             <div className="property-details">
@@ -256,10 +264,40 @@ export const BookingDashboard = () => {
                           </div>
                         </td>
                         <td className="guest-cell">
-                          <div className="guest-name">
-                            {order.purchaser?.fullname ||
-                              order.host?.fullname ||
-                              'Unknown'}
+                          <div className="guest-info">
+                            <img
+                              src={
+                                order.purchaser?.imageUrl ||
+                                getRandomPlaceholder(
+                                  order.purchaser?.fullname ||
+                                    order.host?.fullname ||
+                                    'Unknown'
+                                )
+                              }
+                              alt={
+                                order.purchaser?.fullname ||
+                                order.host?.fullname ||
+                                'Guest'
+                              }
+                              className="guest-image"
+                              onError={(e) => {
+                                e.target.src = getRandomPlaceholder(
+                                  order.purchaser?.fullname ||
+                                    order.host?.fullname ||
+                                    'Unknown'
+                                )
+                              }}
+                            />
+                            <div className="guest-details">
+                              <div className="guest-name">
+                                {order.purchaser?.fullname ||
+                                  order.host?.fullname ||
+                                  'Unknown'}
+                              </div>
+                              <div className="guest-email">
+                                {order.purchaser?.email || 'No email'}
+                              </div>
+                            </div>
                           </div>
                         </td>
                         <td className="date-cell">
@@ -298,30 +336,32 @@ export const BookingDashboard = () => {
                             {getStatusText(order.status)}
                           </span>
                         </td>
-                        <td className="actions-cell">
-                          {order.status === 'pending' && (
-                            <div className="table-actions">
-                              <button
-                                className="table-btn approve-btn"
-                                onClick={() =>
-                                  handleBookingAction(order._id, 'approved')
-                                }
-                                title="Approve booking"
-                              >
-                                ✓
-                              </button>
-                              <button
-                                className="table-btn reject-btn"
-                                onClick={() =>
-                                  handleBookingAction(order._id, 'rejected')
-                                }
-                                title="Reject booking"
-                              >
-                                ✗
-                              </button>
-                            </div>
-                          )}
-                        </td>
+                        {canManageBookings && (
+                          <td className="actions-cell">
+                            {order.status === 'pending' && (
+                              <div className="table-actions">
+                                <button
+                                  className="table-btn approve-btn"
+                                  onClick={() =>
+                                    handleBookingAction(order._id, 'approved')
+                                  }
+                                  title="Approve booking"
+                                >
+                                  ✓
+                                </button>
+                                <button
+                                  className="table-btn reject-btn"
+                                  onClick={() =>
+                                    handleBookingAction(order._id, 'rejected')
+                                  }
+                                  title="Reject booking"
+                                >
+                                  ✗
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
@@ -356,21 +396,6 @@ export const BookingDashboard = () => {
               </div>
             </div>
           )}
-        </div>
-      ) : loggedInUser && !loggedInUser?.isHost ? (
-        <div className="access-denied">
-          <div className="reservations-placeholder">
-            <img
-              src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-reservations/original/6d5ef5a0-93bc-4dbe-89f3-9673e852d0be.png"
-              alt="Manage reservations"
-              className="reservations-image"
-            />
-            <h2>Manage your reservations and lists</h2>
-            <p>
-              When you're ready to book or host, we'll show your reservations
-              and listings here.
-            </p>
-          </div>
         </div>
       ) : (
         <div className="access-denied">

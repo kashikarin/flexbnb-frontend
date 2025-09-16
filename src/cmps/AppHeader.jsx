@@ -125,16 +125,14 @@ export function AppHeader({ scrollContainerRef }) {
               <div className="app-header-right-section">
                 {loggedInUser ? (
                   <>
-                    <Link to={loggedInUser.isHost ? '/hosting' : '/'}>
-                      {loggedInUser.isHost
-                        ? 'Switch to hosting'
-                        : 'Switch to traveling'}
+                    <Link to={isHosting ? '/' : '/hosting'}>
+                      {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
                     </Link>
                     <div className="user-info">
                       <Link to={`user/${loggedInUser._id}`}>
-                        {loggedInUser.imgUrl ? (
+                        {loggedInUser.imageUrl ? (
                           <img
-                            src={loggedInUser.imgUrl}
+                            src={loggedInUser.imageUrl}
                             alt={loggedInUser.fullname || loggedInUser.username}
                           />
                         ) : (

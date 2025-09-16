@@ -261,7 +261,7 @@ export function UserMenu() {
           username: credentials.username,
           password: credentials.password,
           fullname: credentials.fullname,
-          imageUrl: credentials.imageUrl
+          imageUrl: credentials.imageUrl,
         })
       } else {
         user = await userService.login({
@@ -389,9 +389,9 @@ export function UserMenu() {
                       <div className="profile-image-section">
                         <div className="image-upload-container">
                           <div className="image-preview">
-                            {credentials.imageUrl? (
+                            {credentials.imageUrl ? (
                               <img
-                                src={credentials.a}e
+                                src={credentials.imageUrl}
                                 alt="Profile preview"
                                 className="preview-image"
                               />
@@ -415,7 +415,7 @@ export function UserMenu() {
                             className="upload-btn"
                           >
                             <Camera size={16} />
-                            {credentials.imageUrl? 'Change' : 'Add Photo'}
+                            {credentials.imageUrl ? 'Change' : 'Add Photo'}
                           </button>
 
                           <input

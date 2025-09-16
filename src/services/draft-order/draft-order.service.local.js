@@ -10,7 +10,7 @@ export const draftOrderService = {
   // remove,
   getDraftOrder,
   _findFirstAvailable,
-  getNumberOfNights
+  getNumberOfNights,
 }
 
 window.cs = draftOrderService
@@ -53,13 +53,13 @@ async function getDraftOrder(homeId, filterBy, loggedInUser) {
     adults: filterBy.adults || 1,
     children: filterBy.children || 0,
     infants: filterBy.infants || 0,
-    pets: filterBy.pets || 0
-  } 
+    pets: filterBy.pets || 0,
+  }
 
   if (!loggedInUser) draftOrder.purchaser = null
   else {
-    const { _id: userId, fullname, imageUrl } = loggedInUser
-    draftOrder.purchaser = { userId, fullname, imageUrl }
+    const { _id: userId, fullname, imageUrl, email } = loggedInUser
+    draftOrder.purchaser = { userId, fullname, imageUrl, email }
   }
 
   let { checkIn, checkOut } = filterBy
@@ -70,20 +70,20 @@ async function getDraftOrder(homeId, filterBy, loggedInUser) {
     draftOrder.checkIn = firstAvailableBooking.checkIn
     draftOrder.checkOut = firstAvailableBooking.checkOut
   } else {
-      parsedCheckIn = new Date(checkIn)
-      const parsedCheckOut = new Date(checkOut)
+    parsedCheckIn = new Date(checkIn)
+    const parsedCheckOut = new Date(checkOut)
 
-  // fallback if parsing failed
-      if (isNaN(parsedCheckIn.getTime()) || isNaN(parsedCheckOut.getTime())) {
-        const firstAvailableBooking = _findFirstAvailable(home)
-        draftOrder.checkIn = firstAvailableBooking.checkIn
-        draftOrder.checkOut = firstAvailableBooking.checkOut
-      } else {
-        draftOrder.checkIn = parsedCheckIn
-        draftOrder.checkOut = parsedCheckOut
-      }
+    // fallback if parsing failed
+    if (isNaN(parsedCheckIn.getTime()) || isNaN(parsedCheckOut.getTime())) {
+      const firstAvailableBooking = _findFirstAvailable(home)
+      draftOrder.checkIn = firstAvailableBooking.checkIn
+      draftOrder.checkOut = firstAvailableBooking.checkOut
+    } else {
+      draftOrder.checkIn = parsedCheckIn
+      draftOrder.checkOut = parsedCheckOut
+    }
   }
-  
+
   draftOrder.host = {
     userId: home.host.userId || home.host.id,
     fullname: home.host.fullname,
@@ -97,7 +97,7 @@ async function getDraftOrder(homeId, filterBy, loggedInUser) {
   draftOrder.home = {
     homeId,
     name: home.name,
-    imageUrl: home.imageUrls[0]
+    imageUrl: home.imageUrls[0],
   }
 
   return draftOrder

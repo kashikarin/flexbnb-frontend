@@ -60,31 +60,31 @@ export function HomeDetails() {
   const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
   // const stickyBreakPointRef = useRef()
-  
-  console.log("🚀 ~ draftOrder:", draftOrder)
+
+  console.log('🚀 ~ draftOrder:', draftOrder)
   console.log(home)
-  console.log("🚀 ~ loggedInUser:", loggedInUser)
-  
+  console.log('🚀 ~ loggedInUser:', loggedInUser)
+
   useEffect(() => {
     if (!homeId) return
     initHomeAndDraftOrder()
   }, [homeId, loggedInUser])
 
-  useEffect(()=>{
+  useEffect(() => {
     let purchaser = null
     if (loggedInUser) {
       purchaser = {
         userId: loggedInUserId,
         fullname: loggedInUser.fullname,
-        imageUrl: loggedInUser.imageUrl
+        imageUrl: loggedInUser.imageUrl,
+        email: loggedInUser.email,
       }
       updateDraftOrder({ ...draftOrder, purchaser })
     }
-    
+
     updateDraftOrder({ ...draftOrder, purchaser })
-    
+
     console.log(draftOrder)
-    
   }, [loggedInUserId])
 
   useEffect(() => {
@@ -111,12 +111,11 @@ export function HomeDetails() {
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current
-      const stickySentinel = document.querySelector("#sticky-sentinel")
-      const header = document.querySelector(".home-details-header")
+      const stickySentinel = document.querySelector('#sticky-sentinel')
+      const header = document.querySelector('.home-details-header')
       const headerHeight = header?.offsetHeight ?? 0
 
       if (!header || !elAfterImg || !stickySentinel) return
-
 
       const observer = new IntersectionObserver(
         (entries) => {
@@ -132,24 +131,20 @@ export function HomeDetails() {
             }
           })
         },
-        { root: null,
-          threshold: 0,
-          rootMargin: "-80px 0px 0px 0px"
-          
-        }
+        { root: null, threshold: 0, rootMargin: '-80px 0px 0px 0px' }
       )
 
       if (elAfterImg) observer.observe(elAfterImg)
       if (stickySentinel) observer.observe(stickySentinel)
-      
-        return () => {
+
+      return () => {
         if (elAfterImg) observer.unobserve(elAfterImg)
         if (stickySentinel) observer.unobserve(stickySentinel)
         observer.disconnect()
-        }
-    } catch (err) {
-        console.error('💥 IntersectionObserver failed:', err)
       }
+    } catch (err) {
+      console.error('💥 IntersectionObserver failed:', err)
+    }
   }, [home])
 
   // async function onAddHomeMsg(homeId) {
@@ -201,7 +196,11 @@ export function HomeDetails() {
               <span>{isLiked ? 'Saved' : 'Save'}</span>
             </div>
           </div>
-          <div className="home-details-img-container" id='hd-images-container' ref={imgBreakPointRef}>
+          <div
+            className="home-details-img-container"
+            id="hd-images-container"
+            ref={imgBreakPointRef}
+          >
             {home.imageUrls.map((imageUrl, idx) => {
               return (
                 <img
@@ -217,7 +216,7 @@ export function HomeDetails() {
           <section className="home-details-mid-section">
             <div className="home-details-mid-left-part-wrapper">
               <div
-                id='home-details-amenities-container'
+                id="home-details-amenities-container"
                 className="home-details-amenities"
                 style={
                   getAvgRating(home) >= 4
@@ -286,8 +285,8 @@ export function HomeDetails() {
                     const iconPath = homeService.getAmenityIcon(amenity)
                     return (
                       <li key={idx} className="amenity-item">
-                        <ReactSVG 
-                          src={iconPath} 
+                        <ReactSVG
+                          src={iconPath}
                           className="svg-icon"
                           beforeInjection={(svg) => {
                             svg.removeAttribute('width')
@@ -299,7 +298,6 @@ export function HomeDetails() {
                     )
                   })}
                 </ul>
-
               </section>
             </div>
             <div className="home-details-mid-right-part-wrapper">
@@ -308,26 +306,31 @@ export function HomeDetails() {
                   <IoDiamond className="diamond-icon" />
                   <p>Rare find! This place is usually booked</p>
                 </aside>
-                {draftOrder && home && (<ReservationModal
-                  home={home}
-                  draftOrder={draftOrder}
-                  updateDraftOrder={updateDraftOrder}
-                  addOrder={addOrder}
-                  isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
-                  openOrderConfirmationModal={openOrderConfirmationModal}
-                  closeOrderConfirmationModal={closeOrderConfirmationModal}
-                />)}
-              </section> 
-              <div id="sticky-sentinel" style={{ height: "250px"}} /> 
+                {draftOrder && home && (
+                  <ReservationModal
+                    home={home}
+                    draftOrder={draftOrder}
+                    updateDraftOrder={updateDraftOrder}
+                    addOrder={addOrder}
+                    isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
+                    openOrderConfirmationModal={openOrderConfirmationModal}
+                    closeOrderConfirmationModal={closeOrderConfirmationModal}
+                  />
+                )}
+              </section>
+              <div id="sticky-sentinel" style={{ height: '250px' }} />
             </div>
           </section>
           {/* <div id="reservation-sentinel" style={{ height: "1px" }} /> */}
 
           {/* <div /> */}
-          <section className='home-details-reviews-section' >
+          <section className="home-details-reviews-section">
             <ReviewCard reviews={home.reviews} />
           </section>
-          <section className="home-details-google-maps-section" id='hd-location-container'>
+          <section
+            className="home-details-google-maps-section"
+            id="hd-location-container"
+          >
             <h3>Where you'll be</h3>
             <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
@@ -351,9 +354,7 @@ export function HomeDetails() {
         </div>
       )}
     </>
-    
-    
-    
+
     // <button
     //   onClick={() => {
     //     onAddHomeMsg(home._id)

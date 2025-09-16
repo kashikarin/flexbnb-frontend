@@ -5,7 +5,7 @@ import {
 } from '../../store/actions/home-edit.actions.js'
 import { homeService } from '../../services/home'
 import { useEffect } from 'react'
-
+import { ReactSVG } from 'react-svg'
 
 export function HomeEditStepTwoA() {
   
@@ -15,17 +15,17 @@ export function HomeEditStepTwoA() {
   
   console.log('🚀 ~ potentialHome:', potentialHome)
   const currentSubStepStatus = potentialHome?.editProgress?.currentSubStepStatus
-  const { gAmenities, getAmenityIcon } = homeService
+  const { gAmenities, getAmenityAnimatedSvgPath } = homeService
   
   // useEffect(() => {
   //   if (currentSubStepStatus === false) setStepCompleted()
   // }, [currentSubStepStatus])
 
   useEffect(()=>{
-          if (currentSubStepStatus === false) setStepCompleted()
-      }, [currentSubStepStatus])
+    if (currentSubStepStatus === false) setStepCompleted()
+  }, [currentSubStepStatus])
 
-  function handleClick(amenity) {
+  function handleClick(amenity) {  
     if (potentialHome?.amenities?.includes(amenity)) {
       const updatedAmenities = potentialHome?.amenities?.filter(
         (a) => a !== amenity
@@ -41,6 +41,7 @@ export function HomeEditStepTwoA() {
       })
     }
   }
+  
   return (
     <section className="home-edit-step-2-a-container">
       <article className="home-edit-step-2-a-title">
@@ -49,9 +50,9 @@ export function HomeEditStepTwoA() {
       </article>
       <article className="home-edit-step-2-a-buttons-container">
         {gAmenities?.map((amenity, idx) => {
-          const iconName = getAmenityIcon(amenity)
-          const IconComponent = homeService.icons.filled[iconName] || homeService.icons.filled.MdHome
-          if (!IconComponent) return null
+          const iconPath = getAmenityAnimatedSvgPath(amenity)
+          // const IconComponent = homeService.icons.filled[iconName] || homeService.icons.filled.MdHome
+          if (!iconPath) return null
           const selected = (potentialHome?.amenities ?? []).includes(amenity)
           return (
             <button
@@ -61,7 +62,7 @@ export function HomeEditStepTwoA() {
               }`}
               onClick={() => handleClick(amenity)}
             >
-              <IconComponent className="home-edit-step-2-amenity-icon" />
+              <ReactSVG src={iconPath} />
               <span>{amenity}</span>
             </button>
           )

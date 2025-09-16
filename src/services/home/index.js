@@ -73,7 +73,7 @@ const gAmenities = [
   'Carbon monoxide alarm'  
 ]
 
-const amenityIconsMap = {
+const amenitySvgPathMap = {
   'Wifi': '/svgs/amenities/wifi.svg',
   'TV': '/svgs/amenities/tv.svg',
   'Kitchen': '/svgs/amenities/kitchen.svg',
@@ -102,10 +102,43 @@ const amenityIconsMap = {
   'Carbon monoxide alarm': '/svgs/amenities/carbonMonoxideAlarm.svg',
 }
 
+const amenityAnimatedSvgPathMap = {
+  'Wifi': '/svgs/amenities/animated/wifi.svg',
+  'TV': '/svgs/amenities/animated/tv.svg',
+  'Kitchen': '/svgs/amenities/animated/kitchen.svg',
+  'Washer': '/svgs/amenities/animated/washer.svg',
+  'Free parking on premises': '/svgs/amenities/animated/freeParkingOnPremises.svg',
+  'Paid parking on premises': '/svgs/amenities/animated/paidParkingOnPremises.svg',
+  'Air Conditioning': '/svgs/amenities/animated/airConditioning.svg',
+  'Dedicated workspace': '/svgs/amenities/animated/dedicatedWorkspace.svg',
+  'Pool': '/svgs/amenities/animated/pool.svg',
+  'HotTub': '/svgs/amenities/animated/hotTub.svg',
+  'Patio': '/svgs/amenities/animated/patio.svg',
+  'BBQ Grill': '/svgs/amenities/animated/bbqGrill.svg',
+  'Outdoor dining area': '/svgs/amenities/animated/outdoorDiningArea.svg',
+  'Fire pit': '/svgs/amenities/animated/firePit.svg',
+  'Pool table': '/svgs/amenities/animated/poolTable.svg',
+  'Indoor fireplace': '/svgs/amenities/animated/indoorFireplace.svg',
+  'Piano': '/svgs/amenities/animated/piano.svg',
+  'Exercise equipment': '/svgs/amenities/animated/exerciseEquipment.svg',
+  'Lake access': '/svgs/amenities/animated/lakeAccess.svg',
+  'Beach access': '/svgs/amenities/animated/beachAccess.svg',
+  'Ski-in/Ski-out': '/svgs/amenities/animated/skiInSkiOut.svg',
+  'Outdoor shower': '/svgs/amenities/animated/outdoorShower.svg',
+  'Smoke alarm': '/svgs/amenities/animated/smokeAlarm.svg',  
+  'First aid kit': '/svgs/amenities/animated/firstAidKit.svg',
+  'Fire extinguisher': '/svgs/amenities/animated/fireExtinguisher.svg',
+  'Carbon monoxide alarm': '/svgs/amenities/animated/carbonMonoxideAlarm.svg',
+}
+
 const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
 
-function getAmenityIcon(amenity){
-  return amenityIconsMap[amenity]
+function getAmenitySvgPath(amenity){
+  return amenitySvgPathMap[amenity]
+} 
+
+function getAmenityAnimatedSvgPath(amenity){
+  return amenityAnimatedSvgPathMap[amenity]
 } 
 
 // const icons = {
@@ -148,8 +181,10 @@ export const homeService = {
   getFilterFromSearchParams,
   gHomeTypes,
   gAmenities,
-  getAmenityIcon,
-  amenityIconsMap,
+  getAmenitySvgPath,
+  getAmenityAnimatedSvgPath,
+  amenitySvgPathMap,
+  amenityAnimatedSvgPathMap,
   gHomeLabels,
   ...service,
 }

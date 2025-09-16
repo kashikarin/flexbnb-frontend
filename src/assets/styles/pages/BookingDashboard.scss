@@ -1,9 +1,7 @@
 .booking-dashboard {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
   color: $gray4;
   line-height: 1.6;
-  min-height: 100vh;
+  min-height: 100%;
   direction: ltr;
 }
 
@@ -201,7 +199,6 @@
 .booking-id {
   font-size: $font-size-xxs;
   color: $gray9;
-  font-family: 'Courier New', monospace;
 }
 
 .guest-cell {
@@ -532,7 +529,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-color: White;
 }
 
 .access-denied-content {

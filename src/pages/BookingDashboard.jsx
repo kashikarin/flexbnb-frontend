@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { loadOrders, updateOrder } from '../store/actions/order.actions'
+import AccessDenied from '../cmps/AccessDenied'
 
 export const BookingDashboard = () => {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
@@ -398,13 +399,7 @@ export const BookingDashboard = () => {
           )}
         </div>
       ) : (
-        <div className="access-denied">
-          <div className="access-denied-content">
-            <div className="access-denied-icon">🔒</div>
-            <h2>Access Denied</h2>
-            <p>Log in to see more</p>
-          </div>
-        </div>
+        <AccessDenied />
       )}
     </div>
   )

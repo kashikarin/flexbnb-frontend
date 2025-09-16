@@ -135,22 +135,24 @@
     cursor: pointer;
     transition: font-size 0.3s ease;
     
-    .house-title-scolled {
-      width: 48px;
-      height: 48px;
-      margin-inline-start: 8px;
+    // .house-title-scolled {
+    //   width: 48px;
+    //   height: 48px;
+    //   margin-inline-start: 8px;
 
-    }
+    // }
   }
 
   .placeholder-content {
-    border: none;
+    border:none;
     width: 100%;
     letter-spacing: normal;
     font-weight: 400;
     cursor: text;
     color: $primary-font-black;
     font-size: 14px;
+    padding: 0;
+    margin: 0;
     line-height: 18px;
     background-color: transparent;
     transition: font-size 0.3s ease, opacity 0.3s ease;
@@ -263,7 +265,7 @@
       gap: 2px;
       font-size: 14px;
       //grid-template-columns: minmax(0, 2fr) 1px minmax(0, 2fr) 1px minmax(0, 3fr);
-      grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 3fr);
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 3fr);
       transition: grid-template-columns 0.3s ease;
     }
 
@@ -308,6 +310,11 @@
       transition: font-size 0.3s ease;
     }
 
+    .house-title-scrolled {
+      width: 45px;
+      height: 45px;
+    }
+
     .searchbar-capacity-dropdown-wrapper {
       border-radius: 15px;
       border: 1px solid black;
@@ -330,6 +337,7 @@
       height: 2.5em;
       margin: 0px;
       padding: 0;
+      right: 6px;
       width: 2.5em;
       border-radius: 100%;
       transition: width 0.3s ease, height 0.3s ease;
@@ -352,7 +360,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: flex-start; 
-      padding-left: 1.5rem; 
+      padding-left: 1rem; 
     }
 
     .inner-section.capacity .sTitle,

@@ -14,7 +14,11 @@
         animation-duration: 0.6s;
         animation-fill-mode: forwards;
         padding: 2rem; 
+        -ms-overflow-style: none; // IE/Edge
 
+    &::-webkit-scrollbar {
+        display: none;  // Chrome/Safari
+    }
         &.fade-in {
             animation-name: fadeIn;
         }

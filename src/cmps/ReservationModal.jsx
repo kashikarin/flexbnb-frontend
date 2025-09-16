@@ -168,7 +168,21 @@ export function ReservationModal({
             readOnly
           />
         </div>
-        <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+
+         {openedDropdown === 'checkIn' || openedDropdown === 'checkOut' ? (
+          <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+            <DatesDropdown
+              isOpen={true}
+              checkIn={draftOrder.checkIn}
+              checkOut={draftOrder.checkOut}
+              onSetDates={({ checkIn, checkOut }) => {
+                updateDraftOrder({ ...draftOrder, checkIn, checkOut })
+                if (checkIn && checkOut) onCloseDropdown()
+              }}
+            />
+          </div>
+        ) : null}
+        {/* <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
           <DatesDropdown
             isOpen={
               openedDropdown === 'checkIn' || openedDropdown === 'checkOut'
@@ -182,7 +196,7 @@ export function ReservationModal({
               if (checkIn && checkOut) onCloseDropdown()
             }}
           />
-        </div>
+        </div> */}
 
         <div
           // className='reservation-selection-guest-dropdown-wrapper'

@@ -282,7 +282,7 @@ export function HomeDetails() {
                 <h3>What this place offers</h3>
                 <ul className="amenities-list">
                   {home.amenities.map((amenity, idx) => {
-                    const iconPath = homeService.getAmenityIcon(amenity)
+                    const iconPath = homeService.getAmenitySvgPath(amenity)
                     return (
                       <li key={idx} className="amenity-item">
                         <ReactSVG

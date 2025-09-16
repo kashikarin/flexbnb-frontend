@@ -324,6 +324,35 @@
       }
     }
   }
+.reservation-selection {
+  position: relative; // עוגן לשני האינפוטים ביחד
+
+  .dates-dropdown-wrapper {
+    position: absolute;
+    top: 100%;     // ישר מתחת לצ’ק אין+אאוט
+    left: 0;
+    z-index: 9999;
+
+    min-width: 650px; 
+    max-width: none;
+
+    .react-datepicker {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      gap: 2rem;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      padding: 1.5rem;
+    }
+
+    .react-datepicker__month-container {
+      flex: 1 1 0;
+    }
+  }
+}
 }
 
 

@@ -70,7 +70,7 @@ async function getDraftOrder(homeId, filterBy, loggedInUser) {
     draftOrder.checkIn = firstAvailableBooking.checkIn
     draftOrder.checkOut = firstAvailableBooking.checkOut
   } else {
-      parsedCheckIn = new Date(checkIn)
+      const parsedCheckIn = new Date(checkIn)
       const parsedCheckOut = new Date(checkOut)
 
   // fallback if parsing failed

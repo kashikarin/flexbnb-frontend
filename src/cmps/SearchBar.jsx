@@ -342,7 +342,7 @@ export function SearchBar({
             }`}
           >
             <div className="sTitle">{}
-              {scrolled && <img src='/img/house-icon.png' className='house-title-scolled'/> }
+              {scrolled && <img src='/img/house-icon.png' className='house-title-scrolled'/> }
               {getWhereTitleText()}
             </div>
             {!scrolled && (

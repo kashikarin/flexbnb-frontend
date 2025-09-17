@@ -50,7 +50,6 @@ export async function loadOrder(orderId) {
 }
 
 export async function addOrder(order) {
-  
   try {
     const savedOrder = await orderService.save(order)
     console.log("🚀 ~ savedOrder:", savedOrder)

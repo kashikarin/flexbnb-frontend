@@ -84,8 +84,20 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (!homeId) return
-    initHomeAndDraftOrder()
-  }, [homeId, loggedInUser])
+    initHome(homeId)
+  }, [homeId])
+
+  async function initHome(homeId){
+    try {
+      await loadHome(homeId)
+    } catch (err) {
+      console.error('Cannot load home', err)
+    }
+  }
+
+  useEffect(()=>{
+     if (home && home._id) addDraftOrder(home._id, filterBy)
+  }, [home, filterBy])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -93,7 +105,7 @@ export function HomeDetails() {
 
   async function initHomeAndDraftOrder() {
     try {
-      await loadHome(homeId)
+      await 
       await addDraftOrder(homeId, filterBy)
     } catch (err) {
       console.error('Cannot load home', err)

@@ -46,7 +46,7 @@ window.cs = draftOrderService
 //   }
 // }
 
-async function getDraftOrder(homeId, filterBy, loggedInUser) {
+async function getDraftOrder(homeId, filterBy) {
   let draftOrder = getEmptyOrder()
 
   draftOrder.guests = {
@@ -55,12 +55,13 @@ async function getDraftOrder(homeId, filterBy, loggedInUser) {
     infants: filterBy.infants || 0,
     pets: filterBy.pets || 0,
   }
-
-  if (!loggedInUser) draftOrder.purchaser = null
-  else {
-    const { _id: userId, fullname, imageUrl, email } = loggedInUser
-    draftOrder.purchaser = { userId, fullname, imageUrl, email }
-  }
+  
+  draftOrder.purchaser = null
+  // if (!loggedInUser) draftOrder.purchaser = null
+  // else {
+  //   const { _id: userId, fullname, imageUrl, email } = loggedInUser
+  //   draftOrder.purchaser = { userId, fullname, imageUrl, email }
+  // }
 
   let { checkIn, checkOut } = filterBy
   const home = await homeService.getById(homeId)

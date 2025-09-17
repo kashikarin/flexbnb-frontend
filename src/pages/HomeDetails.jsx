@@ -88,30 +88,13 @@ export function HomeDetails() {
   }, [homeId, loggedInUser])
 
   useEffect(() => {
-    let purchaser = null
-    if (loggedInUser) {
-      purchaser = {
-        userId: loggedInUserId,
-        fullname: loggedInUser.fullname,
-        imageUrl: loggedInUser.imageUrl,
-        email: loggedInUser.email,
-      }
-      updateDraftOrder({ ...draftOrder, purchaser })
-    }
-
-    updateDraftOrder({ ...draftOrder, purchaser })
-
-    console.log(draftOrder)
-  }, [loggedInUserId])
-
-  useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
   async function initHomeAndDraftOrder() {
     try {
       await loadHome(homeId)
-      await addDraftOrder(homeId, filterBy, loggedInUser)
+      await addDraftOrder(homeId, filterBy)
     } catch (err) {
       console.error('Cannot load home', err)
     }

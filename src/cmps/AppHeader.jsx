@@ -121,33 +121,7 @@ export function AppHeader({ scrollContainerRef }) {
                 </NavLink>
               </div>
               {/* main - nav - right section */}
-              <div
-                className={`app-header-mid-section ${
-                  shouldCollapse ? 'scrolled' : 'expanded'
-                }`}
-              >
-                {isHosting ? (
-                  <nav className="hosting-header-nav">
-                    <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
-                      Create a new listing
-                    </NavLink>
-                    <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                  </nav>
-                ) : (
-                  <div
-                    className={`searchbar-wrapper ${
-                      shouldCollapse ? 'scrolled' : 'expanded'
-                    }`}
-                  >
-                    <SearchBar
-                      shouldCollapse={shouldCollapse}
-                      forceExpand={forceExpand}
-                      setForceExpand={setForceExpand}
-                      scrollContainerRef={scrollContainerRef}
-                    />
-                  </div>
-                )}
-              </div>
+              
               <div className="app-header-right-section">
                 {loggedInUser ? (
                   <>
@@ -183,6 +157,33 @@ export function AppHeader({ scrollContainerRef }) {
             </div>
             {/* second row */}
             {/* main - nav - mid section */}
+            <div
+                className={`app-header-mid-section ${
+                  shouldCollapse ? 'scrolled' : 'expanded'
+                }`}
+              >
+                {isHosting ? (
+                  <nav className="hosting-header-nav">
+                    <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
+                      Create a new listing
+                    </NavLink>
+                    <NavLink to="/hosting/reservations/">Reservations</NavLink>
+                  </nav>
+                ) : (
+                  <div
+                    className={`searchbar-wrapper ${
+                      shouldCollapse ? 'scrolled' : 'expanded'
+                    }`}
+                  >
+                    <SearchBar
+                      shouldCollapse={shouldCollapse}
+                      forceExpand={forceExpand}
+                      setForceExpand={setForceExpand}
+                      scrollContainerRef={scrollContainerRef}
+                    />
+                  </div>
+                )}
+              </div>
           </nav>
           <div
             className={`app-header-bottom-row ${

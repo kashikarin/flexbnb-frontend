@@ -7,6 +7,9 @@ import { Provider } from 'react-redux'
 
 import { store } from './store/store'
 import { RootCmp } from './RootCmp'
+import { App } from './App.jsx'
+import { MobileProvider } from './Providers/MobileProvider.jsx'
+
 
 import './assets/styles/main.scss'
 
@@ -14,7 +17,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
 	<Provider store={store}>
 		<Router>
-			<RootCmp />
+			<MobileProvider>
+				<App />
+			</MobileProvider>
+			{/* <RootCmp /> */}
 		</Router>
 	</Provider>
 )

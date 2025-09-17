@@ -17,6 +17,8 @@ import {
   setHomeDetailsImgNotScrolled,
 } from '../store/actions/scroll.actions'
 import { UserMenu } from './UserMenu'
+import { useIsMobile } from '../Providers/MobileProvider'
+import { SearchBar_mobile } from './SearchBar_mobile'
 
 export function AppHeader({ scrollContainerRef }) {
   const dispatch = useDispatch()
@@ -32,16 +34,39 @@ export function AppHeader({ scrollContainerRef }) {
   const isHomeEdit = location.pathname === '/hosting/edit'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   // console.log('loggedInUser', loggedInUser)
-  const [isSmallScreen, setIsSmallScreen] = useState(false)
+  //const [isSmallScreen, setIsSmallScreen] = useState(false)
   // const loggedInUser = false
   const [forceExpand, setForceExpand] = useState(false)
+  //const [isMobile, setIsMobile] = useState(false)
   
-  useEffect(() => {
-    const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
-    window.addEventListener('resize', handleResize)
-    handleResize()
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  // useEffect(() => {
+  //   const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
+  //   window.addEventListener('resize', handleResize)
+  //   handleResize()
+  //   return () => window.removeEventListener('resize', handleResize)
+  // }, [])
+
+  // useEffect(() => {
+    
+  //   function handleResize() {
+  //     const width = window.innerWidth
+  //     console.log('🔄 resize -> width:', width)
+  //     setIsMobile(width <= 580)
+  //   }
+
+  //   // Set initial state
+  //   handleResize()
+
+  //   window.addEventListener('resize', handleResize)
+  //   return () => window.removeEventListener('resize', handleResize)
+  // }, [])
+
+const isMobile = useIsMobile()
+
+useEffect(() => {
+  console.log("📱 isMobile changed ->", isMobile)
+}, [isMobile])
+
 
   useEffect(() => {
     const elMain = scrollContainerRef.current
@@ -77,17 +102,32 @@ export function AppHeader({ scrollContainerRef }) {
       dispatch({ type: SET_LOGGEDINUSER, user: loggedInUser })
     }
   }
+  // useEffect(() => {
+  //   if (!isHomeIndex || isSmallScreen) setHomePageScrolled()
+  // }, [isSmallScreen, isHomeIndex])
+
   useEffect(() => {
-    if (!isHomeIndex || isSmallScreen) setHomePageScrolled()
-  }, [isSmallScreen, isHomeIndex])
+    if (!isHomeIndex) {
+      setHomePageScrolled()
+    } else {
+      setHomePageNotScrolled()
+    }
+  }, [isHomeIndex])
 
   function onCreateNewListing() {
     if (!loggedInUser) return console.warn('No logged in user yet!')
     setPotentialHome(loggedInUser._id)
   }
 
-  const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen
+  const shouldCollapse = isHomePageScrolled || !isHomeIndex
+  //  || isSmallScreen || isMobile
   console.log("🚀 ~ shouldCollapse:", shouldCollapse)
+
+  if (isMobile) {
+  console.log('📱 Mobile mode -> SearchBar_mobile')
+} else {
+  console.log('💻 Desktop mode -> SearchBar')
+}
 
   return (
     <header
@@ -134,6 +174,10 @@ export function AppHeader({ scrollContainerRef }) {
                   <NavLink to="/hosting/reservations/">Reservations</NavLink>
                 </nav>
               ) : (
+                !isMobile ?
+                (
+                <>
+                {console.log('💻 Desktop mode -> SearchBar')}
                 <div
                   className={`searchbar-wrapper ${
                     shouldCollapse ? 'scrolled' : 'expanded'
@@ -146,6 +190,14 @@ export function AppHeader({ scrollContainerRef }) {
                     scrollContainerRef={scrollContainerRef}
                   />
                 </div>
+                </>
+                ):(
+                  <>{console.log('📱 Mobile mode -> SearchBar_mobile')}
+                  <SearchBar_mobile/>
+                  
+                  </>
+                )
+
               )}
           </div>
             <div className="app-header-right-section">

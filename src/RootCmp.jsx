@@ -23,8 +23,8 @@ import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
 import { Wishlist } from './cmps/Wishlist.jsx'
 import MyTravels from './cmps/MyTravels.jsx'
 
-export function RootCmp() {
-  const mainRef = useRef()
+export function RootCmp({ mainRef }) {
+  //const mainRef = useRef()
   const location = useLocation()
   const isHomeIndex = location.pathname === '/'
   const isHomeEdit = location.pathname === '/hosting/edit'
@@ -35,7 +35,7 @@ export function RootCmp() {
     <>
       <ScrollToTop />
       <div className={isHomeIndex ? 'wide-layout' : 'narrow-layout'}>
-        <AppHeader scrollContainerRef={mainRef} />
+        {/* <AppHeader scrollContainerRef={mainRef} /> */}
 
         {/* <UserMsg /> */}
         <main ref={mainRef}>

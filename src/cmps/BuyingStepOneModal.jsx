@@ -52,7 +52,11 @@ export function BuyingStepOneModal({
       currency: 'USD'
     })
   }
-
+  if (!draftOrder || !homePrice || !nightsNum) {
+  return <div className="loader-container">
+          <span className="loading"></span>
+        </div>
+}
   return (
     <div className='buying-modal-step-one'>
       <div>

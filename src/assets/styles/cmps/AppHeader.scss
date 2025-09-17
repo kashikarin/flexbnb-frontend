@@ -409,29 +409,29 @@
   // }
 }
 
-@media (max-width: 900px) {
-  .app-header {
-    nav {
-      .login-link {
-        // display: none;
-      }
-    }
-    .user-info {
-      // display: none;
-    }
-  }
-}
+// @media (max-width: 900px) {
+//   .app-header {
+//     nav {
+//       .login-link {
+//         // display: none;
+//       }
+//     }
+//     .user-info {
+//       // display: none;
+//     }
+//   }
+// }
 
 // Stage 2: Hide logo completely, keep only user menu and search
-@media (max-width: 820px) {
-  .app-header {
-    nav {
-      .logo {
-        // display: none;
-      }
-    }
-  }
-}
+// @media (max-width: 820px) {
+//   .app-header {
+//     nav {
+//       .logo {
+//         // display: none;
+//       }
+//     }
+//   }
+// }
 
 // Stage 3: Hide user menu too, keep only search bar
 @media (max-width: 768px) {

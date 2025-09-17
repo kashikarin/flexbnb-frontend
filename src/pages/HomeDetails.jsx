@@ -102,23 +102,6 @@ export function HomeDetails() {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
-  async function initHomeAndDraftOrder() {
-    try {
-      await 
-      await addDraftOrder(homeId, filterBy)
-    } catch (err) {
-      console.error('Cannot load home', err)
-    }
-  }
-
-  // async function initdraftOrder(){
-  //   try {
-  //     await addDraftOrder(homeId, '68c0615a899984d302f063f5', filterBy)
-  //   } catch (err) {
-  //     console.error('Cannot load draft order', err)
-  //   }
-
-  // }
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current

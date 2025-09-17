@@ -18,6 +18,8 @@ import {
   CiLocationOn,
   CiVault,
 } from 'react-icons/ci'
+import { FaHome } from 'react-icons/fa'
+
 import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
@@ -43,6 +45,7 @@ import {
 import { addOrder } from '../store/actions/order.actions'
 import { ReactSVG } from 'react-svg'
 
+import { getCityFromCoordinates } from '../services/util.service'
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
 export function HomeDetails() {
@@ -64,6 +67,20 @@ export function HomeDetails() {
   console.log('🚀 ~ draftOrder:', draftOrder)
   console.log(home)
   console.log('🚀 ~ loggedInUser:', loggedInUser)
+
+  const [locationInfo, setLocationInfo] = useState({
+    city: home?.loc?.city || '',
+    country: home?.loc?.country || '',
+  })
+
+  // הוסף useEffect חדש
+  useEffect(() => {
+    if (home?.loc?.lat && home?.loc?.lng) {
+      getCityFromCoordinates(home.loc.lat, home.loc.lng).then((info) => {
+        setLocationInfo(info)
+      })
+    }
+  }, [home?.loc?.lat, home?.loc?.lng])
 
   useEffect(() => {
     if (!homeId) return
@@ -187,7 +204,7 @@ export function HomeDetails() {
         <div className="home-details-container narrow-layout">
           <div className="home-details-header">
             <h1>
-              {home.type} in {home.loc.city}, {home.loc.country}
+              {home.type} in {locationInfo.city}, {locationInfo.country}
             </h1>
             <div className="home-details-heart" onClick={handleHomeSave}>
               <FaHeart
@@ -201,14 +218,20 @@ export function HomeDetails() {
             id="hd-images-container"
             ref={imgBreakPointRef}
           >
-            {home.imageUrls.map((imageUrl, idx) => {
-              return (
+            {Array.from({ length: 5 }, (_, idx) => {
+              const imageUrl = home.imageUrls && home.imageUrls[idx]
+
+              return imageUrl ? (
                 <img
                   key={idx}
                   className="home-details-img"
                   src={imageUrl}
                   alt={`Home image ${idx + 1}`}
                 />
+              ) : (
+                <div key={idx} className="home-details-img-placeholder">
+                  <FaHome size={idx === 0 ? 48 : 24} color="#bbb" />
+                </div>
               )
             })}
           </div>
@@ -225,7 +248,7 @@ export function HomeDetails() {
                 }
               >
                 <h2>
-                  {home.type} in {home.loc.city}, {home.loc.country}
+                  {home.type} in {locationInfo.city}, {locationInfo.country}
                 </h2>
 
                 <div className="home-details-amenities-list">
@@ -251,7 +274,11 @@ export function HomeDetails() {
                       </span>
                     </span>
                     <span>•</span>
-                    <span>{home.reviews.length} Reviews </span>
+                    <span>
+                      {(home.reviews?.length || 0) > 0
+                        ? `${home.reviews.length} Reviews`
+                        : 'No Reviews Yet'}
+                    </span>
                   </div>
                 )}
               </div>

@@ -25,9 +25,10 @@
       gap: 0.4rem;
       align-items: center;
       padding: 8px;
-      border-radius: 8px;        
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s cubic-bezier(0.2,0,0.1); //karin check this
+      transition: background-color 0.2s,
+        transform 0.1s cubic-bezier(0.2, 0, 0.1); //karin check this
 
       .home-details-heart-icon {
         // font-size: 1.5em;
@@ -39,7 +40,7 @@
         stroke-width: 14;
         transition: color 0.2s, fill 0.2s;
       }
-      
+
       span {
         color: $primary-font-black;
         text-decoration: underline;
@@ -52,14 +53,12 @@
         fill: $primary-pink;
         stroke: $primary-pink;
         transform: scale(0.95);
-
       }
       &:hover {
         background-color: #f7f7f7;
       }
     }
 
-    
     // .home-details-flex {
     //   display: flex;
     //   justify-content: space-between;
@@ -71,9 +70,8 @@
     //     padding-block-start: 7px;
     //   }
     // }
-      
-    } //end of header
-  
+  } //end of header
+
   .home-details-img-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -104,15 +102,13 @@
     > :nth-child(5) {
       border-radius: 0 0 12px 0;
     }
-    &::after{
-      position: relative;    
+    &::after {
+      position: relative;
       height: 1px;
       opacity: 0;
       pointer-events: none;
     }
   }
-
-  
 
   .home-details-mid-section {
     grid-column: 1 / -1;
@@ -125,7 +121,7 @@
     column-gap: 2rem;
     row-gap: 2rem;
     align-items: start;
-        
+
     .home-details-mid-left-part-wrapper {
       .home-details-amenities {
         display: flex;
@@ -253,101 +249,98 @@
             // padding: 0.5rem 0;
             // border-bottom: 1px solid #f0f0f0;
             .svg-icon {
-              
               width: 32px;
-              height: 32px;              
+              height: 32px;
               display: flex;
               .injected-svg {
-                  width: 100% !important;
-                  height: 100% !important;
-                  max-width: none !important;
-                  max-height: none !important;
-                  stroke: currentColor;
-                  fill: none;
-                  // transform: none !important;
-                  flex-shrink: 0;
-                  // max-width: none;
+                width: 100% !important;
+                height: 100% !important;
+                max-width: none !important;
+                max-height: none !important;
+                stroke: currentColor;
+                fill: none;
+                // transform: none !important;
+                flex-shrink: 0;
+                // max-width: none;
               }
             }
-              
-            }
+          }
 
-            span {
-              font-size: 1rem;
-            }
+          span {
+            font-size: 1rem;
           }
         }
-        
       }
     }
-    .home-details-mid-right-part-wrapper {
-      width: 100%;
-      z-index: 10;
-      // padding-inline-end: 1px;
-      align-self: start;
-      height: 100%; 
-      display: flex;     
+  }
+  .home-details-mid-right-part-wrapper {
+    width: 100%;
+    z-index: 10;
+    // padding-inline-end: 1px;
+    align-self: start;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+
+    .home-details-sticky-sidebars {
+      display: flex;
       flex-direction: column;
-      overflow: visible;
-      
-      .home-details-sticky-sidebars {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;      
-        position: sticky;
-        top: 20px;
-        align-self: flex-start;
-        max-width: 350px;
-        margin-inline-start: auto;
-        width: clamp(240px, 22vw, 350px);
-        
-        .rare-modal {
-          display: flex;
-          gap: 0.5rem;
-          flex-direction: row;
-          align-self: flex-start;
-          justify-content: center;
-          justify-self: flex-end;
-          font-size: 14px;
-          border-radius: 12px;
-          margin-block-start: 1em;
-          box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
-          padding: 1em 0.5rem;
-          grid-column: 3 / 4;
-          grid-row: 1;
-          // z-index: 5;
-          width: clamp(240px, 22vw, 350px);
-          .diamond-icon {
-            font-size: 1.5em;
-            color: $primary-pink;
-          }
-          p {
-            color: $primary-font-black;
-            font-weight: 500;
-            margin: 0;
-            padding: 0;
-          }
-        }
-        &::after{
-          position: relative;    
-          height: 1px;
-          opacity: 0;
-          pointer-events: none;
-        }
-        // .home-details-reservation-modal-section {
-        //   width: 100%;
-        //   display: block;
+      gap: 1rem;
+      position: sticky;
+      top: 20px;
+      align-self: flex-start;
+      max-width: 350px;
+      margin-inline-start: auto;
+      width: clamp(240px, 22vw, 350px);
 
-        // }
-      }
-    }
-  
-  .home-details-reviews-section {
-        grid-column: 1 / -1;
+      .rare-modal {
         display: flex;
+        gap: 0.5rem;
         flex-direction: row;
-        justify-content: flex-start;
-        // height: 200vh;
+        align-self: flex-start;
+        justify-content: center;
+        justify-self: flex-end;
+        font-size: 14px;
+        border-radius: 12px;
+        margin-block-start: 1em;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
+        padding: 1em 0.5rem;
+        grid-column: 3 / 4;
+        grid-row: 1;
+        // z-index: 5;
+        width: clamp(240px, 22vw, 350px);
+        .diamond-icon {
+          font-size: 1.5em;
+          color: $primary-pink;
+        }
+        p {
+          color: $primary-font-black;
+          font-weight: 500;
+          margin: 0;
+          padding: 0;
+        }
+      }
+      &::after {
+        position: relative;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+      }
+      // .home-details-reservation-modal-section {
+      //   width: 100%;
+      //   display: block;
+
+      // }
+    }
+  }
+
+  .home-details-reviews-section {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    // height: 200vh;
   }
 
   .home-details-google-maps-section {
@@ -374,10 +367,8 @@
   }
 }
 
-@media (max-width: $narrow-breakpoint){
-  
+@media (max-width: $narrow-breakpoint) {
 }
-
 
 // <div className='home-details-reviews'>
 //                 <span>{home.reviews.length} Reviews </span>
@@ -399,3 +390,13 @@
 //             </div>
 //           </div>
 //         </div>
+.home-details-img-placeholder {
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ddd;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}

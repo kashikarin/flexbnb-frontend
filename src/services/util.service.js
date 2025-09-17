@@ -9,6 +9,7 @@ export const utilService = {
   capitalizeStr,
   getAvgRating,
   roundToDecimals,
+  getCityFromCoordinates,
 }
 // consider use npm for id maker
 export function makeId(length = 6) {
@@ -191,4 +192,39 @@ export function getNightsCount(startStr, endStr) {
   const diffInMs = endDate - startDate
 
   return Math.round(diffInMs / millisecondsPerDay)
+}
+
+export async function getCityFromCoordinates(lat, lng) {
+  try {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${
+        import.meta.env.VITE_API_GOOGLE_KEY
+      }`
+    )
+    const data = await response.json()
+
+    if (data.results && data.results.length > 0) {
+      const addressComponents = data.results[0].address_components
+
+      const city = addressComponents.find(
+        (component) =>
+          component.types.includes('locality') ||
+          component.types.includes('administrative_area_level_1')
+      )
+
+      const country = addressComponents.find((component) =>
+        component.types.includes('country')
+      )
+
+      return {
+        city: city?.long_name || 'Unknown',
+        country: country?.long_name || 'Unknown',
+      }
+    }
+
+    return { city: 'Unknown', country: 'Unknown' }
+  } catch (error) {
+    console.error('Error getting city:', error)
+    return { city: 'Unknown', country: 'Unknown' }
+  }
 }

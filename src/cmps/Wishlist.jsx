@@ -47,7 +47,7 @@ export function Wishlist() {
   async function onRemoveLike(homeId) {
     try {
       await removeLike(homeId, loggedInUser._id)
-      // הסר מהרשימה המקומית
+
       setLikedHomes((prev) => prev.filter((home) => home._id !== homeId))
     } catch (err) {
       console.error('Failed to remove like', err)

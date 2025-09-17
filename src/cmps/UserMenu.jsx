@@ -43,9 +43,7 @@ export function UserMenu() {
       )
 
       alert(
-        'Google Callback עובד! JWT: ' +
-          response.credential.substring(0, 20) +
-          '...'
+        'Google Callback! JWT: ' + response.credential.substring(0, 20) + '...'
       )
 
       const user = await userService.googleAuth({

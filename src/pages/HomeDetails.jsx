@@ -73,7 +73,6 @@ export function HomeDetails() {
     country: home?.loc?.country || '',
   })
 
-  // הוסף useEffect חדש
   useEffect(() => {
     if (home?.loc?.lat && home?.loc?.lng) {
       getCityFromCoordinates(home.loc.lat, home.loc.lng).then((info) => {

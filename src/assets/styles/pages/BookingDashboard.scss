@@ -11,7 +11,6 @@
   padding: 20px;
 }
 
-/* Header */
 .header {
   margin-bottom: 30px;
   text-align: center;
@@ -29,7 +28,6 @@
   font-size: $font-size-lg;
 }
 
-/* Search and Filter Controls */
 .controls {
   background: $clr6;
   padding: 20px;
@@ -80,7 +78,6 @@
   background: $clr6;
 }
 
-/* Statistics */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -117,7 +114,6 @@
   font-weight: 500;
 }
 
-/* Bookings Table */
 .bookings-table-container {
   background: $clr6;
   border-radius: 16px;
@@ -597,7 +593,6 @@
   margin: 0 auto;
 }
 
-/* Responsive for Reservations Placeholder */
 @media (max-width: $tablet-breakpoint) {
   .reservations-placeholder {
     padding: 40px 20px;
@@ -623,7 +618,6 @@
   }
 }
 
-/* Responsive for Access Denied */
 @media (max-width: $tablet-breakpoint) {
   .access-denied-content {
     padding: 40px 20px;
@@ -638,7 +632,6 @@
   }
 }
 
-/* Guest Info Styling */
 .guest-info {
   display: flex;
   align-items: center;
@@ -673,7 +666,6 @@
   opacity: 0.8;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .guest-info {
     gap: 8px;
@@ -693,7 +685,6 @@
   }
 }
 
-/* Confirmation Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -825,7 +816,6 @@
   }
 }
 
-/* Mobile adjustments */
 @media (max-width: 480px) {
   .modal {
     margin: 20px;

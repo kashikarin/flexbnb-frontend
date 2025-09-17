@@ -21,7 +21,6 @@ export const homeService = {
   addHomeMsg,
   getRandomHomeId,
   getCountry,
-
 }
 
 window.cs = homeService
@@ -133,7 +132,7 @@ const images = [
     label: 'Image 18',
     imageUrl:
       'http://res.cloudinary.com/dmtlr2viw/image/upload/v1663437250/o8uutj3t2bvfafvxkr9j.jpg',
-  }, // כפולה של 4
+  },
   {
     id: 19,
     label: 'Image 19',
@@ -611,7 +610,8 @@ function getCountry(city) {
 function _getSingleImageUrl() {
   const randomIndex = getRandomIntInclusive(0, images.length - 1)
   return images[randomIndex].a
-e}
+  e
+}
 
 function _isHomeAvailable(bookings = [], checkIn, checkOut) {
   if (!(checkIn instanceof Date)) checkIn = new Date(checkIn)

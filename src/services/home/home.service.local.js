@@ -620,8 +620,8 @@ function _isHomeAvailable(bookings = [], checkIn, checkOut) {
   if (!+checkIn || !+checkOut || checkIn >= checkOut) return false
 
   return bookings.every((b) => {
-    const bStart = b.start instanceof Date ? b.start : new Date(b.start)
-    const bEnd = b.end instanceof Date ? b.end : new Date(b.end)
+    const bStart = b.checkIn instanceof Date ? b.checkIn : new Date(b.checkIn)
+    const bEnd = b.checkOut instanceof Date ? b.checkOut : new Date(b.checkOut)
 
     return bEnd <= checkIn || bStart >= checkOut
   })
@@ -656,7 +656,7 @@ function _getDemoBookings(
     end.setDate(end.getDate() + stay)
 
     if (start >= horizonEnd) break
-    bookings.push({ start, end }) // end is exclusive
+    bookings.push({ checkIn: start, checkOut: end }) // end is exclusive
     pointer += stay
   }
   return bookings

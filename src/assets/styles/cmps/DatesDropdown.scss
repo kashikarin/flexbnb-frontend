@@ -99,8 +99,15 @@
   justify-content: center;
   align-items: center;
   transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+
+  
 }
 
+.unavailable-day {
+  color: #bbb;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
 .react-datepicker__day:not(.react-datepicker__day--disabled):hover {
   background-color:white;
   box-shadow: 0 0 0 2px black inset;

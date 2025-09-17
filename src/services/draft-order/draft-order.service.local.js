@@ -85,14 +85,18 @@ async function getDraftOrder(homeId, filterBy) {
     }
   }
 
-  draftOrder.host = {
-    userId: home.host.userId || home.host.id,
-    fullname: home.host.fullname,
-    imageUrl: home.host.imageUrl,
-  }
+  // draftOrder.host = {
+  //   userId: home.host.userId || home.host.id,
+  //   fullname: home.host.fullname,
+  //   imageUrl: home.host.imageUrl,
+  // }
 
   const nights = getNumberOfNights(draftOrder.checkIn, draftOrder.checkOut)
+  console.log("🚀 ~ nights:", nights)
   const serviceFeeRate = 0.14
+  console.log("🚀 ~ serviceFeeRate:", serviceFeeRate)
+  console.log("🚀 ~ home.price:", home.price)
+  
   draftOrder.totalPrice = home.price * nights * (1 + serviceFeeRate)
 
   draftOrder.home = {

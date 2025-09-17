@@ -75,7 +75,7 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (home?.loc?.lat && home?.loc?.lng) {
-      getCityFromCoordinates(home.loc.lat, home.loc.lng).then((info) => {
+      getCityFromCoordinates(home.loc?.lat, home.loc?.lng).then((info) => {
         setLocationInfo(info)
       })
     }
@@ -336,24 +336,24 @@ export function HomeDetails() {
             id="hd-location-container"
           >
             <h3>Where you'll be</h3>
-            <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
+            {/* <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}
                 center={{
-                  lat: home.loc.lat,
-                  lng: home.loc.lng,
+                  lat: home.loc?.lat,
+                  lng: home.loc?.lng,
                 }}
                 gestureHandling={'greedy'}
                 disableDefaultUI={false}
                 style={{ height: '400px', width: '100%' }}
               />
               <Marker
-                position={{ lat: home.loc.lat, lng: home.loc.lng }}
+                position={{ lat: home.loc?.lat, lng: home.loc?.lng }}
                 clickable={true}
                 onClick={() => alert('marker was clicked!')}
                 title={'clickable google.maps.Marker'}
               />
-            </APIProvider>
+            </APIProvider> */}
           </section>
         </div>
       )}

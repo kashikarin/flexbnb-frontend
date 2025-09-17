@@ -8,7 +8,7 @@ export function HomeEditCompletionModal({potentialHome, closeHomeEditCompletionM
     async function onPublishListing(){
         clearPotentialHome()
         try {
-            await addHome(homeToSave )
+            await addHome(homeToSave)
         } catch(err){
             console.error('Cannot publish home', err)
         } finally {

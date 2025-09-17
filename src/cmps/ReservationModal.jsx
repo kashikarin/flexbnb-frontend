@@ -179,6 +179,7 @@ export function ReservationModal({
                 updateDraftOrder({ ...draftOrder, checkIn, checkOut })
                 if (checkIn && checkOut) onCloseDropdown()
               }}
+            bookings={home.bookings}
             />
           </div>
         ) : null}

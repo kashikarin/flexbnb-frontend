@@ -83,7 +83,7 @@ export function AppHeader({ scrollContainerRef }) {
 
   function onCreateNewListing() {
     if (!loggedInUser) return console.warn('No logged in user yet!')
-    setPotentialHome(loggedInUser._id)
+    setPotentialHome()
   }
 
   const shouldCollapse = isHomePageScrolled || !isHomeIndex || isSmallScreen

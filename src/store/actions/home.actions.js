@@ -45,6 +45,7 @@ export async function removeHome(homeId) {
 }
 
 export async function addHome(home) {
+  home.bookings = homeService.getDemoBookings()
   try {
     const savedHome = await homeService.save(home)
     store.dispatch(getCmdAddHome(savedHome))

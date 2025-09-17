@@ -50,7 +50,7 @@ export function DatesDropdown({ isOpen, checkIn, checkOut, onSetDates, bookings 
           inline
           minDate={new Date()}
           filterDate={bookings ? isDateAvailable : undefined}
-          dayClassName={getDayClassName}
+          dayClassName={bookings ? getDayClassName : undefined}
         />
       </div>
       )}

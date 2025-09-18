@@ -10,7 +10,8 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "svgo": "svgo -f public/svgs/amenities/animated -o public/svgs/amenities"
+    "svgo": "svgo -f public/svgs/amenities/animated -o public/svgs/amenities",
+    "dev5173": "vite --port 5173"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

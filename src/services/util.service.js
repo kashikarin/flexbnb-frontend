@@ -215,7 +215,8 @@ export async function getCityFromCoordinates(lat, lng) {
       const country = addressComponents.find((component) =>
         component.types.includes('country')
       )
-
+      console.log("🌍 Full response:", data)
+console.log("📦 Address components:", data.results[0].address_components)
       return {
         city: city?.long_name || 'Unknown',
         country: country?.long_name || 'Unknown',

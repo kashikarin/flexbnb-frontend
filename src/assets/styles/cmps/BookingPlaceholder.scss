@@ -101,3 +101,28 @@
 .reservations-content {
   animation: fadeIn 0.6s ease-out;
 }
+.placeholder-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  border-radius: 8px;
+  color: #fff;
+  border: 1px solid #e61e4d;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  position: relative;
+  min-height: 48px;
+  line-height: 1;
+  white-space: nowrap;
+  background: linear-gradient(135deg, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+}
+.placeholder-button:hover {
+  background: linear-gradient(135deg, #d01346 0%, #c1185c 50%, #b8035a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(230, 30, 77, 0.3);
+}

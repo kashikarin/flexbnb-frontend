@@ -45,7 +45,7 @@ export function AppHeader({ scrollContainerRef }) {
   //   return () => window.removeEventListener('resize', handleResize)
   // }, [])
   //const [isMobile, setIsMobile] = useState(false)
-  
+
   // useEffect(() => {
   //   const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
   //   window.addEventListener('resize', handleResize)
@@ -54,7 +54,7 @@ export function AppHeader({ scrollContainerRef }) {
   // }, [])
 
   // useEffect(() => {
-    
+
   //   function handleResize() {
   //     const width = window.innerWidth
   //     console.log('🔄 resize -> width:', width)
@@ -68,14 +68,13 @@ export function AppHeader({ scrollContainerRef }) {
   //   return () => window.removeEventListener('resize', handleResize)
   // }, [])
 
-const isMobile = useIsMobile()
+  const isMobile = useIsMobile()
 
-if (isMobile) {
-    console.log("📱 Mobile mode -> rendering <SearchBar_mobile />", isMobile)
+  if (isMobile) {
+    console.log('📱 Mobile mode -> rendering <SearchBar_mobile />', isMobile)
   } else {
-    console.log("💻 Desktop mode -> rendering <SearchBar />", isMobile)
+    console.log('💻 Desktop mode -> rendering <SearchBar />', isMobile)
   }
-
 
   useEffect(() => {
     const elMain = scrollContainerRef.current
@@ -132,9 +131,7 @@ if (isMobile) {
   //  || isSmallScreen || isMobile
   //console.log("🚀 ~ shouldCollapse:", shouldCollapse)
 
-  
-
-  console.log("📱 isMobile:", isMobile, " width:", window.innerWidth)
+  console.log('📱 isMobile:', isMobile, ' width:', window.innerWidth)
 
   return (
     <header
@@ -168,13 +165,17 @@ if (isMobile) {
                 </NavLink>
               </div>
               {/* main - nav - right section */}
-              
+
               <div className="app-header-right-section">
                 {loggedInUser ? (
                   <>
-                    <Link to={isHosting ? '/' : '/hosting'}>
-                      {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
-                    </Link>
+                    {!isMobile && (
+                      <Link to={isHosting ? '/' : '/hosting'}>
+                        {isHosting
+                          ? 'Switch to traveling'
+                          : 'Switch to hosting'}
+                      </Link>
+                    )}
                     <div className="user-info">
                       <Link to={`user/${loggedInUser._id}`}>
                         {loggedInUser.imageUrl ? (
@@ -205,40 +206,43 @@ if (isMobile) {
             {/* second row */}
             {/* main - nav - mid section */}
             <div
-                className={`app-header-mid-section ${
-                  shouldCollapse ? 'scrolled' : 'expanded'
-                }`}
-              >
-                {isHosting ? (
-                  <nav className="hosting-header-nav">
+              className={`app-header-mid-section ${
+                shouldCollapse ? 'scrolled' : 'expanded'
+              }`}
+            >
+              {isHosting ? (
+                <nav className="hosting-header-nav">
+                  {!isMobile && (
                     <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
                       Create a new listing
                     </NavLink>
-                    <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                  </nav>
-                ) : (
-                  !isMobile ?
-                  (
-                  <>
-                  
-                    <div className={`searchbar-wrapper ${shouldCollapse ? 'scrolled' : 'expanded'}`}>
-                      <SearchBar
-                        shouldCollapse={shouldCollapse}
-                        forceExpand={forceExpand}
-                        setForceExpand={setForceExpand}
-                        scrollContainerRef={scrollContainerRef}
-                      />
-                      
-                    </div>
-                  </>
-                  ):(
-                    <>
-                    <SearchBar_mobile/>
-                    </>
-                  )
+                  )}
 
-                )}
-              </div>
+                  {!isMobile && (
+                    <NavLink to="/hosting/reservations/">Reservations</NavLink>
+                  )}
+                </nav>
+              ) : !isMobile ? (
+                <>
+                  <div
+                    className={`searchbar-wrapper ${
+                      shouldCollapse ? 'scrolled' : 'expanded'
+                    }`}
+                  >
+                    <SearchBar
+                      shouldCollapse={shouldCollapse}
+                      forceExpand={forceExpand}
+                      setForceExpand={setForceExpand}
+                      scrollContainerRef={scrollContainerRef}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <SearchBar_mobile />
+                </>
+              )}
+            </div>
           </nav>
           <div
             className={`app-header-bottom-row ${
@@ -255,5 +259,5 @@ if (isMobile) {
       )}
     </header>
   )
-  console.log("🎯 finished render with isMobile =", isMobile)
+  console.log('🎯 finished render with isMobile =', isMobile)
 }

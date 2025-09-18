@@ -74,24 +74,69 @@ export const BookingDashboard = () => {
   }
 
   const confirmBookingAction = async () => {
-    if (!selectedBooking || !confirmAction) return
+    console.log('confirmBookingAction started', {
+      selectedBooking,
+      confirmAction,
+    })
+
+    if (!selectedBooking || !confirmAction) {
+      console.log('Missing required data:', { selectedBooking, confirmAction })
+      return
+    }
+
+    // Close modal immediately for better UX
+    setShowConfirmModal(false)
 
     try {
       // Find the order and update its status
       const orderToUpdate = orders.find(
         (order) => order._id === selectedBooking
       )
+
+      console.log('Order found:', orderToUpdate)
+
       if (orderToUpdate) {
         const updatedOrder = { ...orderToUpdate, status: confirmAction }
-        await updateOrder(updatedOrder)
+        console.log('Updating order with:', updatedOrder)
+
+        // Update local state immediately for instant feedback
+        const updatedOrders = orders.map((order) =>
+          order._id === selectedBooking
+            ? { ...order, status: confirmAction }
+            : order
+        )
+
+        // If we have access to dispatch, update local state
+        // This depends on your Redux setup
+        console.log('Updated orders locally')
+
+        // Then update server
+        const result = await updateOrder(updatedOrder)
+        console.log('Update result:', result)
+
+        // Force reload orders to sync with server
+        console.log('Reloading orders from server...')
+        await loadOrders({})
+        console.log('Orders reloaded successfully')
+      } else {
+        console.error('Order not found with ID:', selectedBooking)
       }
     } catch (err) {
-      console.error('Cannot update order status', err)
-    }
+      console.error('Error in confirmBookingAction:', err)
 
-    setShowConfirmModal(false)
-    setSelectedBooking(null)
-    setConfirmAction(null)
+      // If update failed, reload orders to get current state
+      try {
+        console.log('Error occurred, reloading orders to sync...')
+        await loadOrders({})
+      } catch (reloadErr) {
+        console.error('Error reloading orders:', reloadErr)
+      }
+    } finally {
+      // Reset state
+      console.log('Resetting booking action state')
+      setSelectedBooking(null)
+      setConfirmAction(null)
+    }
   }
 
   const cancelConfirmAction = () => {
@@ -109,11 +154,11 @@ export const BookingDashboard = () => {
     return actionMap[action] || action
   }
 
-  // Filter orders
+  // Filter and sort orders - unapproved orders first, then approved
   const filteredBookings = useMemo(() => {
     if (!orders || !loggedInUser) return []
 
-    return orders.filter((order) => {
+    const filtered = orders.filter((order) => {
       const matchesSearch =
         order.home?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         order.host?.fullname
@@ -127,6 +172,13 @@ export const BookingDashboard = () => {
         statusFilter === 'all' || order.status === statusFilter
 
       return matchesSearch && matchesStatus
+    })
+
+    // Sort by status - unapproved (pending, rejected) first, approved last
+    return filtered.sort((a, b) => {
+      if (a.status === 'approved' && b.status !== 'approved') return 1
+      if (a.status !== 'approved' && b.status === 'approved') return -1
+      return 0
     })
   }, [orders, searchTerm, statusFilter, loggedInUser])
 
@@ -199,7 +251,7 @@ export const BookingDashboard = () => {
               <div className="stat-number">{stats.rejected}</div>
               <div className="stat-label">Rejected</div>
             </div>
-            <div className="stat-card">
+            <div className="stat-card revenue-card">
               <div className="stat-number">
                 ${stats.revenue.toLocaleString()}
               </div>
@@ -207,8 +259,8 @@ export const BookingDashboard = () => {
             </div>
           </div>
 
-          {/* Bookings Table */}
-          <div className="bookings-table-container">
+          {/* Bookings - Desktop Table / Mobile Cards */}
+          <div className="bookings-container">
             {!orders ? (
               <div className="no-results">
                 <h3>Loading...</h3>
@@ -220,24 +272,177 @@ export const BookingDashboard = () => {
                 <p>Try adjusting your search or filter parameters</p>
               </div>
             ) : (
-              <div className="table-wrapper">
-                <table className="bookings-table">
-                  <thead>
-                    <tr>
-                      <th>Property</th>
-                      <th>Guest</th>
-                      <th>Check-in</th>
-                      <th>Check-out</th>
-                      <th>Guests</th>
-                      <th>Total</th>
-                      <th>Status</th>
-                      {canManageBookings && <th>Actions</th>}
-                    </tr>
-                  </thead>
-                  <tbody>
+              <>
+                {/* Desktop Table View */}
+                <div className="desktop-table-view">
+                  <div className="table-wrapper">
+                    <table className="bookings-table">
+                      <thead>
+                        <tr>
+                          <th>Property</th>
+                          <th>Guest</th>
+                          <th>Check-in</th>
+                          <th>Check-out</th>
+                          <th>Guests</th>
+                          <th>Total</th>
+                          <th>Status</th>
+                          {canManageBookings && <th>Actions</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredBookings.map((order) => (
+                          <tr key={order._id} className="booking-row">
+                            <td className="property-cell">
+                              <div className="property-info">
+                                <img
+                                  src={
+                                    order.home?.imageUrl ||
+                                    getRandomPropertyPlaceholder()
+                                  }
+                                  alt={order.home?.name || 'Property'}
+                                  className="property-image"
+                                  onError={(e) => {
+                                    if (
+                                      !e.target.hasAttribute('data-fallback')
+                                    ) {
+                                      e.target.setAttribute(
+                                        'data-fallback',
+                                        'true'
+                                      )
+                                      e.target.src =
+                                        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA4MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yNSAyMEgzNVYzMEgyNVYyMFoiIGZpbGw9IiNEREREREQiLz4KPHBhdGggZD0iTTQwIDI1SDUwVjM1SDQwVjI1WiIgZmlsbD0iI0RERERERCIvPgo8dGV4dCB4PSI0MCIgeT0iNDUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SG91c2U8L3RleHQ+Cjwvc3ZnPgo='
+                                    }
+                                  }}
+                                />
+                                <div className="property-details">
+                                  <div className="property-name">
+                                    {order.home?.name || 'Property Name'}
+                                  </div>
+                                  <div className="booking-id">
+                                    #{order._id?.slice(-8) || 'N/A'}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="guest-cell">
+                              <div className="guest-info">
+                                <img
+                                  src={
+                                    order.purchaser?.imageUrl ||
+                                    getRandomPlaceholder(
+                                      order.purchaser?.fullname ||
+                                        order.host?.fullname ||
+                                        'Unknown'
+                                    )
+                                  }
+                                  alt={
+                                    order.purchaser?.fullname ||
+                                    order.host?.fullname ||
+                                    'Guest'
+                                  }
+                                  className="guest-image"
+                                  onError={(e) => {
+                                    e.target.src = getRandomPlaceholder(
+                                      order.purchaser?.fullname ||
+                                        order.host?.fullname ||
+                                        'Unknown'
+                                    )
+                                  }}
+                                />
+                                <div className="guest-details">
+                                  <div className="guest-name">
+                                    {order.purchaser?.fullname ||
+                                      order.host?.fullname ||
+                                      'Unknown'}
+                                  </div>
+                                  <div className="guest-email">
+                                    {order.purchaser?.email || 'No email'}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="date-cell">
+                              <div className="check-date">
+                                {formatDate(order.checkIn)}
+                              </div>
+                            </td>
+                            <td className="date-cell">
+                              <div className="check-date">
+                                {formatDate(order.checkOut)}
+                              </div>
+                              <div className="nights-count">
+                                {calculateNights(order.checkIn, order.checkOut)}{' '}
+                                nights
+                              </div>
+                            </td>
+                            <td className="guests-cell">
+                              <div className="guests-count">
+                                {getGuestCount(order.guests)} guests
+                              </div>
+                              {order.guests?.pets && (
+                                <div className="pets-count">
+                                  {order.guests.pets} pets
+                                </div>
+                              )}
+                            </td>
+                            <td className="price-cell">
+                              <div className="total-price">
+                                ${order.totalPrice?.toLocaleString() || '0'}
+                              </div>
+                            </td>
+                            <td className="status-cell">
+                              <span
+                                className={`status-badge status-${order.status}`}
+                              >
+                                {getStatusText(order.status)}
+                              </span>
+                            </td>
+                            {canManageBookings && (
+                              <td className="actions-cell">
+                                {order.status === 'pending' && (
+                                  <div className="table-actions">
+                                    <button
+                                      className="table-btn approve-btn"
+                                      onClick={() =>
+                                        handleBookingAction(
+                                          order._id,
+                                          'approved'
+                                        )
+                                      }
+                                      title="Approve booking"
+                                    >
+                                      ✓
+                                    </button>
+                                    <button
+                                      className="table-btn reject-btn"
+                                      onClick={() =>
+                                        handleBookingAction(
+                                          order._id,
+                                          'rejected'
+                                        )
+                                      }
+                                      title="Reject booking"
+                                    >
+                                      ✗
+                                    </button>
+                                  </div>
+                                )}
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Mobile Cards View */}
+                <div className="mobile-cards-view">
+                  <div className="bookings-grid">
                     {filteredBookings.map((order) => (
-                      <tr key={order._id} className="booking-row">
-                        <td className="property-cell">
+                      <div key={order._id} className="booking-card">
+                        {/* Card Header */}
+                        <div className="booking-header">
                           <div className="property-info">
                             <img
                               src={
@@ -263,8 +468,15 @@ export const BookingDashboard = () => {
                               </div>
                             </div>
                           </div>
-                        </td>
-                        <td className="guest-cell">
+                          <span
+                            className={`status-badge status-${order.status}`}
+                          >
+                            {getStatusText(order.status)}
+                          </span>
+                        </div>
+
+                        {/* Guest Info */}
+                        <div className="guest-section">
                           <div className="guest-info">
                             <img
                               src={
@@ -300,74 +512,76 @@ export const BookingDashboard = () => {
                               </div>
                             </div>
                           </div>
-                        </td>
-                        <td className="date-cell">
-                          <div className="check-date">
-                            {formatDate(order.checkIn)}
-                          </div>
-                        </td>
-                        <td className="date-cell">
-                          <div className="check-date">
-                            {formatDate(order.checkOut)}
-                          </div>
-                          <div className="nights-count">
-                            {calculateNights(order.checkIn, order.checkOut)}{' '}
-                            nights
-                          </div>
-                        </td>
-                        <td className="guests-cell">
-                          <div className="guests-count">
-                            {getGuestCount(order.guests)} guests
-                          </div>
-                          {order.guests?.pets && (
-                            <div className="pets-count">
-                              {order.guests.pets} pets
+                        </div>
+
+                        {/* Booking Details */}
+                        <div className="booking-details">
+                          <div className="detail-row">
+                            <div className="detail-item">
+                              <span className="detail-label">Check-in</span>
+                              <span className="detail-value">
+                                {formatDate(order.checkIn)}
+                              </span>
                             </div>
-                          )}
-                        </td>
-                        <td className="price-cell">
+                            <div className="detail-item">
+                              <span className="detail-label">Check-out</span>
+                              <span className="detail-value">
+                                {formatDate(order.checkOut)}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="detail-row">
+                            <div className="detail-item">
+                              <span className="detail-label">Duration</span>
+                              <span className="detail-value">
+                                {calculateNights(order.checkIn, order.checkOut)}{' '}
+                                nights
+                              </span>
+                            </div>
+                            <div className="detail-item">
+                              <span className="detail-label">Guests</span>
+                              <span className="detail-value">
+                                {getGuestCount(order.guests)} guests
+                                {order.guests?.pets &&
+                                  ` + ${order.guests.pets} pets`}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Price and Actions */}
+                        <div className="booking-footer">
                           <div className="total-price">
                             ${order.totalPrice?.toLocaleString() || '0'}
                           </div>
-                        </td>
-                        <td className="status-cell">
-                          <span
-                            className={`status-badge status-${order.status}`}
-                          >
-                            {getStatusText(order.status)}
-                          </span>
-                        </td>
-                        {canManageBookings && (
-                          <td className="actions-cell">
-                            {order.status === 'pending' && (
-                              <div className="table-actions">
-                                <button
-                                  className="table-btn approve-btn"
-                                  onClick={() =>
-                                    handleBookingAction(order._id, 'approved')
-                                  }
-                                  title="Approve booking"
-                                >
-                                  ✓
-                                </button>
-                                <button
-                                  className="table-btn reject-btn"
-                                  onClick={() =>
-                                    handleBookingAction(order._id, 'rejected')
-                                  }
-                                  title="Reject booking"
-                                >
-                                  ✗
-                                </button>
-                              </div>
-                            )}
-                          </td>
-                        )}
-                      </tr>
+                          {canManageBookings && order.status === 'pending' && (
+                            <div className="card-actions">
+                              <button
+                                className="card-btn approve-btn"
+                                onClick={() =>
+                                  handleBookingAction(order._id, 'approved')
+                                }
+                                title="Approve booking"
+                              >
+                                ✓ Approve
+                              </button>
+                              <button
+                                className="card-btn reject-btn"
+                                onClick={() =>
+                                  handleBookingAction(order._id, 'rejected')
+                                }
+                                title="Reject booking"
+                              >
+                                ✗ Reject
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </div>
+                </div>
+              </>
             )}
           </div>
 

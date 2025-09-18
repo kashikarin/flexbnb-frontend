@@ -75,15 +75,23 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (home?.loc?.lat && home?.loc?.lng) {
-          console.log("✅ Calling getCityFromCoordinates with:", home.loc.lat, home.loc.lng)
+      console.log(
+        '✅ Calling getCityFromCoordinates with:',
+        home.loc.lat,
+        home.loc.lng
+      )
 
       getCityFromCoordinates(home.loc?.lat, home.loc?.lng).then((info) => {
-            console.log("✅ Calling getCityFromCoordinates with:", home.loc.lat, home.loc.lng)
+        console.log(
+          '✅ Calling getCityFromCoordinates with:',
+          home.loc.lat,
+          home.loc.lng
+        )
 
         setLocationInfo(info)
       })
     } else {
-      console.log("❌ Missing lat/lng")
+      console.log('❌ Missing lat/lng')
     }
   }, [home?.loc?.lat, home?.loc?.lng])
 
@@ -92,7 +100,7 @@ export function HomeDetails() {
     initHome(homeId)
   }, [homeId])
 
-  async function initHome(homeId){
+  async function initHome(homeId) {
     try {
       await loadHome(homeId)
     } catch (err) {
@@ -100,8 +108,8 @@ export function HomeDetails() {
     }
   }
 
-  useEffect(()=>{
-     if (home && home._id) addDraftOrder(home._id, filterBy)
+  useEffect(() => {
+    if (home && home._id) addDraftOrder(home._id, filterBy)
   }, [home, filterBy])
 
   useEffect(() => {
@@ -187,7 +195,7 @@ export function HomeDetails() {
         <div className="home-details-container narrow-layout">
           <div className="home-details-header">
             <h1>
-              {home.type} in {locationInfo.city}, {locationInfo.country}
+              {home.type} in {home.loc.city}, {home.loc.country}
             </h1>
             <div className="home-details-heart" onClick={handleHomeSave}>
               <FaHeart
@@ -231,7 +239,7 @@ export function HomeDetails() {
                 }
               >
                 <h2>
-                  {home.type} in {locationInfo.city}, {locationInfo.country}
+                  {home.type} in {home.loc.city}, {home.loc.country}
                 </h2>
 
                 <div className="home-details-amenities-list">

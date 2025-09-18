@@ -13,9 +13,9 @@ export function ReviewCard({ reviews }) {
             <img
               className="review-user-img"
               src={
-                review.by.imageUrl.startsWith('/')
-                  ? review.by.imageUrl
-                  : `${review.by.imageUrl}`
+                review.by?.imageUrl?.startsWith('/')
+                  ? review.by?.imageUrl
+                  : '/svgs/user-icon.svg'
               }
               alt={review.by.fullname}
             />

@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux'
 import { loadOrders, updateOrder } from '../store/actions/order.actions'
 import AccessDenied from '../cmps/AccessDenied'
 
+import { FaArrowLeft } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
+
 export const BookingDashboard = () => {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const orders = useSelector((state) => state.orderModule.orders)
@@ -199,12 +202,29 @@ export const BookingDashboard = () => {
   }, [orders, loggedInUser])
 
   const canManageBookings = loggedInUser?.isHost || true
+  const navigate = useNavigate()
 
   return (
     <div className="booking-dashboard">
       {loggedInUser ? (
         <div className="container">
           {/* Header */}
+          {/* <button
+            className="dashboard-back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '1.5rem',
+              marginBottom: '1rem',
+              color: '#000',
+            }}
+          >
+            <FaArrowLeft />
+          </button> */}
+
           <header className="header">
             <h1>Bookings Dashboard</h1>
             <p>Manage and view your property reservations</p>
@@ -475,6 +495,41 @@ export const BookingDashboard = () => {
                           </span>
                         </div>
 
+                        {/* Booking Details */}
+                        <div className="booking-details">
+                          <div className="detail-row">
+                            <div className="detail-item">
+                              <span className="detail-label">Check-in</span>
+                              <span className="detail-value">
+                                {formatDate(order.checkIn)}
+                              </span>
+                            </div>
+                            <div className="detail-item">
+                              <span className="detail-label">Check-out</span>
+                              <span className="detail-value">
+                                {formatDate(order.checkOut)}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="detail-row">
+                            <div className="detail-item">
+                              <span className="detail-label">Duration</span>
+                              <span className="detail-value">
+                                {calculateNights(order.checkIn, order.checkOut)}{' '}
+                                nights
+                              </span>
+                            </div>
+                            <div className="detail-item">
+                              <span className="detail-label">Guests</span>
+                              <span className="detail-value">
+                                {getGuestCount(order.guests)} guests
+                                {order.guests?.pets &&
+                                  ` + ${order.guests.pets} pets`}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
                         {/* Guest Info */}
                         <div className="guest-section">
                           <div className="guest-info">
@@ -510,41 +565,6 @@ export const BookingDashboard = () => {
                               <div className="guest-email">
                                 {order.purchaser?.email || 'No email'}
                               </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Booking Details */}
-                        <div className="booking-details">
-                          <div className="detail-row">
-                            <div className="detail-item">
-                              <span className="detail-label">Check-in</span>
-                              <span className="detail-value">
-                                {formatDate(order.checkIn)}
-                              </span>
-                            </div>
-                            <div className="detail-item">
-                              <span className="detail-label">Check-out</span>
-                              <span className="detail-value">
-                                {formatDate(order.checkOut)}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="detail-row">
-                            <div className="detail-item">
-                              <span className="detail-label">Duration</span>
-                              <span className="detail-value">
-                                {calculateNights(order.checkIn, order.checkOut)}{' '}
-                                nights
-                              </span>
-                            </div>
-                            <div className="detail-item">
-                              <span className="detail-label">Guests</span>
-                              <span className="detail-value">
-                                {getGuestCount(order.guests)} guests
-                                {order.guests?.pets &&
-                                  ` + ${order.guests.pets} pets`}
-                              </span>
                             </div>
                           </div>
                         </div>

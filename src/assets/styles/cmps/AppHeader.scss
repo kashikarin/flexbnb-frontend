@@ -14,7 +14,7 @@
   max-height: 250px;
   overflow: visible;
   background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
-  transition: grid-template-rows 0.3s ease;
+  transition: all 0.3s ease, grid-template-rows;
   //background: #ffffff;
 
   // &.expanded {
@@ -32,7 +32,7 @@
   }
   &.expanded {
     min-height: 140px;
-    grid-template-rows: 6rem auto; //(4rem, auto);
+    grid-template-rows: auto auto; //(4rem, auto);
     //background: linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%);
   }
 

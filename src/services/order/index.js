@@ -6,7 +6,7 @@ import { orderService as remote } from './order.service.remote'
 export function getEmptyOrder() {
   return {
     host: { _id: '', fullname: '', imageUrl: '' },
-    purchaser: { _id: '', fullname: '', imageUrl: '' },
+    purchaser: { _id: '', fullname: '', imageUrl: '', email: '' },
     totalPrice: '',
     checkIn: '',
     checkOut: '',
@@ -22,7 +22,7 @@ export function getDefaultOrderFilter() {
     createdAt: '',
     checkIn: '',
     checkOut: '',
-    totalPrice: ''
+    totalPrice: '',
   }
 }
 

@@ -7,7 +7,6 @@ import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
 
 import { HomeDetails } from './pages/HomeDetails'
-import { UserDetails } from './pages/UserDetails'
 
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
@@ -18,10 +17,14 @@ import { Signup } from './pages/Signup.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
 import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
 import { Wishlist } from './cmps/Wishlist.jsx'
 import MyTravels from './cmps/MyTravels.jsx'
+import { Book } from 'lucide-react'
+import { BookingDashboard } from './pages/BookingDashboard.jsx'
+import { initUser } from './store/actions/user.actions.js'
+import { BookingPlaceholder } from './cmps/BookingPlaceholder.jsx'
 
 export function RootCmp({ mainRef }) {
   //const mainRef = useRef()
@@ -31,6 +34,9 @@ export function RootCmp({ mainRef }) {
 
   //   console.log('📍location.pathname:', location.pathname)
   // console.log('🏠 isIndex:', isIndex)
+  useEffect(() => {
+    initUser()
+  }, [])
   return (
     <>
       <ScrollToTop />
@@ -68,8 +74,9 @@ export function RootCmp({ mainRef }) {
               <Route path="signup" element={<Signup />} />
             </Route>
             <Route path="hosting" element={<Hosting />}>
+              <Route index element={<BookingPlaceholder />} />
               <Route path="edit" element={<HomeEdit />} />
-              <Route path="reservations" element={<UserDetails />} />
+              <Route path="reservations" element={<BookingDashboard />} />
             </Route>
           </Routes>
         </main>
@@ -78,12 +85,11 @@ export function RootCmp({ mainRef }) {
         {/* <AppFooter /> */}
       </div>
     </>
-      
   )
 }
 
 function AuthGuard({ children, checkAdmin = false }) {
-  const user = userService.getLoggedinUser()
+  const user = useSelector((storeState) => storeState.userModule.loggedInUser)
   const isNotAllowed = !user || (checkAdmin && !user.isAdmin)
   if (isNotAllowed) {
     console.log('Not Authenticated!')

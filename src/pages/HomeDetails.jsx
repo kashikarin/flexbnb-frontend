@@ -18,6 +18,8 @@ import {
   CiLocationOn,
   CiVault,
 } from 'react-icons/ci'
+import { FaHome } from 'react-icons/fa'
+
 import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
@@ -43,6 +45,7 @@ import {
 import { addOrder } from '../store/actions/order.actions'
 import { ReactSVG } from 'react-svg'
 
+import { getCityFromCoordinates } from '../services/util.service'
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
 export function HomeDetails() {
@@ -60,63 +63,53 @@ export function HomeDetails() {
   const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
   // const stickyBreakPointRef = useRef()
-  
-  console.log("🚀 ~ draftOrder:", draftOrder)
+
+  console.log('🚀 ~ draftOrder:', draftOrder)
   console.log(home)
-  console.log("🚀 ~ loggedInUser:", loggedInUser)
-  
+  console.log('🚀 ~ loggedInUser:', loggedInUser)
+
+  const [locationInfo, setLocationInfo] = useState({
+    city: home?.loc?.city || '',
+    country: home?.loc?.country || '',
+  })
+
+  useEffect(() => {
+    if (home?.loc?.lat && home?.loc?.lng) {
+      getCityFromCoordinates(home.loc?.lat, home.loc?.lng).then((info) => {
+        setLocationInfo(info)
+      })
+    }
+  }, [home?.loc?.lat, home?.loc?.lng])
+
   useEffect(() => {
     if (!homeId) return
-    initHomeAndDraftOrder()
-  }, [homeId, loggedInUser])
+    initHome(homeId)
+  }, [homeId])
 
-  useEffect(()=>{
-    let purchaser = null
-    if (loggedInUser) {
-      purchaser = {
-        userId: loggedInUserId,
-        fullname: loggedInUser.fullname,
-        imageUrl: loggedInUser.imageUrl
-      }
-      updateDraftOrder({ ...draftOrder, purchaser })
-    }
-    
-    updateDraftOrder({ ...draftOrder, purchaser })
-    
-    console.log(draftOrder)
-    
-  }, [loggedInUserId])
-
-  useEffect(() => {
-    setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
-  }, [loggedInUser?.likedHomes, homeId])
-
-  async function initHomeAndDraftOrder() {
+  async function initHome(homeId){
     try {
       await loadHome(homeId)
-      await addDraftOrder(homeId, filterBy, loggedInUser)
     } catch (err) {
       console.error('Cannot load home', err)
     }
   }
 
-  // async function initdraftOrder(){
-  //   try {
-  //     await addDraftOrder(homeId, '68c0615a899984d302f063f5', filterBy)
-  //   } catch (err) {
-  //     console.error('Cannot load draft order', err)
-  //   }
+  useEffect(()=>{
+     if (home && home._id) addDraftOrder(home._id, filterBy)
+  }, [home, filterBy])
 
-  // }
+  useEffect(() => {
+    setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
+  }, [loggedInUser?.likedHomes, homeId])
+
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current
-      const stickySentinel = document.querySelector("#sticky-sentinel")
-      const header = document.querySelector(".home-details-header")
+      const stickySentinel = document.querySelector('#sticky-sentinel')
+      const header = document.querySelector('.home-details-header')
       const headerHeight = header?.offsetHeight ?? 0
 
       if (!header || !elAfterImg || !stickySentinel) return
-
 
       const observer = new IntersectionObserver(
         (entries) => {
@@ -132,24 +125,20 @@ export function HomeDetails() {
             }
           })
         },
-        { root: null,
-          threshold: 0,
-          rootMargin: "-80px 0px 0px 0px"
-          
-        }
+        { root: null, threshold: 0, rootMargin: '-80px 0px 0px 0px' }
       )
 
       if (elAfterImg) observer.observe(elAfterImg)
       if (stickySentinel) observer.observe(stickySentinel)
-      
-        return () => {
+
+      return () => {
         if (elAfterImg) observer.unobserve(elAfterImg)
         if (stickySentinel) observer.unobserve(stickySentinel)
         observer.disconnect()
-        }
-    } catch (err) {
-        console.error('💥 IntersectionObserver failed:', err)
       }
+    } catch (err) {
+      console.error('💥 IntersectionObserver failed:', err)
+    }
   }, [home])
 
   // async function onAddHomeMsg(homeId) {
@@ -192,7 +181,7 @@ export function HomeDetails() {
         <div className="home-details-container narrow-layout">
           <div className="home-details-header">
             <h1>
-              {home.type} in {home.loc.city}, {home.loc.country}
+              {home.type} in {locationInfo.city}, {locationInfo.country}
             </h1>
             <div className="home-details-heart" onClick={handleHomeSave}>
               <FaHeart
@@ -201,15 +190,25 @@ export function HomeDetails() {
               <span>{isLiked ? 'Saved' : 'Save'}</span>
             </div>
           </div>
-          <div className="home-details-img-container" id='hd-images-container' ref={imgBreakPointRef}>
-            {home.imageUrls.map((imageUrl, idx) => {
-              return (
+          <div
+            className="home-details-img-container"
+            id="hd-images-container"
+            ref={imgBreakPointRef}
+          >
+            {Array.from({ length: 5 }, (_, idx) => {
+              const imageUrl = home.imageUrls && home.imageUrls[idx]
+
+              return imageUrl ? (
                 <img
                   key={idx}
                   className="home-details-img"
                   src={imageUrl}
                   alt={`Home image ${idx + 1}`}
                 />
+              ) : (
+                <div key={idx} className="home-details-img-placeholder">
+                  <FaHome size={idx === 0 ? 48 : 24} color="#bbb" />
+                </div>
               )
             })}
           </div>
@@ -217,7 +216,7 @@ export function HomeDetails() {
           <section className="home-details-mid-section">
             <div className="home-details-mid-left-part-wrapper">
               <div
-                id='home-details-amenities-container'
+                id="home-details-amenities-container"
                 className="home-details-amenities"
                 style={
                   getAvgRating(home) >= 4
@@ -226,7 +225,7 @@ export function HomeDetails() {
                 }
               >
                 <h2>
-                  {home.type} in {home.loc.city}, {home.loc.country}
+                  {home.type} in {locationInfo.city}, {locationInfo.country}
                 </h2>
 
                 <div className="home-details-amenities-list">
@@ -252,7 +251,11 @@ export function HomeDetails() {
                       </span>
                     </span>
                     <span>•</span>
-                    <span>{home.reviews.length} Reviews </span>
+                    <span>
+                      {(home.reviews?.length || 0) > 0
+                        ? `${home.reviews.length} Reviews`
+                        : 'No Reviews Yet'}
+                    </span>
                   </div>
                 )}
               </div>
@@ -286,8 +289,8 @@ export function HomeDetails() {
                     const iconPath = homeService.getAmenitySvgPath(amenity)
                     return (
                       <li key={idx} className="amenity-item">
-                        <ReactSVG 
-                          src={iconPath} 
+                        <ReactSVG
+                          src={iconPath}
                           className="svg-icon"
                           beforeInjection={(svg) => {
                             svg.removeAttribute('width')
@@ -299,7 +302,6 @@ export function HomeDetails() {
                     )
                   })}
                 </ul>
-
               </section>
             </div>
             <div className="home-details-mid-right-part-wrapper">
@@ -308,52 +310,55 @@ export function HomeDetails() {
                   <IoDiamond className="diamond-icon" />
                   <p>Rare find! This place is usually booked</p>
                 </aside>
-                {draftOrder && home && (<ReservationModal
-                  home={home}
-                  draftOrder={draftOrder}
-                  updateDraftOrder={updateDraftOrder}
-                  addOrder={addOrder}
-                  isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
-                  openOrderConfirmationModal={openOrderConfirmationModal}
-                  closeOrderConfirmationModal={closeOrderConfirmationModal}
-                />)}
-              </section> 
-              <div id="sticky-sentinel" style={{ height: "250px"}} /> 
+                {draftOrder && home && (
+                  <ReservationModal
+                    home={home}
+                    draftOrder={draftOrder}
+                    updateDraftOrder={updateDraftOrder}
+                    addOrder={addOrder}
+                    isOrderConfirmationModalOpen={isOrderConfirmationModalOpen}
+                    openOrderConfirmationModal={openOrderConfirmationModal}
+                    closeOrderConfirmationModal={closeOrderConfirmationModal}
+                  />
+                )}
+              </section>
+              <div id="sticky-sentinel" style={{ height: '250px' }} />
             </div>
           </section>
           {/* <div id="reservation-sentinel" style={{ height: "1px" }} /> */}
 
           {/* <div /> */}
-          <section className='home-details-reviews-section' >
+          <section className="home-details-reviews-section">
             <ReviewCard reviews={home.reviews} />
           </section>
-          <section className="home-details-google-maps-section" id='hd-location-container'>
+          <section
+            className="home-details-google-maps-section"
+            id="hd-location-container"
+          >
             <h3>Where you'll be</h3>
-            <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
+            {/* <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}
                 center={{
-                  lat: home.loc.lat,
-                  lng: home.loc.lng,
+                  lat: home.loc?.lat,
+                  lng: home.loc?.lng,
                 }}
                 gestureHandling={'greedy'}
                 disableDefaultUI={false}
                 style={{ height: '400px', width: '100%' }}
               />
               <Marker
-                position={{ lat: home.loc.lat, lng: home.loc.lng }}
+                position={{ lat: home.loc?.lat, lng: home.loc?.lng }}
                 clickable={true}
                 onClick={() => alert('marker was clicked!')}
                 title={'clickable google.maps.Marker'}
               />
-            </APIProvider>
+            </APIProvider> */}
           </section>
         </div>
       )}
     </>
-    
-    
-    
+
     // <button
     //   onClick={() => {
     //     onAddHomeMsg(home._id)

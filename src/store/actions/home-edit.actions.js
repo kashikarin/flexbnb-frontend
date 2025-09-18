@@ -32,8 +32,8 @@ import { potentialHomeService } from "../../services/potential-home/potential-ho
 //     throw err
 //   }
 // }
-export async function setPotentialHome(userId) {
-    const potentialHome = potentialHomeService.getEmptyPotentialHome(userId)
+export async function setPotentialHome() {
+    const potentialHome = potentialHomeService.getEmptyPotentialHome()
     store.dispatch(getCmdSetPotentialHome(potentialHome))
     return potentialHome
 }

@@ -18,7 +18,7 @@
 @import 'pages/HomePage';
 @import 'pages/homeIndex';
 @import 'pages/ReviewIndex';
-@import 'pages/UserDetails';
+@import 'pages/BookingDashboard';
 @import 'pages/AdminIndex';
 @import 'pages/TaskDetails';
 @import 'pages/LoginSignup';
@@ -69,3 +69,5 @@
 @import 'cmps/UserMenu';
 @import 'cmps/wishlist';
 @import 'cmps/DotsIndicator';
+@import 'cmps/BookingPlaceholder.scss';
+@import 'cmps/CloudinaryDragUpload.scss';

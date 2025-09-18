@@ -169,7 +169,7 @@ export function ReservationModal({
           />
         </div>
 
-         {openedDropdown === 'checkIn' || openedDropdown === 'checkOut' ? (
+        {openedDropdown === 'checkIn' || openedDropdown === 'checkOut' ? (
           <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
             <DatesDropdown
               isOpen={true}
@@ -179,6 +179,7 @@ export function ReservationModal({
                 updateDraftOrder({ ...draftOrder, checkIn, checkOut })
                 if (checkIn && checkOut) onCloseDropdown()
               }}
+            bookings={home.bookings}
             />
           </div>
         ) : null}
@@ -272,23 +273,31 @@ export function ReservationModal({
         <div className="cost-breakdown-container">
           <div className="reservation-summary-row price">
             <span>
-              {roundToDecimals(home.price).toLocaleString()} x {nightsNum}{' '}
-              {nightsNum > 1 ? 'nights' : 'night'}
+              {roundToDecimals(home.price || 550).toLocaleString()} x{' '}
+              {nightsNum} {nightsNum > 1 ? 'nights' : 'night'}
             </span>
             <span>
-              {roundToDecimals(home.price * nightsNum).toLocaleString()}
+              {roundToDecimals(
+                (home.price || 550) * nightsNum
+              ).toLocaleString()}
             </span>
           </div>
           <div className="reservation-summary-row service-fee">
             <span>Flexbnb service fee</span>
             <span>
-              ${roundToDecimals(home.price * nightsNum * 0.14).toLocaleString()}
+              $
+              {roundToDecimals(
+                (home.price || 550) * nightsNum * 0.14
+              ).toLocaleString()}
             </span>
           </div>
           <div className="reservation-summary-row total">
             <span>Total</span>
             <span>
-              ${roundToDecimals(home.price * nightsNum * 1.14).toLocaleString()}
+              $
+              {roundToDecimals(
+                (home.price || 550) * nightsNum * 1.14
+              ).toLocaleString()}
             </span>
           </div>
         </div>

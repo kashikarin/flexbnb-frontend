@@ -10,7 +10,7 @@ export const draftOrderService = {
   // remove,
   getDraftOrder,
   _findFirstAvailable,
-  getNumberOfNights
+  getNumberOfNights,
 }
 
 window.cs = draftOrderService
@@ -46,21 +46,22 @@ window.cs = draftOrderService
 //   }
 // }
 
-async function getDraftOrder(homeId, filterBy, loggedInUser) {
+async function getDraftOrder(homeId, filterBy) {
   let draftOrder = getEmptyOrder()
 
   draftOrder.guests = {
     adults: filterBy.adults || 1,
     children: filterBy.children || 0,
     infants: filterBy.infants || 0,
-    pets: filterBy.pets || 0
-  } 
-
-  if (!loggedInUser) draftOrder.purchaser = null
-  else {
-    const { _id: userId, fullname, imageUrl } = loggedInUser
-    draftOrder.purchaser = { userId, fullname, imageUrl }
+    pets: filterBy.pets || 0,
   }
+  
+  draftOrder.purchaser = null
+  // if (!loggedInUser) draftOrder.purchaser = null
+  // else {
+  //   const { _id: userId, fullname, imageUrl, email } = loggedInUser
+  //   draftOrder.purchaser = { userId, fullname, imageUrl, email }
+  // }
 
   let { checkIn, checkOut } = filterBy
   const home = await homeService.getById(homeId)
@@ -70,34 +71,38 @@ async function getDraftOrder(homeId, filterBy, loggedInUser) {
     draftOrder.checkIn = firstAvailableBooking.checkIn
     draftOrder.checkOut = firstAvailableBooking.checkOut
   } else {
-      parsedCheckIn = new Date(checkIn)
-      const parsedCheckOut = new Date(checkOut)
+    const parsedCheckIn = new Date(checkIn)
+    const parsedCheckOut = new Date(checkOut)
 
-  // fallback if parsing failed
-      if (isNaN(parsedCheckIn.getTime()) || isNaN(parsedCheckOut.getTime())) {
-        const firstAvailableBooking = _findFirstAvailable(home)
-        draftOrder.checkIn = firstAvailableBooking.checkIn
-        draftOrder.checkOut = firstAvailableBooking.checkOut
-      } else {
-        draftOrder.checkIn = parsedCheckIn
-        draftOrder.checkOut = parsedCheckOut
-      }
+    // fallback if parsing failed
+    if (isNaN(parsedCheckIn.getTime()) || isNaN(parsedCheckOut.getTime())) {
+      const firstAvailableBooking = _findFirstAvailable(home)
+      draftOrder.checkIn = firstAvailableBooking.checkIn
+      draftOrder.checkOut = firstAvailableBooking.checkOut
+    } else {
+      draftOrder.checkIn = parsedCheckIn
+      draftOrder.checkOut = parsedCheckOut
+    }
   }
-  
-  draftOrder.host = {
-    userId: home.host.userId || home.host.id,
-    fullname: home.host.fullname,
-    imageUrl: home.host.imageUrl,
-  }
+
+  // draftOrder.host = {
+  //   userId: home.host.userId || home.host.id,
+  //   fullname: home.host.fullname,
+  //   imageUrl: home.host.imageUrl,
+  // }
 
   const nights = getNumberOfNights(draftOrder.checkIn, draftOrder.checkOut)
+  console.log("🚀 ~ nights:", nights)
   const serviceFeeRate = 0.14
+  console.log("🚀 ~ serviceFeeRate:", serviceFeeRate)
+  console.log("🚀 ~ home.price:", home.price)
+  
   draftOrder.totalPrice = home.price * nights * (1 + serviceFeeRate)
 
   draftOrder.home = {
     homeId,
     name: home.name,
-    imageUrl: home.imageUrls[0]
+    imageUrl: home.imageUrls[0],
   }
 
   return draftOrder

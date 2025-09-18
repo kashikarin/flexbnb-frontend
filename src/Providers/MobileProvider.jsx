@@ -20,5 +20,6 @@ export function MobileProvider({ children }) {
 }
 
 export function useIsMobile() {
-  return useContext(MobileContext)
+  const context = useContext(MobileContext)
+  return context.isMobile 
 }

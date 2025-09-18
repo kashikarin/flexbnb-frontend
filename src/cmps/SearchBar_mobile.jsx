@@ -313,7 +313,7 @@ export function SearchBar_mobile() {
   return(
     <search>
       <div >
-          hi there!
+          I AM IN MOBILE MODE!
       </div>
     </search>
   )

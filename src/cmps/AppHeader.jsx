@@ -38,12 +38,12 @@ export function AppHeader({ scrollContainerRef }) {
   // const loggedInUser = false
   const [forceExpand, setForceExpand] = useState(false)
 
-  useEffect(() => {
-    const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
-    window.addEventListener('resize', handleResize)
-    handleResize()
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  // useEffect(() => {
+  //   const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
+  //   window.addEventListener('resize', handleResize)
+  //   handleResize()
+  //   return () => window.removeEventListener('resize', handleResize)
+  // }, [])
   //const [isMobile, setIsMobile] = useState(false)
   
   // useEffect(() => {
@@ -70,9 +70,11 @@ export function AppHeader({ scrollContainerRef }) {
 
 const isMobile = useIsMobile()
 
-useEffect(() => {
-  console.log("📱 isMobile changed ->", isMobile)
-}, [isMobile])
+if (isMobile) {
+    console.log("📱 Mobile mode -> rendering <SearchBar_mobile />", isMobile)
+  } else {
+    console.log("💻 Desktop mode -> rendering <SearchBar />", isMobile)
+  }
 
 
   useEffect(() => {
@@ -128,13 +130,11 @@ useEffect(() => {
 
   const shouldCollapse = isHomePageScrolled || !isHomeIndex
   //  || isSmallScreen || isMobile
-  console.log("🚀 ~ shouldCollapse:", shouldCollapse)
+  //console.log("🚀 ~ shouldCollapse:", shouldCollapse)
 
-  if (isMobile) {
-  console.log('📱 Mobile mode -> SearchBar_mobile')
-} else {
-  console.log('💻 Desktop mode -> SearchBar')
-}
+  
+
+  console.log("📱 isMobile:", isMobile, " width:", window.innerWidth)
 
   return (
     <header
@@ -217,18 +217,26 @@ useEffect(() => {
                     <NavLink to="/hosting/reservations/">Reservations</NavLink>
                   </nav>
                 ) : (
-                  <div
-                    className={`searchbar-wrapper ${
-                      shouldCollapse ? 'scrolled' : 'expanded'
-                    }`}
-                  >
-                    <SearchBar
-                      shouldCollapse={shouldCollapse}
-                      forceExpand={forceExpand}
-                      setForceExpand={setForceExpand}
-                      scrollContainerRef={scrollContainerRef}
-                    />
-                  </div>
+                  !isMobile ?
+                  (
+                  <>
+                  
+                    <div className={`searchbar-wrapper ${shouldCollapse ? 'scrolled' : 'expanded'}`}>
+                      <SearchBar
+                        shouldCollapse={shouldCollapse}
+                        forceExpand={forceExpand}
+                        setForceExpand={setForceExpand}
+                        scrollContainerRef={scrollContainerRef}
+                      />
+                      
+                    </div>
+                  </>
+                  ):(
+                    <>
+                    <SearchBar_mobile/>
+                    </>
+                  )
+
                 )}
               </div>
           </nav>
@@ -247,4 +255,5 @@ useEffect(() => {
       )}
     </header>
   )
+  console.log("🎯 finished render with isMobile =", isMobile)
 }

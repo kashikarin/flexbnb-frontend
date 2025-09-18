@@ -196,36 +196,29 @@ export function getNightsCount(startStr, endStr) {
 
 export async function getCityFromCoordinates(lat, lng) {
   try {
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${
-        import.meta.env.VITE_API_GOOGLE_KEY
-      }`
-    )
-    const data = await response.json()
+    const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`)
 
-    if (data.results && data.results.length > 0) {
-      const addressComponents = data.results[0].address_components
-
-      const city = addressComponents.find(
-        (component) =>
-          component.types.includes('locality') ||
-          component.types.includes('administrative_area_level_1')
-      )
-
-      const country = addressComponents.find((component) =>
-        component.types.includes('country')
-      )
-      console.log("🌍 Full response:", data)
-console.log("📦 Address components:", data.results[0].address_components)
-      return {
-        city: city?.long_name || 'Unknown',
-        country: country?.long_name || 'Unknown',
-      }
+    if (!response.ok) {
+      throw new Error('Failed to fetch location data')
     }
 
-    return { city: 'Unknown', country: 'Unknown' }
+    const data = await response.json()
+
+    return {
+      lat: data.lat,
+      lng: data.lng,
+      address: data.address || 'Unknown',
+      city: data.city || 'Unknown',
+      countryCode: data.countryCode || 'Unknown',
+    }
   } catch (error) {
     console.error('Error getting city:', error)
-    return { city: 'Unknown', country: 'Unknown' }
+    return {
+      lat: lat,
+      lng: lng,
+      address: 'Unknown',
+      city: 'Unknown',
+      countryCode: 'Unknown',
+    }
   }
 }

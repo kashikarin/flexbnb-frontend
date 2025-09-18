@@ -110,12 +110,12 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
     }
   }
 
-  function onDotClick(e, index){
+  function onDotClick(e, index) {
     e.preventDefault()
     e.stopPropagation()
     setCurrentIdx(index)
   }
-  
+
   return (
     <Link className="home-preview-link" to={`/home/${home._id}`}>
       <article className="home-preview-container">
@@ -183,13 +183,19 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
             </div>
           </div>
           <div className="home-preview-dots-indicator-wrapper">
-            <DotsIndicator slidesNum={home?.imageUrls?.length} currentIdx={currentIdx} onDotClick={onDotClick}/>
+            <DotsIndicator
+              slidesNum={home?.imageUrls?.length}
+              currentIdx={currentIdx}
+              onDotClick={onDotClick}
+            />
           </div>
         </div>
         <div className="home-preview-info-container">
           <p>
             {home.loc?.city
-              ? `${capitalizeStr(home.type)} in ${capitalizeStr(home.loc.city)}`
+              ? `${capitalizeStr(home.type)} in ${capitalizeStr(
+                  home.loc.city
+                )} `
               : capitalizeStr(home.type)}
           </p>
           {location.pathname !== '/wishlists' && <p>{getStayDatesStr()}</p>}

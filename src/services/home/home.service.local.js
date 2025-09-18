@@ -685,9 +685,9 @@ function _createHome() {
     gHomeLabels[getRandomIntInclusive(0, gAmenities.length - 1)],
   ]
   home.host = {
-    _id: 'u101',
+    homeId: 'u101',
     fullname: 'Justin Time',
-    imageURL: '/img/user/justin-img.jpg',
+    imageUrl: '/img/user/justin-img.jpg',
   }
   switch (city) {
     case 'Barcelona':
@@ -709,9 +709,9 @@ function _createHome() {
     let txt = makeLorem(getRandomIntInclusive(10, 30))
     let rate = getRandomIntInclusive(3, 5)
     let by = {
-      _id: 'u101',
+      homeId: 'u101',
       fullname: 'Justin Time',
-      imageURL: 'img/user/justin-img.jpg',
+      imageUrl: 'img/user/justin-img.jpg',
     }
     let review = { id, txt, rate, by }
     home.reviews.push(review)

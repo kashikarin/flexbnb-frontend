@@ -6,12 +6,18 @@
     align-items: center;
 
     .home-edit-step-one-a-title {
-        font-size: 32px;
-        font-weight: 500; //becomes 700 - try to fix the font
-        letter-spacing: -0.04rem;
         text-align: start;
         max-width: 630px;
-        // margin-block-end: 32px;
+        margin-block-end: 32px;
+
+        h1 {
+          line-height: 2.25rem;
+          font-size: 2rem;
+          margin-block: 0;
+          letter-spacing: -0.04rem;
+          font-weight: 500;
+          color: $primary-black-inverted;
+        }
     }
 
     .home-edit-step-one-a-buttons-container {
@@ -25,7 +31,7 @@
         margin: 0;
         box-sizing: border-box;
 
-        .home-edit-step-one-a {
+        & > button {
             width: 100%;
             padding: 16px;
             background-color: $clr6;
@@ -45,7 +51,8 @@
                 box-shadow: 0 0 0 2px black;
             }
 
-            &.selected .home-type-icon svg {
+            &.selected 
+              &.home-type-icon svg {
                 animation: iconBounce 0.3s ease;
                 animation-delay: 0.2s;
             }

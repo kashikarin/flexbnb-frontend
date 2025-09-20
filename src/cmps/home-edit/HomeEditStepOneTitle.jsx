@@ -1,19 +1,8 @@
-import { useEffect } from 'react'
-import { setStepCompleted } from '../../store/actions/home-edit.actions'
 import { useSelector } from 'react-redux'
 import AccessDenied from '../AccessDenied'
 
 export function HomeEditStepOneTitle() {
-  const currentSubStepStatus = useSelector(
-    (state) =>
-      state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ??
-      false
-  )
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-
-  useEffect(() => {
-    if (currentSubStepStatus === false) setStepCompleted()
-  }, [currentSubStepStatus])
 
   return loggedInUser ? (
     <section className="home-edit-step-1-title-container">

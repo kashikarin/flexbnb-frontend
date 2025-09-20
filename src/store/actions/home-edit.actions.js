@@ -1,13 +1,11 @@
 import { 
-         SET_COMPLETED, 
-         SET_NOT_COMPLETED, 
          UPDATE_POTENTIAL_HOME, 
          CLEAR_POTENTIAL_HOME,
          SET_POTENTIAL_HOME,
          SET_NEXT_SUBSTEP,
          SET_PREVIOUS_SUBSTEP,
-         CLOSE_HOME_EDIT_COMLPETION_MODAL,
-         OPEN_HOME_EDIT_COMLPETION_MODAL,
+         CLOSE_HOME_EDIT_COMPLETION_MODAL,
+         OPEN_HOME_EDIT_COMPLETION_MODAL,
          GO_TO_HOME_EDIT_START
         } from "../reducers/home-edit.reducer"
 import { store } from "../store"
@@ -45,14 +43,6 @@ export function updatePotentialHome(potentialHome) {
 
 export function clearPotentialHome() {
     store.dispatch(getCmdClearPotentialHome())
-}
-
-export function setStepCompleted() {
-    store.dispatch(getCmdSetCompleted())
-}
-
-export function setStepNotCompleted() {
-    store.dispatch(getCmdSetNotCompleted())
 }
 
 export function setNextSubStep(){
@@ -97,18 +87,6 @@ function getCmdClearPotentialHome() {
   }
 }
 
-function getCmdSetCompleted() {
-    return {
-       type: SET_COMPLETED 
-    }
-}
-
-function getCmdSetNotCompleted() {
-    return {
-       type: SET_NOT_COMPLETED 
-    }
-}
-
 function getCmdSetNextSubStep() {
     return {
        type: SET_NEXT_SUBSTEP 
@@ -123,13 +101,13 @@ function getCmdSetPreviousSubStep() {
 
 function getCmdCloseHomeEditCompletionModal(){
   return {
-    type: CLOSE_HOME_EDIT_COMLPETION_MODAL
+    type: CLOSE_HOME_EDIT_COMPLETION_MODAL
   }
 }
 
 function getCmdOpenHomeEditCompletionModal(){
   return {
-    type: OPEN_HOME_EDIT_COMLPETION_MODAL
+    type: OPEN_HOME_EDIT_COMPLETION_MODAL
   }
 }
 

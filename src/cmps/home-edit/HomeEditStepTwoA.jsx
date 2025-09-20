@@ -1,10 +1,6 @@
 import { useSelector } from 'react-redux'
-import {
-  setStepCompleted,
-  updatePotentialHome,
-} from '../../store/actions/home-edit.actions.js'
+import { updatePotentialHome } from '../../store/actions/home-edit.actions.js'
 import { homeService } from '../../services/home'
-import { useEffect } from 'react'
 import { ReactSVG } from 'react-svg'
 
 export function HomeEditStepTwoA() {
@@ -14,16 +10,7 @@ export function HomeEditStepTwoA() {
   )
   
   console.log('🚀 ~ potentialHome:', potentialHome)
-  const currentSubStepStatus = potentialHome?.editProgress?.currentSubStepStatus
   const { gAmenities, getAmenityAnimatedSvgPath } = homeService
-  
-  // useEffect(() => {
-  //   if (currentSubStepStatus === false) setStepCompleted()
-  // }, [currentSubStepStatus])
-
-  useEffect(()=>{
-    if (currentSubStepStatus === false) setStepCompleted()
-  }, [currentSubStepStatus])
 
   function handleClick(amenity) {  
     if (potentialHome?.amenities?.includes(amenity)) {

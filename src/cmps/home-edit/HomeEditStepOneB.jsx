@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { setStepCompleted, updatePotentialHome } from '../../store/actions/home-edit.actions'
+import { updatePotentialHome } from '../../store/actions/home-edit.actions'
 import { useSelector } from 'react-redux'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { useEffectUpdate } from '../../customHooks/useEffectUpdate'
@@ -7,7 +7,6 @@ import { useEffectUpdate } from '../../customHooks/useEffectUpdate'
 
 export function HomeEditStepOneB(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
-    const {currentSubStepStatus} = potentialHome.editProgress
     const homeLoc = useSelector(state => state.homeEditModule.home) || {
         loc: { lat: 37.7749, lng: -122.4194 }
     }
@@ -24,12 +23,6 @@ export function HomeEditStepOneB(){
         updatePotentialHome(updatedPotentialHome)
     }, [homeLocation])
 
-    useEffect(() => {
-        if (!currentSubStepStatus) setStepCompleted()
-    }, [currentSubStepStatus])
-
-
- 
     const autocompleteService = useRef(null)
     const placesService = useRef(null)
     const mapRef = useRef(null)

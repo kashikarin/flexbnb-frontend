@@ -13,7 +13,8 @@ export const potentialHomeService = {
   remove,
   getEmptyPotentialHome,
   gTotalSteps,
-  gSubStepsPerStep
+  gSubStepsPerStep,
+  isSubStepCompleted
 }
 
 window.cs = potentialHomeService
@@ -66,9 +67,43 @@ async function save(pHomeToSave) {
            loc,
           editProgress: {
             currentStep: 1,
-            currentStepStatus: false,
-            currentSubStep: 1,
-            currentSubStepStatus: false
+            currentSubStep: 1
           } 
         }
+}
+
+function isSubStepCompleted(potentialHome, step, subStep) {
+  switch (`${step}-${subStep}`) {
+    case "1-1":
+      return true
+    case "1-2": 
+      return Boolean(potentialHome.type)
+    case "1-3":
+      return true
+      // return Boolean(potentialHome.loc?.lat)
+    case "1-4":
+      const { bathCount, bedsCount, bedroomsCount, capacity } = potentialHome
+      return !!(
+        bathCount &&
+        bedsCount &&
+        bedroomsCount &&
+        capacity
+      )
+    case "2-1": 
+      return true
+    case "2-2":
+      return true
+    case "2-3":
+      return Boolean(potentialHome.imageUrls?.length)
+    case "2-4":
+      return Boolean(potentialHome.name)
+    case "2-5":
+      return Boolean(potentialHome.summary)
+    case "3-1":
+      return true
+    case "3-2": 
+      return Boolean(potentialHome.price)
+    default:
+      return false
+  }
 }

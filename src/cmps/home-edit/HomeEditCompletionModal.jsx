@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router"
 import { goToHomeEditStart } from "../../store/actions/home-edit.actions"
 
-
 export function HomeEditCompletionModal({potentialHome, closeHomeEditCompletionModal, addHome, clearPotentialHome}){
     const navigate = useNavigate()
     const { editProgress, ...homeToSave } = potentialHome
+    
     async function onPublishListing(){
-        clearPotentialHome()
+        
         try {
             await addHome(homeToSave)
         } catch(err){
             console.error('Cannot publish home', err)
         } finally {
+            clearPotentialHome()
             navigate('/hosting')
             closeHomeEditCompletionModal()
         }

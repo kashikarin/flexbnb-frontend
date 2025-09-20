@@ -21,7 +21,7 @@ export function BuyingStepOneModal({
     e.preventDefault()
     try {
       const savedOrder = await addOrder(draftOrder)
-      removeDraftOrder()
+      // removeDraftOrder()
       return savedOrder
     } catch(err) {
       console.error('Failed to add order', err)
@@ -137,6 +137,7 @@ export function BuyingStepOneModal({
             className='back-btn'
             onClick={() => {
               if (currentStep === 2) {
+                removeDraftOrder()
                 navigate('/')
                 closeOrderConfirmationModal()
               }

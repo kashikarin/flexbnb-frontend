@@ -6,8 +6,8 @@ export const SET_COMPLETED = 'SET_COMPLETED'
 export const SET_NOT_COMPLETED = 'SET_NOT_COMPLETED'
 export const SET_NEXT_SUBSTEP = 'SET_NEXT_SUBSTEP'
 export const SET_PREVIOUS_SUBSTEP = 'SET_PREVIOUS_SUBSTEP'
-export const OPEN_HOME_EDIT_COMLPETION_MODAL = 'OPEN_HOME_EDIT_COMLPETION_MODAL'
-export const CLOSE_HOME_EDIT_COMLPETION_MODAL = 'CLOSE_HOME_EDIT_COMLPETION_MODAL'
+export const OPEN_HOME_EDIT_COMPLETION_MODAL = 'OPEN_HOME_EDIT_COMPLETION_MODAL'
+export const CLOSE_HOME_EDIT_COMPLETION_MODAL = 'CLOSE_HOME_EDIT_COMPLETION_MODAL'
 export const GO_TO_HOME_EDIT_START = 'GO_TO_HOME_EDIT_START'
 const initialState = {
   potentialHome: null,
@@ -21,9 +21,7 @@ export function homeEditReducer(state = initialState, action) {
     case SET_POTENTIAL_HOME: {
       const defaultEditProgress = {
         currentStep: 1,
-        currentStepStatus: false,
         currentSubStep: 1,
-        currentSubStepStatus: false
       }
 
   const incoming = action.potentialHome || {}
@@ -57,29 +55,6 @@ export function homeEditReducer(state = initialState, action) {
       newState = { ...state, potentialHome: null}
       break
     }
-    case SET_COMPLETED:{
-      if (state.potentialHome?.editProgress?.currentSubStepStatus) return state
-      newState = { ...state, potentialHome: { ...state.potentialHome,
-                                              editProgress: {
-                                                ...state.potentialHome?.editProgress,
-                                                currentSubStepStatus: true
-                                              }
-                                            }
-                }
-      break
-    }
-    case SET_NOT_COMPLETED: {
-      if (!state.potentialHome.editProgress.currentSubStepStatus) return state
-      newState = { ...state, potentialHome: { ...state.potentialHome,
-                                              editProgress: {
-                                                ...state.potentialHome.editProgress,
-                                                currentSubStepStatus: false
-                                              }
-                                            }
-                }
-      break
-    }
-      
     case SET_NEXT_SUBSTEP: {
       const editProgress = state.potentialHome?.editProgress
       if (!editProgress) return state 
@@ -97,9 +72,7 @@ export function homeEditReducer(state = initialState, action) {
                                               editProgress: {
                                                 ...editProgress,
                                                 currentStep: nextStep,
-                                                currentSubStep: nextSubStep,
-                                                currentSubStepStatus: false,
-                                                currentStepStatus: false
+                                                currentSubStep: nextSubStep
                                               }
                                               
                                             }
@@ -125,19 +98,17 @@ export function homeEditReducer(state = initialState, action) {
                                                 ...editProgress,
                                                 currentStep: previousStep,
                                                 currentSubStep: previousSubStep,
-                                                currentSubStepStatus: false,
-                                                currentStepStatus: false
                                               }
                                               
                                             }
                   }
       break
     }
-    case OPEN_HOME_EDIT_COMLPETION_MODAL: {
+    case OPEN_HOME_EDIT_COMPLETION_MODAL: {
       newState = { ...state, isHomeEditCompletionModalOpen: true }
       break
     }
-    case CLOSE_HOME_EDIT_COMLPETION_MODAL: {
+    case CLOSE_HOME_EDIT_COMPLETION_MODAL: {
       newState = { ...state, isHomeEditCompletionModalOpen: false }
       break
     }
@@ -146,9 +117,11 @@ export function homeEditReducer(state = initialState, action) {
                    potentialHome: { ...state.potentialHome, 
                       editProgress: { ...state.potentialHome.editProgress,
                                       currentStep: 1,
-                                      currentSubStep: 1 }
+                                      currentSubStep: 1,
+                                   }
                                   }
                   }
+      break
     }
     default:
   }

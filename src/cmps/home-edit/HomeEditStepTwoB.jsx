@@ -1,21 +1,13 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  setStepCompleted,
-  updatePotentialHome,
-} from '../../store/actions/home-edit.actions'
+import { updatePotentialHome } from '../../store/actions/home-edit.actions'
 import { CloudinaryDragUpload } from '../CloudinaryUploadButton'
 
 export function HomeEditStepTwoB() {
   const potentialHome = useSelector(
     (state) => state.homeEditModule.potentialHome
   )
-  const { currentSubStepStatus } = potentialHome.editProgress
   const { imageUrls = [] } = potentialHome
-
-  useEffect(() => {
-    if (!currentSubStepStatus) setStepCompleted()
-  }, [currentSubStepStatus])
 
   function handlePhotoUpload(url) {
     const updatedHome = {

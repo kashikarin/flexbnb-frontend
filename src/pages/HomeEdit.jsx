@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { motion, AnimatePresence } from 'framer-motion'
 import {HomeEditStepOneTitle} from '../cmps/home-edit/HomeEditStepOneTitle'
@@ -12,8 +12,13 @@ import { HomeEditStepTwoC } from '../cmps/home-edit/HomeEditStepTwoC'
 import { HomeEditStepTwoD } from '../cmps/home-edit/HomeEditStepTwoD'
 import { HomeEditStepThreeTitle } from '../cmps/home-edit/HomeEditStepThreeTitle'
 import { HomeEditStepThreeA } from '../cmps/home-edit/HomeEditStepThreeA'
+import { clearPotentialHome, closeHomeEditCompletionModal, goToHomeEditStart } from '../store/actions/home-edit.actions'
+import { HomeEditCompletionModal } from '../cmps/home-edit/HomeEditCompletionModal' 
+import { addHome } from '../store/actions/home.actions'
 
 export function HomeEdit(){
+    const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
+    const isHomeEditCompletionModalOpen = useSelector(state => state.homeEditModule.isHomeEditCompletionModalOpen)
     const currentStep = useSelector(
         state => state.homeEditModule.potentialHome?.editProgress?.currentStep ?? 1
     )
@@ -22,11 +27,6 @@ export function HomeEdit(){
         state => state.homeEditModule.potentialHome?.editProgress?.currentSubStep ?? 1
     )
     console.log("🚀 ~ currentSubStep:", currentSubStep)
-    // const [displayedStep, setDisplayedStep] = useState(currentStep)
-    // const [displayedSubStep, setDisplayedSubStep] = useState(currentSubStep)
-    // const [isVisible, setIsVisible] = useState(true)
-    // const [prevStep, setPrevStep] = useState(null)
-    // const [prevSubStep, setPrevSubStep] = useState(null)
 
     const homeEditComponents = {
         1: {
@@ -75,11 +75,15 @@ export function HomeEdit(){
     //     return () => clearTimeout(timeout);
     // }, [currentStep, currentSubStep])
     
+    useEffect(() => {
+        if (!potentialHome?.editProgress) goToHomeEditStart()
+    }, [])
+
     return(
         <section className='home-edit-container'>
             <div className='home-edit-main'>
                 <AnimatePresence mode='wait'>
-                    {Comp && (
+                    {!isHomeEditCompletionModalOpen && Comp && (
                         <motion.div
                             key={`${currentStep}-${currentSubStep}`} // מזהה ייחודי לכל שלב
                             initial={{ opacity: 0, y: 20 }}
@@ -92,6 +96,14 @@ export function HomeEdit(){
                         </motion.div>
                     )}
                 </AnimatePresence>
+                {isHomeEditCompletionModalOpen && (
+                    <HomeEditCompletionModal
+                        potentialHome={potentialHome}
+                        closeHomeEditCompletionModal={closeHomeEditCompletionModal}
+                        addHome={addHome}
+                        clearPotentialHome={clearPotentialHome}
+                    />
+                )}
                 {/* {prevStep && (
                     <div className="fade-out">
                     {renderStepComponent(prevStep, prevSubStep)}

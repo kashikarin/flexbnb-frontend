@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions"
+import { updatePotentialHome } from "../../store/actions/home-edit.actions"
 import { useEffect, useRef, useState } from "react"
 import { utilService } from "../../services/util.service"
 
@@ -10,13 +10,6 @@ export function HomeEditStepTwoC(){
     const {debounce} = utilService
     const debouncedUpdatePotentialHomeRef = useRef(debounce(updatePotentialHome, 300)).current
     const [name, setName] = useState(potentialHome?.name || '')
-     
-    useEffect(()=>{
-        if (!potentialHome) return
-        const shouldBeCompleted = !!name && !potentialHome.editProgress.currentSubStepStatus
-        if (shouldBeCompleted) setStepCompleted()
-        // else setStepNotCompleted()
-    }, [name])
 
     useEffect(()=>{
         debouncedUpdatePotentialHomeRef({ ...potentialHome, name })

@@ -1,14 +1,4 @@
-import { useEffect, useState } from "react"
-import { setStepCompleted } from "../../store/actions/home-edit.actions"
-import { useSelector } from "react-redux"
-
 export function HomeEditStepThreeTitle(){
-    const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
-    const {currentSubStepStatus} = potentialHome.editProgress
-    useEffect(()=>{
-        if (!currentSubStepStatus) setStepCompleted()
-    }, [])
-        
     return(
         <section className='home-edit-step-3-title-container'>
             <article className="home-edit-step-3-title-text-container">

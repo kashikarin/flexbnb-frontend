@@ -1,12 +1,9 @@
 import { useSelector } from "react-redux"
-import { clearPotentialHome, closeHomeEditCompletionModal, openHomeEditCompletionModal, setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions"
+import { clearPotentialHome, closeHomeEditCompletionModal, openHomeEditCompletionModal, updatePotentialHome } from "../../store/actions/home-edit.actions"
 import {useEffectUpdate } from '../../customHooks/useEffectUpdate'
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { utilService } from "../../services/util.service"
 import { ReactSVG } from 'react-svg'
-import { potentialHomeService } from "../../services/potential-home/potential-home.service.local"
-import { HomeEditCompletionModal } from "./HomeEditCompletionModal"
-import { addHome } from '../../store/actions/home.actions.js'
 
 export function HomeEditStepThreeA(){
     const potentialHome = useSelector(state => state.homeEditModule.potentialHome)
@@ -14,17 +11,9 @@ export function HomeEditStepThreeA(){
     const {debounce} = utilService
     const debouncedUpdatePotentialHomeRef = useRef(debounce(updatePotentialHome, 300)).current
     const placeholderPrice = 278
-    const {currentStep, currentSubStep} = potentialHome.editProgress
+    // const {currentStep, currentSubStep} = potentialHome.editProgress
     const effectivePrice = price === "" ? placeholderPrice : Number(price)
-    const {gTotalSteps, gSubStepsPerStep} = potentialHomeService
-    const isHomeEditCompletionModalOpen = useSelector(state => state.homeEditModule.isHomeEditCompletionModalOpen)    
-
-    useEffect(()=>{
-        if (!potentialHome) return
-        const shouldBeCompleted = !!effectivePrice && !potentialHome.editProgress.currentSubStepStatus
-        if (shouldBeCompleted) setStepCompleted()
-        // else setStepNotCompleted()
-    }, [effectivePrice])
+    // const {gTotalSteps, gSubStepsPerStep} = potentialHomeService
 
     useEffectUpdate(()=>{
         debouncedUpdatePotentialHomeRef({...potentialHome, price: effectivePrice})
@@ -39,11 +28,7 @@ export function HomeEditStepThreeA(){
         setPrice(value)
     }
 
-    useEffect(()=>{
-        const isProcessComplete = currentStep === gTotalSteps && currentSubStep === gSubStepsPerStep[gTotalSteps - 1] + 1
-        if (isProcessComplete) openHomeEditCompletionModal()
-    }, [currentSubStep])
-
+    if (!potentialHome) return null
     return (
         <>
             <section className='home-edit-step-3-a-container'>
@@ -67,14 +52,6 @@ export function HomeEditStepThreeA(){
                     </button>
                 </article>
             </section>
-            {isHomeEditCompletionModalOpen && (
-                <HomeEditCompletionModal 
-                    potentialHome={potentialHome}
-                    closeHomeEditCompletionModal={closeHomeEditCompletionModal}
-                    addHome={addHome}
-                    clearPotentialHome={clearPotentialHome}
-                />    
-            )}
         </>
         
     )

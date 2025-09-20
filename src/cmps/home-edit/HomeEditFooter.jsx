@@ -6,7 +6,6 @@ import {
   setPreviousSubStep,
 } from '../../store/actions/home-edit.actions'
 import { potentialHomeService } from '../../services/potential-home/potential-home.service.local'
-import { addHome } from '../../store/actions/home.actions'
 
 export function HomeEditFooter() {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
@@ -16,11 +15,11 @@ export function HomeEditFooter() {
   )
 
   console.log('🚀 ~ potentialHome:', potentialHome)
-  const currentSubStepStatus = useSelector(
-    (state) =>
-      state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ??
-      false
-  )
+//   const currentSubStepStatus = useSelector(
+//     (state) =>
+//       state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ??
+//       false
+//   )
   const currentSubStep = useSelector(
     (state) =>
       state.homeEditModule.potentialHome?.editProgress?.currentSubStep ?? 1
@@ -66,7 +65,11 @@ export function HomeEditFooter() {
     setIsLoading(true)
 
     setTimeout(() => {
-      if (isLastStep) openHomeEditCompletionModal()
+      if (isLastStep) {
+        openHomeEditCompletionModal()
+        setIsLoading(false)
+        return
+      }
       setNextSubStep()
       setIsLoading(false)
     }, 1000)
@@ -106,7 +109,7 @@ export function HomeEditFooter() {
         </button>
         <button
           className="home-edit-next-btn"
-          disabled={!currentSubStepStatus || isLoading}
+          disabled={!potentialHomeService.isSubStepCompleted(potentialHome, currentStep, currentSubStep) || isLoading}
           onClick={onNextClick}
         >
           {isLoading ? <div className="loader"></div> : 'Next'}

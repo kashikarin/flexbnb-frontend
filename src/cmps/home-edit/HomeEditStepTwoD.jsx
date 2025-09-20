@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { setStepCompleted, setStepNotCompleted, updatePotentialHome } from "../../store/actions/home-edit.actions"
+import { updatePotentialHome } from "../../store/actions/home-edit.actions"
 import { utilService } from "../../services/util.service"
 import { useRef, useState, useEffect } from "react"
 
@@ -12,15 +12,6 @@ export function HomeEditStepTwoD(){
     const [summary, setSummary] = useState(potentialHome?.summary || '')
     const summaryPlaceHolder = "You'll always remember your time at this unique place to stay."
 
-    useEffect(()=>{
-        if (!potentialHome) return
-        const shouldBeCompleted = (!!summary || summary === summaryPlaceHolder) && 
-            !potentialHome.editProgress.currentSubStepStatus
-        if (shouldBeCompleted) setStepCompleted()
-        // else setStepNotCompleted()
-
-    }, [summary]
-    )
     function handleChange(e){
         setSummary(e.target.value)
     }

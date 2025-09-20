@@ -149,59 +149,57 @@ if (isMobile) {
         <HeaderHomeDetails />
       ) : (
         <>
-          <nav
-            className={`app-header-main-nav ${
-              shouldCollapse ? 'scrolled' : 'expanded'
-            }`}
-          >
+          <nav className={`app-header-main-nav ${shouldCollapse ? 'scrolled' : 'expanded'}`} >
             {/* first row */}
-            <div className="app-header-main-nav-content">
-              {/* main-nav - left section */}
-              <div className="app-header-left-section">
-                <NavLink
-                  to="/"
-                  className="logo"
-                  onClick={() => dispatch(setHomePageNotScrolled())}
-                >
-                  <FaAirbnb className="logo-icon" />
-                  <span>flexbnb</span>
-                </NavLink>
-              </div>
-              {/* main - nav - right section */}
-              
-              <div className="app-header-right-section">
-                {loggedInUser ? (
-                  <>
-                    <Link to={isHosting ? '/' : '/hosting'}>
-                      {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
-                    </Link>
-                    <div className="user-info">
-                      <Link to={`user/${loggedInUser._id}`}>
-                        {loggedInUser.imageUrl ? (
-                          <img
-                            src={loggedInUser.imageUrl}
-                            alt={loggedInUser.fullname || loggedInUser.username}
-                          />
-                        ) : (
-                          <div className="user-avatar-placeholder">
-                            {(
-                              loggedInUser.fullname ||
-                              loggedInUser.username ||
-                              'U'
-                            )
-                              .charAt(0)
-                              .toUpperCase()}
-                          </div>
-                        )}
+            {!isMobile && (
+              <div className="app-header-main-nav-content">
+                {/* main-nav - left section */}
+                <div className="app-header-left-section">
+                  <NavLink
+                    to="/"
+                    className="logo"
+                    onClick={() => dispatch(setHomePageNotScrolled())}
+                  >
+                    <FaAirbnb className="logo-icon" />
+                    <span>flexbnb</span>
+                  </NavLink>
+                </div>
+                {/* main - nav - right section */}
+                
+                <div className="app-header-right-section">
+                  {loggedInUser ? (
+                    <>
+                      <Link to={isHosting ? '/' : '/hosting'}>
+                        {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
                       </Link>
-                    </div>
-                  </>
-                ) : (
-                  <Link to={'/'}>Become a host</Link>
-                )}
-                <UserMenu />
+                      <div className="user-info">
+                        <Link to={`user/${loggedInUser._id}`}>
+                          {loggedInUser.imageUrl ? (
+                            <img
+                              src={loggedInUser.imageUrl}
+                              alt={loggedInUser.fullname || loggedInUser.username}
+                            />
+                          ) : (
+                            <div className="user-avatar-placeholder">
+                              {(
+                                loggedInUser.fullname ||
+                                loggedInUser.username ||
+                                'U'
+                              )
+                                .charAt(0)
+                                .toUpperCase()}
+                            </div>
+                          )}
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <Link to={'/'}>Become a host</Link>
+                  )}
+                  <UserMenu />
+                </div>
               </div>
-            </div>
+            )}
             {/* second row */}
             {/* main - nav - mid section */}
             <div
@@ -233,7 +231,10 @@ if (isMobile) {
                   </>
                   ):(
                     <>
-                    <SearchBar_mobile/>
+                    <div className='searchbar-wrapper-mobile'>
+                      <SearchBar_mobile/>
+                    </div>
+                    
                     </>
                   )
 

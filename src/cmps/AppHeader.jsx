@@ -139,7 +139,9 @@ export function AppHeader({ scrollContainerRef }) {
       className={`app-header ${
         shouldCollapse && !forceExpand ? 'scrolled' : ''
       } ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
-      ${forceExpand ? 'expanded' : ''}`}
+      ${forceExpand ? 'expanded' : ''}
+      ${isHomeIndex ? "wide-layout" : "narrow-layout"}
+      `}
     >
       {isHomeEdit ? (
         <HeaderHomeEdit />

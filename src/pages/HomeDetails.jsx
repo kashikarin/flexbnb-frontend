@@ -178,9 +178,9 @@ export function HomeDetails() {
       {home && (
         <div className="home-details-container narrow-layout">
           <div className="home-details-header">
-            <h1>
+            {/* <h1>
               {home.type} in {home.loc.city}, {home.loc.country}
-            </h1>
+            </h1> */}
             <div className="home-details-heart" onClick={handleHomeSave}>
               <FaHeart
                 className={`home-details-heart-icon ${isLiked ? 'saved' : ''}`}
@@ -216,9 +216,9 @@ export function HomeDetails() {
                     : { borderBottom: '1px solid #e0e0e0' }
                 }
               >
-                <h2>
+                {/* <h2>
                   {home.type} in {home.loc.city}, {home.loc.country}
-                </h2>
+                </h2> */}
 
                 <div className="home-details-amenities-list">
                   <p>{home.capacity} guests</p>
@@ -324,7 +324,7 @@ export function HomeDetails() {
             id="hd-location-container"
           >
             <h3>Where you'll be</h3>
-            <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
+            {/* <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}
                 center={{
@@ -341,7 +341,7 @@ export function HomeDetails() {
                 onClick={() => alert('marker was clicked!')}
                 title={'clickable google.maps.Marker'}
               />
-            </APIProvider>
+            </APIProvider> */}
           </section>
         </div>
       )}

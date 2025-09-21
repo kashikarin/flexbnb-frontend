@@ -1,6 +1,6 @@
 import { eventBus, showSuccessMsg } from '../services/event-bus.service'
 import { useState, useEffect, useRef } from 'react'
-import { socketService, SOCKET_EVENT_REVIEW_ABOUT_YOU } from '../services/socket.service'
+import { socketService, SOCKET_EVENT_REVIEW_ABOUT_YOU, SOCKET_EVENT_YOUR_HOME_BOOKED } from '../services/socket.service'
 
 export function UserMsg() {
     const [msg, setMsg] = useState(null)
@@ -14,6 +14,10 @@ export function UserMsg() {
                 clearTimeout(timeoutIdRef.current)
             }
             timeoutIdRef.current = setTimeout(closeMsg, 3000)
+        })
+
+        socketService.on(SOCKET_EVENT_YOUR_HOME_BOOKED, order => {
+            showSuccessMsg(`Your home ${order.home.name} was booked just now`)
         })
 
         socketService.on(SOCKET_EVENT_REVIEW_ABOUT_YOU, review => {

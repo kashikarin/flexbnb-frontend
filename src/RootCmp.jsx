@@ -49,7 +49,7 @@ export function RootCmp({ mainRef }) {
       <div className={isHomeIndex ? 'wide-layout' : 'narrow-layout'}>
         {/* <AppHeader scrollContainerRef={mainRef} /> */}
 
-        {/* <UserMsg /> */}
+        <UserMsg />
         <main ref={mainRef}>
           {/* {isIndex && <LabelsSlider />} */}
           <Routes>

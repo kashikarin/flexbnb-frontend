@@ -18,8 +18,6 @@ import {
   CiLocationOn,
   CiVault,
 } from 'react-icons/ci'
-import { FaHome } from 'react-icons/fa'
-
 import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
@@ -45,7 +43,6 @@ import {
 import { addOrder } from '../store/actions/order.actions'
 import { ReactSVG } from 'react-svg'
 
-import { getCityFromCoordinates } from '../services/util.service'
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
 export function HomeDetails() {
@@ -68,53 +65,40 @@ export function HomeDetails() {
   console.log(home)
   console.log('🚀 ~ loggedInUser:', loggedInUser)
 
-  const [locationInfo, setLocationInfo] = useState({
-    city: home?.loc?.city || '',
-    country: home?.loc?.country || '',
-  })
-
-  useEffect(() => {
-    if (home?.loc?.lat && home?.loc?.lng) {
-      console.log(
-        '✅ Calling getCityFromCoordinates with:',
-        home.loc.lat,
-        home.loc.lng
-      )
-
-      getCityFromCoordinates(home.loc?.lat, home.loc?.lng).then((info) => {
-        console.log(
-          '✅ Calling getCityFromCoordinates with:',
-          home.loc.lat,
-          home.loc.lng
-        )
-
-        setLocationInfo(info)
-      })
-    } else {
-      console.log('❌ Missing lat/lng')
-    }
-  }, [home?.loc?.lat, home?.loc?.lng])
-
   useEffect(() => {
     if (!homeId) return
-    initHome(homeId)
-  }, [homeId])
-
-  async function initHome(homeId) {
-    try {
-      await loadHome(homeId)
-    } catch (err) {
-      console.error('Cannot load home', err)
-    }
-  }
+    initHomeAndDraftOrder()
+  }, [homeId, loggedInUser])
 
   useEffect(() => {
-    if (home && home._id) addDraftOrder(home._id, filterBy)
-  }, [home, filterBy])
+    let purchaser = null
+    if (loggedInUser) {
+      purchaser = {
+        userId: loggedInUserId,
+        fullname: loggedInUser.fullname,
+        imageUrl: loggedInUser.imageUrl,
+        email: loggedInUser.email,
+      }
+      updateDraftOrder({ ...draftOrder, purchaser })
+    }
+
+    updateDraftOrder({ ...draftOrder, purchaser })
+
+    console.log(draftOrder)
+  }, [loggedInUserId])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
+
+  async function initHomeAndDraftOrder() {
+    try {
+      await loadHome(homeId)
+      await addDraftOrder(homeId, filterBy, loggedInUser)
+    } catch (err) {
+      console.error('Cannot load home', err)
+    }
+  }
 
   useEffect(() => {
     try {
@@ -209,20 +193,14 @@ export function HomeDetails() {
             id="hd-images-container"
             ref={imgBreakPointRef}
           >
-            {Array.from({ length: 5 }, (_, idx) => {
-              const imageUrl = home.imageUrls && home.imageUrls[idx]
-
-              return imageUrl ? (
+            {home.imageUrls.map((imageUrl, idx) => {
+              return (
                 <img
                   key={idx}
                   className="home-details-img"
                   src={imageUrl}
                   alt={`Home image ${idx + 1}`}
                 />
-              ) : (
-                <div key={idx} className="home-details-img-placeholder">
-                  <FaHome size={idx === 0 ? 48 : 24} color="#bbb" />
-                </div>
               )
             })}
           </div>
@@ -244,9 +222,9 @@ export function HomeDetails() {
 
                 <div className="home-details-amenities-list">
                   <p>{home.capacity} guests</p>
-                  <span>·</span>
+                  <span>•</span>
                   <p>{home.bedsCount} beds</p>
-                  <span>·</span>
+                  <span>•</span>
                   <p>{home.bathCount} bath</p>
                 </div>
                 {getAvgRating(home) < 4 && (
@@ -264,20 +242,10 @@ export function HomeDetails() {
                         {getAvgRating(home).toFixed(2)}{' '}
                       </span>
                     </span>
-                    <span>·</span>
-                    <span>
-                      {(home.reviews?.length || 0) > 0
-                        ? `${home.reviews.length} reviews`
-                        : 'No Reviews Yet'}
-                    </span>
+                    <span>•</span>
+                    <span>{home.reviews?.length} Reviews </span>
                   </div>
                 )}
-              </div>
-              <div className="home-details-hosted-by-article">
-                <img src={home.host.imageUrl || '/svgs/user-icon.svg'}/> 
-                <div className="home-details-hosted-by-text">
-                  <div>{`Hosted by ${home.host.fullname.split(' ')[0]}`}</div>
-                </div>
               </div>
 
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
@@ -299,6 +267,7 @@ export function HomeDetails() {
                 </article>
               </section>
               <section className="home-details-summary">
+                {/* <h3>About this place</h3> */}
                 <p>{home.summary}</p>
               </section>
               <section className="home-details-facilities-list">
@@ -354,20 +323,20 @@ export function HomeDetails() {
             className="home-details-google-maps-section"
             id="hd-location-container"
           >
-            <h2>Where you'll be</h2>
+            <h3>Where you'll be</h3>
             <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}
                 center={{
-                  lat: home.loc?.lat,
-                  lng: home.loc?.lng,
+                  lat: home.loc.lat,
+                  lng: home.loc.lng,
                 }}
                 gestureHandling={'greedy'}
                 disableDefaultUI={false}
                 style={{ height: '400px', width: '100%' }}
               />
               <Marker
-                position={{ lat: home.loc?.lat, lng: home.loc?.lng }}
+                position={{ lat: home.loc.lat, lng: home.loc.lng }}
                 clickable={true}
                 onClick={() => alert('marker was clicked!')}
                 title={'clickable google.maps.Marker'}

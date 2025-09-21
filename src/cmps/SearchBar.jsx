@@ -164,13 +164,10 @@ export function SearchBar({
     }
   }, [scrolled])
 
-  function handleWhereClick(btName) {
-    // Don't expand SearchBar on mobile
-    // if (scrolled && !isMobile) setScrolled(false)
+  function handleSearchClick(btName) {
     if (shouldCollapse && !isMobile) {
       setForceExpand(true)
     }
-    //if (scrolled && !isMobile) setForceExpand(true)
 
     if (btName === 'checkIn' || btName === 'checkOut') {
       setOpenedDropdown('dates')
@@ -186,6 +183,7 @@ export function SearchBar({
     } else {
       setOpenedDropdown(btName)
       setActiveButton(btName)
+      setIndicatorStyle((prev) => ({ ...prev }))
     }
   }
 
@@ -336,7 +334,7 @@ export function SearchBar({
         <div>
           <div
             ref={whereRef}
-            onClick={() => handleWhereClick('where')}
+            onClick={() => handleSearchClick('where')}
             className={`inner-section ${
               activeButton == 'where' ? 'active' : ''
             }`}
@@ -370,7 +368,7 @@ export function SearchBar({
 
           <div
             ref={checkInRef}
-            onClick={() => handleWhereClick('checkIn')}
+            onClick={() => handleSearchClick('checkIn')}
             className={`inner-section ${
               activeButton == 'checkIn' ? 'active' : ''
             }`}
@@ -394,7 +392,7 @@ export function SearchBar({
           {!scrolled && (
             <div
               ref={checkOutRef}
-              onClick={() => handleWhereClick('checkOut')}
+              onClick={() => handleSearchClick('checkOut')}
               className={`inner-section ${
                 activeButton == 'checkOut' ? 'active' : ''
               }`}
@@ -440,7 +438,7 @@ export function SearchBar({
 
           <div
             ref={capacityRef}
-            onClick={() => handleWhereClick('capacity')}
+            onClick={() => handleSearchClick('capacity')}
             className={`inner-section capacity ${
               activeButton == 'capacity' ? 'active' : ''
             }`}
@@ -465,6 +463,7 @@ export function SearchBar({
                 isOpen={openedDropdown === 'capacity'}
                 onClose={() => setOpenedDropdown(null)}
                 father={'search-bar'}
+                dropdownRef={capacityRef}
                 adultsFilter={Number(adultsNum ?? 0)}
                 childrenFilter={Number(childrenNum ?? 0)}
                 infantsFilter={Number(infantsNum ?? 0)}
@@ -490,7 +489,7 @@ export function SearchBar({
             >
               <div className="search-elements">
                 <div>
-                  <ReactSVG src="/svgs/search-icon.svg" />
+                  <ReactSVG src="/svgs/search-icon-white.svg" />
                 </div>
                 <div className="search-txt">Search</div>
               </div>

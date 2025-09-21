@@ -96,6 +96,93 @@
   }
 }
 
+.where-dropdown-wrapper_mobile {
+  position: relative;
+  width: 100%;
+  box-shadow: none;
+  background-color: white;
+  padding: 0.5rem;
+
+  
+  .where-dropdown-panel {
+    width: 100%;
+    margin-top: 0;
+    padding: 0;
+    padding-top: 1rem;
+    background: white;
+    border: none;
+    border-radius: 0; 
+    box-shadow: none;
+    //padding: 0;
+    text-align: left; 
+    z-index: 9999;
+
+    max-height: 60vh;
+    overflow-y: auto;
+    
+
+    & > div {
+      font-weight: 500;
+      //margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+      color: #222;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        cursor: pointer;
+        border-radius: 12px;
+        transition: background-color 0.2s ease;
+        padding: 0;
+
+        &:hover {
+          background-color: #f4f4f4;
+        }
+
+        .where-dropdown-row-content {
+          display: flex;
+          gap: 20px;
+          //padding-left: 0;
+
+          img {
+            background-color: #f4f4f4;
+            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+          }
+
+          .where-dropdown-city-txt {
+            strong {
+              display: block;
+              font-size: 0.9rem;
+              font-weight: 600;
+              color: #222;
+            }
+
+            .subtitle {
+              font-size: 0.8rem;
+              color: #717171;
+              margin-top: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.where-input_mobile {
+  box-shadow: none;   
+}
+
+
+
+
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;

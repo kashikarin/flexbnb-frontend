@@ -273,7 +273,6 @@
 
       .searchbar-wrapper {
         width: 100%;
-        //border:1px solid yellow;
         max-width: 850px;
         transition: all 0.3s ease;
       }
@@ -289,6 +288,15 @@
       //   grid-column: 2;
       //   transition: all 0.3s ease;
       // }
+
+      .searchbar-wrapper-mobile {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 740px;
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
     }
   .app-header-right-section {
     display: flex;

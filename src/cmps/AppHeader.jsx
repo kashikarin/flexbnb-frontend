@@ -149,63 +149,57 @@ export function AppHeader({ scrollContainerRef }) {
         <HeaderHomeDetails />
       ) : (
         <>
-          <nav
-            className={`app-header-main-nav ${
-              shouldCollapse ? 'scrolled' : 'expanded'
-            }`}
-          >
+          <nav className={`app-header-main-nav ${shouldCollapse ? 'scrolled' : 'expanded'}`} >
             {/* first row */}
-            <div className="app-header-main-nav-content">
-              {/* main-nav - left section */}
-              <div className="app-header-left-section">
-                <NavLink
-                  to="/"
-                  className="logo"
-                  onClick={() => dispatch(setHomePageNotScrolled())}
-                >
-                  <FaAirbnb className="logo-icon" />
-                  <span>flexbnb</span>
-                </NavLink>
-              </div>
-              {/* main - nav - right section */}
-
-              <div className="app-header-right-section">
-                {loggedInUser ? (
-                  <>
-                    {!isMobile && (
+            {!isMobile && (
+              <div className="app-header-main-nav-content">
+                {/* main-nav - left section */}
+                <div className="app-header-left-section">
+                  <NavLink
+                    to="/"
+                    className="logo"
+                    onClick={() => dispatch(setHomePageNotScrolled())}
+                  >
+                    <FaAirbnb className="logo-icon" />
+                    <span>flexbnb</span>
+                  </NavLink>
+                </div>
+                {/* main - nav - right section */}
+                
+                <div className="app-header-right-section">
+                  {loggedInUser ? (
+                    <>
                       <Link to={isHosting ? '/' : '/hosting'}>
-                        {isHosting
-                          ? 'Switch to traveling'
-                          : 'Switch to hosting'}
+                        {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
                       </Link>
-                    )}
-                    <div className="user-info">
-                      <Link to={`user/${loggedInUser._id}`}>
-                        {loggedInUser.imageUrl ? (
-                          <img
-                            src={loggedInUser.imageUrl}
-                            alt={loggedInUser.fullname || loggedInUser.username}
-                          />
-                        ) : (
-                          <div className="user-avatar-placeholder">
-                            {(
-                              loggedInUser.fullname ||
-                              loggedInUser.username ||
-                              'U'
-                            )
-                              .charAt(0)
-                              .toUpperCase()}
-                          </div>
-                        )}
-                      </Link>
-                    </div>
-                  </>
-                ) : (
-                  <Link to={'/'}>Become a host</Link>
-                )}
-                <UserMenu />
+                      <div className="user-info">
+                        <Link to={`user/${loggedInUser._id}`}>
+                          {loggedInUser.imageUrl ? (
+                            <img
+                              src={loggedInUser.imageUrl}
+                              alt={loggedInUser.fullname || loggedInUser.username}
+                            />
+                          ) : (
+                            <div className="user-avatar-placeholder">
+                              {(
+                                loggedInUser.fullname ||
+                                loggedInUser.username ||
+                                'U'
+                              )
+                                .charAt(0)
+                                .toUpperCase()}
+                            </div>
+                          )}
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <Link to={'/'}>Become a host</Link>
+                  )}
+                  <UserMenu />
+                </div>
               </div>
-            </div>
+            )}
             {/* second row */}
             {/* main - nav - mid section */}
             <div
@@ -223,29 +217,33 @@ export function AppHeader({ scrollContainerRef }) {
 
                   {!isMobile && (
                     <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                  )}
-                </nav>
-              ) : !isMobile ? (
-                <>
-                  <div
-                    className={`searchbar-wrapper ${
-                      shouldCollapse ? 'scrolled' : 'expanded'
-                    }`}
-                  >
-                    <SearchBar
-                      shouldCollapse={shouldCollapse}
-                      forceExpand={forceExpand}
-                      setForceExpand={setForceExpand}
-                      scrollContainerRef={scrollContainerRef}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <SearchBar_mobile />
-                </>
-              )}
-            </div>
+                  </nav>
+                ) : (
+                  !isMobile ?
+                  (
+                  <>
+                  
+                    <div className={`searchbar-wrapper ${shouldCollapse ? 'scrolled' : 'expanded'}`}>
+                      <SearchBar
+                        shouldCollapse={shouldCollapse}
+                        forceExpand={forceExpand}
+                        setForceExpand={setForceExpand}
+                        scrollContainerRef={scrollContainerRef}
+                      />
+                      
+                    </div>
+                  </>
+                  ):(
+                    <>
+                    <div className='searchbar-wrapper-mobile'>
+                      <SearchBar_mobile/>
+                    </div>
+                    
+                    </>
+                  )
+
+                )}
+              </div>
           </nav>
           <div
             className={`app-header-bottom-row ${

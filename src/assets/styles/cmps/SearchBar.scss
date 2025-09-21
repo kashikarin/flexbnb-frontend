@@ -20,7 +20,7 @@
   text-size-adjust: 100%;
   unicode-bidi: isolate;
   -webkit-font-smoothing: antialiased;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: rgb(255, 255, 255);
   border: 1px solid $divider-color; // #ececec;
   transition: all 0.3s ease, box-shadow 0.2s, border-color 0.2s, width 0.3s ease,

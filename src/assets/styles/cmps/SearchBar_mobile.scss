@@ -1,0 +1,205 @@
+.search-bar-mobile {
+  grid-row: 1 / 2;
+  grid-column: 1 / -1;
+  position: relative;
+  margin-top: 0.75rem;
+  z-index: 20;
+  font-family: Airbnb Cereal VF, Circular, -apple-system, BlinkMacSystemFont,
+    Roboto, 'Helvetica Neue', sans-serif;
+
+transition: all 0.3s ease;
+
+
+  //..closed mode
+  .search-elements {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: $search-bar-height-mobile;
+    gap: 8px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    border-radius: 2rem;
+    background-color: #fff;
+    border: 1px solid #ececec;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    .search-txt {
+      font-size: 15px;
+      color: #222;
+    }
+  }
+
+  //..open mode (after first click on search)
+  .search-expanded {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+
+  .search-expanded-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 5rem;
+    padding: 0 1rem;
+    border-bottom: 1px solid #eee;
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  }
+  
+  .where-section, .dates-section, .who-section {
+    margin: 0.5rem;
+    padding: 1.5rem;
+    background: transparent;
+    border: 1px solid $divider-color;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    overflow: hidden;
+
+    .sTitle {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-align: start;
+    }
+
+    .where-input {
+      width: 100%;
+      height: 3.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid #989797;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 0.5rem;
+      font-size: 15px;
+
+      background: url('/svgs/search-icon-black.svg') no-repeat 12px center;
+      background-size: 16px;
+      padding-left: 2.5rem;
+    }
+
+    .where-dropdown-wrapper {
+      margin-top: 1rem;
+    }
+
+    &.active {
+      opacity: 1;
+      height: auto;
+      //pointer-events: auto;
+    }
+
+    &.closed {
+      //opacity: 0.8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 56px; 
+      padding: 1rem;   // צמצום פנימי
+      border: 1px solid #ddd; 
+      border-radius: 1rem;
+      background: #fafafa;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      
+      .sTitle{
+        color:#6A6A6A;
+        font-size: 14px;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+
+  .next-btn{
+    width: 5rem;
+    height: 3rem;
+    background-color: black;
+    border-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-align: center;
+  }
+  // .dates-section{
+  //   max-height: 60vh;
+  // }
+
+    .search-submit-btn {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 3rem;
+      border-radius: 2rem;
+      border: none;
+      background: #ff385c;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+
+  .injected-svg {
+    width: 14px;
+    height: 14px;
+    stroke: black !important;
+    stroke-width: 3 !important;
+  }
+}
+
+
+// .search-bar-mobile{
+//     grid-row: 1 / 2;
+//     grid-column: 1/-1;
+//     position: relative;
+//     height: $search-bar-height-mobile;
+//     border-radius: $search-bar-border-radius-scroll;
+//     margin-top: 0.75rem;
+//     transition: all 0.3s ease;
+//     z-index: 110;
+//     display: flex;
+//     align-items: center; 
+//     justify-content: center; 
+//     box-sizing: border-box;
+//     color: rgb(34, 34, 34);
+//     gap: 2px;
+//     font-family: Airbnb Cereal VF, Circular, -apple-system, BlinkMacSystemFont,
+//         Roboto, 'Helvetica Neue', sans-serif;
+    
+//     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+//     background-color: rgb(255, 255, 255);
+//     border: 1px solid #ececec;
+//     cursor: pointer;
+
+//     .search-elements {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//     }
+
+//     .search-txt {
+//         display: inline;
+//         margin-left: 8px;
+//         font-size: 15px;
+//         white-space: nowrap;
+//     }
+
+//     .injected-svg {
+//       width: 12px;
+//       height: 12px;
+//       stroke: black !important;
+//       stroke-width: 4 !important;
+//     }
+// }

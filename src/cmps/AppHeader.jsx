@@ -217,9 +217,8 @@ export function AppHeader({ scrollContainerRef }) {
 
                   {!isMobile && (
                     <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                  </nav>
-                ) : (
-                  !isMobile ?
+                  </nav>) : 
+                  (!isMobile ?
                   (
                   <>
                   
@@ -234,7 +233,7 @@ export function AppHeader({ scrollContainerRef }) {
                     </div>
                   </>
                   ):(
-                    <>
+                  <>
                     <div className='searchbar-wrapper-mobile'>
                       <SearchBar_mobile/>
                     </div>

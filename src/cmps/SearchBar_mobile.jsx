@@ -41,7 +41,10 @@ export function SearchBar_mobile() {
       {!isExpanded && (
         <div
           className="search-elements"
-          onClick={() => setIsExpanded(true)}
+          onClick={() =>{ 
+            setIsExpanded(true)
+            setOpenedDropdown('where') 
+            setActiveButton('where')}}
         >
           <ReactSVG src="/svgs/search-icon-black.svg" />
           <div className="search-txt">Start your search</div>
@@ -67,22 +70,21 @@ export function SearchBar_mobile() {
             <div className="sTitle">Where?</div>
             
             <input
-              className="where-input"
+              className="where-input where-input_mobile"
               type="search"
               placeholder="Search destinations"
-              value={filterByToEdit.city}
-              onChange={() => {}} // מונע בעיות של input "נעול"
-              onFocus={() => {
-                console.log('✅ פתחתי where')
-                setOpenedDropdown('where')
-                setActiveButton('where')
-              }}
+              value={filterByToEdit.city || ''}
+              // onChange={() => {}} // מונע בעיות של input "נעול"
+              // onFocus={() => {
+              //   console.log('✅ פתחתי where')
+              //   setOpenedDropdown('where')
+              //   setActiveButton('where')
+              // }}
             />
 
-            <div className="where-dropdown-wrapper">
+            <div className="where-dropdown-wrapper_mobile">
               <WhereDropdown
-                //isOpen={openedDropdown === 'where'}
-                isOpen={true} 
+                isOpen={openedDropdown === 'where'}
                 onOpen={() => setOpenedDropdown('where')}
                 dropdownRef={whereRef}
                 onClose={() => setOpenedDropdown(null)}

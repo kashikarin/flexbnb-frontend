@@ -43,7 +43,8 @@ export function WhereDropdown({
             <div>Suggested destinations</div>
             <ul>
               {suggestedPlaces.map((place, idx) => (
-                <li key={idx} onPointerDown={(ev) => handleClick(ev, place.city)}>
+                // <li key={idx} onPointerDown={(ev) => handleClick(ev, place.city)}>
+                <li key={idx} onClick={(ev) => handleClick(ev, place.city)}>
                   <div className="where-dropdown-row-content">
                     <img src={`/img/cities/${place.city.toLowerCase().replace(/[^a-z0-9]/g, "")}.png`} alt={place.city} className="where-dropdown-city-image" />
                     <div className="where-dropdown-city-txt">

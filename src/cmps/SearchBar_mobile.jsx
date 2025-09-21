@@ -142,25 +142,7 @@ export function SearchBar_mobile() {
               ) : filterByToEdit.city ? (
                 <div className="summary">{filterByToEdit.city}</div>
               ) : null}
-            {/* <input
-              className="where-input where-input_mobile"
-              type="search"
-              placeholder="Search destinations"
-              value={filterByToEdit.city || ''}
-              onChange={() => {}}
-            />
-
-            <div className="where-dropdown-wrapper_mobile">
-              <WhereDropdown
-                isOpen={openedDropdown === 'where'}
-                onOpen={() => setOpenedDropdown('where')}
-                dropdownRef={whereRef}
-                onClose={() => setOpenedDropdown(null)}
-                cityFilter={filterByToEdit.city || ''}
-                onUpdateFilterBy={onUpdateFilterBy}
-                onSelectCity={handleSelectCity}
-              />
-            </div> */}
+   
           </div>
 
           {/* <div ref={datesRef} className={`dates-section ${activeButton === 'dates' ? 'active' : ''}`}> */}

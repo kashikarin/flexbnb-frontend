@@ -202,23 +202,21 @@ export function AppHeader({ scrollContainerRef }) {
             )}
             {/* second row */}
             {/* main - nav - mid section */}
+
             <div
-              className={`app-header-mid-section ${
-                shouldCollapse ? 'scrolled' : 'expanded'
-              }`}
-            >
-              {isHosting ? (
-                <nav className="hosting-header-nav">
-                  {!isMobile && (
+                className={`app-header-mid-section ${
+                  shouldCollapse ? 'scrolled' : 'expanded'
+                }`}
+              >
+                {isHosting ? (
+                  <nav className="hosting-header-nav">
                     <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
                       Create a new listing
                     </NavLink>
-                  )}
-
-                  {!isMobile && (
                     <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                  </nav>) : 
-                  (!isMobile ?
+                  </nav>
+                ) : (
+                  !isMobile ?
                   (
                   <>
                   
@@ -233,7 +231,7 @@ export function AppHeader({ scrollContainerRef }) {
                     </div>
                   </>
                   ):(
-                  <>
+                    <>
                     <div className='searchbar-wrapper-mobile'>
                       <SearchBar_mobile/>
                     </div>
@@ -243,6 +241,7 @@ export function AppHeader({ scrollContainerRef }) {
 
                 )}
               </div>
+              
           </nav>
           <div
             className={`app-header-bottom-row ${

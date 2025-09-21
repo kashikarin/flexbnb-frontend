@@ -14,7 +14,7 @@
     width: 90vw;
     max-width: 800px;
     max-height: 90vh;
-    overflow-y: auto;
+    
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 
     h3 {
@@ -42,6 +42,7 @@
     grid-template-columns: 1fr 300px;
     gap: 2rem;
     margin-bottom: 2rem;
+    overflow-y: auto;
 
     .reservation-info {
       display: flex;
@@ -96,7 +97,9 @@
       }
     }
 
-    .property-image {
+    .property-details {
+      display: flex;
+      flex-direction: column;
       img {
         width: 100%;
         height: 200px;
@@ -107,7 +110,8 @@
 
       .property-info {
         margin-top: 0.75rem;
-
+        display: flex;
+        flex-direction: column;
         h4 {
           font-size: 1rem;
           font-weight: 600;
@@ -161,16 +165,25 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $narrow-breakpoint) {
     > div {
-      padding: 2rem;
-      margin: 1rem;
-      width: calc(100vw - 2rem);
+      width: 100vh;
+      height: 100vh;
+      max-height: 100vh;
+      border-radius: 0;
+      padding: 1rem;
+      // margin: 1rem;
+      // width: calc(100vw - 2rem);
+      justify-content: space-between;
     }
 
     .reservation-details {
       grid-template-columns: 1fr;
       gap: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
 
       .property-image {
         order: -1;
@@ -179,6 +192,7 @@
 
     .modal-actions {
       flex-direction: column-reverse;
+      flex-shrink: 0;
     }
   }
 }

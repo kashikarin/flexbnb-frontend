@@ -79,7 +79,7 @@ export function BuyingStepOneModal({
             <div className='reservation-date-guest'>
               <h3>
                 {currentStep === 2
-                  ? 'Reservation successfully'
+                  ? 'Reservation completed successfully'
                   : 'Reservation details'}
               </h3>
               <p>
@@ -121,13 +121,13 @@ export function BuyingStepOneModal({
             </div>
           </div>
 
-          <div className='property-image'>
+          <div className='property-details'>
             <img src={draftOrder?.home?.imageUrl} alt='Property' />
             <div className='property-info'>
               <h4>
                 {homeType} in {homeCity}, {homeCountry}
               </h4>
-              <p>{homeSummary.split(' ').slice(0, 10).join(' ')}...</p>
+              <p>{homeSummary.split(' ').slice(0, 20).join(' ')}...</p>
             </div>
           </div>
         </div>

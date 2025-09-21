@@ -244,9 +244,9 @@ export function HomeDetails() {
 
                 <div className="home-details-amenities-list">
                   <p>{home.capacity} guests</p>
-                  <span>•</span>
+                  <span>·</span>
                   <p>{home.bedsCount} beds</p>
-                  <span>•</span>
+                  <span>·</span>
                   <p>{home.bathCount} bath</p>
                 </div>
                 {getAvgRating(home) < 4 && (
@@ -264,14 +264,20 @@ export function HomeDetails() {
                         {getAvgRating(home).toFixed(2)}{' '}
                       </span>
                     </span>
-                    <span>•</span>
+                    <span>·</span>
                     <span>
                       {(home.reviews?.length || 0) > 0
-                        ? `${home.reviews.length} Reviews`
+                        ? `${home.reviews.length} reviews`
                         : 'No Reviews Yet'}
                     </span>
                   </div>
                 )}
+              </div>
+              <div className="home-details-hosted-by-article">
+                <img src={home.host.imageUrl || '/svgs/user-icon.svg'}/> 
+                <div className="home-details-hosted-by-text">
+                  <div>{`Hosted by ${home.host.fullname.split(' ')[0]}`}</div>
+                </div>
               </div>
 
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
@@ -292,8 +298,7 @@ export function HomeDetails() {
                   <p>Get a full refund if you change your mind.</p>
                 </article>
               </section>
-              <section className="home-details-description">
-                <h3>About this place</h3>
+              <section className="home-details-summary">
                 <p>{home.summary}</p>
               </section>
               <section className="home-details-facilities-list">
@@ -349,7 +354,7 @@ export function HomeDetails() {
             className="home-details-google-maps-section"
             id="hd-location-container"
           >
-            <h3>Where you'll be</h3>
+            <h2>Where you'll be</h2>
             <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}

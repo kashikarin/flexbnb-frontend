@@ -17,10 +17,12 @@ export function HomeEditStepOneA(){
                 <h1>Which of these best describes your place?</h1>
             </article>
             <article className="home-edit-step-one-a-buttons-container">
-                {gHomeTypes.map((homeType, i) => <button key={`${homeType}${i}`} className={`${type === gHomeTypes[i]? 'selected' : ''}`} onClick={()=> updatePotentialHome({ ...potentialHome, type: gHomeTypes[i] })}>
+                {gHomeTypes.map((homeType, i) => {
+                    return <button key={`${homeType}${i}`} className={`${type === gHomeTypes[i]? 'selected' : ''}`} onClick={()=> updatePotentialHome({ ...potentialHome, type: gHomeTypes[i] })}>
                     <ReactSVG src={`/svgs/home-types/home-type${i+1}.svg`} className='home-type-icon' />          
                     <span>{gHomeTypes[i]}</span>
-                </button>)}
+                </button>
+                })}
             </article>
         </section>
     )

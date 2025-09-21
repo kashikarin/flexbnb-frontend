@@ -17,7 +17,7 @@
       line-height: 1.875rem;
       font-size: 1.625rem;
       font-weight: 500;
-      color: $primary-font-black;
+      color: $primary-black-inverted;
     }
 
     .home-details-heart {
@@ -118,7 +118,7 @@
 
   .home-details-mid-section {
     grid-column: 1 / -1;
-    margin-block-start: 22px;
+    // margin-block-start: 22px;
     padding-block-start: 20px;
     padding-block-end: 20px;
     display: grid;
@@ -131,7 +131,8 @@
       .home-details-amenities {
         display: flex;
         flex-direction: column;
-        padding-block-end: 22px;
+        padding-block: 32px;
+        gap: 3px;
 
         & > * {
           padding: 0;
@@ -142,25 +143,31 @@
         color: $secondary-font-gray;
 
         h2 {
-          color: $primary-font-black;
-          font-size: 1.625rem;
-          line-height: 1.875rem;
-          font-weight: 400;
+          color: $primary-black-inverted;
+          font-size: 1.375rem;
+          line-height: 1.625rem;
+          font-weight: 500;
         }
 
         .home-details-amenities-list {
           display: flex;
           flex-direction: row;
-          gap: 0.5rem;
+          gap: 0.2rem;
 
-          p {
-            font-size: 0.984375rem;
-            line-height: 1.575rem;
-            color: $secondary-font-gray;
-            font-weight: 300;
+          p, span {
+            font-size: 1rem;
+            line-height: 1.25rem;
+            color: $primary-black-inverted;
+            font-weight: 400;
             margin: 0;
             padding: 0;
           }
+          // span {
+          //   line-height: 1.25rem;
+          //   font-size: 1rem;
+          //   color: $primary-black-inverted;
+          //   font-weight: 400
+          // }
         }
 
         .home-details-reviews-headline {
@@ -172,7 +179,7 @@
             font-size: 0.98rem;
             line-height: 1.575rem;
             font-weight: 500 !important;
-            color: $primary-font-black;
+            color: $primary-black-inverted;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -183,7 +190,31 @@
           }
         }
       }
+      .home-details-hosted-by-article {
+        padding-block: 1.5rem;
+        line-height: 1.25rem;
+        display: flex;
+        gap: 1.5rem;
+        border-bottom: 1px solid #e0e0e0;
 
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        .home-details-hosted-by-text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          color: $primary-black-inverted;
+          font-weight: 500;
+          line-height: 1.25rem;
+          font-size: 1rem;
+
+        }
+
+      }
       .home-details-home-highlights {
         display: flex;
         flex-direction: column;
@@ -203,28 +234,38 @@
             grid-row: 1 / 3;
             width: 24px;
             height: 24px;
+            color: $primary-black-inverted;
+            align-self: start;
           }
 
           h4 {
             color: $primary-font-black;
-            font-size: 1em;
-            font-weight: 400;
-            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
+            margin-block-end: 2px;
           }
 
           p {
             grid-column: 2;
-            font-size: 1em;
+            font-size: 0.875rem;
             margin: 0;
             color: $secondary-font-gray;
+            font-weight: 400;
+            line-height: 1.25rem
           }
         }
       }
 
-      .home-details-description {
+      .home-details-summary {
         border-bottom: 1px solid #e0e0e0;
-        margin-block-start: 22px;
-        padding-block-end: 22px;
+        margin-block-start: 2rem;
+        padding-block-end: 4rem;
+        color: $primary-black-inverted;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.25rem;
+
 
         h3 {
           font-size: 1.375rem;
@@ -240,27 +281,37 @@
 
       .home-details-facilities-list {
         color: $primary-font-black;
-        padding-block-start: 22px;
-
+        padding-block-start: 3rem;
+        padding-block-end: 2rem;
+        margin-inline: 1rem;
+        
         h3 {
           font-size: 1.375rem;
-          font-weight: 400;
-          line-height: 1.625rem;
-          color: $primary-font-black;
+          padding-block-end: 1.5rem;
+          font-weight: 500;
+          line-height: 1.375rem;
+          color: $primary-black-inverted;
+          letter-spacing: -0.01375rem;
+          margin: 0;
         }
 
         .amenities-list {
           list-style: none;
           padding: 0;
+          margin: 0;
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
-          margin-top: 1rem;
+          // gap: 1rem;
+          margin-block-end: 1rem;
 
           .amenity-item {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            color: $primary-font-black;
+            padding-block-end: 1.5rem;
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.25rem;
 
             .svg-icon {
               width: 32px;
@@ -355,22 +406,23 @@
   .home-details-google-maps-section {
     grid-column: 1 / -1;
     margin-top: 2rem;
-    padding-block-start: 22px;
-    padding-block-end: 22px;
+    padding-block: 3rem;
     border-top: 1px solid #e0e0e0;
 
-    h3 {
-      color: $primary-font-black;
+    h2 {
+      color: $primary-black-inverted;
       font-size: 1.375rem;
-      font-weight: 400;
+      font-weight: 500;
       line-height: 1.625rem;
       margin-block-end: 1.5em;
+      letter-spacing: -0.01375rem;
     }
 
     div:first-child {
       height: 500px;
       width: 100%;
       border-radius: 20px;
+
     }
   }
 }

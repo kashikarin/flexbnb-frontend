@@ -30,8 +30,9 @@ export function AppHeader({ scrollContainerRef }) {
     (state) => state.scrollModule.isHDImgScrolled
   )
   const isHomeIndex = location.pathname === '/'
-  const isHosting = location.pathname.startsWith('/hosting')
+  const isHosting = location.pathname.startsWith('/hosting/')
   const isHomeEdit = location.pathname === '/hosting/edit'
+  const isHomeDetails = location.pathname.startsWith('/home/')  
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   // console.log('loggedInUser', loggedInUser)
   //const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -142,7 +143,7 @@ export function AppHeader({ scrollContainerRef }) {
     >
       {isHomeEdit ? (
         <HeaderHomeEdit />
-      ) : isHDImgScrolled ? (
+      ) : isHDImgScrolled && isHomeDetails ? (
         <HeaderHomeDetails />
       ) : (
         <>

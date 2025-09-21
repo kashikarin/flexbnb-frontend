@@ -5,7 +5,6 @@ import { HomeIndex } from './pages/HomeIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
-
 import { HomeDetails } from './pages/HomeDetails'
 
 import { AppHeader } from './cmps/AppHeader'
@@ -25,15 +24,22 @@ import { Book } from 'lucide-react'
 import { BookingDashboard } from './pages/BookingDashboard.jsx'
 import { initUser } from './store/actions/user.actions.js'
 import { BookingPlaceholder } from './cmps/BookingPlaceholder.jsx'
+import { BuyingStepOneModal } from './cmps/BuyingStepOneModal.jsx'
+import { useSelector } from 'react-redux'
+import { draftOrderService } from './services/draft-order/draft-order.service.local.js'
+import { addOrder } from './store/actions/order.actions.js'
+import { closeOrderConfirmationModal } from './store/actions/draft-order.actions.js'
 
 export function RootCmp({ mainRef }) {
   //const mainRef = useRef()
   const location = useLocation()
   const isHomeIndex = location.pathname === '/'
   const isHomeEdit = location.pathname === '/hosting/edit'
+  const isOrderConfirmationModalOpen = useSelector(state => state.draftOrderModule.isOrderConfirmationModalOpen)
+  const { getNumberOfNights } = draftOrderService
+  const home = useSelector(state => state.homeModule.home)
+  const draftOrder = useSelector(state => state.draftOrderModule.draftOrder)
 
-  //   console.log('📍location.pathname:', location.pathname)
-  // console.log('🏠 isIndex:', isIndex)
   useEffect(() => {
     initUser()
   }, [])
@@ -80,7 +86,18 @@ export function RootCmp({ mainRef }) {
             </Route>
           </Routes>
         </main>
-
+        {home && draftOrder && isOrderConfirmationModalOpen && <BuyingStepOneModal 
+                                            draftOrder={draftOrder}
+                                            homePrice={home.price}
+                                            nightsNum={getNumberOfNights(draftOrder.checkIn, draftOrder.checkOut)}
+                                            homeType={home.type}
+                                            homeCity={home.loc?.city || ''}
+                                            homeCountry={home.loc?.country || ''}
+                                            homeSummary={home.summary}
+                                            addOrder={addOrder}
+                                            closeOrderConfirmationModal={closeOrderConfirmationModal}
+                                        />
+        }
         {isHomeEdit && <HomeEditFooter />}
         {/* <AppFooter /> */}
       </div>

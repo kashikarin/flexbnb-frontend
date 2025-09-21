@@ -168,8 +168,22 @@ export function ReservationModal({
             readOnly
           />
         </div>
-
-        {openedDropdown === 'checkIn' || openedDropdown === 'checkOut' ? (
+        
+        {openedDropdown === 'checkIn' ? (
+          <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+            <DatesDropdown
+              isOpen={true}
+              checkIn={draftOrder.checkIn}
+              checkOut={draftOrder.checkOut}
+              onSetDates={({ checkIn, checkOut }) => {
+                updateDraftOrder({ ...draftOrder, checkIn, checkOut })
+                if (checkIn && checkOut) onCloseDropdown()
+              }}
+            bookings={home.bookings}
+            />
+          </div>
+        ) : null}
+        {openedDropdown === 'checkOut' ? (
           <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
             <DatesDropdown
               isOpen={true}
@@ -302,7 +316,7 @@ export function ReservationModal({
           </div>
         </div>
       </div>
-      {isOrderConfirmationModalOpen && (
+      {/* {isOrderConfirmationModalOpen && (
         <BuyingStepOneModal
           draftOrder={draftOrder}
           homePrice={home.price}
@@ -314,7 +328,7 @@ export function ReservationModal({
           addOrder={addOrder}
           closeOrderConfirmationModal={closeOrderConfirmationModal}
         />
-      )}
+      )} */}
     </aside>
   )
 }

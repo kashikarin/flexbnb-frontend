@@ -349,11 +349,12 @@ export const BookingDashboard = () => {
                                 <img
                                   src={
                                     order.purchaser?.imageUrl ||
-                                    getRandomPlaceholder(
-                                      order.purchaser?.fullname ||
-                                        order.host?.fullname ||
-                                        'Unknown'
-                                    )
+                                    'svgs/user-logo.svg'
+                                    // getRandomPlaceholder(
+                                    //   order.purchaser?.fullname ||
+                                    //     order.host?.fullname ||
+                                    //     'Unknown'
+                                    // )
                                   }
                                   alt={
                                     order.purchaser?.fullname ||
@@ -399,11 +400,9 @@ export const BookingDashboard = () => {
                               <div className="guests-count">
                                 {getGuestCount(order.guests)} guests
                               </div>
-                              {order.guests?.pets && (
-                                <div className="pets-count">
-                                  {order.guests.pets} pets
-                                </div>
-                              )}
+                              <div className="pets-count">
+                                {`${order.guests?.pets ? 'With ' : "No "}pets`} 
+                              </div>                  
                             </td>
                             <td className="price-cell">
                               <div className="total-price">

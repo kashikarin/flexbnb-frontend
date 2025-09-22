@@ -1,5 +1,5 @@
 import { userService } from '../../services/user'
-// import { socketService } from '../services/socket.service'
+import { socketService } from '../../services/socket.service.js'
 import { store } from '../store'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
 import {
@@ -40,7 +40,7 @@ export async function login(credentials) {
       type: SET_LOGGEDINUSER,
       user,
     })
-    // socketService.login(user._id)
+    socketService.login(user._id)
     return user
   } catch (err) {
     console.error('Cannot login', err)
@@ -55,7 +55,7 @@ export async function signup(signingUpUser) {
       type: SET_LOGGEDINUSER,
       user,
     })
-    // socketService.login(user)
+    socketService.login(user)
     return user
   } catch (err) {
     console.error('Cannot signup', err)
@@ -70,7 +70,7 @@ export async function logout() {
       type: SET_LOGGEDINUSER,
       user: null,
     })
-    // socketService.logout()
+    socketService.logout()
   } catch (err) {
     console.error('Cannot logout', err)
     throw err

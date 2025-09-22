@@ -3,6 +3,7 @@ import { updatePotentialHome } from '../../store/actions/home-edit.actions'
 import { useSelector } from 'react-redux'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { useEffectUpdate } from '../../customHooks/useEffectUpdate'
+import { getCityFromCoordinates } from '../../services/util.service'
 
 
 export function HomeEditStepOneB(){
@@ -18,10 +19,26 @@ export function HomeEditStepOneB(){
     const [predictions, setPredictions] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
-      useEffectUpdate(()=>{
-        const updatedPotentialHome = { ...potentialHome, loc: homeLocation }
-        updatePotentialHome(updatedPotentialHome)
-    }, [homeLocation])
+    //   useEffectUpdate(()=>{
+    //     const updatedPotentialHome = { ...potentialHome, loc: homeLocation }
+    //     updatePotentialHome(updatedPotentialHome)
+    // }, [homeLocation])
+
+    useEffectUpdate(() => {
+    async function updateLocation() {
+      if (homeLocation) {
+        try {
+          const locationData = await getCityFromCoordinates(homeLocation.lat, homeLocation.lng)
+          const updatedPotentialHome = { ...potentialHome, loc: locationData }
+          updatePotentialHome(updatedPotentialHome)
+        } catch (err) {
+          console.error('Failed to update location data', err)
+        }
+      }
+    }
+    updateLocation()
+  }, [homeLocation])
+
 
     const autocompleteService = useRef(null)
     const placesService = useRef(null)

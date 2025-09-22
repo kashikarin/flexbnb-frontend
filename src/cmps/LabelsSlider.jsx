@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { setFilterBy } from '../store/actions/home.actions'
 import { LabelPreview } from './LabelPreview'

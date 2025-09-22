@@ -9,8 +9,9 @@ export const SET_PREVIOUS_SUBSTEP = 'SET_PREVIOUS_SUBSTEP'
 export const OPEN_HOME_EDIT_COMPLETION_MODAL = 'OPEN_HOME_EDIT_COMPLETION_MODAL'
 export const CLOSE_HOME_EDIT_COMPLETION_MODAL = 'CLOSE_HOME_EDIT_COMPLETION_MODAL'
 export const GO_TO_HOME_EDIT_START = 'GO_TO_HOME_EDIT_START'
+
 const initialState = {
-  potentialHome: null,
+  potentialHome: potentialHomeService.getEmptyPotentialHome(),
   isHomeEditCompletionModalOpen: false
 }
 
@@ -113,17 +114,22 @@ export function homeEditReducer(state = initialState, action) {
       break
     }
     case GO_TO_HOME_EDIT_START: {
-      newState = { ...state, 
-                   potentialHome: { ...state.potentialHome, 
-                      editProgress: { ...state.potentialHome.editProgress,
-                                      currentStep: 1,
-                                      currentSubStep: 1,
-                                   }
+      if (!state.potentialHome){
+        newState = { ...state, 
+                   potentialHome: potentialHomeService.getEmptyPotentialHome()}
+      } else {
+        newState = { ...state, 
+                   potentialHome: { ...state.potentialHome,
+                    editProgress: {...state.potentialHome.editProgress, 
+                                   currentStep: 1, 
+                                   currentSubStep: 1 
                                   }
+                   }
                   }
+      }
       break
     }
-    default:
+    default: 
   }
   return newState
 }

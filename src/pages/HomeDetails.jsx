@@ -67,38 +67,26 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (!homeId) return
-    initHomeAndDraftOrder()
-  }, [homeId, loggedInUser])
+    loadHome(homeId)
+  }, [homeId])
 
-  useEffect(() => {
-    let purchaser = null
-    if (loggedInUser) {
-      purchaser = {
-        userId: loggedInUserId,
-        fullname: loggedInUser.fullname,
-        imageUrl: loggedInUser.imageUrl,
-        email: loggedInUser.email,
-      }
-      updateDraftOrder({ ...draftOrder, purchaser })
-    }
+  useEffect(()=>{
+     if (home && home._id) addDraftOrder(homeId, filterBy)
+  }, [home, filterBy])
 
-    updateDraftOrder({ ...draftOrder, purchaser })
-
-    console.log(draftOrder)
-  }, [loggedInUserId])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
-  async function initHomeAndDraftOrder() {
-    try {
-      await loadHome(homeId)
-      await addDraftOrder(homeId, filterBy, loggedInUser)
-    } catch (err) {
-      console.error('Cannot load home', err)
-    }
-  }
+  // async function initHomeAndDraftOrder() {
+  //   try {
+  //     await loadHome(homeId)
+  //     await addDraftOrder(homeId, filterBy)
+  //   } catch (err) {
+  //     console.error('Cannot load home', err)
+  //   }
+  // }
 
   useEffect(() => {
     try {
@@ -189,22 +177,19 @@ export function HomeDetails() {
             </div>
           </div>
           <div
-            className="home-details-img-container"
+            className={`home-details-img-container hd-img-layout-${home.imageUrls?.length}`}
             id="hd-images-container"
             ref={imgBreakPointRef}
           >
-            {home.imageUrls.map((imageUrl, idx) => {
-              return (
-                <img
+            {home.imageUrls?.slice(0,5).map((imageUrl, idx) => (
+              <img
                   key={idx}
                   className="home-details-img"
                   src={imageUrl}
-                  alt={`Home image ${idx + 1}`}
+                  alt={`home image ${idx + 1}`}
                 />
-              )
-            })}
+            ))}
           </div>
-          {/* <div /> */}
           <section className="home-details-mid-section">
             <div className="home-details-mid-left-part-wrapper">
               <div

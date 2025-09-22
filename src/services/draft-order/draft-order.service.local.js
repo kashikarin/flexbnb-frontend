@@ -57,11 +57,6 @@ async function getDraftOrder(homeId, filterBy) {
   }
   
   draftOrder.purchaser = null
-  // if (!loggedInUser) draftOrder.purchaser = null
-  // else {
-  //   const { _id: userId, fullname, imageUrl, email } = loggedInUser
-  //   draftOrder.purchaser = { userId, fullname, imageUrl, email }
-  // }
 
   let { checkIn, checkOut } = filterBy
   const home = await homeService.getById(homeId)

@@ -139,7 +139,9 @@ export function AppHeader({ scrollContainerRef }) {
       className={`app-header ${
         shouldCollapse && !forceExpand ? 'scrolled' : ''
       } ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
-      ${forceExpand ? 'expanded' : ''}`}
+      ${forceExpand ? 'expanded' : ''}
+      ${isHomeIndex ? 'wide-layout' : 'narrow-layout'}
+      `}
     >
       {isHomeEdit ? (
         <HeaderHomeEdit />
@@ -153,63 +155,62 @@ export function AppHeader({ scrollContainerRef }) {
             }`}
           >
             {/* first row */}
-            <div className="app-header-main-nav-content">
-              {/* main-nav - left section */}
-              <div className="app-header-left-section">
-                <NavLink
-                  to="/"
-                  className="logo"
-                  onClick={() => dispatch(setHomePageNotScrolled())}
-                >
-                  <FaAirbnb className="logo-icon" />
-                  <span>flexbnb</span>
-                </NavLink>
-              </div>
-              {/* main - nav - right section */}
+            {!isMobile && (
+              <div className="app-header-main-nav-content">
+                {/* main-nav - left section */}
+                <div className="app-header-left-section">
+                  <NavLink
+                    to="/"
+                    className="logo"
+                    onClick={() => dispatch(setHomePageNotScrolled())}
+                  >
+                    <FaAirbnb className="logo-icon" />
+                    <span>flexbnb</span>
+                  </NavLink>
+                </div>
+                {/* main - nav - right section */}
 
-              <div className="app-header-right-section">
-                {loggedInUser ? (
-                  <>
-                    {!isMobile && (
+                <div className="app-header-right-section">
+                  {loggedInUser ? (
+                    <>
                       <Link to={isHosting ? '/' : '/hosting'}>
                         {isHosting
                           ? 'Switch to traveling'
                           : 'Switch to hosting'}
                       </Link>
-                    )}
-                    <div className="user-info">
-                      <Link to={`user/${loggedInUser._id}`}>
-                        {loggedInUser.imgUrl ? (
-                          <img
-                            crossOrigin="anonymous"
-                            src={loggedInUser.imgUrl}
-                            alt={loggedInUser.fullname || loggedInUser.username}
-                            onError={(e) => {
-                              console.log('Image failed to load:', e.target.src)
-                            }}
-                          />
-                        ) : (
-                          <div className="user-avatar-placeholder">
-                            {(
-                              loggedInUser.fullname ||
-                              loggedInUser.username ||
-                              'U'
-                            )
-                              .charAt(0)
-                              .toUpperCase()}
-                          </div>
-                        )}
-                      </Link>
-                    </div>
-                  </>
-                ) : (
-                  <Link to={'/'}>Become a host</Link>
-                )}
-                <UserMenu />
+                      <div className="user-info">
+                        <Link to={`user/${loggedInUser._id}`}>
+                          {loggedInUser.imageUrl ? (
+                            <img
+                              src={loggedInUser.imageUrl}
+                              alt={
+                                loggedInUser.fullname || loggedInUser.username
+                              }
+                            />
+                          ) : (
+                            <div className="user-avatar-placeholder">
+                              {(
+                                loggedInUser.fullname ||
+                                loggedInUser.username ||
+                                'U'
+                              )
+                                .charAt(0)
+                                .toUpperCase()}
+                            </div>
+                          )}
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <Link to={'/'}>Become a host</Link>
+                  )}
+                  <UserMenu />
+                </div>
               </div>
-            </div>
+            )}
             {/* second row */}
             {/* main - nav - mid section */}
+
             <div
               className={`app-header-mid-section ${
                 shouldCollapse ? 'scrolled' : 'expanded'
@@ -217,15 +218,10 @@ export function AppHeader({ scrollContainerRef }) {
             >
               {isHosting ? (
                 <nav className="hosting-header-nav">
-                  {!isMobile && (
-                    <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
-                      Create a new listing
-                    </NavLink>
-                  )}
-
-                  {!isMobile && (
-                    <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                  )}
+                  <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
+                    Create a new listing
+                  </NavLink>
+                  <NavLink to="/hosting/reservations/">Reservations</NavLink>
                 </nav>
               ) : !isMobile ? (
                 <>
@@ -244,7 +240,9 @@ export function AppHeader({ scrollContainerRef }) {
                 </>
               ) : (
                 <>
-                  <SearchBar_mobile />
+                  <div className="searchbar-wrapper-mobile">
+                    <SearchBar_mobile />
+                  </div>
                 </>
               )}
             </div>

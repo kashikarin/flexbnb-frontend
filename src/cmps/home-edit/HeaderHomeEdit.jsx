@@ -4,7 +4,7 @@ import { clearPotentialHome } from "../../store/actions/home-edit.actions"
 
 export function HeaderHomeEdit(){
     return(
-        <header className='home-edit-header'>
+        <header className='home-edit-header' narrow-layout>
             <NavLink to='hosting' className='logo-black'>
                 <FaAirbnb />
             </NavLink>

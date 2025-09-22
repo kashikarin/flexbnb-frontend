@@ -203,12 +203,14 @@ export async function getCityFromCoordinates(lat, lng) {
     }
 
     const data = await response.json()
+    console.log("🚀 ~ data:", data)
 
     return {
       lat: data.lat,
       lng: data.lng,
       address: data.address || 'Unknown',
       city: data.city || 'Unknown',
+      country: data.country || 'Unknown',
       countryCode: data.countryCode || 'Unknown',
     }
   } catch (error) {
@@ -218,7 +220,37 @@ export async function getCityFromCoordinates(lat, lng) {
       lng: lng,
       address: 'Unknown',
       city: 'Unknown',
+      country: 'Unknown',
       countryCode: 'Unknown',
     }
   }
 }
+
+// export async function getCityFromCoordinates(lat, lng) {
+//   try {
+//     const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`)
+
+//     if (!response.ok) {
+//       throw new Error('Failed to fetch location data')
+//     }
+
+//     const data = await response.json()
+
+//     return {
+//       lat: data.lat,
+//       lng: data.lng,
+//       address: data.address || 'Unknown',
+//       city: data.city || 'Unknown',
+//       countryCode: data.countryCode || 'Unknown',
+//     }
+//   } catch (error) {
+//     console.error('Error getting city:', error)
+//     return {
+//       lat: lat,
+//       lng: lng,
+//       address: 'Unknown',
+//       city: 'Unknown',
+//       countryCode: 'Unknown',
+//     }
+//   }
+// }

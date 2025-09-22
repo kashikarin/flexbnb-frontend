@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const BookingDashboard = () => {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
+  console.log("🚀 ~ loggedInUser:", loggedInUser)
   const orders = useSelector((state) => state.orderModule.orders)
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -18,10 +19,9 @@ export const BookingDashboard = () => {
 
   // Load orders on component mount (for any logged in user)
   useEffect(() => {
-    if (loggedInUser) {
-      loadOrders({})
-    }
-  }, [loggedInUser])
+    if (!loggedInUser) return 
+    loadOrders({hostId: loggedInUser._id})
+    }, [loggedInUser])
 
   // Helper functions
   const formatDate = (dateString) => {

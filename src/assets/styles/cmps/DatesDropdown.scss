@@ -167,4 +167,27 @@
   right: 1.5rem;
 }
 
+.dates-dropdown-wrapper_mobile {
+  position: relative;
+  width: 100%;
+}
 
+.dates-dropdown-panel_mobile {
+  //position: absolute;
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  padding: 1.5rem;
+  top: 100%; 
+  width: 100%;
+  background: #fff;
+  z-index: 1000; 
+  max-width: 100%;
+  margin: 0 auto;
+
+  .react-datepicker {
+    width: auto;
+    margin: 0 auto;
+
+  }
+}

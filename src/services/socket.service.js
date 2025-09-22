@@ -18,7 +18,7 @@ export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you'
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
-const baseUrl = process.env.NODE_ENV === 'production' ? '' : '//localhost:8000'
+const baseUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000'
 export const socketService = createSocketService()
 // export const socketService = createDummySocketService()
 

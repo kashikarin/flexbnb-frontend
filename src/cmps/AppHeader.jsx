@@ -32,7 +32,7 @@ export function AppHeader({ scrollContainerRef }) {
   const isHomeIndex = location.pathname === '/'
   const isHosting = location.pathname.startsWith('/hosting/')
   const isHomeEdit = location.pathname === '/hosting/edit'
-  const isHomeDetails = location.pathname.startsWith('/home/')  
+  const isHomeDetails = location.pathname.startsWith('/home/')
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   // console.log('loggedInUser', loggedInUser)
   //const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -179,10 +179,14 @@ export function AppHeader({ scrollContainerRef }) {
                     )}
                     <div className="user-info">
                       <Link to={`user/${loggedInUser._id}`}>
-                        {loggedInUser.imageUrl ? (
+                        {loggedInUser.imgUrl ? (
                           <img
-                            src={loggedInUser.imageUrl}
+                            crossOrigin="anonymous"
+                            src={loggedInUser.imgUrl}
                             alt={loggedInUser.fullname || loggedInUser.username}
+                            onError={(e) => {
+                              console.log('Image failed to load:', e.target.src)
+                            }}
                           />
                         ) : (
                           <div className="user-avatar-placeholder">

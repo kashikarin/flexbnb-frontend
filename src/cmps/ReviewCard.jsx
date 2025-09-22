@@ -4,6 +4,7 @@ export function ReviewCard({ reviews }) {
   if (!reviews || !reviews.length) return null
 
   const getRelativeDate = () => '1 week ago'
+  console.log(reviews)
 
   return (
     <div className="review-card-list">
@@ -13,8 +14,8 @@ export function ReviewCard({ reviews }) {
             <img
               className="review-user-img"
               src={
-                review.by?.imageUrl?.startsWith('/')
-                  ? review.by?.imageUrl
+                review.by?.imageURL
+                  ? review.by?.imageURL
                   : '/svgs/user-icon.svg'
               }
               alt={review.by.fullname}

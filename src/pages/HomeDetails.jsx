@@ -67,38 +67,26 @@ export function HomeDetails() {
 
   useEffect(() => {
     if (!homeId) return
-    initHomeAndDraftOrder()
-  }, [homeId, loggedInUser])
+    loadHome(homeId)
+  }, [homeId])
 
-  useEffect(() => {
-    let purchaser = null
-    if (loggedInUser) {
-      purchaser = {
-        userId: loggedInUserId,
-        fullname: loggedInUser.fullname,
-        imageUrl: loggedInUser.imageUrl,
-        email: loggedInUser.email,
-      }
-      updateDraftOrder({ ...draftOrder, purchaser })
-    }
+  useEffect(()=>{
+     if (home && home._id) addDraftOrder(homeId, filterBy)
+  }, [home, filterBy])
 
-    updateDraftOrder({ ...draftOrder, purchaser })
-
-    console.log(draftOrder)
-  }, [loggedInUserId])
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
-  async function initHomeAndDraftOrder() {
-    try {
-      await loadHome(homeId)
-      await addDraftOrder(homeId, filterBy, loggedInUser)
-    } catch (err) {
-      console.error('Cannot load home', err)
-    }
-  }
+  // async function initHomeAndDraftOrder() {
+  //   try {
+  //     await loadHome(homeId)
+  //     await addDraftOrder(homeId, filterBy)
+  //   } catch (err) {
+  //     console.error('Cannot load home', err)
+  //   }
+  // }
 
   useEffect(() => {
     try {
@@ -178,9 +166,9 @@ export function HomeDetails() {
       {home && (
         <div className="home-details-container narrow-layout">
           <div className="home-details-header">
-            {/* <h1>
+            <h1>
               {home.type} in {home.loc.city}, {home.loc.country}
-            </h1> */}
+            </h1>
             <div className="home-details-heart" onClick={handleHomeSave}>
               <FaHeart
                 className={`home-details-heart-icon ${isLiked ? 'saved' : ''}`}
@@ -189,22 +177,19 @@ export function HomeDetails() {
             </div>
           </div>
           <div
-            className="home-details-img-container"
+            className={`home-details-img-container hd-img-layout-${home.imageUrls?.length}`}
             id="hd-images-container"
             ref={imgBreakPointRef}
           >
-            {home.imageUrls.map((imageUrl, idx) => {
-              return (
-                <img
+            {home.imageUrls?.slice(0,5).map((imageUrl, idx) => (
+              <img
                   key={idx}
                   className="home-details-img"
                   src={imageUrl}
-                  alt={`Home image ${idx + 1}`}
+                  alt={`home image ${idx + 1}`}
                 />
-              )
-            })}
+            ))}
           </div>
-          {/* <div /> */}
           <section className="home-details-mid-section">
             <div className="home-details-mid-left-part-wrapper">
               <div
@@ -216,9 +201,9 @@ export function HomeDetails() {
                     : { borderBottom: '1px solid #e0e0e0' }
                 }
               >
-                {/* <h2>
+                <h2>
                   {home.type} in {home.loc.city}, {home.loc.country}
-                </h2> */}
+                </h2>
 
                 <div className="home-details-amenities-list">
                   <p>{home.capacity} guests</p>
@@ -324,7 +309,7 @@ export function HomeDetails() {
             id="hd-location-container"
           >
             <h3>Where you'll be</h3>
-            {/* <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
+            <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}
                 center={{
@@ -341,7 +326,7 @@ export function HomeDetails() {
                 onClick={() => alert('marker was clicked!')}
                 title={'clickable google.maps.Marker'}
               />
-            </APIProvider> */}
+            </APIProvider>
           </section>
         </div>
       )}

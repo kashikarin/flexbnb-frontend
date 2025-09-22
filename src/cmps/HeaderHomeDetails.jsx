@@ -40,7 +40,7 @@ export function HeaderHomeDetails() {
                                 </span>
                             </span>
                             <span>•</span>
-                            <span>{home.reviews.length} reviews </span>
+                            <span>{home.reviews?.length} reviews </span>
                         </div>
                     </div>
                     <button onClick={openOrderConfirmationModal}>Reserve</button>

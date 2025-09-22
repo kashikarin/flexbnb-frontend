@@ -23,6 +23,8 @@ export function getDefaultOrderFilter() {
     checkIn: '',
     checkOut: '',
     totalPrice: '',
+    hostId: '',
+    purchaserId: ''
   }
 }
 

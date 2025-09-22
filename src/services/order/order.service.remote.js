@@ -28,6 +28,7 @@ export const orderService = {
 }
 
 async function query(filterOrdersBy = getDefaultOrderFilter()) {
+  
   return httpService.get(`orders`, filterOrdersBy)
   // const { status, createdAt, checkIn, checkOut } = filterOrdersBy
   // if (status) {

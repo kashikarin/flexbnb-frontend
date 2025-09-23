@@ -18,6 +18,7 @@ import {
   CiLocationOn,
   CiVault,
 } from 'react-icons/ci'
+import { FaHome } from 'react-icons/fa'
 import { IoDiamond } from 'react-icons/io5'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { LuBedDouble } from 'react-icons/lu'
@@ -42,7 +43,7 @@ import {
 } from '../store/actions/draft-order.actions'
 import { addOrder } from '../store/actions/order.actions'
 import { ReactSVG } from 'react-svg'
-
+import { getCityFromCoordinates } from '../services/util.service'
 const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
 export function HomeDetails() {
@@ -207,9 +208,9 @@ export function HomeDetails() {
 
                 <div className="home-details-amenities-list">
                   <p>{home.capacity} guests</p>
-                  <span>•</span>
+                  <span>·</span>
                   <p>{home.bedsCount} beds</p>
-                  <span>•</span>
+                  <span>·</span>
                   <p>{home.bathCount} bath</p>
                 </div>
                 {getAvgRating(home) < 4 && (
@@ -227,12 +228,20 @@ export function HomeDetails() {
                         {getAvgRating(home).toFixed(2)}{' '}
                       </span>
                     </span>
-                    <span>•</span>
-                    <span>{home.reviews?.length} Reviews </span>
+                    <span>·</span>
+                    <span>{home.reviews?.length || 0 > 0 ? 
+                      `${home.reviews.length} reviews` 
+                      : 'Non Reviews Yet'}
+                    </span>
                   </div>
                 )}
               </div>
-
+                            <div className="home-details-hosted-by-article">
+                <img src={home.host.imageUrl || '/svgs/user-icon.svg'}/> 
+                <div className="home-details-hosted-by-text">
+                  <div>{`Hosted by ${home.host.fullname.split(' ')[0]}`}</div>
+                </div>
+              </div>
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
               <section className="home-details-home-highlights">
                 <article>
@@ -308,20 +317,20 @@ export function HomeDetails() {
             className="home-details-google-maps-section"
             id="hd-location-container"
           >
-            <h3>Where you'll be</h3>
+            <h2>Where you'll be</h2>
             <APIProvider apiKey={import.meta.env.VITE_API_GOOGLE_KEY}>
               <Map
                 defaultZoom={13}
                 center={{
-                  lat: home.loc.lat,
-                  lng: home.loc.lng,
+                  lat: home.loc?.lat,
+                  lng: home.loc?.lng,
                 }}
                 gestureHandling={'greedy'}
                 disableDefaultUI={false}
                 style={{ height: '400px', width: '100%' }}
               />
               <Marker
-                position={{ lat: home.loc.lat, lng: home.loc.lng }}
+                position={{ lat: home.loc?.lat, lng: home.loc?.lng }}
                 clickable={true}
                 onClick={() => alert('marker was clicked!')}
                 title={'clickable google.maps.Marker'}

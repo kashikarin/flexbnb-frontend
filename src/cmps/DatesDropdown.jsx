@@ -46,8 +46,9 @@ export function DatesDropdown({ isOpen, isReservationModalDD = false, openedDrop
               <div className="rm-dates-dropddown-headline-text-container">
                 <span>{(checkIn && checkOut) ? nightsNum + ' nights' : 'Select dates'}</span>
                 <span>{(checkIn && checkOut) ? 
-                          'Select dates' : 
-                          formatDate(checkIn) + ' - ' + formatDate(checkOut)
+                          formatDate(checkIn) + ' - ' + formatDate(checkOut) : 
+                          'Select dates'
+                          
                       }
                 </span>
               </div>

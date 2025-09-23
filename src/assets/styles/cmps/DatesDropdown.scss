@@ -258,6 +258,7 @@
           border: 1px solid gray;
           border-radius: 0.5rem;
           overflow: hidden; 
+          cursor: pointer;
 
           .reservation-selection-date-checkin,
           .reservation-selection-date-checkout {
@@ -287,6 +288,7 @@
             border: none;
             outline: none;
             background: transparent;
+            cursor: pointer;
           }
 
           

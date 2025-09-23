@@ -73,6 +73,63 @@
       overflow: visible;
       // padding-block: 1rem;
 
+      .hosting-header-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 8px;
+      width: 100%;
+      flex: 1 1 auto;
+      min-width: 0;
+      position: relative;
+      & > a {
+        padding: 12px;
+        border-radius: 12px;
+        line-height: 1.125rem;
+        font-size: 14px;
+        color: $secondary-font-gray;
+        outline: none;
+        width: auto;
+        position: relative;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color;
+        font-weight: 500;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 5%;
+          height: 3px;
+          width: 90%;
+          transform: scaleX(0);
+          transform-origin: right;
+          background-color: $primary-font-black;
+          transition: transform 0.3s ease;
+        }
+        &:hover {
+          color: $primary-font-black;
+        }
+        &.active::after {
+          transform: scaleX(1);
+        }
+
+        &:nth-child(1).active::after {
+          transform-origin: right;
+        }
+
+        &:nth-child(2).active::after {
+          transform-origin: left;
+        }
+
+        &.active {
+          color: $primary-font-black;
+        }
+      }
+    }
+
       .app-header-left-section,
       .app-header-right-section {
         display: flex;
@@ -208,62 +265,7 @@
     //border:1px solid red;
     // padding-block: 1rem;
 
-    .hosting-header-nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      gap: 8px;
-      width: 100%;
-      flex: 1 1 auto;
-      min-width: 0;
-      position: relative;
-      & > a {
-        padding: 12px;
-        border-radius: 12px;
-        line-height: 1.125rem;
-        font-size: 14px;
-        color: $secondary-font-gray;
-        outline: none;
-        width: auto;
-        position: relative;
-        text-decoration: none;
-        white-space: nowrap;
-        transition: color;
-        font-weight: 500;
-
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -1px;
-          left: 5%;
-          height: 3px;
-          width: 90%;
-          transform: scaleX(0);
-          transform-origin: right;
-          background-color: $primary-font-black;
-          transition: transform 0.3s ease;
-        }
-        &:hover {
-          color: $primary-font-black;
-        }
-        &.active::after {
-          transform: scaleX(1);
-        }
-
-        &:nth-child(1).active::after {
-          transform-origin: right;
-        }
-
-        &:nth-child(2).active::after {
-          transform-origin: left;
-        }
-
-        &.active {
-          color: $primary-font-black;
-        }
-      }
-    }
+    
 
     .searchbar-wrapper {
       width: 100%;

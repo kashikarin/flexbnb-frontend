@@ -165,7 +165,7 @@ export function HomeDetails() {
   return (
     <>
       {home && (
-        <div className="home-details-container narrow-layout">
+        <div className="home-details-container">
           <div className="home-details-header">
             <h1>
               {home.type} in {home.loc.city}, {home.loc.country}
@@ -236,13 +236,13 @@ export function HomeDetails() {
                   </div>
                 )}
               </div>
-                            <div className="home-details-hosted-by-article">
+              {getAvgRating(home) >= 4 && <GuestFav home={home} />}
+              <div className="home-details-hosted-by-article">
                 <img src={home.host.imageUrl || '/svgs/user-icon.svg'}/> 
                 <div className="home-details-hosted-by-text">
                   <div>{`Hosted by ${home.host.fullname.split(' ')[0]}`}</div>
                 </div>
               </div>
-              {getAvgRating(home) >= 4 && <GuestFav home={home} />}
               <section className="home-details-home-highlights">
                 <article>
                   <DoorIcon className="home-highlights-icon " />

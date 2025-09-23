@@ -52,7 +52,9 @@ export function RootCmp({ mainRef }) {
   return (
     <>
       <ScrollToTop />
-      <div className={isMobile ? 'narrow-layout' : 'wide-layout'}>
+      <div className={isHomeIndex ?
+                      (isMobile ? 'narrow-layout' : 'wide-layout') :
+                      'narrow-layout'}>
         {/* <AppHeader scrollContainerRef={mainRef} /> */}
 
         <UserMsg />

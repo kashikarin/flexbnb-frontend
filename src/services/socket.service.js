@@ -32,6 +32,20 @@ function createSocketService() {
   const socketService = {
     setup() {
       socket = io(baseUrl)
+
+      socket.on('connect', () => {
+        console.log('✅ socket connected', socket.id)
+        const user = userService.getLoggedinUser()
+        if (user) {
+          console.log('🔑 re-login user after connect:', user._id)
+          this.login(user._id)
+        }
+      })
+
+      socket.on('disconnect', (reason) => {
+        console.log('⚠️ socket disconnected:', reason)
+      })
+      
       const user = userService.getLoggedinUser()
       if (user) this.login(user._id)
     },

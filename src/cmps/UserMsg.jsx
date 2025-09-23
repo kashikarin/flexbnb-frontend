@@ -8,7 +8,9 @@ export function UserMsg() {
     const timeoutIdRef = useRef()
     
     useEffect(() => {
+        console.log('✅ UserMsg mounted')
         const unsubscribe = eventBus.on('show-msg', msg => {
+            console.log('📢 UserMsg got eventBus event:', msg)
             setMsg(msg)
             if (timeoutIdRef.current) {
                 clearTimeout(timeoutIdRef.current)
@@ -18,6 +20,7 @@ export function UserMsg() {
         })
 
         socketService.on(SOCKET_EVENT_YOUR_HOME_BOOKED, order => {
+            console.log('📩 got home-booked from server:', order)
             showSuccessMsg(`Your home ${order.home.name} was booked just now`)
         })
 
@@ -26,6 +29,7 @@ export function UserMsg() {
         })
 
         return () => {
+            console.log('❌ UserMsg unmounted, removing listeners')
             unsubscribe()
             socketService.off(SOCKET_EVENT_REVIEW_ABOUT_YOU)
             socketService.off(SOCKET_EVENT_YOUR_HOME_BOOKED)

@@ -35,10 +35,16 @@ export function RootCmp({ mainRef }) {
   const location = useLocation()
   const isHomeIndex = location.pathname === '/'
   const isHomeEdit = location.pathname === '/hosting/edit'
-  const isOrderConfirmationModalOpen = useSelector(state => state.draftOrderModule.isOrderConfirmationModalOpen)
+  const isBookingDashboard = location.pathname === '/hosting/reservations/'
+  const isMobile = useSelector((state) => state.systemModule.isMobile)
+  console.log('isMobile', isMobile)
+  // console.log('isBookingDashboard', isBookingDashboard)
+  const isOrderConfirmationModalOpen = useSelector(
+    (state) => state.draftOrderModule.isOrderConfirmationModalOpen
+  )
   const { getNumberOfNights } = draftOrderService
-  const home = useSelector(state => state.homeModule.home)
-  const draftOrder = useSelector(state => state.draftOrderModule.draftOrder)
+  const home = useSelector((state) => state.homeModule.home)
+  const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
 
   useEffect(() => {
     initUser()
@@ -46,7 +52,7 @@ export function RootCmp({ mainRef }) {
   return (
     <>
       <ScrollToTop />
-      <div className={isHomeIndex ? 'wide-layout' : 'narrow-layout'}>
+      <div className={isMobile ? 'narrow-layout' : 'wide-layout'}>
         {/* <AppHeader scrollContainerRef={mainRef} /> */}
 
         <UserMsg />
@@ -86,18 +92,22 @@ export function RootCmp({ mainRef }) {
             </Route>
           </Routes>
         </main>
-        {home && draftOrder && isOrderConfirmationModalOpen && <BuyingStepOneModal 
-                                            draftOrder={draftOrder}
-                                            homePrice={home.price}
-                                            nightsNum={getNumberOfNights(draftOrder.checkIn, draftOrder.checkOut)}
-                                            homeType={home.type}
-                                            homeCity={home.loc?.city || ''}
-                                            homeCountry={home.loc?.country || ''}
-                                            homeSummary={home.summary}
-                                            addOrder={addOrder}
-                                            closeOrderConfirmationModal={closeOrderConfirmationModal}
-                                        />
-        }
+        {home && draftOrder && isOrderConfirmationModalOpen && (
+          <BuyingStepOneModal
+            draftOrder={draftOrder}
+            homePrice={home.price}
+            nightsNum={getNumberOfNights(
+              draftOrder.checkIn,
+              draftOrder.checkOut
+            )}
+            homeType={home.type}
+            homeCity={home.loc?.city || ''}
+            homeCountry={home.loc?.country || ''}
+            homeSummary={home.summary}
+            addOrder={addOrder}
+            closeOrderConfirmationModal={closeOrderConfirmationModal}
+          />
+        )}
         {isHomeEdit && <HomeEditFooter />}
         {/* <AppFooter /> */}
       </div>

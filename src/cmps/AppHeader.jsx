@@ -30,7 +30,7 @@ export function AppHeader({ scrollContainerRef }) {
     (state) => state.scrollModule.isHDImgScrolled
   )
   const isHomeIndex = location.pathname === '/'
-  const isHosting = location.pathname.startsWith('/hosting/')
+  const isHosting = location.pathname.startsWith('/hosting')
   const isHomeEdit = location.pathname === '/hosting/edit'
   const isHomeDetails = location.pathname.startsWith('/home/')
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
@@ -180,22 +180,24 @@ export function AppHeader({ scrollContainerRef }) {
                       </Link>
                       <div className="user-info">
                         <Link to={`user/${loggedInUser._id}`}>
-                          {loggedInUser.imageUrl ? (
+                          {loggedInUser.imgUrl ? (
                             <img
-                              src={loggedInUser.imageUrl}
+                              src={loggedInUser.imgUrl}
                               alt={
                                 loggedInUser.fullname || loggedInUser.username
                               }
                             />
                           ) : (
                             <div className="user-avatar-placeholder">
-                              {(
-                                loggedInUser.fullname ||
-                                loggedInUser.username ||
-                                'U'
-                              )
-                                .charAt(0)
-                                .toUpperCase()}
+                              <span>
+                                {(
+                                  loggedInUser.fullname ||
+                                  loggedInUser.username ||
+                                  'U'
+                                )
+                                  .charAt(0)
+                                  .toUpperCase()}
+                              </span>
                             </div>
                           )}
                         </Link>
@@ -252,7 +254,7 @@ export function AppHeader({ scrollContainerRef }) {
               !isHomePageScrolled ? 'expanded' : ''
             }`}
           >
-            {isHomeIndex && !isHomePageScrolled && (
+            {isHomeIndex && !isHomePageScrolled && !isMobile && (
               <div className="app-header-labels-slider-wrapper">
                 <LabelsSlider />
               </div>

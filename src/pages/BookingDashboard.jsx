@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const BookingDashboard = () => {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-  console.log("🚀 ~ loggedInUser:", loggedInUser)
+  console.log('🚀 ~ loggedInUser:', loggedInUser)
   const orders = useSelector((state) => state.orderModule.orders)
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -19,9 +19,9 @@ export const BookingDashboard = () => {
 
   // Load orders on component mount (for any logged in user)
   useEffect(() => {
-    if (!loggedInUser) return 
-    loadOrders({hostId: loggedInUser._id})
-    }, [loggedInUser])
+    if (!loggedInUser) return
+    loadOrders({ hostId: loggedInUser._id })
+  }, [loggedInUser])
 
   // Helper functions
   const formatDate = (dateString) => {
@@ -346,30 +346,27 @@ export const BookingDashboard = () => {
                             </td>
                             <td className="guest-cell">
                               <div className="guest-info">
-                                <img
-                                  src={
-                                    order.purchaser?.imageUrl ||
-                                    'svgs/user-logo.svg'
-                                    // getRandomPlaceholder(
-                                    //   order.purchaser?.fullname ||
-                                    //     order.host?.fullname ||
-                                    //     'Unknown'
-                                    // )
-                                  }
-                                  alt={
-                                    order.purchaser?.fullname ||
-                                    order.host?.fullname ||
-                                    'Guest'
-                                  }
-                                  className="guest-image"
-                                  onError={(e) => {
-                                    e.target.src = getRandomPlaceholder(
+                                {order.purchaser?.imgUrl ? (
+                                  <img
+                                    src={order.purchaser?.imgUrl}
+                                    alt={
                                       order.purchaser?.fullname ||
-                                        order.host?.fullname ||
-                                        'Unknown'
+                                      order.host?.fullname ||
+                                      'Guest'
+                                    }
+                                    className="guest-image"
+                                  />
+                                ) : (
+                                  <div className="user-avatar-placeholder">
+                                    {(
+                                      loggedInUser.fullname ||
+                                      loggedInUser.username ||
+                                      'U'
                                     )
-                                  }}
-                                />
+                                      .charAt(0)
+                                      .toUpperCase()}
+                                  </div>
+                                )}
                                 <div className="guest-details">
                                   <div className="guest-name">
                                     {order.purchaser?.fullname ||
@@ -401,8 +398,8 @@ export const BookingDashboard = () => {
                                 {getGuestCount(order.guests)} guests
                               </div>
                               <div className="pets-count">
-                                {`${order.guests?.pets ? 'With ' : "No "}pets`} 
-                              </div>                  
+                                {`${order.guests?.pets ? 'With ' : 'No '}pets`}
+                              </div>
                             </td>
                             <td className="price-cell">
                               <div className="total-price">
@@ -532,29 +529,27 @@ export const BookingDashboard = () => {
                         {/* Guest Info */}
                         <div className="guest-section">
                           <div className="guest-info">
-                            <img
-                              src={
-                                order.purchaser?.imageUrl ||
-                                getRandomPlaceholder(
+                            {order.purchaser?.imgUrl ? (
+                              <img
+                                src={order.purchaser?.imgUrl}
+                                alt={
                                   order.purchaser?.fullname ||
-                                    order.host?.fullname ||
-                                    'Unknown'
+                                  order.host?.fullname ||
+                                  'Guest'
+                                }
+                                className="guest-image"
+                              />
+                            ) : (
+                              <div className="user-avatar-placeholder">
+                                {(
+                                  loggedInUser.fullname ||
+                                  loggedInUser.username ||
+                                  'U'
                                 )
-                              }
-                              alt={
-                                order.purchaser?.fullname ||
-                                order.host?.fullname ||
-                                'Guest'
-                              }
-                              className="guest-image"
-                              onError={(e) => {
-                                e.target.src = getRandomPlaceholder(
-                                  order.purchaser?.fullname ||
-                                    order.host?.fullname ||
-                                    'Unknown'
-                                )
-                              }}
-                            />
+                                  .charAt(0)
+                                  .toUpperCase()}
+                              </div>
+                            )}
                             <div className="guest-details">
                               <div className="guest-name">
                                 {order.purchaser?.fullname ||

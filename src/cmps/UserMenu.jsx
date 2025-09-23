@@ -7,6 +7,7 @@ import { Camera, Upload, User } from 'lucide-react'
 import { userService } from '../services/user/index'
 import { uploadService } from '../services/upload.service.js'
 import { SET_LOGGEDINUSER } from '../store/reducers/user.reducer'
+import { login, signup, logout } from '../store/actions/user.actions.js'
 
 export function UserMenu() {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
@@ -254,7 +255,7 @@ export function UserMenu() {
     try {
       let user
       if (isSignup) {
-        user = await userService.signup({
+        user = await signup({
           email: credentials.email,
           username: credentials.username,
           password: credentials.password,
@@ -262,7 +263,7 @@ export function UserMenu() {
           imageUrl: credentials.imageUrl,
         })
       } else {
-        user = await userService.login({
+        user = await login({
           email: credentials.email,
           password: credentials.password,
         })
@@ -280,7 +281,7 @@ export function UserMenu() {
 
   async function handleLogout() {
     try {
-      await userService.logout()
+      await logout()
       dispatch({ type: SET_LOGGEDINUSER, user: null })
       setIsDropdownOpen(false)
     } catch (err) {

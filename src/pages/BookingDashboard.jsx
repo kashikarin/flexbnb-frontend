@@ -346,9 +346,9 @@ export const BookingDashboard = () => {
                             </td>
                             <td className="guest-cell">
                               <div className="guest-info">
-                                {order.purchaser?.imgUrl ? (
+                                {order.purchaser?.imageUrl ? (
                                   <img
-                                    src={order.purchaser?.imgUrl}
+                                    src={order.purchaser?.imageUrl}
                                     alt={
                                       order.purchaser?.fullname ||
                                       order.host?.fullname ||
@@ -529,9 +529,9 @@ export const BookingDashboard = () => {
                         {/* Guest Info */}
                         <div className="guest-section">
                           <div className="guest-info">
-                            {order.purchaser?.imgUrl ? (
+                            {order.purchaser?.imageUrl ? (
                               <img
-                                src={order.purchaser?.imgUrl}
+                                src={order.purchaser?.imageUrl}
                                 alt={
                                   order.purchaser?.fullname ||
                                   order.host?.fullname ||

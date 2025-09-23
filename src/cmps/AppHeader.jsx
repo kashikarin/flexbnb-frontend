@@ -180,9 +180,9 @@ export function AppHeader({ scrollContainerRef }) {
                       </Link>
                       <div className="user-info">
                         <Link to={`user/${loggedInUser._id}`}>
-                          {loggedInUser.imgUrl ? (
+                          {loggedInUser.imageUrl ? (
                             <img
-                              src={loggedInUser.imgUrl}
+                              src={loggedInUser.imageUrl}
                               alt={
                                 loggedInUser.fullname || loggedInUser.username
                               }

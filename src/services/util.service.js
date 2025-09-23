@@ -194,6 +194,24 @@ export function getNightsCount(startStr, endStr) {
   return Math.round(diffInMs / millisecondsPerDay)
 }
 
+export function formatDate(value) {
+  if (!value) return ""
+  const date = value instanceof Date ? value : new Date(value)
+  if (isNaN(date.getTime())) return "" 
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
+}
+
+export function normalizeDate(value) {
+  if (!value) return null
+  if (value instanceof Date) return value
+  const parsed = new Date(value)
+  return isNaN(parsed.getTime()) ? null : parsed
+}
+
 export async function getCityFromCoordinates(lat, lng) {
   try {
     const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`)

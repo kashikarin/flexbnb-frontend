@@ -1,8 +1,10 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../assets/styles/cmps/DatesDropdown.scss';
+import { DatesInputs } from './DatesInputs';
+import { formatDate } from '../services/util.service';
 
-export function DatesDropdown({ isOpen, checkIn, checkOut, onSetDates, bookings = null}) {
+export function DatesDropdown({ isOpen, isReservationModalDD = false, openedDropdown, handleWhereClick, checkIn, checkOut, nightsNum, onSetDates, bookings = null}) {
   
   function handleSelect(dates) {
     const [start, end] = dates
@@ -40,6 +42,23 @@ export function DatesDropdown({ isOpen, checkIn, checkOut, onSetDates, bookings 
     <section>
       {isOpen && (
       <div className="dates-dropdown-panel">
+        {isReservationModalDD && (<div className="rm-dates-dropdown-healine-container">
+              <div className="rm-dates-dropddown-headline-text-container">
+                <span>{(checkIn && checkOut) ? nightsNum + ' nights' : 'Select dates'}</span>
+                <span>{(checkIn && checkOut) ? 
+                          'Select dates' : 
+                          formatDate(checkIn) + ' - ' + formatDate(checkOut)
+                      }
+                </span>
+              </div>
+              <DatesInputs 
+                checkIn={checkIn || ''}
+                checkOut={checkOut || ''}
+                withWrapper={true}
+                openedDropdown={openedDropdown}
+                handleWhereClick={handleWhereClick}
+              />
+        </div>)}
         <DatePicker
           selected={checkIn}
           onChange={handleSelect}

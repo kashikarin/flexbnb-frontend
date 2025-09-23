@@ -2,10 +2,13 @@ import { useState, useEffect, useRef } from 'react'
 import { ReactSVG } from 'react-svg'
 import { CapacityDropdown } from './CapacityDropdown'
 import { BuyingStepOneModal } from './BuyingStepOneModal'
-import { roundToDecimals } from '../services/util.service'
+import { formatDate, normalizeDate, roundToDecimals } from '../services/util.service'
 import { DatesDropdown } from './DatesDropdown'
 import { draftOrderService } from '../services/draft-order/draft-order.service.local'
 import { useSelector } from 'react-redux'
+import { DatesInputs } from './DatesInputs'
+
+
 export function ReservationModal({
   home,
   draftOrder,
@@ -115,6 +118,8 @@ export function ReservationModal({
     updateDraftOrder({ ...draftOrder, guests: updatedGuests })
   }
 
+  
+
   console.log('🚀 ~ draftOrder:', draftOrder)
   if (!draftOrder) return null
   return (
@@ -126,74 +131,49 @@ export function ReservationModal({
         </div>
       </div>
       <div className="reservation-selection" ref={rmSelectionRef}>
-        <div
-          className={`reservation-selection-date-checkin ${
-            openedDropdown === 'checkIn' ? 'active' : ''
-          }`}
-          onClick={(e) => {
-            e.stopPropagation()
-            handleWhereClick(e, 'checkIn')
-          }}
-        >
-          <div className="rmTitle">CHECK-IN</div>
-          <input
-            className="placeholder-content"
-            type="search"
-            placeholder="Add Dates"
-            value={
-              draftOrder?.checkIn ? draftOrder.checkIn.toLocaleDateString() : ''
-            }
-            readOnly
-          />
-        </div>
-        <div
-          className={`reservation-selection-date-checkout ${
-            openedDropdown === 'checkOut' ? 'active' : ''
-          }`}
-          onClick={(e) => {
-            e.stopPropagation()
-            handleWhereClick(e, 'checkOut')
-          }}
-        >
-          <div className="rmTitle">CHECK-OUT</div>
-          <input
-            className="rm-placeholder-content"
-            type="search"
-            placeholder="Add Dates"
-            value={
-              draftOrder?.checkOut
-                ? draftOrder.checkOut.toLocaleDateString()
-                : ''
-            }
-            readOnly
-          />
-        </div>
-        
-        {openedDropdown === 'checkIn' ? (
-          <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+        <DatesInputs 
+          checkIn={normalizeDate(draftOrder.checkIn)}
+          checkOut={normalizeDate(draftOrder.checkOut)}
+          openedDropdown={openedDropdown}
+          handleWhereClick={handleWhereClick}
+        />
+        {openedDropdown === 'checkIn' && (
+          <div className="rm-dates-dropdown-wrapper" ref={rmDatesRef}>
             <DatesDropdown
               isOpen={true}
-              checkIn={draftOrder.checkIn}
-              checkOut={draftOrder.checkOut}
+              isReservationModalDD={true}
+              openedDropdown={openedDropdown}
+              handleWhereClick={handleWhereClick}
+              checkIn={normalizeDate(draftOrder.checkIn)}
+              checkOut={normalizeDate(draftOrder.checkOut)}
+              nightsNum={nightsNum}
               onSetDates={({ checkIn, checkOut }) => {
-                updateDraftOrder({ ...draftOrder, checkIn, checkOut })
+                updateDraftOrder({ ...draftOrder, 
+                  checkIn: normalizeDate(checkIn), 
+                  checkOut: normalizeDate(checkOut) })
                 if (checkIn && checkOut) onCloseDropdown()
               }}
-            bookings={home.bookings}
+              bookings={home.bookings}
             />
           </div>
-        ) : null}
+        )}
         {openedDropdown === 'checkOut' ? (
-          <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
+          <div className="rm-dates-dropdown-wrapper" ref={rmDatesRef}>
             <DatesDropdown
               isOpen={true}
-              checkIn={draftOrder.checkIn}
-              checkOut={draftOrder.checkOut}
+              isReservationModalDD={true}
+              openedDropdown={openedDropdown}
+              handleWhereClick={handleWhereClick}
+              checkIn={normalizeDate(draftOrder.checkIn)}
+              checkOut={normalizeDate(draftOrder.checkOut)}
+              nightsNum={nightsNum}
               onSetDates={({ checkIn, checkOut }) => {
-                updateDraftOrder({ ...draftOrder, checkIn, checkOut })
+                updateDraftOrder({ ...draftOrder, 
+                  checkIn: normalizeDate(checkIn), 
+                  checkOut: normalizeDate(checkOut) })
                 if (checkIn && checkOut) onCloseDropdown()
               }}
-            bookings={home.bookings}
+              bookings={home.bookings}
             />
           </div>
         ) : null}

@@ -7,7 +7,9 @@
   color: $clr7;
   line-height: 1.25rem;
   width: 100%;
-
+  position: relative; 
+  overflow: visible;
+  
   .reservation-header {
     display: flex;
     justify-content: space-between;
@@ -33,13 +35,15 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
     width: 100%;
+    position: relative;
+    overflow: visible;
     cursor: pointer;
     * {
       min-width: 0;
     }
     .reservation-selection-date-checkin {
       position: relative;
-      padding: 26px 12px 10px;
+      padding: 26px 8px 10px;
       grid-column: 1;
       grid-row: 1;
       font-size: 14px;
@@ -65,7 +69,7 @@
     .reservation-selection-date-checkout {
       grid-column: 2;
       grid-row: 1;
-      padding: 26px 12px 10px;
+      padding: 26px 8px 10px;
       position: relative;
       font-size: 14px;
       display: flex;

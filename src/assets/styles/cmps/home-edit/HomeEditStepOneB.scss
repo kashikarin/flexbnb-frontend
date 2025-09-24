@@ -89,8 +89,6 @@
     }
 }
 
-
-
 // .btn-primary {
 //     background: transparent;
 //     color: $primary-font-black;
@@ -115,6 +113,7 @@
 .loading {
     animation: pulse 2s infinite;
 }
+
 
 @keyframes pulse {
     0%, 100% { opacity: 1; }

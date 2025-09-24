@@ -53,13 +53,13 @@ export function HomeEditStepTwoB() {
                 className="uploaded-photo cover-photo"
               />
               <span className="photo-label">Cover Photo</span>×
-              <button
+              {/* <button
                 className="remove-photo-btn"
                 onClick={() => handleRemovePhoto(0)}
                 aria-label="Remove photo"
               >
                 X
-              </button>
+              </button> */}
             </div>
           ) : (
             <div className="upload-tile cover-photo">
@@ -72,45 +72,42 @@ export function HomeEditStepTwoB() {
           )}
 
           {/* Next 4 photos */}
-          <div className="right-side"></div>
-          {imageUrls.slice(1, 5).map((url, idx) => (
-            <div key={idx} className="photo-wrapper ">
-              <img
-                src={url}
-                alt={`home-${idx + 1}`}
-                className="uploaded-photo"
-              />
-              <button
-                className="remove-photo-btn"
-                onClick={() => handleRemovePhoto(idx + 1)}
-                aria-label="Remove photo"
-              >
-                ×
-              </button>
-            </div>
-          ))}
-
-          {Array.from({
-            length: Math.min(4, Math.max(0, 5 - imageUrls.length)),
-          }).map((_, idx) => (
-            <div key={`upload-${idx}`} className="upload-tile">
-              <CloudinaryDragUpload
-                preset="profile_images"
-                onUpload={handlePhotoUpload}
-              />
-            </div>
-          ))}
-
-          {imageUrls.length >= 5 && (
-            <div className="upload-tile additional">
-              <CloudinaryDragUpload
-                preset="profile_images"
-                onUpload={handlePhotoUpload}
-              />
-            </div>
-          )}
-        </div>
-
+            {imageUrls.slice(1, 5).map((url, idx) => (
+                <div key={idx} className="photo-wrapper ">
+                <img
+                    src={url}
+                    alt={`home-${idx + 1}`}
+                    className="uploaded-photo"
+                />
+                {/* <button
+                    className="remove-photo-btn"
+                    onClick={() => handleRemovePhoto(idx + 1)}
+                    aria-label="Remove photo"
+                >
+                    ×
+                </button> */}
+                </div>
+            ))}
+            {Array.from({
+                length: Math.min(4, Math.max(0, 5 - imageUrls.length)),
+            }).map((_, idx) => (
+                <div key={`upload-${idx}`} className="upload-tile">
+                <CloudinaryDragUpload
+                    preset="profile_images"
+                    onUpload={handlePhotoUpload}
+                />
+                </div>
+            ))}
+            {imageUrls.length >= 5 && (
+                <div className="upload-tile additional">
+                <CloudinaryDragUpload
+                    preset="profile_images"
+                    onUpload={handlePhotoUpload}
+                />
+                </div>
+            )}
+          </div>
+          
         <div className="upload-progress-indicator">
           <div className="progress-bar">
             <div

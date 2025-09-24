@@ -16,15 +16,20 @@ export function getEmptyOrder() {
   }
 }
 
+export function getFilterFromSearchParams(searchParams) {
+  const defaultFilter = getDefaultOrderFilter()
+  const filterBy = {}
+  for (const field in defaultFilter) {
+    filterBy[field] = searchParams.get(field) || ''
+  }
+  return filterBy
+}
+
 export function getDefaultOrderFilter() {
   return {
     status: '',
-    createdAt: '',
-    checkIn: '',
-    checkOut: '',
-    totalPrice: '',
     hostId: '',
-    purchaserId: ''
+    txt: '',
   }
 }
 

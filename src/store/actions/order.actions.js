@@ -74,7 +74,7 @@ export async function removeOrder(orderId) {
 }
 
 export function setFilterBy(filterBy) {
-  store.dispatch(getCmdSetFilterBy(filterBy))
+  store.dispatch(getCmdSetFilterOrderBy(filterBy))
 }
 
 // Command Creators:

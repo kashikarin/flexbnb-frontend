@@ -20,11 +20,9 @@ export function HomeIndex() {
   const [showLoader, setShowLoader] = useState(true)
   const loadStartRef = useRef(Date.now())
 
-  console.log(homes)
-
   useEffectUpdate(() => {
     loadHomes(filterBy)
-    // setExistSearchParams(filterBy)
+    setExistSearchParams(filterBy)
   }, [filterBy])
 
   useEffect(() => {

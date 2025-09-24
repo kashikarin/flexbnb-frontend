@@ -4,7 +4,8 @@ import { loadOrders, updateOrder } from '../store/actions/order.actions'
 import AccessDenied from '../cmps/AccessDenied'
 
 import { FaArrowLeft } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
+import { useOrderFilterSearchParams } from '../customHooks/useOrderFilterSearchParams'
+import { useEffectUpdate } from '../customHooks/useEffectUpdate'
 
 export const BookingDashboard = () => {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
@@ -16,12 +17,17 @@ export const BookingDashboard = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [confirmAction, setConfirmAction] = useState(null)
   const [selectedBooking, setSelectedBooking] = useState(null)
-
+  const { filterBy, setExistOrderFilterSearchParams } = useOrderFilterSearchParams()  
   // Load orders on component mount (for any logged in user)
   useEffect(() => {
     if (!loggedInUser) return
-    loadOrders({ hostId: loggedInUser._id })
-  }, [loggedInUser])
+    loadOrders(filterBy)
+  }, [loggedInUser, filterBy])
+
+  // useEffectUpdate(() => {
+  //     loadOrders(filterBy)
+  //     setExistSearchParams(filterBy)
+  //   }, [filterBy])
 
   // Helper functions
   const formatDate = (dateString) => {
@@ -119,7 +125,7 @@ export const BookingDashboard = () => {
 
         // Force reload orders to sync with server
         console.log('Reloading orders from server...')
-        await loadOrders({})
+        await loadOrders(filterBy)
         console.log('Orders reloaded successfully')
       } else {
         console.error('Order not found with ID:', selectedBooking)
@@ -130,7 +136,7 @@ export const BookingDashboard = () => {
       // If update failed, reload orders to get current state
       try {
         console.log('Error occurred, reloading orders to sync...')
-        await loadOrders({})
+        await loadOrders(filterBy)
       } catch (reloadErr) {
         console.error('Error reloading orders:', reloadErr)
       }
@@ -158,32 +164,32 @@ export const BookingDashboard = () => {
   }
 
   // Filter and sort orders - unapproved orders first, then approved
-  const filteredBookings = useMemo(() => {
-    if (!orders || !loggedInUser) return []
+  // const filteredBookings = useMemo(() => {
+  //   if (!orders || !loggedInUser) return []
 
-    const filtered = orders.filter((order) => {
-      const matchesSearch =
-        order.home?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.host?.fullname
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        order.purchaser?.fullname
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase())
+  //   const filtered = orders.filter((order) => {
+  //     const matchesSearch =
+  //       order.home?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //       order.host?.fullname
+  //         ?.toLowerCase()
+  //         .includes(searchTerm.toLowerCase()) ||
+  //       order.purchaser?.fullname
+  //         ?.toLowerCase()
+  //         .includes(searchTerm.toLowerCase())
 
-      const matchesStatus =
-        statusFilter === 'all' || order.status === statusFilter
+  //     const matchesStatus =
+  //       statusFilter === 'all' || order.status === statusFilter
 
-      return matchesSearch && matchesStatus
-    })
+  //     return matchesSearch && matchesStatus
+  //   })
 
-    // Sort by status - unapproved (pending, rejected) first, approved last
-    return filtered.sort((a, b) => {
-      if (a.status === 'approved' && b.status !== 'approved') return 1
-      if (a.status !== 'approved' && b.status === 'approved') return -1
-      return 0
-    })
-  }, [orders, searchTerm, statusFilter, loggedInUser])
+  //   // Sort by status - unapproved (pending, rejected) first, approved last
+  //   return filtered.sort((a, b) => {
+  //     if (a.status === 'approved' && b.status !== 'approved') return 1
+  //     if (a.status !== 'approved' && b.status === 'approved') return -1
+  //     return 0
+  //   })
+  // }, [orders, searchTerm, statusFilter, loggedInUser])
 
   //  statistics
   const stats = useMemo(() => {
@@ -202,7 +208,8 @@ export const BookingDashboard = () => {
   }, [orders, loggedInUser])
 
   const canManageBookings = loggedInUser?.isHost || true
-  const navigate = useNavigate()
+
+  const ordersToShow = orders || []
 
   return (
     <div className="booking-dashboard">
@@ -236,14 +243,14 @@ export const BookingDashboard = () => {
               <input
                 type="text"
                 placeholder="Search by property name or booker..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={filterBy.txt || ''}
+                onChange={(e) => setExistOrderFilterSearchParams({ ...filterBy, txt: e.target.value })}
               />
             </div>
             <div className="filter-box">
               <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
+                value={filterBy.status || ''}
+                onChange={(e) => setExistOrderFilterSearchParams({ ...filterBy, status: e.target.value })}
               >
                 <option value="all">All Statuses</option>
                 <option value="approved">Approved</option>
@@ -286,7 +293,7 @@ export const BookingDashboard = () => {
                 <h3>Loading...</h3>
                 <p>Please wait while we load your bookings</p>
               </div>
-            ) : filteredBookings.length === 0 ? (
+            ) : ordersToShow.length === 0 ? (
               <div className="no-results">
                 <h3>No bookings found</h3>
                 <p>Try adjusting your search or filter parameters</p>
@@ -310,7 +317,7 @@ export const BookingDashboard = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredBookings.map((order) => (
+                        {ordersToShow.map((order) => (
                           <tr key={order._id} className="booking-row">
                             <td className="property-cell">
                               <div className="property-info">
@@ -455,7 +462,7 @@ export const BookingDashboard = () => {
                 {/* Mobile Cards View */}
                 <div className="mobile-cards-view">
                   <div className="bookings-grid">
-                    {filteredBookings.map((order) => (
+                    {ordersToShow.map((order) => (
                       <div key={order._id} className="booking-card">
                         {/* Card Header */}
                         <div className="booking-header">

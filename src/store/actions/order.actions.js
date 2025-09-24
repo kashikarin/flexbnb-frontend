@@ -22,9 +22,9 @@ export async function updateOrder(orderToUpdate) {
   }
 }
 
-export async function loadOrders(filterOrdersBy) {
+export async function loadOrders() {
   try {
-    const orders = await orderService.query(filterOrdersBy)
+    const orders = await orderService.query()
     store.dispatch(getCmdSetOrders(orders))
   } catch (err) {
     console.error('Cannot load orders', err)

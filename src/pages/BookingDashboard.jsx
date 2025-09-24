@@ -2,53 +2,32 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { loadOrders, updateOrder } from '../store/actions/order.actions'
 import AccessDenied from '../cmps/AccessDenied'
-
-import { FaArrowLeft } from 'react-icons/fa'
 import { useOrderFilterSearchParams } from '../customHooks/useOrderFilterSearchParams'
-import { useEffectUpdate } from '../customHooks/useEffectUpdate'
 
 export const BookingDashboard = () => {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-  console.log('🚀 ~ loggedInUser:', loggedInUser)
   const orders = useSelector((state) => state.orderModule.orders)
 
-  const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState('all')
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [confirmAction, setConfirmAction] = useState(null)
   const [selectedBooking, setSelectedBooking] = useState(null)
   const { filterBy, setExistOrderFilterSearchParams } = useOrderFilterSearchParams()  
+  const homeImagePlaceholder = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgMTAwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iODAiIGZpbGw9IiNFMEUwRTAiLz4KICA8dGV4dCB4PSI1MCIgeT0iNDAiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM3Nzc3NzciIGZvbnQtc2l6ZT0iMTRweCIgZm9udC1mYW1pbHk9IkFyaWFsIj5ObyBJbWFnZTwvdGV4dD4KPC9zdmc+"
   // Load orders on component mount (for any logged in user)
+  
   useEffect(() => {
     if (!loggedInUser) return
-    loadOrders(filterBy)
-  }, [loggedInUser, filterBy])
-
-  // useEffectUpdate(() => {
-  //     loadOrders(filterBy)
-  //     setExistSearchParams(filterBy)
-  //   }, [filterBy])
+      loadOrders()
+  }, [loggedInUser])
 
   // Helper functions
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-GB', {
       day: '2-digit',
       month: '2-digit',
       year: '2-digit',
     })
-  }
-
-  const getRandomPlaceholder = (name) => {
-    const genders = ['men', 'women']
-    const randomGender = genders[Math.floor(Math.random() * genders.length)]
-    const randomId = Math.floor(Math.random() * 99) + 1
-    return `https://randomuser.me/api/portraits/med/${randomGender}/${randomId}.jpg`
-  }
-
-  const getRandomPropertyPlaceholder = () => {
-    const houseIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    const randomId = houseIds[Math.floor(Math.random() * houseIds.length)]
-    return `https://picsum.photos/seed/house${randomId}/80/60`
   }
 
   const calculateNights = (checkIn, checkOut) => {
@@ -72,7 +51,7 @@ export const BookingDashboard = () => {
     if (!guests) return 0
     let count = parseInt(guests.adults) || 0
     count += parseInt(guests.children) || 0
-    count += parseInt(guests.infants) || 0
+    // count += parseInt(guests.infants) || 0
     return count
   }
 
@@ -83,49 +62,16 @@ export const BookingDashboard = () => {
   }
 
   const confirmBookingAction = async () => {
-    console.log('confirmBookingAction started', {
-      selectedBooking,
-      confirmAction,
-    })
-
-    if (!selectedBooking || !confirmAction) {
-      console.log('Missing required data:', { selectedBooking, confirmAction })
-      return
-    }
-
-    // Close modal immediately for better UX
+    if (!selectedBooking || !confirmAction) return
     setShowConfirmModal(false)
 
     try {
       // Find the order and update its status
-      const orderToUpdate = orders.find(
-        (order) => order._id === selectedBooking
-      )
-
-      console.log('Order found:', orderToUpdate)
-
+      const orderToUpdate = orders.find(order => order._id === selectedBooking)
       if (orderToUpdate) {
         const updatedOrder = { ...orderToUpdate, status: confirmAction }
-        console.log('Updating order with:', updatedOrder)
-
-        // Update local state immediately for instant feedback
-        const updatedOrders = orders.map((order) =>
-          order._id === selectedBooking
-            ? { ...order, status: confirmAction }
-            : order
-        )
-
-        // If we have access to dispatch, update local state
-        // This depends on your Redux setup
-        console.log('Updated orders locally')
-
-        // Then update server
-        const result = await updateOrder(updatedOrder)
-        console.log('Update result:', result)
-
-        // Force reload orders to sync with server
-        console.log('Reloading orders from server...')
-        await loadOrders(filterBy)
+        await updateOrder(updatedOrder)
+        await loadOrders()
         console.log('Orders reloaded successfully')
       } else {
         console.error('Order not found with ID:', selectedBooking)
@@ -133,16 +79,12 @@ export const BookingDashboard = () => {
     } catch (err) {
       console.error('Error in confirmBookingAction:', err)
 
-      // If update failed, reload orders to get current state
       try {
-        console.log('Error occurred, reloading orders to sync...')
-        await loadOrders(filterBy)
+        await loadOrders()
       } catch (reloadErr) {
         console.error('Error reloading orders:', reloadErr)
       }
     } finally {
-      // Reset state
-      console.log('Resetting booking action state')
       setSelectedBooking(null)
       setConfirmAction(null)
     }
@@ -164,34 +106,34 @@ export const BookingDashboard = () => {
   }
 
   // Filter and sort orders - unapproved orders first, then approved
-  // const filteredBookings = useMemo(() => {
-  //   if (!orders || !loggedInUser) return []
+  const filteredBookings = useMemo(() => {
+    if (!orders || !loggedInUser) return []
 
-  //   const filtered = orders.filter((order) => {
-  //     const matchesSearch =
-  //       order.home?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       order.host?.fullname
-  //         ?.toLowerCase()
-  //         .includes(searchTerm.toLowerCase()) ||
-  //       order.purchaser?.fullname
-  //         ?.toLowerCase()
-  //         .includes(searchTerm.toLowerCase())
+    const txt = (filterBy?.txt || '').toLowerCase()
+    const status = filterBy?.status || 'all'
 
-  //     const matchesStatus =
-  //       statusFilter === 'all' || order.status === statusFilter
+    const filtered = orders.filter((order) => {
+      const matchesSearch =
+        order.home?.name?.toLowerCase().includes(txt) ||
+        order.purchaser?.fullname?.toLowerCase().includes(txt)
 
-  //     return matchesSearch && matchesStatus
-  //   })
+      const matchesStatus = status === 'all' || order.status === status
 
-  //   // Sort by status - unapproved (pending, rejected) first, approved last
-  //   return filtered.sort((a, b) => {
-  //     if (a.status === 'approved' && b.status !== 'approved') return 1
-  //     if (a.status !== 'approved' && b.status === 'approved') return -1
-  //     return 0
-  //   })
-  // }, [orders, searchTerm, statusFilter, loggedInUser])
+      return matchesSearch && matchesStatus
+    })
 
-  //  statistics
+    const statusPriority = {
+      pending: 1,
+      approved: 2,
+      rejected: 3,
+    }
+
+    return filtered.sort((a, b) => {
+      return statusPriority[a.status] - statusPriority[b.status]
+    })
+    
+  }, [orders, filterBy, loggedInUser])
+
   const stats = useMemo(() => {
     if (!orders || !loggedInUser)
       return { total: 0, approved: 0, pending: 0, rejected: 0, revenue: 0 }
@@ -207,31 +149,13 @@ export const BookingDashboard = () => {
     }
   }, [orders, loggedInUser])
 
-  const canManageBookings = loggedInUser?.isHost || true
-
-  const ordersToShow = orders || []
+const canManageBookings = filteredBookings.some(order => order.status === 'pending')
+const ordersToShow = filteredBookings || []
 
   return (
     <div className="booking-dashboard">
       {loggedInUser ? (
         <div className="container">
-          {/* Header */}
-          {/* <button
-            className="dashboard-back-btn"
-            onClick={() => navigate(-1)}
-            aria-label="Go back"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '1.5rem',
-              marginBottom: '1rem',
-              color: '#000',
-            }}
-          >
-            <FaArrowLeft />
-          </button> */}
-
           <header className="header">
             <h1>Bookings Dashboard</h1>
             <p>Manage and view your property reservations</p>
@@ -323,8 +247,8 @@ export const BookingDashboard = () => {
                               <div className="property-info">
                                 <img
                                   src={
-                                    order.home?.imageUrl ||
-                                    getRandomPropertyPlaceholder()
+                                    order.home?.imageUrl || 
+                                    homeImagePlaceholder
                                   }
                                   alt={order.home?.name || 'Property'}
                                   className="property-image"
@@ -470,7 +394,7 @@ export const BookingDashboard = () => {
                             <img
                               src={
                                 order.home?.imageUrl ||
-                                getRandomPropertyPlaceholder()
+                                homeImagePlaceholder
                               }
                               alt={order.home?.name || 'Property'}
                               className="property-image"

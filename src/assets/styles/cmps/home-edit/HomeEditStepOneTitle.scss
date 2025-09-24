@@ -7,10 +7,9 @@
     align-items: center;
     gap: 2rem; 
     padding-inline: 2rem;
-    margin: auto;
+    margin-block: auto;
     transition: opacity 0.6s;
     opacity: 1;
-    
     .home-edit-step-1-title-text-container {
         display: flex;
         flex-direction: column;

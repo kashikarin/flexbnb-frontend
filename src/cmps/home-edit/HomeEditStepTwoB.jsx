@@ -72,8 +72,9 @@ export function HomeEditStepTwoB() {
           )}
 
           {/* Next 4 photos */}
+          <div className="right-side"></div>
           {imageUrls.slice(1, 5).map((url, idx) => (
-            <div key={idx} className="photo-wrapper">
+            <div key={idx} className="photo-wrapper ">
               <img
                 src={url}
                 alt={`home-${idx + 1}`}

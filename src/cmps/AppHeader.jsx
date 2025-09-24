@@ -219,7 +219,7 @@ export function AppHeader({ scrollContainerRef }) {
               ) : (
                 <>
                   {/* non-hosting layout */}
-                  <div className="app-header-main-nav-content">
+                  {!isMobile && (<div className="app-header-main-nav-content">
                     {/* non-hosting - left section */}
                     <div className="app-header-left-section">
                       <NavLink
@@ -270,7 +270,7 @@ export function AppHeader({ scrollContainerRef }) {
                       )}
                     <UserMenu />
                   </div>
-                </div>
+                </div>)}
                 {/* non-hosting - mid section (searchbar) */}
                 <div
                   className={`app-header-mid-section ${

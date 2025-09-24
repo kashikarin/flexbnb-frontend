@@ -57,6 +57,7 @@ transition: all 0.3s ease;
   }
   
   .where-section, .dates-section, .who-section {
+    position: relative;
     margin: 0.5rem;
     padding: 1.5rem;
     background: transparent;
@@ -119,6 +120,15 @@ transition: all 0.3s ease;
     }
   }
 
+  .btnsRow{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:70px;
+    padding: 12px;
+  }
+
 
   .next-btn{
     width: 5rem;
@@ -131,32 +141,80 @@ transition: all 0.3s ease;
     border-radius: 8px;
     text-align: center;
   }
-  // .dates-section{
-  //   max-height: 60vh;
-  // }
 
-    .search-submit-btn {
-      margin-top: auto;
+  .clearBtn{
+    border: none;
+    background: none;
+    color: #222222;
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    height: 46px;
+    width: 120px;
+    padding: 0;
+  }
+
+  .search-submit-btn {
+      background: linear-gradient(
+        to right,
+        #e61e4d 0%,
+        #e31c5f 50%,
+        #d70466 100%
+      );
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 8px;
-      height: 3rem;
-      border-radius: 2rem;
+      align-items: center;
+      height: 46px;
+      border-radius: 8px;
       border: none;
-      background: #ff385c;
-      color: #fff;
+      margin: 0px;
+      padding: 10px;
+      right: 10px;
+      width: 120px;
+      transition: all 0.3s ease;
+      font-size: 16px;
       font-weight: 600;
-      cursor: pointer;
+      gap: 8px;
+
+      .injected-svg {
+        width: 16px;
+        height: 16px;
+        display: inline;
+        stroke: white !important;
+        stroke-width: 4 !important;
+        //transition: width 0.3s ease, height 0.3s ease;
+      }
+
+      .search-elements {
+        display: flex;
+        justify-content: space-between;
+      }
     }
   }
 
-  .injected-svg {
-    width: 14px;
-    height: 14px;
-    stroke: black !important;
-    stroke-width: 3 !important;
-  }
+  // .search-submit-btn {
+  //   margin-top: auto;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   gap: 8px;
+  //   height: 3rem;
+  //   border-radius: 2rem;
+  //   border: none;
+  //   background: #ff385c;
+  //   color: #fff;
+  //   font-weight: 600;
+  //   cursor: pointer;
+  // }
+  // }
+
+  // .injected-svg {
+  //   width: 14px;
+  //   height: 14px;
+  //   stroke: black !important;
+  //   stroke-width: 3 !important;
+  // }
 }
 
 

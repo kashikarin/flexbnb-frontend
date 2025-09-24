@@ -59,15 +59,15 @@ export function SearchBar_mobile() {
   function handleSubmit(ev) {
     ev.preventDefault()
     dispatch({ type: SET_FILTERBY, filterBy: filterByToEdit })
-    //setOpenedDropdown(null)
     setActiveButton(null)
     setIsExpanded(false)
   }
 
   function handleNextBtn(){
-    if (activeButton === 'dates') {
-      setActiveButton('who')
-    }
+    // if (activeButton === 'dates') {
+    //   setActiveButton('who')
+    // }
+    setActiveButton('who')
 
   }
 
@@ -85,6 +85,38 @@ export function SearchBar_mobile() {
       day: 'numeric',
     }).format(new Date(date))
   }
+
+  function getEmptyFilter() {
+    return {
+      city: '',
+      checkIn: null,
+      checkOut: null,
+      adults: 0,
+      children: 0,
+      infants: 0,
+      pets: 0,
+    }
+  }
+
+  function handleCloseClearBtn(sAction){
+      if (sAction === "close"){
+        setIsExpanded(false)
+        setActiveButton(null)
+      }
+      else{
+        setIsExpanded(true)
+        setActiveButton('where')
+      }
+      
+      setAdultsNum(0)
+      setChildrenNum(0)
+      setInfantsNum(0)
+      setPetsNum(0)
+
+      setFilterByToEdit(getEmptyFilter())
+  }
+
+  console.log("who: ", getGuestsNumStr())
 
   return (
     <div className="search-bar-mobile">
@@ -106,7 +138,7 @@ export function SearchBar_mobile() {
           <div className="search-expanded-header">
             <button
               className="close-btn"
-              onClick={() => setIsExpanded(false)}
+              onClick={() => handleCloseClearBtn("close")}
             >
               ✕
             </button>
@@ -116,6 +148,7 @@ export function SearchBar_mobile() {
             ref={whereRef}
             //className={`where-section ${activeButton === 'where' ? 'active' : ''}`}
             className={`where-section ${activeButton === 'where' ? 'active' : filterByToEdit.city ? 'closed' : ''}`}
+            onClick={() => setActiveButton('where')}
           >
             <div className="sTitle">Where?</div>
             
@@ -140,16 +173,19 @@ export function SearchBar_mobile() {
                   </div>
                 </>
               ) : filterByToEdit.city ? (
-                <div className="summary">{filterByToEdit.city}</div>
+                <div className="summary">
+                  {filterByToEdit.city ? filterByToEdit.city : "I'm flexible"}
+                </div>
               ) : null}
    
           </div>
 
           {/* <div ref={datesRef} className={`dates-section ${activeButton === 'dates' ? 'active' : ''}`}> */}
-          {(activeButton === 'dates' || filterByToEdit.checkIn) && (
+          {/* {(activeButton === 'dates' || filterByToEdit.checkIn) && ( */}
           <div
             ref={datesRef}
             className={`dates-section ${activeButton === 'dates' ? 'active' : 'closed'}`}
+            onClick={() => setActiveButton('dates')}
           >
             <div className="sTitle">When?</div>
             {activeButton === 'dates' ? (
@@ -159,15 +195,16 @@ export function SearchBar_mobile() {
               />
             ) : (
               <div className="summary">
-                {formatDate(filterByToEdit.checkIn)} - {formatDate(filterByToEdit.checkOut)}
+                {filterByToEdit.checkIn ? formatDate(filterByToEdit.checkIn) + "-" + formatDate(filterByToEdit.checkOut) : "Add dates"}
               </div>
             )}
           </div>
-          )}
-
-         {(activeButton === 'who' || getGuestsNumStr() !== 'Add guests') && (
+          {/* )} */}
+         
+        {(activeButton === 'who' || activeButton !== 'dates') && (
             <div
               className={`who-section ${activeButton === 'who' ? 'active' : 'closed'}`}
+              onClick={() => setActiveButton('who')}
               ref={capacityRef}
             >
               <div className="sTitle">Who?</div>
@@ -196,15 +233,24 @@ export function SearchBar_mobile() {
             </div>
           )}
 
-          {activeButton === 'dates' && (
-            <button className="next-btn" onClick={handleNextBtn}>
-              <span>Next</span>
-            </button>
-          )}
-          {/* <button className="search-submit-btn" onClick={handleSubmit}>
-            <ReactSVG src="/svgs/search-icon-black.svg" />
-            <span>Search</span>
-          </button> */}
+          <div className='btnsRow'>
+              <button className='clearBtn' onClick={() => handleCloseClearBtn("clear")}>
+                  <span>Clear all</span>
+              </button>
+
+              {activeButton === 'dates' && (
+                <button className="next-btn" onClick={handleNextBtn}>
+                  <span>Next</span>
+                </button>
+              )}
+
+              {((activeButton === 'where' || activeButton === "who") && (activeButton !== "dates")) && (
+                <button className="search-submit-btn" onClick={handleSubmit}>
+                  <ReactSVG src="/svgs/search-icon-black.svg" />
+                  <span>Search</span>
+                </button>
+              )}
+          </div>
         </div>
       )}
     </div>

@@ -80,41 +80,44 @@ export function HomeEdit(){
     }, [])
 
     return(
-        <section className='home-edit-container'>
-            <div className='home-edit-main'>
-                <AnimatePresence mode='wait'>
-                    {!isHomeEditCompletionModalOpen && Comp && (
-                        <motion.div
-                            key={`${currentStep}-${currentSubStep}`} // מזהה ייחודי לכל שלב
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.4, ease: 'easeInOut' }}
-                            style={{ width: '100%' }}
-                        >
-                            <Comp />
-                        </motion.div>
+        <div className="home-edit-wrapper">
+            <section className='home-edit-container'>
+                <div className='home-edit-main'>
+                    <AnimatePresence mode='wait'>
+                        {!isHomeEditCompletionModalOpen && Comp && (
+                            <motion.div
+                                key={`${currentStep}-${currentSubStep}`} // מזהה ייחודי לכל שלב
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                                style={{ width: '100%' }}
+                            >
+                                <Comp />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                    {isHomeEditCompletionModalOpen && (
+                        <HomeEditCompletionModal
+                            potentialHome={potentialHome}
+                            closeHomeEditCompletionModal={closeHomeEditCompletionModal}
+                            addHome={addHome}
+                            clearPotentialHome={clearPotentialHome}
+                        />
                     )}
-                </AnimatePresence>
-                {isHomeEditCompletionModalOpen && (
-                    <HomeEditCompletionModal
-                        potentialHome={potentialHome}
-                        closeHomeEditCompletionModal={closeHomeEditCompletionModal}
-                        addHome={addHome}
-                        clearPotentialHome={clearPotentialHome}
-                    />
-                )}
-                {/* {prevStep && (
-                    <div className="fade-out">
-                    {renderStepComponent(prevStep, prevSubStep)}
-                    </div>
-                )}
-                {displayedStep && (
-                    <div className="fade-in">
-                    {renderStepComponent(displayedStep, displayedSubStep)}
-                    </div>
-                )} */}
-            </div>
-        </section>
+                    {/* {prevStep && (
+                        <div className="fade-out">
+                        {renderStepComponent(prevStep, prevSubStep)}
+                        </div>
+                    )}
+                    {displayedStep && (
+                        <div className="fade-in">
+                        {renderStepComponent(displayedStep, displayedSubStep)}
+                        </div>
+                    )} */}
+                </div>
+            </section>
+        </div>
+        
     )
 }

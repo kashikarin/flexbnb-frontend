@@ -130,9 +130,6 @@ export function AppHeader({ scrollContainerRef }) {
 
   const shouldCollapse = isHomePageScrolled || !isHomeIndex
   //  || isSmallScreen || isMobile
-  //console.log("🚀 ~ shouldCollapse:", shouldCollapse)
-
-  console.log('📱 isMobile:', isMobile, ' width:', window.innerWidth)
 
   return (
     <header
@@ -258,5 +255,4 @@ export function AppHeader({ scrollContainerRef }) {
       )}
     </header>
   )
-  console.log('🎯 finished render with isMobile =', isMobile)
 }

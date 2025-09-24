@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { ReactSVG } from 'react-svg'
+import { useIsMobile } from '../Providers/MobileProvider'
 
 export function CapacityDropdown({
   isOpen,
@@ -26,6 +27,8 @@ export function CapacityDropdown({
     childrenFilter !== null &&
     infantsFilter !== null &&
     petsFilter !== null
+
+  const isMobile = useIsMobile()
 
   return isOpen && numbersReady ? (
     <div>
@@ -148,7 +151,7 @@ export function CapacityDropdown({
                 </button>
               </div>
             </div>
-            {father === 'search-bar' ? (
+            {father === 'search-bar' || isMobile ? (
               ''
             ) : (
               <div className="capacity-dropdown-capacity-description">
@@ -160,7 +163,7 @@ export function CapacityDropdown({
               </div>
             )}
           </div>
-          {father === 'search-bar' ? (
+          {father === 'search-bar' || isMobile ? (
             ''
           ) : (
             <button onClick={onClose}>Close</button>

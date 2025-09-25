@@ -32,10 +32,13 @@ import { closeOrderConfirmationModal } from './store/actions/draft-order.actions
 
 export function RootCmp({ mainRef }) {
   //const mainRef = useRef()
+
   const location = useLocation()
   const isHomeIndex = location.pathname === '/'
   const isHomeEdit = location.pathname === '/hosting/edit'
+  const isHomeDetails = location.pathname.startsWith('/home/')
   const isBookingDashboard = location.pathname === '/hosting/reservations/'
+  const isHosting = location.pathname === '/hosting'
   const isMobile = useSelector((state) => state.systemModule.isMobile)
   console.log('isMobile', isMobile)
   // console.log('isBookingDashboard', isBookingDashboard)
@@ -52,9 +55,7 @@ export function RootCmp({ mainRef }) {
   return (
     <>
       <ScrollToTop />
-      <div className={isHomeIndex ?
-                      (isMobile ? 'narrow-layout' : 'wide-layout') :
-                      'narrow-layout'}>
+      <div className={isHomeDetails ? 'narrow-layout' : 'wide-layout'}>
         {/* <AppHeader scrollContainerRef={mainRef} /> */}
 
         <UserMsg />
@@ -111,9 +112,7 @@ export function RootCmp({ mainRef }) {
           />
         )}
         {isHomeEdit && <HomeEditFooter />}
-        
       </div>
-      
     </>
   )
 }

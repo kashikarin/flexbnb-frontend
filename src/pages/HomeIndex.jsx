@@ -27,7 +27,7 @@ export function HomeIndex() {
 
   useEffect(() => {
     if (!Array.isArray(homes)) return
-    const MIN_LOADER_MS = 3000
+    const MIN_LOADER_MS = 1200
     const elapsed = Date.now() - loadStartRef.current
     const wait = Math.max(0, MIN_LOADER_MS - elapsed)
     const t = setTimeout(() => setShowLoader(false), wait)

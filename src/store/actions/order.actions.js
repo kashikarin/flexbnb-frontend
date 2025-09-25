@@ -13,8 +13,9 @@ import {
 export async function updateOrder(orderToUpdate) {
   try {
     const updatedOrder = await orderService.save(orderToUpdate)
+    console.log("🚀 ~ updatedOrder:", updatedOrder)
     store.dispatch(getCmdUpdateOrder(updatedOrder))
-    await loadOrders({})
+    await loadOrders()
     return updatedOrder
   } catch (err) {
     console.error('Cannot update order status', err)

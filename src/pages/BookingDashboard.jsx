@@ -71,6 +71,8 @@ export const BookingDashboard = () => {
       if (orderToUpdate) {
         const updatedOrder = { ...orderToUpdate, status: confirmAction }
         await updateOrder(updatedOrder)
+        console.log("🚀 ~ updatedOrder:", updatedOrder)
+        
         await loadOrders()
         console.log('Orders reloaded successfully')
       } else {

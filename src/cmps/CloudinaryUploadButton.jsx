@@ -133,7 +133,7 @@ export function CloudinaryDragUpload({ preset, onUpload, className = '' }) {
         <div className="upload-content">
           <div className="upload-icon">📸</div>
           <div className="upload-text">
-            <p>Drag an image here</p>
+            <p>Drag a photo of your property here</p>
             <p>or click to select a file</p>
           </div>
         </div>

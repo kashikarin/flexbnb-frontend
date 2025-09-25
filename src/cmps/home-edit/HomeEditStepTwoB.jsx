@@ -9,10 +9,10 @@ export function HomeEditStepTwoB() {
   )
   const { imageUrls = [] } = potentialHome
 
-  function handlePhotoUpload(url) {
+  function handlePhotoUpload(uploaded) {
     const updatedHome = {
       ...potentialHome,
-      imageUrls: [...imageUrls, url], 
+      imageUrls: [...imageUrls, uploaded].slice(0,5), 
     }
     updatePotentialHome(updatedHome)
   }
@@ -36,7 +36,7 @@ export function HomeEditStepTwoB() {
       style={{ alignItems: 'unset' }}
     >
       <article className="home-edit-step-2-b-title">
-        <h1>Add Photos of Your Property</h1>
+        <h1>Add photos of your property</h1>
         <span>
           You need to upload 5 photos to proceed.{' '}
           {remainingPhotos > 0 && ` (Remaining: ${remainingPhotos} photos)`}
@@ -44,8 +44,11 @@ export function HomeEditStepTwoB() {
       </article>
 
       <article className="home-edit-step-2-b-image-upload">
-        <div className="home-edit-step-2-b-image-upload-content">
-          {imageUrls.length > 0 ? (
+        <div className={`home-edit-step-2-b-image-upload-content ${
+            imageUrls.length === 0 ? 'empty-state' : ''}`}>
+          {/* if images were uploaded, uploaded images display */}
+          {imageUrls.length > 0 && (
+            // cover photo
             <div className="cover-photo-wrapper">
               <img
                 src={imageUrls[0]}
@@ -61,17 +64,8 @@ export function HomeEditStepTwoB() {
                 X
               </button>
             </div>
-          ) : (
-            <div className="upload-tile cover-photo">
-              <CloudinaryDragUpload
-                preset="profile_images"
-                onUpload={handlePhotoUpload}
-                className="cover-upload"
-              />
-            </div>
-          )}
-
-          {/* Next 4 photos */}
+            )}
+            {/* rest of photos */}
             {imageUrls.slice(1, 5).map((url, idx) => (
                 <div key={idx} className="photo-wrapper ">
                     <img
@@ -88,17 +82,17 @@ export function HomeEditStepTwoB() {
                     </button>
                 </div>
             ))}
-            {Array.from({
-                length: Math.min(4, Math.max(0, 5 - imageUrls.length)),
-            }).map((_, idx) => (
-                <div key={`upload-${idx}`} className="upload-tile">
+            {imageUrls.length < 5 && (
+              <div className="upload-tile cover-photo">
                 <CloudinaryDragUpload
-                    preset="profile_images"
-                    onUpload={handlePhotoUpload}
+                  preset="profile_images"
+                  onUpload={handlePhotoUpload}
+                  multiple={true}
+                  maxFiles={5 - imageUrls.length}
                 />
-                </div>
-            ))}
-          </div>
+              </div>
+          )}
+          </div> 
           
         <div className="upload-progress-indicator">
           <div className="progress-bar">

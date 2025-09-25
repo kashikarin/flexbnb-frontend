@@ -8,9 +8,10 @@ export function App() {
 
   return (
     <>
-      <AppHeader scrollContainerRef={mainRef} />
+    <AppHeader/>
+      {/* <AppHeader scrollContainerRef={mainRef} /> */}
       <RootCmp mainRef={mainRef} />
-      {/* TODO: footer */}
+      <AppFooter /> 
     </>
   )
 }

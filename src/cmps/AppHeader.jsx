@@ -77,22 +77,34 @@ export function AppHeader({ scrollContainerRef }) {
     console.log('💻 Desktop mode -> rendering <SearchBar />', isMobile)
   }
 
-  useEffect(() => {
-    const elMain = scrollContainerRef.current
-    if (!elMain) return
-    const handleScroll = () => {
-      if (elMain.scrollTop > 20) setHomePageScrolled()
-      else setHomePageNotScrolled()
+  // useEffect(() => {
+  //   const elMain = scrollContainerRef.current
+  //   if (!elMain) return
+  //   const handleScroll = () => {
+  //     if (elMain.scrollTop > 20) setHomePageScrolled()
+  //     else setHomePageNotScrolled()
 
-      // if (location.pathname.startsWith('/home/')) {
-      //   if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
-      //   else setHomeDetailsImgNotScrolled()
-      // }
+  //     // if (location.pathname.startsWith('/home/')) {
+  //     //   if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
+  //     //   else setHomeDetailsImgNotScrolled()
+  //     // }
+  //   }
+  //   elMain.addEventListener('scroll', handleScroll)
+  //   handleScroll()
+  //   return () => elMain.removeEventListener('scroll', handleScroll)
+  // }, [scrollContainerRef, location.pathname])
+
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 20) setHomePageScrolled()
+      else setHomePageNotScrolled()
     }
-    elMain.addEventListener('scroll', handleScroll)
-    handleScroll()
-    return () => elMain.removeEventListener('scroll', handleScroll)
-  }, [scrollContainerRef, location.pathname])
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // להריץ פעם ראשונה
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [location.pathname])
+
 
   useEffect(() => {
     ;(async function initAndLoadData() {

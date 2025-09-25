@@ -111,8 +111,9 @@ export function RootCmp({ mainRef }) {
           />
         )}
         {isHomeEdit && <HomeEditFooter />}
-        {/* <AppFooter /> */}
+        
       </div>
+      
     </>
   )
 }

@@ -3,7 +3,7 @@
 export function AppFooter_mobile(){
 
     return (
-        <div>
+        <div className="mainfooter">
 
         </div>
     )

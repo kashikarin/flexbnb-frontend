@@ -11,7 +11,10 @@ export function HomeEditStepOneC() {
 
   return (
     <section className="home-edit-step-one-c-container">
-      <article className="home-edit-step-one-c-title">
+      <article
+        className="home-edit-step-one-c-title"
+        style={{ marginBlockStart: '10em' }}
+      >
         <h1>Share some basics about your place</h1>
         <span>You'll add more details later, like bed types.</span>
       </article>

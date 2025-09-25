@@ -46,12 +46,19 @@ transition: all 0.3s ease;
     align-items: center;
     height: 5rem;
     padding: 0 1rem;
-    border-bottom: 1px solid #eee;
+    
+    //border-bottom: 1px solid #eee;
 
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
+    .close-btn_mobile {
+      background: #FFFFFF6A;
+      color:#222222;
+      border: 1px solid $divider-color;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
     }
   }
@@ -66,6 +73,13 @@ transition: all 0.3s ease;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     overflow: hidden;
+
+     opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease, opacity 0.3s ease, transform 0.3s ease,
+    width 0.3s ease, left 0.3s ease;
+    animation: dropdownFadeIn 0.3s ease forwards;
+    
 
     .sTitle {
       font-size: 1.25rem;

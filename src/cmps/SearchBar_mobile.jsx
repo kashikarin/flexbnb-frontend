@@ -129,7 +129,7 @@ export function SearchBar_mobile() {
             setActiveButton('where')}}
         >
           <ReactSVG src="/svgs/search-icon-black.svg" />
-          <div className="search-txt">Start your search</div>
+          <div className="search-txt_mobile">Start your search</div>
         </div>
       )}
 

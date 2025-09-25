@@ -1,6 +1,7 @@
 import { eventBus, showSuccessMsg } from '../services/event-bus.service'
 import { useState, useEffect, useRef } from 'react'
 import { socketService, SOCKET_EVENT_REVIEW_ABOUT_YOU, SOCKET_EVENT_YOUR_HOME_BOOKED, SOCKET_EVENT_ORDER_APPROVED, SOCKET_EVENT_ORDER_REJECTED } from '../services/socket.service'
+import { ReactSVG } from 'react-svg'
 
 window.showSuccessMsg = showSuccessMsg
 export function UserMsg() {
@@ -16,7 +17,7 @@ export function UserMsg() {
                 clearTimeout(timeoutIdRef.current)
                 timeoutIdRef.current = null
             }
-            timeoutIdRef.current = setTimeout(closeMsg, 3000)
+            // timeoutIdRef.current = setTimeout(closeMsg, 3000)
         })
 
         socketService.on(SOCKET_EVENT_YOUR_HOME_BOOKED, order => {
@@ -56,8 +57,16 @@ export function UserMsg() {
     }
     return (
         <section className={`user-msg ${msg?.type || ''} ${msgClass()}`}>
-            <button onClick={closeMsg}>x</button>
-            {msg?.txt}
+            <div className="user-msg-inner">
+                <div className="user-msg-icon">
+                    <ReactSVG src="/svgs/flexbnb.svg" />
+                </div>
+                <div className="user-msg-content">
+                    <p>{msg?.txt}</p>
+                </div>
+                <button className="user-msg-close" onClick={closeMsg}>×</button>
+            </div>
+            
         </section>
     )
 }

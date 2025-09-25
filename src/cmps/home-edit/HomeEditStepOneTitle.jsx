@@ -5,7 +5,10 @@ export function HomeEditStepOneTitle() {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
 
   return loggedInUser ? (
-    <section className="home-edit-step-1-title-container">
+    <section
+      className="home-edit-step-1-title-container"
+      style={{ paddingBlockStart: '5em' }}
+    >
       <article className="home-edit-step-1-title-text-container">
         <div className="home-edit-step-1-title">Step 1</div>
         <div className="home-edit-step-1-title-subtitle">

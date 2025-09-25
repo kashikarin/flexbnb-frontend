@@ -4,15 +4,14 @@ import { homeService } from '../../services/home'
 import { ReactSVG } from 'react-svg'
 
 export function HomeEditStepTwoA() {
-  
   const potentialHome = useSelector(
     (state) => state.homeEditModule.potentialHome
   )
-  
+
   console.log('🚀 ~ potentialHome:', potentialHome)
   const { gAmenities, getAmenityAnimatedSvgPath } = homeService
 
-  function handleClick(amenity) {  
+  function handleClick(amenity) {
     if (potentialHome?.amenities?.includes(amenity)) {
       const updatedAmenities = potentialHome?.amenities?.filter(
         (a) => a !== amenity
@@ -28,9 +27,12 @@ export function HomeEditStepTwoA() {
       })
     }
   }
-  
+
   return (
-    <section className="home-edit-step-2-a-container">
+    <section
+      className="home-edit-step-2-a-container"
+      style={{ paddingBlockStart: '5em' }}
+    >
       <article className="home-edit-step-2-a-title">
         <h1>Tell guests what your place has to offer</h1>
         <span>You can add more amenities after you publish your listing.</span>

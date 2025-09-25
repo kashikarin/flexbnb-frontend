@@ -51,10 +51,10 @@
       margin-bottom: 1rem;
       
       &.empty-state {
-        display: flex;            // במקרה שאין תמונות
+        display: flex;            
         align-items: center;
-        justify-content: center;  // למרכז את המשבצת
-        min-height: 200px;        // גובה נעים, תתאימי
+        justify-content: center;  
+        min-height: 200px;   
       }
 
         .cover-photo-wrapper {

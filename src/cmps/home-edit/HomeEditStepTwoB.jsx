@@ -12,7 +12,7 @@ export function HomeEditStepTwoB() {
   function handlePhotoUpload(url) {
     const updatedHome = {
       ...potentialHome,
-      imageUrls: [...imageUrls, url], // add uploaded photo
+      imageUrls: [...imageUrls, url], 
     }
     updatePotentialHome(updatedHome)
   }
@@ -38,7 +38,7 @@ export function HomeEditStepTwoB() {
       <article className="home-edit-step-2-b-title">
         <h1>Add Photos of Your Property</h1>
         <span>
-          You need at least 5 photos to proceed.{' '}
+          You need to upload 5 photos to proceed.{' '}
           {remainingPhotos > 0 && ` (Remaining: ${remainingPhotos} photos)`}
         </span>
       </article>
@@ -53,13 +53,13 @@ export function HomeEditStepTwoB() {
                 className="uploaded-photo cover-photo"
               />
               <span className="photo-label">Cover Photo</span>×
-              {/* <button
+              <button
                 className="remove-photo-btn"
                 onClick={() => handleRemovePhoto(0)}
                 aria-label="Remove photo"
               >
                 X
-              </button> */}
+              </button>
             </div>
           ) : (
             <div className="upload-tile cover-photo">
@@ -74,18 +74,18 @@ export function HomeEditStepTwoB() {
           {/* Next 4 photos */}
             {imageUrls.slice(1, 5).map((url, idx) => (
                 <div key={idx} className="photo-wrapper ">
-                <img
-                    src={url}
-                    alt={`home-${idx + 1}`}
-                    className="uploaded-photo"
-                />
-                {/* <button
-                    className="remove-photo-btn"
-                    onClick={() => handleRemovePhoto(idx + 1)}
-                    aria-label="Remove photo"
-                >
-                    ×
-                </button> */}
+                    <img
+                        src={url}
+                        alt={`home-${idx + 1}`}
+                        className="uploaded-photo"
+                    />
+                    <button
+                        className="remove-photo-btn"
+                        onClick={() => handleRemovePhoto(idx + 1)}
+                        aria-label="Remove photo"
+                    >
+                        ×
+                    </button>
                 </div>
             ))}
             {Array.from({
@@ -98,14 +98,6 @@ export function HomeEditStepTwoB() {
                 />
                 </div>
             ))}
-            {imageUrls.length >= 5 && (
-                <div className="upload-tile additional">
-                <CloudinaryDragUpload
-                    preset="profile_images"
-                    onUpload={handlePhotoUpload}
-                />
-                </div>
-            )}
           </div>
           
         <div className="upload-progress-indicator">

@@ -137,7 +137,7 @@ export function SearchBar_mobile() {
         <div className="search-expanded">
           <div className="search-expanded-header">
             <button
-              className="close-btn"
+              className="close-btn_mobile"
               onClick={() => handleCloseClearBtn("close")}
             >
               ✕
@@ -146,7 +146,6 @@ export function SearchBar_mobile() {
 
           <div
             ref={whereRef}
-            //className={`where-section ${activeButton === 'where' ? 'active' : ''}`}
             className={`where-section ${activeButton === 'where' ? 'active' : filterByToEdit.city ? 'closed' : ''}`}
             onClick={() => setActiveButton('where')}
           >
@@ -179,9 +178,6 @@ export function SearchBar_mobile() {
               ) : null}
    
           </div>
-
-          {/* <div ref={datesRef} className={`dates-section ${activeButton === 'dates' ? 'active' : ''}`}> */}
-          {/* {(activeButton === 'dates' || filterByToEdit.checkIn) && ( */}
           <div
             ref={datesRef}
             className={`dates-section ${activeButton === 'dates' ? 'active' : 'closed'}`}
@@ -199,7 +195,6 @@ export function SearchBar_mobile() {
               </div>
             )}
           </div>
-          {/* )} */}
          
         {(activeButton === 'who' || activeButton !== 'dates') && (
             <div

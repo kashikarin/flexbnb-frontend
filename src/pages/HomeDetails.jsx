@@ -231,7 +231,7 @@ export function HomeDetails() {
                     <span>·</span>
                     <span>{home.reviews?.length || 0 > 0 ? 
                       `${home.reviews.length} reviews` 
-                      : 'Non Reviews Yet'}
+                      : 'No reviews yet'}
                     </span>
                   </div>
                 )}

@@ -9,7 +9,7 @@ export function HomeEditStepTwoTitle() {
         <div className="home-edit-step-2-title-subtitle">
           Make your place stand out
         </div>
-        <div className="home-edit-step-2-title-description">
+        <div className="home-edit-step`-2-title-description">
           In this step, you’ll add some of the amenities your place offers, plus
           two-title or more photos. Then, you’ll create a title and description.
         </div>

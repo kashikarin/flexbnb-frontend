@@ -190,58 +190,62 @@ export function HomeEditStepOneB() {
 
       <div className="location-section">
         <div className="location-controls">
+          <div className="search-section">
+            <div className="search-input-container">
+              <div className="search-input-wrapper">
+                <input
+                  type="text"
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                  onKeyPress={handleSearchKeyPress}
+                  placeholder="Search for an address, city, or landmark..."
+                  className="search-input"
+                />
+                <button
+                  onClick={searchWithGeocoding}
+                  className="btn btn-success search-btn"
+                  style={{
+                    backgroundColor: '#ff385c',
+                    borderColor: '#ff385c',
+                    color: 'white',
+                  }}
+                >
+                  Search
+                </button>
+              </div>
+
+              {predictions.length > 0 && (
+                <div className="predictions-dropdown">
+                  {predictions.map((prediction) => (
+                    <div
+                      key={prediction.place_id}
+                      onClick={() =>
+                        handlePlaceSelect(
+                          prediction.place_id,
+                          prediction.description
+                        )
+                      }
+                      className="prediction-item"
+                    >
+                      <div className="prediction-main">
+                        {prediction.structured_formatting.main_text}
+                      </div>
+                      <div className="prediction-secondary">
+                        {prediction.structured_formatting.secondary_text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <button
             className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
             onClick={getLocation}
             disabled={isLoading}
           >
-            {isLoading ? 'Getting Location...' : 'Use My Current Location'}
+            {isLoading ? 'Getting Location...' : 'My Location'}
           </button>
-        </div>
-
-        <div className="search-section">
-          <div className="search-input-container">
-            <div className="search-input-wrapper">
-              <input
-                type="text"
-                value={searchValue}
-                onChange={handleSearchChange}
-                onKeyPress={handleSearchKeyPress}
-                placeholder="Search for an address, city, or landmark..."
-                className="search-input"
-              />
-              <button
-                onClick={searchWithGeocoding}
-                className="btn btn-success search-btn"
-              >
-                Search
-              </button>
-            </div>
-
-            {predictions.length > 0 && (
-              <div className="predictions-dropdown">
-                {predictions.map((prediction) => (
-                  <div
-                    key={prediction.place_id}
-                    onClick={() =>
-                      handlePlaceSelect(
-                        prediction.place_id,
-                        prediction.description
-                      )
-                    }
-                    className="prediction-item"
-                  >
-                    <div className="prediction-main">
-                      {prediction.structured_formatting.main_text}
-                    </div>
-                    <div className="prediction-secondary">
-                      {prediction.structured_formatting.secondary_text}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
 
         <div className="map-container">

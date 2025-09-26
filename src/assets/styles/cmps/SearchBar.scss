@@ -12,8 +12,8 @@
   box-sizing: border-box;
   color: rgb(34, 34, 34);
   gap: 2px;
-  font-family: Airbnb Cereal VF, Circular, -apple-system, BlinkMacSystemFont,
-    Roboto, 'Helvetica Neue', sans-serif;
+  // font-family: Airbnb Cereal VF, Circular, -apple-system, BlinkMacSystemFont,
+  //   Roboto, 'Helvetica Neue', sans-serif;
   font-size: 14px;
   line-break: strict;
   line-height: 20.02px;
@@ -311,6 +311,7 @@
 
     .sTitle {
       font-size: 14px;
+      font-weight: 500 !important;
       transition: font-size 0.3s ease;
     }
 

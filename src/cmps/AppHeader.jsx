@@ -71,11 +71,6 @@ export function AppHeader({ scrollContainerRef }) {
 
   const isMobile = useIsMobile()
 
-  if (isMobile) {
-    console.log('📱 Mobile mode -> rendering <SearchBar_mobile />', isMobile)
-  } else {
-    console.log('💻 Desktop mode -> rendering <SearchBar />', isMobile)
-  }
 
   useEffect(() => {
     const elMain = scrollContainerRef.current

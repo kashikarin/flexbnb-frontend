@@ -64,11 +64,11 @@ export function RootCmp({ mainRef }) {
           <Routes>
             {/* <Route path='' element={<HomePage />} /> */}
             <Route path="" element={<HomeIndex />} />
-
+            {/* 
             <Route path="about" element={<AboutUs />}>
               <Route path="team" element={<AboutTeam />} />
               <Route path="vision" element={<AboutVision />} />
-            </Route>
+            </Route> */}
             <Route path="home" element={<HomeIndex />} />
             <Route path="home/:homeId" element={<HomeDetails />} />
             <Route path="/wishlists" element={<Wishlist />} />

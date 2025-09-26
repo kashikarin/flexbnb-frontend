@@ -13,7 +13,7 @@ import {
 import { getDefaultOrderFilter, getEmptyOrder } from './index.js'
 const STORAGE_KEY = 'order'
 import { httpService } from '../http.service'
-norma
+
 
 // _createOrders()
 

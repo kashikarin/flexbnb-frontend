@@ -19,6 +19,7 @@ import {
 import { UserMenu } from './UserMenu'
 import { useIsMobile } from '../Providers/MobileProvider'
 import { SearchBar_mobile } from './SearchBar_mobile'
+import { BookingDashboard } from '../pages/BookingDashboard'
 
 export function AppHeader({ scrollContainerRef }) {
   const dispatch = useDispatch()
@@ -34,6 +35,7 @@ export function AppHeader({ scrollContainerRef }) {
   const isHomeEdit = location.pathname === '/hosting/edit'
   const isHomeDetails = location.pathname.startsWith('/home/')
   const isBookingDashboard = location.pathname === '/hosting/reservations/'
+  const isWishLists = location.pathname === '/wishlists'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   // console.log('loggedInUser', loggedInUser)
   //const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -145,6 +147,7 @@ export function AppHeader({ scrollContainerRef }) {
       } ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
       ${forceExpand ? 'expanded' : ''}
       ${isHomeDetails ? 'narrow-layout' : 'wide-layout'}
+      ${(isBookingDashboard || isWishLists) && isMobile ? 'searchbar-wrapper-mobile' : ''}
       `}
     >
       {isHomeEdit ? (
@@ -159,67 +162,90 @@ export function AppHeader({ scrollContainerRef }) {
             }`}
           >
             {/* hosting, excluding edit, routes: */}
-            {isHosting ? (
-              <div className="app-header-main-nav-content hosing-layout">
-                {/* hosting - left section */}
-                <div className="app-header-left-section">
-                  <NavLink
-                    to="/"
-                    className="logo"
-                    onClick={() => dispatch(setHomePageNotScrolled())}
-                  >
-                    <FaAirbnb className="logo-icon" />
-                    <span>flexbnb</span>
-                  </NavLink>
-                </div>
-                {/* hosting - mid section */}
-                <nav className="hosting-header-nav">
-                  <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
-                    Create a new listing
-                  </NavLink>
-                  <NavLink to="/hosting/reservations/">Reservations</NavLink>
-                </nav>
-                {/* hosting - right section */}
-                <div className="app-header-right-section">
-                  {loggedInUser ? (
-                    <>
-                      <Link to={isHosting ? '/' : '/hosting'}>
-                        {isHosting
-                          ? 'Switch to traveling'
-                          : 'Switch to hosting'}
-                      </Link>
-                      <div className="user-info">
-                        <Link to={`user/${loggedInUser._id}`}>
-                          {loggedInUser.imageUrl ? (
-                            <img
-                              src={loggedInUser.imageUrl}
-                              alt={
-                                loggedInUser.fullname || loggedInUser.username
-                              }
-                            />
-                          ) : (
-                            <div className="user-avatar-placeholder">
-                              <span>
-                                {(
-                                  loggedInUser.fullname ||
-                                  loggedInUser.username ||
-                                  'U'
-                                )
-                                  .charAt(0)
-                                  .toUpperCase()}
-                              </span>
-                            </div>
-                          )}
+            {isHosting ? 
+            (
+              !isMobile ? 
+              (
+                <div className="app-header-main-nav-content hosing-layout">
+                  {/* hosting - left section */}
+                  <div className="app-header-left-section">
+                    <NavLink
+                      to="/"
+                      className="logo"
+                      onClick={() => dispatch(setHomePageNotScrolled())}
+                    >
+                      <FaAirbnb className="logo-icon" />
+                      <span>flexbnb</span>
+                    </NavLink>
+                  </div>
+                  {/* hosting - mid section */}
+                  <nav className="hosting-header-nav">
+                    <NavLink to="/hosting/edit" onClick={onCreateNewListing}>
+                      Create a new listing
+                    </NavLink>
+                    <NavLink to="/hosting/reservations/">Reservations</NavLink>
+                  </nav>
+                  {/* hosting - right section */}
+                  <div className="app-header-right-section">
+                    {loggedInUser ? 
+                    (
+                      <>
+                        <Link to={isHosting ? '/' : '/hosting'}>
+                          {isHosting
+                            ? 'Switch to traveling'
+                            : 'Switch to hosting'}
                         </Link>
-                      </div>
-                    </>
-                  ) : (
-                    <Link to={'/'}>Become a host</Link>
-                  )}
-                  <UserMenu />
+                        <div className="user-info">
+                          <Link to={`user/${loggedInUser._id}`}>
+                            {loggedInUser.imageUrl ? 
+                            (
+                              <img
+                                src={loggedInUser.imageUrl}
+                                alt={
+                                  loggedInUser.fullname || loggedInUser.username
+                                }
+                              />
+                            ) : 
+                            (
+                              <div className="user-avatar-placeholder">
+                                <span>
+                                  {(
+                                    loggedInUser.fullname ||
+                                    loggedInUser.username ||
+                                    'U'
+                                  )
+                                    .charAt(0)
+                                    .toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+                          </Link>
+                        </div>
+                      </>
+                    ) : 
+                    (
+                      <Link to={'/'}>Become a host</Link>
+                    )}
+                    <UserMenu />
+                  </div>
                 </div>
-              </div>
-            ) : (
+              ) :
+              (
+                <div className="app-header-main-nav-content hosing-layout">
+                  <div className="app-header-left-section">
+                      <NavLink
+                        to="/"
+                        className="logo"
+                        onClick={() => dispatch(setHomePageNotScrolled())}
+                      >
+                        <FaAirbnb className="logo-icon" />
+                        <span>flexbnb</span>
+                      </NavLink>
+                    </div>
+                </div>
+              )
+            ) : 
+            (
               <>
                 {/* non-hosting layout */}
                 {!isMobile && (
@@ -277,29 +303,50 @@ export function AppHeader({ scrollContainerRef }) {
                     </div>
                   </div>
                 )}
+                {isWishLists && isMobile && (
+                  <div className="app-header-main-nav-content">
+                      {/* non-hosting - left section */}
+                      <div className="app-header-left-section">
+                        <NavLink
+                          to="/"
+                          className="logo"
+                          onClick={() => dispatch(setHomePageNotScrolled())}
+                        >
+                          <FaAirbnb className="logo-icon" />
+                          <span>flexbnb</span>
+                        </NavLink>
+                      </div>
+                    </div>
+                )}
                 {/* non-hosting - mid section (searchbar) */}
                 <div
                   className={`app-header-mid-section ${
                     shouldCollapse ? 'scrolled' : 'expanded'
                   }`}
                 >
-                  {!isMobile ? (
-                    <div
-                      className={`searchbar-wrapper ${
-                        shouldCollapse ? 'scrolled' : 'expanded'
-                      }`}
-                    >
-                      <SearchBar
-                        shouldCollapse={shouldCollapse}
-                        forceExpand={forceExpand}
-                        setForceExpand={setForceExpand}
-                        scrollContainerRef={scrollContainerRef}
-                      />
-                    </div>
-                  ) : (
-                    <div className="searchbar-wrapper-mobile">
-                      <SearchBar_mobile />
-                    </div>
+                  {!isWishLists ?
+                  (
+                    !isMobile ? (
+                      <div
+                        className={`searchbar-wrapper ${
+                          shouldCollapse ? 'scrolled' : 'expanded'
+                        }`}
+                      >
+                        <SearchBar
+                          shouldCollapse={shouldCollapse}
+                          forceExpand={forceExpand}
+                          setForceExpand={setForceExpand}
+                          scrollContainerRef={scrollContainerRef}
+                        />
+                      </div>
+                    ) : (
+                      <div className="searchbar-wrapper-mobile">
+                        <SearchBar_mobile />
+                      </div>
+                    )
+                  ) :
+                  (
+                    <div></div>
                   )}
                 </div>
               </>

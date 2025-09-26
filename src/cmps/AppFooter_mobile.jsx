@@ -13,10 +13,10 @@ export function AppFooter_mobile() {
         <NavLink to="/wishlists" className="nav-btn">
           <span>Wishlists</span>
         </NavLink>
-        <NavLink to="/dashboard" className="nav-btn">
+        <NavLink to="/hosting/reservations" className="nav-btn">
           <span>Dashboard</span>
         </NavLink>
-        <NavLink to="/profile" className="nav-btn">
+        <NavLink to="" className={({ isActive }) => "nav-btn"} onClick={(ev) => ev.preventDefault()}>
           <span>Profile</span>
         </NavLink>
       </nav>

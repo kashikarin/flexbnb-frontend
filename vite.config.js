@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: '../flexbnb - api/public',
+    outDir: '../flexbnb-api/public',
     emptyOutDir: true,
   },
   server: {

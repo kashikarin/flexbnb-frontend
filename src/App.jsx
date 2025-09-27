@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { AppHeader } from './cmps/AppHeader'
 import { RootCmp } from './RootCmp'
-import { AppFooter } from './cmps/AppFooter'
+import { AppFooterWrapper } from './cmps/AppFooterWrapper'
 
 export function App() {
   const mainRef = useRef()
@@ -11,7 +11,7 @@ export function App() {
       {/* <AppHeader/> */}
       <AppHeader scrollContainerRef={mainRef} />
       <RootCmp mainRef={mainRef} />
-      <AppFooter /> 
+      
     </>
   )
 }

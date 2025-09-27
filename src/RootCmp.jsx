@@ -9,6 +9,7 @@ import { HomeDetails } from './pages/HomeDetails'
 
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
+import { AppFooterWrapper } from './cmps/AppFooterWrapper'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
@@ -95,6 +96,7 @@ export function RootCmp({ mainRef }) {
             </Route>
           </Routes>
         </main>
+        
         {home && draftOrder && isOrderConfirmationModalOpen && (
           <BuyingStepOneModal
             draftOrder={draftOrder}
@@ -112,7 +114,9 @@ export function RootCmp({ mainRef }) {
           />
         )}
         {isHomeEdit && <HomeEditFooter />}
+        <AppFooterWrapper />
       </div>
+      
     </>
   )
 }

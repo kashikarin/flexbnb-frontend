@@ -424,7 +424,7 @@ const gLocs = [
 ]
 const gHomeLabels = ['Top of the world', 'Trending', 'Play', 'Tropical']
 
-if (VITE_LOCAL === 'true') _createHomes()
+// if (VITE_LOCAL === 'true') _createHomes()
 
 async function query(filterBy = getDefaultFilter()) {
   console.log('[HOME SERVICE] LOCAL query called')

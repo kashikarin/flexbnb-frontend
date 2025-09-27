@@ -17,7 +17,7 @@
     //   box-shadow: 0 2px 8px #0001;
     //   padding: 24px;
     padding-block-start: 22px;
-    margin: 0 auto;
+    // margin: 0 auto;
     & .review-user {
       display: flex;
       align-items: center;
@@ -38,7 +38,7 @@
       font-size: 1em;
     }
 
-    & .review-user-loc {
+    & .review-user-seniority {
       color: $secondary-font-gray;
       font-size: 0.875rem;
     }

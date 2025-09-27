@@ -1,10 +1,27 @@
 import { FaStar } from 'react-icons/fa'
+import { getRandomIntInclusive } from '../services/util.service'
 
 export function ReviewCard({ reviews }) {
+  
+  const gRelativeDates = ['1 week ago', 'few days ago', 'today', 'few weeks ago', 'few months ago', 'more than a year ago']
+  const gReviewStay = ['Stayed one night', 'Stayed about a week', 'Stayed a few nights']
+  
   if (!reviews || !reviews.length) return null
 
-  const getRelativeDate = () => '1 week ago'
-  console.log(reviews)
+  function getRelativeDate(){
+    return gRelativeDates[getRandomIntInclusive(0, gRelativeDates.length - 1)]
+  }
+
+  function getReviewStay(){
+    return gReviewStay[getRandomIntInclusive(0, gReviewStay.length - 1)]
+  }
+
+  function getRandomSeniorityStr(){
+    const seniority = getRandomIntInclusive(0, 12)
+    let str
+    seniority < 2 ? str = 'Tel Aviv, Israel' : str = `${seniority} years on Flexbnb`
+    return str
+  }
 
   return (
     <div className="review-card-list">
@@ -14,8 +31,8 @@ export function ReviewCard({ reviews }) {
             <img
               className="review-user-img"
               src={
-                review.by?.imageURL
-                  ? review.by?.imageURL
+                review.by?.imageUrl
+                  ? review.by?.imageUrl
                   : '/svgs/user-icon.svg'
               }
               alt={review.by.fullname}
@@ -24,7 +41,7 @@ export function ReviewCard({ reviews }) {
               <div className="review-user-name">
                 {review.by.fullname || 'Mark'}
               </div>
-              <div className="review-user-loc">Jerusalem, Israel</div>
+              <div className="review-user-seniority">{getRandomSeniorityStr()}</div>
             </div>
           </div>
           <div className="review-meta">
@@ -34,7 +51,7 @@ export function ReviewCard({ reviews }) {
               ))}
             </span>
             <span className="review-date">{getRelativeDate()} </span>
-            <span className="review-stay">· Stayed a few nights</span>
+            <span className="review-stay">· {getReviewStay()}</span>
           </div>
           <div className="review-txt">
             {review.txt ||

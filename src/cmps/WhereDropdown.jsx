@@ -20,9 +20,12 @@ export function WhereDropdown({
         // { title: 'Nearby', subtitle: "Find what's around you" },
         // { title: 'Eilat, Israel', subtitle: 'For a trip abroad' },
         { city: 'Tel Aviv-Yafo', country: 'Israel', subtitle: 'Popular beach destination' },
-        { city: 'London', country: 'United Kingdom', subtitle: 'For its stunning architecturebla bla bla'},
+        { city: 'London', country: 'United Kingdom', subtitle: 'For its stunning architecture'},
         { city: 'Barcelona', country: 'Spain', subtitle: 'Popular beach destination'},
-        // { title: 'Jerusalem, Israel', subtitle: 'For sights like Church of the Holy Sepulchre' },
+        { city: 'Paris', country: 'France', subtitle: 'For its bustling nightlife'},
+        // { city: 'Rome', country: 'Italy', subtitle: 'Family friendly'},
+        // { city: 'Athens', country: 'Greece', subtitle: 'Family friendly'},
+        // { city: 'Budapest', country: 'Hungary', subtitle: 'For sights like Fisherman'},
     ]
 
     function handleClick(ev, city) {

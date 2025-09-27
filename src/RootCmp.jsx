@@ -17,7 +17,7 @@ import { Signup } from './pages/Signup.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
 import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
 import { Wishlist } from './cmps/Wishlist.jsx'
 import MyTravels from './cmps/MyTravels.jsx'
@@ -31,7 +31,7 @@ import { draftOrderService } from './services/draft-order/draft-order.service.lo
 import { addOrder } from './store/actions/order.actions.js'
 import { closeOrderConfirmationModal } from './store/actions/draft-order.actions.js'
 
-export function RootCmp({ mainRef }) {
+export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded}) {
   //const mainRef = useRef()
 
   const location = useLocation()
@@ -64,12 +64,13 @@ export function RootCmp({ mainRef }) {
           {/* {isIndex && <LabelsSlider />} */}
           <Routes>
             {/* <Route path='' element={<HomePage />} /> */}
-            <Route path="" element={<HomeIndex />} />
+            {/* <Route path="" element={<HomeIndex />} /> */}
             {/* 
             <Route path="about" element={<AboutUs />}>
               <Route path="team" element={<AboutTeam />} />
               <Route path="vision" element={<AboutVision />} />
             </Route> */}
+            <Route path="" element={<HomeIndex setIsSearchExpanded={setIsSearchExpanded} />} />
             <Route path="home" element={<HomeIndex />} />
             <Route path="home/:homeId" element={<HomeDetails />} />
             <Route path="/wishlists" element={<Wishlist />} />
@@ -114,7 +115,7 @@ export function RootCmp({ mainRef }) {
           />
         )}
         {isHomeEdit && <HomeEditFooter />}
-        <AppFooterWrapper />
+        {!isSearchExpanded && <AppFooterWrapper />}
       </div>
       
     </>

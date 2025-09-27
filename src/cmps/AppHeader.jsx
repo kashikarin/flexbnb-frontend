@@ -21,7 +21,7 @@ import { useIsMobile } from '../Providers/MobileProvider'
 import { SearchBar_mobile } from './SearchBar_mobile'
 import { BookingDashboard } from '../pages/BookingDashboard'
 
-export function AppHeader({ scrollContainerRef }) {
+export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
   const dispatch = useDispatch()
   const location = useLocation()
   const isHomePageScrolled = useSelector(
@@ -343,7 +343,7 @@ export function AppHeader({ scrollContainerRef }) {
                       </div>
                     ) : (
                       <div className="searchbar-wrapper-mobile">
-                        <SearchBar_mobile />
+                        <SearchBar_mobile setIsSearchExpanded={setIsSearchExpanded}/>
                       </div>
                     )
                   ) :

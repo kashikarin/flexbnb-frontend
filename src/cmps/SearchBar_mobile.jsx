@@ -6,7 +6,7 @@ import { ReactSVG } from 'react-svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_FILTERBY } from '../store/reducers/home.reducer.js'
 
-export function SearchBar_mobile() {
+export function SearchBar_mobile({ setIsSearchExpanded }) {
   //const [openedDropdown, setOpenedDropdown] = useState(null)
   const [activeButton, setActiveButton] = useState(null)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -61,6 +61,7 @@ export function SearchBar_mobile() {
     dispatch({ type: SET_FILTERBY, filterBy: filterByToEdit })
     setActiveButton(null)
     setIsExpanded(false)
+    setIsSearchExpanded(false)
   }
 
   function handleNextBtn(){
@@ -102,10 +103,12 @@ export function SearchBar_mobile() {
       if (sAction === "close"){
         setIsExpanded(false)
         setActiveButton(null)
+        setIsSearchExpanded(false)
       }
       else{
         setIsExpanded(true)
         setActiveButton('where')
+        setIsSearchExpanded(true)
       }
       
       setAdultsNum(0)
@@ -126,7 +129,10 @@ export function SearchBar_mobile() {
           onClick={() =>{ 
             setIsExpanded(true)
             //setOpenedDropdown('where') 
-            setActiveButton('where')}}
+            setIsSearchExpanded(true)
+            setActiveButton('where')}
+
+          }
         >
           <ReactSVG src="/svgs/search-icon-black.svg" />
           <div className="search-txt_mobile">Start your search</div>

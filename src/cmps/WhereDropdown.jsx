@@ -23,9 +23,9 @@ export function WhereDropdown({
         { city: 'London', country: 'United Kingdom', subtitle: 'For its stunning architecture'},
         { city: 'Barcelona', country: 'Spain', subtitle: 'Popular beach destination'},
         { city: 'Paris', country: 'France', subtitle: 'For its bustling nightlife'},
-        { city: 'Rome', country: 'Italy', subtitle: 'Family friendly'},
-        { city: 'Athens', country: 'Greece', subtitle: 'Family friendly'},
-        { city: 'Budapest', country: 'Hungary', subtitle: 'For sights like Fisherman'},
+        // { city: 'Rome', country: 'Italy', subtitle: 'Family friendly'},
+        // { city: 'Athens', country: 'Greece', subtitle: 'Family friendly'},
+        // { city: 'Budapest', country: 'Hungary', subtitle: 'For sights like Fisherman'},
     ]
 
     function handleClick(ev, city) {

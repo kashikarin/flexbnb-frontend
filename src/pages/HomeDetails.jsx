@@ -207,11 +207,11 @@ export function HomeDetails() {
                 </h2>
 
                 <div className="home-details-amenities-list">
-                  <p>{home.capacity} guests</p>
+                  <p>{home.capacity} {home.capacity > 1 ? 'guests' : 'guest'}</p>
                   <span>·</span>
-                  <p>{home.bedsCount} beds</p>
+                  <p>{home.bedsCount > 0 ? home.bedsCount : 0} {home.bedsCount > 1 ? 'beds' : 'bed'}</p>
                   <span>·</span>
-                  <p>{home.bathCount} bath</p>
+                  <p>{home.bathCount > 0 ? home.bathCount : 0} {home.bathCount > 1 ? 'baths' : 'bath'}</p>
                 </div>
                 {getAvgRating(home) < 4 && (
                   <div className="home-details-reviews-headline">

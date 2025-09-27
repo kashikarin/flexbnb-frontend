@@ -15,11 +15,11 @@ export function HomeEditFooter() {
   )
 
   console.log('🚀 ~ potentialHome:', potentialHome)
-//   const currentSubStepStatus = useSelector(
-//     (state) =>
-//       state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ??
-//       false
-//   )
+  //   const currentSubStepStatus = useSelector(
+  //     (state) =>
+  //       state.homeEditModule.potentialHome?.editProgress?.currentSubStepStatus ??
+  //       false
+  //   )
   const currentSubStep = useSelector(
     (state) =>
       state.homeEditModule.potentialHome?.editProgress?.currentSubStep ?? 1
@@ -72,7 +72,7 @@ export function HomeEditFooter() {
       }
       setNextSubStep()
       setIsLoading(false)
-    }, 1000)
+    }, 200)
   }
 
   function onBackClick() {
@@ -109,7 +109,13 @@ export function HomeEditFooter() {
         </button>
         <button
           className="home-edit-next-btn"
-          disabled={!potentialHomeService.isSubStepCompleted(potentialHome, currentStep, currentSubStep) || isLoading}
+          disabled={
+            !potentialHomeService.isSubStepCompleted(
+              potentialHome,
+              currentStep,
+              currentSubStep
+            ) || isLoading
+          }
           onClick={onNextClick}
         >
           {isLoading ? <div className="loader"></div> : 'Next'}

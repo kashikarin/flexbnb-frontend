@@ -169,7 +169,7 @@ function getDemoBookings(
     end.setDate(end.getDate() + stay)
 
     if (start >= horizonEnd) break
-    bookings.push({ checkIn: normalizeToLocalMidnight(start), checkOut: normalizeToLocalMidnight(end) }) // end is exclusive
+    bookings.push({ checkIn: start, checkOut: end }) // end is exclusive
     pointer += stay
   }
   return bookings

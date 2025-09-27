@@ -46,7 +46,7 @@ export function CapacityDropdown({
                     ev.preventDefault()
                     ev.stopPropagation()
                   }}
-                  onClick={() => setAdultsNum((prev) => prev - 1)}
+                  onClick={() => setAdultsNum((prev) => Number(prev) - 1)}
                   disabled={adultsFilter <= 0}
                 >
                   <ReactSVG src="/svgs/minus-icon.svg" />
@@ -58,7 +58,7 @@ export function CapacityDropdown({
                     ev.preventDefault()
                     ev.stopPropagation()
                   }}
-                  onClick={() => setAdultsNum((prev) => prev + 1)}
+                  onClick={() => setAdultsNum((prev) => Number(prev) + 1)}
                 >
                   <ReactSVG src="/svgs/plus-icon.svg" />
                 </button>

@@ -1,6 +1,5 @@
 const { DEV, VITE_LOCAL } = import.meta.env
-import { getRandomIntInclusive, makeId } from '../util.service'
-
+import { getRandomIntInclusive, makeId, normalizeToLocalMidnight } from '../util.service'
 import { homeService as local } from './home.service.local'
 import { homeService as remote } from './home.service.remote'
 
@@ -170,7 +169,7 @@ function getDemoBookings(
     end.setDate(end.getDate() + stay)
 
     if (start >= horizonEnd) break
-    bookings.push({ checkIn: start, checkOut: end }) // end is exclusive
+    bookings.push({ checkIn: normalizeToLocalMidnight(start), checkOut: normalizeToLocalMidnight(end) }) // end is exclusive
     pointer += stay
   }
   return bookings

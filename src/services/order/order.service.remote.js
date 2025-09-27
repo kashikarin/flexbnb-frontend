@@ -1,11 +1,11 @@
 import { homeService } from '../home'
 // import { homeService } from '@/services/home'
-
 import { userService } from '../user'
 import { storageService } from '../async-storage.service'
 import {
   getRandomIntInclusive,
   makeId,
+  normalizeToLocalMidnight,
   randomFutureTime,
   randomPastTime,
   utilService,
@@ -13,6 +13,7 @@ import {
 import { getDefaultOrderFilter, getEmptyOrder } from './index.js'
 const STORAGE_KEY = 'order'
 import { httpService } from '../http.service'
+
 
 // _createOrders()
 
@@ -40,6 +41,8 @@ async function query() {
 }
 
 async function save(orderToSave) {
+  orderToSave.checkIn = normalizeToLocalMidnight(orderToSave.checkIn)
+  orderToSave.checkOut = normalizeToLocalMidnight(orderToSave.checkOut)
   try {
     if (orderToSave._id) {
       return await httpService.put(`orders/${orderToSave._id}`, orderToSave)

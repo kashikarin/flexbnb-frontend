@@ -212,6 +212,13 @@ export function normalizeDate(value) {
   return isNaN(parsed.getTime()) ? null : parsed
 }
 
+export function normalizeToLocalMidnight(dateString) {
+  if (!dateString) return null
+  const d = new Date(dateString)
+  d.setHours(0,0,0,0)
+  return d
+}
+
 export async function getCityFromCoordinates(lat, lng) {
   try {
     const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`)

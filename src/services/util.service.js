@@ -207,16 +207,15 @@ export function formatDate(value) {
 
 export function normalizeDate(value) {
   if (!value) return null
-  if (value instanceof Date) return value
-  const parsed = new Date(value)
-  return isNaN(parsed.getTime()) ? null : parsed
+  const date = value instanceof Date ? value : new Date(value)
+  return isNaN(date) ? null : date
 }
 
-export function normalizeToLocalMidnight(dateString) {
-  if (!dateString) return null
-  const d = new Date(dateString)
-  d.setHours(0,0,0,0)
-  return d
+export function normalizeDateToUTC(date){
+  const newDate = new Date(date)  
+  newDate.setHours(0, 0, 0, 0)
+  newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset())
+  return newDate
 }
 
 export async function getCityFromCoordinates(lat, lng) {

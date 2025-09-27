@@ -134,17 +134,49 @@ export function roundToDecimals(num, decimals = 2) {
   return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals)
 }
 
-export function getStayDatesStr() {
+export function getNextAvailableStayStr(home, nights = 3) {
   const today = new Date()
-  const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1)
-  const shortStrThisMonth = today.toLocaleString('en-US', { month: 'short' })
-  const shortStrNextMonth = nextMonth.toLocaleString('en-US', {
-    month: 'short',
-  })
-  return today.getDate() < 26 && today.getMonth !== 1
-    ? `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
-    : `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
+  today.setHours(0, 0, 0, 0)
+
+  let candidate = new Date(today)
+  candidate.setDate(candidate.getDate() + 1) 
+
+  while (true) {
+    const candidateEnd = new Date(candidate)
+    candidateEnd.setDate(candidateEnd.getDate() + nights)
+
+    const overlap = home.bookings.some(
+      b => candidate < b.checkOut && candidateEnd > b.checkIn
+    )
+
+    if (!overlap) return _formatRange(candidate, candidateEnd)
+       
+    const blocking = home.bookings.find(
+      b => candidate < b.checkOut && candidateEnd > b.checkIn
+    )
+    candidate = new Date(blocking.checkOut)
+  }
 }
+
+function _formatRange(start, end) {
+  const opts = { month: 'short', day: 'numeric' }
+  const startStr = start.toLocaleDateString('en-US', opts)
+  const endStr = end.toLocaleDateString('en-US', opts)
+  if (start.getMonth() === end.getMonth()) return `${startStr} – ${endStr.split(" ")[1]}` 
+  return `${startStr} – ${endStr}`
+}
+
+// export function getStayDatesStr() {
+//   const today = new Date()
+//   const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1)
+//   const shortStrThisMonth = today.toLocaleString('en-US', { month: 'short' })
+//   const shortStrNextMonth = nextMonth.toLocaleString('en-US', {
+//     month: 'short',
+//   })
+//   return today.getDate() < 26 && today.getMonth !== 1
+//     ? `${shortStrThisMonth} ${today.getDate() + 1}-${today.getDate() + 4}`
+//     : `${shortStrNextMonth} 1&thinsp;-&thinsp;4`
+// }
 
 export function getRandom3NightsStayDatesStr() {
   const today = new Date()

@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   capitalizeStr,
   getAvgRating,
-  getStayDatesStr,
+  getNextAvailableStayStr,
   roundToDecimals,
 } from '../services/util.service'
 import { useRef, useState, useEffect } from 'react'
@@ -198,9 +198,9 @@ export function HomePreview({ home, isHomeLiked, onAddLike, onRemoveLike }) {
                 )} `
               : capitalizeStr(home.type)}
           </p>
-          {location.pathname !== '/wishlists' && <p>{getStayDatesStr()}</p>}
+          {location.pathname !== '/wishlists' && <p>{getNextAvailableStayStr(home)}</p>}
           <p>
-            {`${roundToDecimals(home.price).toLocaleString()}$`}
+            {`${roundToDecimals(home.price * 3 * 1.14).toLocaleString()}$`}
             {` for 3 nights`} · ★ <span>{getAvgRating(home)}</span>
           </p>
         </div>

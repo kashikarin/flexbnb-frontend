@@ -41,8 +41,8 @@ async function query() {
 }
 
 async function save(orderToSave) {
-  orderToSave.checkIn = normalizeToLocalMidnight(orderToSave.checkIn)
-  orderToSave.checkOut = normalizeToLocalMidnight(orderToSave.checkOut)
+  orderToSave.checkIn = orderToSave.checkIn
+  orderToSave.checkOut = orderToSave.checkOut
   try {
     if (orderToSave._id) {
       return await httpService.put(`orders/${orderToSave._id}`, orderToSave)

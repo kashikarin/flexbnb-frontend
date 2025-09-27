@@ -6,6 +6,7 @@ import { CapacityDropdown } from './CapacityDropdown.jsx'
 import { SET_FILTERBY } from '../store/reducers/home.reducer.js'
 import { SET_HOMEPAGE_SCROLLED } from '../store/reducers/scroll.reducer.js'
 import { DatesDropdown } from './DatesDropdown.jsx'
+import { setHomePageNotScrolled } from '../store/actions/scroll.actions'
 
 export function SearchBar({
   shouldCollapse,
@@ -111,23 +112,11 @@ export function SearchBar({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
 
-  const scrolled = shouldCollapse && !forceExpand
+  //const scrolled = shouldCollapse && !forceExpand
+  const scrolled = shouldCollapse
 
-  // useEffect(() => {
-  //   let ref
-  //   if (activeButton === 'where') ref = whereRef
-  //   if (activeButton === 'checkIn') ref = checkInRef
-  //   if (activeButton === 'checkOut') ref = checkOutRef
-  //   if (activeButton === 'capacity') ref = capacityRef
+  const isExpanded = forceExpand
 
-  //   if (ref?.current) {
-  //     const { offsetLeft, offsetWidth } = ref.current
-  //     setIndicatorStyle({
-  //       left: offsetLeft,
-  //       width: offsetWidth,
-  //     })
-  //   }
-  // }, [activeButton])
 
   useEffect(() => {
     if (!activeButton) {
@@ -157,40 +146,69 @@ export function SearchBar({
     }))
   }
 
+  // useEffect(() => {
+  //   if (scrolled) {
+  //     setOpenedDropdown(null)
+  //     setActiveButton(null)
+  //   }
+  // }, [scrolled])
+
   useEffect(() => {
-    if (scrolled) {
-      setOpenedDropdown(null)
-      setActiveButton(null)
-    }
-  }, [scrolled])
-
-  function handleSearchClick(btName) {
-    if (shouldCollapse && !isMobile) {
-      setForceExpand(true)
-    }
-
-    if (btName === 'checkIn' || btName === 'checkOut') {
-      setOpenedDropdown('dates')
-
-      if (activeButton === 'where' && btName === 'checkIn') {
-        setActiveButton('checkIn')
-      } else if (activeButton === 'checkIn' && btName === 'checkOut') {
-        setActiveButton('checkOut')
-      } else {
-        setActiveButton(btName)
-        setIndicatorStyle((prev) => ({ ...prev }))
+      if (scrolled && !forceExpand) { 
+        setOpenedDropdown(null)
+        setActiveButton(null)
       }
-    } else {
-      setOpenedDropdown(btName)
-      setActiveButton(btName)
-      setIndicatorStyle((prev) => ({ ...prev }))
-    }
-  }
+    }, [scrolled, forceExpand]) 
 
-  // function onInputChange(ev) {
-  //   const val = ev.target.value;
-  //   debouncedSetTxt(val);
+
+  // function handleSearchClick(btName) {
+  //   if (shouldCollapse && !isMobile) {
+  //     setForceExpand(true)
+  //   }
+
+  //   if (btName === 'checkIn' || btName === 'checkOut') {
+  //     setOpenedDropdown('dates')
+
+  //     if (activeButton === 'where' && btName === 'checkIn') {
+  //       setActiveButton('checkIn')
+  //     } else if (activeButton === 'checkIn' && btName === 'checkOut') {
+  //       setActiveButton('checkOut')
+  //     } else {
+  //       setActiveButton(btName)
+  //       setIndicatorStyle((prev) => ({ ...prev }))
+  //     }
+  //   } else {
+  //     setOpenedDropdown(btName)
+  //     setActiveButton(btName)
+  //     setIndicatorStyle((prev) => ({ ...prev }))
+  //   }
   // }
+
+function handleSearchClick(btName) {
+  if (shouldCollapse && !isMobile) {
+    dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: false })
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    setForceExpand(true)
+    const bar = searchBarRef.current
+    if (bar) {
+      const onTransitionEnd = (ev) => {
+        if (['grid-row', 'width', 'transform'].includes(ev.propertyName)) {
+          setOpenedDropdown(btName === 'checkIn' || btName === 'checkOut' ? 'dates' : btName)
+          setActiveButton(btName)
+          bar.removeEventListener('transitionend', onTransitionEnd)
+        }
+      }
+      bar.addEventListener('transitionend', onTransitionEnd)
+    }
+  } else {
+    setOpenedDropdown(btName === 'checkIn' || btName === 'checkOut' ? 'dates' : btName)
+    setActiveButton(btName)
+  }
+}
+
+
 
   function handleSubmit(ev) {
     ev.preventDefault()
@@ -317,24 +335,33 @@ export function SearchBar({
   return (
     <search>
       <div
-        className={`search-bar-container ${scrolled ? 'scrolled' : ''} 
-        ${activeButton ? 'has-active' : ''} ${forceExpand ? 'expanded' : ''}`}
-        onClick={() => {
-          setSearchButtonWide(true)
-          scrolled && !isMobile && setForceExpand(true)
-          if (scrollContainerRef?.current) {
-            scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' }) // גלילה לראש
-          }
-          setTimeout(() => {
-            setForceExpand(true)
-          }, 50)
-        }}
+        className={`search-bar-container 
+          ${scrolled ? 'scrolled' : ''} 
+          ${isExpanded ? 'expanded' : ''} 
+          ${activeButton ? 'has-active' : ''}`}
         ref={searchBarRef}
+
+        onClick={() => {
+          if (scrolled && !isMobile) {
+            dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: false })
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+            setForceExpand(true)
+
+            setActiveButton(null)
+            setOpenedDropdown(null)
+          }
+        }}
+
+
+
+
+
       >
         <div>
           <div
             ref={whereRef}
             onClick={() => handleSearchClick('where')}
+
             className={`inner-section ${
               activeButton == 'where' ? 'active' : ''
             }`}

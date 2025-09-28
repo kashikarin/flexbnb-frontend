@@ -30,7 +30,7 @@ export function UserMsg() {
         clearTimeout(timeoutIdRef.current)
         timeoutIdRef.current = null
       }
-      // timeoutIdRef.current = setTimeout(closeMsg, 3000)
+      timeoutIdRef.current = setTimeout(closeMsg, 5000)
     })
 
     socketService.on(SOCKET_EVENT_YOUR_HOME_BOOKED, (order) => {

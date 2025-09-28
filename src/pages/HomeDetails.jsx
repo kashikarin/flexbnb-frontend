@@ -62,19 +62,21 @@ export function HomeDetails() {
   const imgBreakPointRef = useRef()
   // const stickyBreakPointRef = useRef()
 
-  console.log('🚀 ~ draftOrder:', draftOrder)
-  console.log(home)
-  console.log('🚀 ~ loggedInUser:', loggedInUser)
+  const [showLoader, setShowLoader] = useState(true)
+  const loadStartRef = useRef(Date.now())
+
+  // console.log('🚀 ~ draftOrder:', draftOrder)
+  // console.log(home)
+  // console.log('🚀 ~ loggedInUser:', loggedInUser)
 
   useEffect(() => {
     if (!homeId) return
     loadHome(homeId)
   }, [homeId])
 
-  useEffect(()=>{
-     if (home && home._id) addDraftOrder(homeId, filterBy)
+  useEffect(() => {
+    if (home && home._id) addDraftOrder(homeId, filterBy)
   }, [home, filterBy])
-
 
   useEffect(() => {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
@@ -164,7 +166,11 @@ export function HomeDetails() {
 
   return (
     <>
-      {home && (
+      {!home && showLoader ? (
+        <div className="loader-container">
+          <span className="loading"></span>
+        </div>
+      ) : (
         <div className="home-details-container">
           <div className="home-details-header">
             <h1>
@@ -182,13 +188,13 @@ export function HomeDetails() {
             id="hd-images-container"
             ref={imgBreakPointRef}
           >
-            {home.imageUrls?.slice(0,5).map((imageUrl, idx) => (
+            {home.imageUrls?.slice(0, 5).map((imageUrl, idx) => (
               <img
-                  key={idx}
-                  className="home-details-img"
-                  src={imageUrl}
-                  alt={`home image ${idx + 1}`}
-                />
+                key={idx}
+                className="home-details-img"
+                src={imageUrl}
+                alt={`home image ${idx + 1}`}
+              />
             ))}
           </div>
           <section className="home-details-mid-section">
@@ -207,11 +213,19 @@ export function HomeDetails() {
                 </h2>
 
                 <div className="home-details-amenities-list">
-                  <p>{home.capacity} {home.capacity > 1 ? 'guests' : 'guest'}</p>
+                  <p>
+                    {home.capacity} {home.capacity > 1 ? 'guests' : 'guest'}
+                  </p>
                   <span>·</span>
-                  <p>{home.bedsCount > 0 ? home.bedsCount : 0} {home.bedsCount > 1 ? 'beds' : 'bed'}</p>
+                  <p>
+                    {home.bedsCount > 0 ? home.bedsCount : 0}{' '}
+                    {home.bedsCount > 1 ? 'beds' : 'bed'}
+                  </p>
                   <span>·</span>
-                  <p>{home.bathCount > 0 ? home.bathCount : 0} {home.bathCount > 1 ? 'baths' : 'bath'}</p>
+                  <p>
+                    {home.bathCount > 0 ? home.bathCount : 0}{' '}
+                    {home.bathCount > 1 ? 'baths' : 'bath'}
+                  </p>
                 </div>
                 {getAvgRating(home) < 4 && (
                   <div className="home-details-reviews-headline">
@@ -229,16 +243,17 @@ export function HomeDetails() {
                       </span>
                     </span>
                     <span>·</span>
-                    <span>{home.reviews?.length || 0 > 0 ? 
-                      `${home.reviews.length} reviews` 
-                      : 'No reviews yet'}
+                    <span>
+                      {home.reviews?.length || 0 > 0
+                        ? `${home.reviews.length} reviews`
+                        : 'No reviews yet'}
                     </span>
                   </div>
                 )}
               </div>
               {getAvgRating(home) >= 4 && <GuestFav home={home} />}
               <div className="home-details-hosted-by-article">
-                <img src={home.host.imageUrl || '/svgs/user-icon.svg'}/> 
+                <img src={home.host.imageUrl || '/svgs/user-icon.svg'} />
                 <div className="home-details-hosted-by-text">
                   <div>{`Hosted by ${home.host.fullname.split(' ')[0]}`}</div>
                 </div>

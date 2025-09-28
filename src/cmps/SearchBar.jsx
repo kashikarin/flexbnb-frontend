@@ -117,7 +117,6 @@ export function SearchBar({
 
   const isExpanded = forceExpand
 
-
   useEffect(() => {
     if (!activeButton) {
       setIndicatorStyle({ display: 'none' })
@@ -154,12 +153,11 @@ export function SearchBar({
   // }, [scrolled])
 
   useEffect(() => {
-      if (scrolled && !forceExpand) { 
-        setOpenedDropdown(null)
-        setActiveButton(null)
-      }
-    }, [scrolled, forceExpand]) 
-
+    if (scrolled && !forceExpand) {
+      setOpenedDropdown(null)
+      setActiveButton(null)
+    }
+  }, [scrolled, forceExpand])
 
   // function handleSearchClick(btName) {
   //   if (shouldCollapse && !isMobile) {
@@ -184,31 +182,33 @@ export function SearchBar({
   //   }
   // }
 
-function handleSearchClick(btName) {
-  if (shouldCollapse && !isMobile) {
-    dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: false })
+  function handleSearchClick(btName) {
+    if (shouldCollapse && !isMobile) {
+      dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: false })
 
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
 
-    setForceExpand(true)
-    const bar = searchBarRef.current
-    if (bar) {
-      const onTransitionEnd = (ev) => {
-        if (['grid-row', 'width', 'transform'].includes(ev.propertyName)) {
-          setOpenedDropdown(btName === 'checkIn' || btName === 'checkOut' ? 'dates' : btName)
-          setActiveButton(btName)
-          bar.removeEventListener('transitionend', onTransitionEnd)
+      setForceExpand(true)
+      const bar = searchBarRef.current
+      if (bar) {
+        const onTransitionEnd = (ev) => {
+          if (['grid-row', 'width', 'transform'].includes(ev.propertyName)) {
+            setOpenedDropdown(
+              btName === 'checkIn' || btName === 'checkOut' ? 'dates' : btName
+            )
+            setActiveButton(btName)
+            bar.removeEventListener('transitionend', onTransitionEnd)
+          }
         }
+        bar.addEventListener('transitionend', onTransitionEnd)
       }
-      bar.addEventListener('transitionend', onTransitionEnd)
+    } else {
+      setOpenedDropdown(
+        btName === 'checkIn' || btName === 'checkOut' ? 'dates' : btName
+      )
+      setActiveButton(btName)
     }
-  } else {
-    setOpenedDropdown(btName === 'checkIn' || btName === 'checkOut' ? 'dates' : btName)
-    setActiveButton(btName)
   }
-}
-
-
 
   function handleSubmit(ev) {
     ev.preventDefault()
@@ -332,6 +332,7 @@ function handleSearchClick(btName) {
     }).format(new Date(date))
   }
   // console.log('city filter:', filterByToEdit.city)
+  console.log('searchButtonWide: ', searchButtonWide)
   return (
     <search>
       <div
@@ -340,34 +341,34 @@ function handleSearchClick(btName) {
           ${isExpanded ? 'expanded' : ''} 
           ${activeButton ? 'has-active' : ''}`}
         ref={searchBarRef}
-
         onClick={() => {
           if (scrolled && !isMobile) {
             dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: false })
             window.scrollTo({ top: 0, behavior: 'smooth' })
             setForceExpand(true)
-
+            
             setActiveButton(null)
             setOpenedDropdown(null)
           }
+          setSearchButtonWide(true)
         }}
-
-
-
-
-
       >
         <div>
           <div
             ref={whereRef}
             onClick={() => handleSearchClick('where')}
-
             className={`inner-section ${
               activeButton == 'where' ? 'active' : ''
             }`}
           >
-            <div className="sTitle">{}
-              {scrolled && <img src='/img/house-icon.png' className='house-title-scrolled'/> }
+            <div className="sTitle">
+              {}
+              {scrolled && (
+                <img
+                  src="/img/house-icon.png"
+                  className="house-title-scrolled"
+                />
+              )}
               {getWhereTitleText()}
             </div>
             {!scrolled && (
@@ -482,6 +483,7 @@ function handleSearchClick(btName) {
                     ? `${capacity} ${capacity > 1 ? 'guests' : 'guest'}`
                     : ''
                 }
+                onChange={() => {}}
               />
             )}
 
@@ -503,7 +505,7 @@ function handleSearchClick(btName) {
                 petsAllowed={undefined}
               />
             </div>
-
+            
             <button
               className={`search-button ${
                 searchButtonWide ? 'search-button-wide' : ''

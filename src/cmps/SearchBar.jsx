@@ -332,6 +332,7 @@ export function SearchBar({
     }).format(new Date(date))
   }
   // console.log('city filter:', filterByToEdit.city)
+  console.log('searchButtonWide: ', searchButtonWide)
   return (
     <search>
       <div
@@ -345,10 +346,11 @@ export function SearchBar({
             dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: false })
             window.scrollTo({ top: 0, behavior: 'smooth' })
             setForceExpand(true)
-
+            
             setActiveButton(null)
             setOpenedDropdown(null)
           }
+          setSearchButtonWide(true)
         }}
       >
         <div>
@@ -503,7 +505,7 @@ export function SearchBar({
                 petsAllowed={undefined}
               />
             </div>
-
+            
             <button
               className={`search-button ${
                 searchButtonWide ? 'search-button-wide' : ''

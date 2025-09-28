@@ -21,7 +21,7 @@ import { useIsMobile } from '../Providers/MobileProvider'
 import { SearchBar_mobile } from './SearchBar_mobile'
 import { BookingDashboard } from '../pages/BookingDashboard'
 
-export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
+export function AppHeader({ scrollContainerRef, setIsSearchExpanded }) {
   const dispatch = useDispatch()
   const location = useLocation()
   const isHomePageScrolled = useSelector(
@@ -74,7 +74,6 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
 
   const isMobile = useIsMobile()
 
-
   // useEffect(() => {
   //   const elMain = scrollContainerRef.current
   //   if (!elMain) return
@@ -102,8 +101,6 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
     handleScroll() // להריץ פעם ראשונה
     return () => window.removeEventListener('scroll', handleScroll)
   }, [location.pathname])
-
-
 
   useEffect(() => {
     ;(async function initAndLoadData() {
@@ -149,7 +146,11 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
       } ${isHosting || isHDImgScrolled ? 'one-row-divider' : ''}
       ${forceExpand ? 'expanded' : ''}
       ${isHomeDetails ? 'narrow-layout' : 'wide-layout'}
-      ${(isBookingDashboard || isWishLists) && isMobile ? 'searchbar-wrapper-mobile' : ''}
+      ${
+        (isBookingDashboard || isWishLists) && isMobile
+          ? 'searchbar-wrapper-mobile'
+          : ''
+      }
       `}
     >
       {isHomeEdit ? (
@@ -164,10 +165,8 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
             }`}
           >
             {/* hosting, excluding edit, routes: */}
-            {isHosting ? 
-            (
-              !isMobile ? 
-              (
+            {isHosting ? (
+              !isMobile ? (
                 <div className="app-header-main-nav-content hosing-layout">
                   {/* hosting - left section */}
                   <div className="app-header-left-section">
@@ -189,8 +188,7 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
                   </nav>
                   {/* hosting - right section */}
                   <div className="app-header-right-section">
-                    {loggedInUser ? 
-                    (
+                    {loggedInUser ? (
                       <>
                         <Link to={isHosting ? '/' : '/hosting'}>
                           {isHosting
@@ -199,16 +197,14 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
                         </Link>
                         <div className="user-info">
                           <Link to={`user/${loggedInUser._id}`}>
-                            {loggedInUser.imageUrl ? 
-                            (
+                            {loggedInUser.imageUrl ? (
                               <img
                                 src={loggedInUser.imageUrl}
                                 alt={
                                   loggedInUser.fullname || loggedInUser.username
                                 }
                               />
-                            ) : 
-                            (
+                            ) : (
                               <div className="user-avatar-placeholder">
                                 <span>
                                   {(
@@ -224,30 +220,27 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
                           </Link>
                         </div>
                       </>
-                    ) : 
-                    (
+                    ) : (
                       <Link to={'/'}>Become a host</Link>
                     )}
                     <UserMenu />
                   </div>
                 </div>
-              ) :
-              (
+              ) : (
                 <div className="app-header-main-nav-content hosing-layout">
                   <div className="app-header-left-section">
-                      <NavLink
-                        to="/"
-                        className="logo"
-                        onClick={() => dispatch(setHomePageNotScrolled())}
-                      >
-                        <FaAirbnb className="logo-icon" />
-                        <span>flexbnb</span>
-                      </NavLink>
-                    </div>
+                    <NavLink
+                      to="/"
+                      className="logo"
+                      onClick={() => dispatch(setHomePageNotScrolled())}
+                    >
+                      <FaAirbnb className="logo-icon" />
+                      <span>flexbnb</span>
+                    </NavLink>
+                  </div>
                 </div>
               )
-            ) : 
-            (
+            ) : (
               <>
                 {/* non-hosting layout */}
                 {!isMobile && (
@@ -307,18 +300,18 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
                 )}
                 {isWishLists && isMobile && (
                   <div className="app-header-main-nav-content">
-                      {/* non-hosting - left section */}
-                      <div className="app-header-left-section">
-                        <NavLink
-                          to="/"
-                          className="logo"
-                          onClick={() => dispatch(setHomePageNotScrolled())}
-                        >
-                          <FaAirbnb className="logo-icon" />
-                          <span>flexbnb</span>
-                        </NavLink>
-                      </div>
+                    {/* non-hosting - left section */}
+                    <div className="app-header-left-section">
+                      <NavLink
+                        to="/"
+                        className="logo"
+                        onClick={() => dispatch(setHomePageNotScrolled())}
+                      >
+                        <FaAirbnb className="logo-icon" />
+                        <span>flexbnb</span>
+                      </NavLink>
                     </div>
+                  </div>
                 )}
                 {/* non-hosting - mid section (searchbar) */}
                 <div
@@ -326,8 +319,7 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
                     shouldCollapse ? 'scrolled' : 'expanded'
                   }`}
                 >
-                  {!isWishLists ?
-                  (
+                  {!isWishLists ? (
                     !isMobile ? (
                       <div
                         className={`searchbar-wrapper ${
@@ -343,11 +335,12 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded  }) {
                       </div>
                     ) : (
                       <div className="searchbar-wrapper-mobile">
-                        <SearchBar_mobile setIsSearchExpanded={setIsSearchExpanded}/>
+                        <SearchBar_mobile
+                          setIsSearchExpanded={setIsSearchExpanded}
+                        />
                       </div>
                     )
-                  ) :
-                  (
+                  ) : (
                     <div></div>
                   )}
                 </div>

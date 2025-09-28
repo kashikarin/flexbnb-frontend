@@ -31,7 +31,7 @@ import { draftOrderService } from './services/draft-order/draft-order.service.lo
 import { addOrder } from './store/actions/order.actions.js'
 import { closeOrderConfirmationModal } from './store/actions/draft-order.actions.js'
 
-export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded}) {
+export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded }) {
   //const mainRef = useRef()
 
   const location = useLocation()
@@ -70,7 +70,10 @@ export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded}) {
               <Route path="team" element={<AboutTeam />} />
               <Route path="vision" element={<AboutVision />} />
             </Route> */}
-            <Route path="" element={<HomeIndex setIsSearchExpanded={setIsSearchExpanded} />} />
+            <Route
+              path=""
+              element={<HomeIndex setIsSearchExpanded={setIsSearchExpanded} />}
+            />
             <Route path="home" element={<HomeIndex />} />
             <Route path="home/:homeId" element={<HomeDetails />} />
             <Route path="/wishlists" element={<Wishlist />} />
@@ -97,7 +100,7 @@ export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded}) {
             </Route>
           </Routes>
         </main>
-        
+
         {home && draftOrder && isOrderConfirmationModalOpen && (
           <BuyingStepOneModal
             draftOrder={draftOrder}
@@ -117,7 +120,6 @@ export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded}) {
         {isHomeEdit && <HomeEditFooter />}
         {!isSearchExpanded && <AppFooterWrapper />}
       </div>
-      
     </>
   )
 }

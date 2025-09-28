@@ -346,7 +346,7 @@ export function SearchBar({
             dispatch({ type: SET_HOMEPAGE_SCROLLED, isScrolled: false })
             window.scrollTo({ top: 0, behavior: 'smooth' })
             setForceExpand(true)
-            
+
             setActiveButton(null)
             setOpenedDropdown(null)
           }
@@ -505,7 +505,7 @@ export function SearchBar({
                 petsAllowed={undefined}
               />
             </div>
-            
+
             <button
               className={`search-button ${
                 searchButtonWide ? 'search-button-wide' : ''

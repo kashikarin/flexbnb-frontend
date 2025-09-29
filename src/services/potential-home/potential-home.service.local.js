@@ -80,7 +80,6 @@ function isSubStepCompleted(potentialHome, step, subStep) {
       return Boolean(potentialHome.type)
     case "1-3":
       return Boolean(potentialHome.loc?.lat)
-      // return Boolean(potentialHome.loc?.lat)
     case "1-4":
       const { bathCount, bedsCount, bedroomsCount, capacity } = potentialHome
       return !!(

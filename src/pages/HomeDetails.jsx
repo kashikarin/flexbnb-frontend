@@ -1,28 +1,15 @@
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import {
   loadHome,
-  addHomeMsg,
   addUserLike,
   removeUserLike,
 } from '../store/actions/home.actions'
 import { addLike, removeLike } from '../store/actions/user.actions'
-import { getAvgRating, loadFromStorage } from '../services/util.service'
-import { FaCcVisa, FaHeart, FaStar } from 'react-icons/fa'
-import {
-  CiCalendarDate,
-  CiHeart,
-  CiLight,
-  CiLocationOn,
-  CiVault,
-} from 'react-icons/ci'
-import { FaHome } from 'react-icons/fa'
+import { getAvgRating } from '../services/util.service'
+import { FaHeart, FaStar } from 'react-icons/fa'
 import { IoDiamond } from 'react-icons/io5'
-import { FaBuildingCircleCheck } from 'react-icons/fa6'
-import { LuBedDouble } from 'react-icons/lu'
-import { PiDoorOpenThin, PiVideoCameraLight } from 'react-icons/pi'
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps'
 import { ReservationModal } from '../cmps/ReservationModal'
 import { BedIcon, CalendarIcon, DoorIcon } from '../assets/svgs/icons'
@@ -43,8 +30,6 @@ import {
 } from '../store/actions/draft-order.actions'
 import { addOrder } from '../store/actions/order.actions'
 import { ReactSVG } from 'react-svg'
-import { getCityFromCoordinates } from '../services/util.service'
-const API_KEY = 'AIzaSyBJ2YmMNH_NuHcoX7N49NXljbkOCoFuAwg'
 
 export function HomeDetails() {
   const { homeId } = useParams()
@@ -54,20 +39,12 @@ export function HomeDetails() {
     (state) => state.draftOrderModule.isOrderConfirmationModalOpen
   )
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-  const loggedInUserId = loggedInUser ? loggedInUser._id : null
   const [isLiked, setIsLiked] = useState(
     () => loggedInUser?.likedHomes?.includes(homeId) ?? false
   )
   const draftOrder = useSelector((state) => state.draftOrderModule.draftOrder)
   const imgBreakPointRef = useRef()
-  // const stickyBreakPointRef = useRef()
-
-  const [showLoader, setShowLoader] = useState(true)
-  const loadStartRef = useRef(Date.now())
-
-  // console.log('🚀 ~ draftOrder:', draftOrder)
-  // console.log(home)
-  // console.log('🚀 ~ loggedInUser:', loggedInUser)
+  const [ showLoader ] = useState(true)
 
   useEffect(() => {
     if (!homeId) return
@@ -82,21 +59,12 @@ export function HomeDetails() {
     setIsLiked(loggedInUser?.likedHomes?.includes(homeId) ?? false)
   }, [loggedInUser?.likedHomes, homeId])
 
-  // async function initHomeAndDraftOrder() {
-  //   try {
-  //     await loadHome(homeId)
-  //     await addDraftOrder(homeId, filterBy)
-  //   } catch (err) {
-  //     console.error('Cannot load home', err)
-  //   }
-  // }
 
   useEffect(() => {
     try {
       const elAfterImg = imgBreakPointRef.current
       const stickySentinel = document.querySelector('#sticky-sentinel')
       const header = document.querySelector('.home-details-header')
-      const headerHeight = header?.offsetHeight ?? 0
 
       if (!header || !elAfterImg || !stickySentinel) return
 
@@ -129,15 +97,6 @@ export function HomeDetails() {
       console.error('💥 IntersectionObserver failed:', err)
     }
   }, [home])
-
-  // async function onAddHomeMsg(homeId) {
-  //   try {
-  //     await addHomeMsg(homeId, 'bla bla ' + parseInt(Math.random() * 10))
-  //     showSuccessMsg(`Home msg added`)
-  //   } catch (err) {
-  //     showErrorMsg('Cannot add home msg')
-  //   }
-  // }
 
   async function handleHomeSave(e) {
     e.preventDefault()
@@ -322,9 +281,6 @@ export function HomeDetails() {
               <div id="sticky-sentinel" style={{ height: '250px' }} />
             </div>
           </section>
-          {/* <div id="reservation-sentinel" style={{ height: "1px" }} /> */}
-
-          {/* <div /> */}
           <section className="home-details-reviews-section">
             <ReviewCard reviews={home.reviews} />
           </section>
@@ -355,13 +311,5 @@ export function HomeDetails() {
         </div>
       )}
     </>
-
-    // <button
-    //   onClick={() => {
-    //     onAddHomeMsg(home._id)
-    //   }}
-    // >
-    //   Add home msg
-    // </button>
   )
 }

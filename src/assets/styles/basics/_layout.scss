@@ -1,20 +1,15 @@
 .wide-layout {
   display: grid;
-  // grid-template-columns: minmax(2rem, 1fr) minmax(0, 1400px) minmax(2rem, 1fr);
   grid-template-columns: 5rem 1fr 5rem;
   grid-template-rows: auto 1fr auto;
-  //height: 100vh;
   min-height: 100vh;
-  // overflow-y: visible;
 }
 
 .narrow-layout {
   display: grid;
   grid-template-columns: minmax(10rem, 1fr) minmax(0, 1120px) minmax(10rem, 1fr);
   grid-template-rows: auto 1fr auto;
-  //height: 100vh;
   min-height: 100vh;
-  // overflow-y: visible;
 }
 
 .wide-layout > main,
@@ -46,26 +41,6 @@ main::-webkit-scrollbar {
 .full {
   grid-column: 1 / -1;
 }
-
-// }
-//   @include for-narrow-layout {
-//       grid-template-columns:
-//           minmax(20px, 1fr)
-//           minmax(auto, $mobile-breakpoint)
-//         minmax(20px, 1fr);
-// }
-// @include for-normal-layout {
-//     grid-template-columns:
-//         minmax(20px, 1fr)
-//         minmax(auto, $narrow-breakpoint)
-//         minmax(20px, 1fr);
-// }
-// @include for-wide-layout {
-//     grid-template-columns:
-//         minmax(20px, 1fr)
-//         minmax(auto, $normal-breakpoint)
-//         minmax(20px, 1fr);
-// }
 
 @media (max-width: 600px) {
   .wide-layout {

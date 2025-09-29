@@ -8,7 +8,6 @@ import {
   SET_HOMES,
   SET_HOME,
   UPDATE_HOME,
-  ADD_HOME_MSG,
   SET_FILTERBY,
   ADD_USER_LIKE,
   REMOVE_USER_LIKE,
@@ -137,28 +136,10 @@ function getCmdUpdateHome(home) {
     home,
   }
 }
-function getCmdAddHomeMsg(msg) {
-  return {
-    type: ADD_HOME_MSG,
-    msg,
-  }
-}
 
 function getCmdSetFilterBy(filterBy) {
   return {
     type: SET_FILTERBY,
     filterBy,
   }
-}
-
-// unitTestActions()
-async function unitTestActions() {
-  await loadHomes()
-  await addHome(homeService.getEmptyHome())
-  await updateHome({
-    _id: 'm1oC7',
-    title: 'Home-Good',
-  })
-  await removeHome('m1oC7')
-  // TODO unit test addHomeMsg
 }

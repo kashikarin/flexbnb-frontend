@@ -5,14 +5,11 @@
     width: 100%;
     transition: opacity 0.6s;
     opacity: 1;
-    // margin-block-end: 64px;
     margin-inline: auto;
     width: 100%;
     max-width: 630px;
     padding-bottom: 5.75rem;
     scrollbar-width: none;   // Firefox
-    
-  
 
     .home-edit-step-2-a-title {
         transform: translate(0px);
@@ -147,7 +144,6 @@
             }
 
             & > span {
-                // min-width: auto;
                 line-height: 1.25rem;
                 font-size: 1rem;
                 color: $gray8;
@@ -174,13 +170,10 @@
             svg {
                 width: 45px;
                 height: 45px;
-                // padding: 8px;
                 font-size: 1rem;
                 transform: translate3d(0px, 0px, 0px);
                 display: block;
                 transform: scale(0.9);
-                
-                
             }
 
             & > span {

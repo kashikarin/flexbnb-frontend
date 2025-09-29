@@ -1,50 +1,13 @@
-import { storageService } from '../async-storage.service'
 import { homeService } from '../home'
-import { getEmptyOrder, orderService } from '../order'
-import { userService } from '../user'
+import { getEmptyOrder } from '../order'
 
 export const draftOrderService = {
-  // query,
-  // getById,
-  // save,
-  // remove,
   getDraftOrder,
   _findFirstAvailable,
   getNumberOfNights,
 }
 
 window.cs = draftOrderService
-
-// // async function query() {
-// //   try {
-// //     var draftOrders = await storageService.query(STORAGE_KEY)
-// //     return draftOrders
-// //   } catch (err) {
-// //     console.error('Oops', err)
-// //     throw err
-// //   }
-// // }
-
-// function getById(draftOrderId) {
-//   return storageService.get(STORAGE_KEY, draftOrderId)
-// }
-
-// async function remove(draftOrderId) {
-//   await storageService.remove(STORAGE_KEY, draftOrderId)
-// }
-
-// async function save(draftOrderToSave) {
-//   try {
-//     if (draftOrderToSave._id) {
-//       return await storageService.put(STORAGE_KEY, draftOrderToSave)
-//     } else {
-//       return await storageService.post(STORAGE_KEY, draftOrderToSave)
-//     }
-//   } catch (err) {
-//     console.error('Cannot save draft order', err)
-//     throw err
-//   }
-// }
 
 async function getDraftOrder(homeId, filterBy) {
   let draftOrder = getEmptyOrder()

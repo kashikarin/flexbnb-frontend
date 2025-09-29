@@ -12,14 +12,11 @@ import { HeaderHomeEdit } from './home-edit/HeaderHomeEdit'
 import { setPotentialHome } from '../store/actions/home-edit.actions'
 import {
   setHomePageNotScrolled,
-  setHomePageScrolled,
-  setHomeDetailsImgScrolled,
-  setHomeDetailsImgNotScrolled,
+  setHomePageScrolled
 } from '../store/actions/scroll.actions'
 import { UserMenu } from './UserMenu'
 import { useIsMobile } from '../Providers/MobileProvider'
 import { SearchBar_mobile } from './SearchBar_mobile'
-import { BookingDashboard } from '../pages/BookingDashboard'
 
 export function AppHeader({ scrollContainerRef, setIsSearchExpanded }) {
   const dispatch = useDispatch()
@@ -37,9 +34,6 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded }) {
   const isBookingDashboard = location.pathname === '/hosting/reservations/'
   const isWishLists = location.pathname === '/wishlists'
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
-  // console.log('loggedInUser', loggedInUser)
-  //const [isSmallScreen, setIsSmallScreen] = useState(false)
-  // const loggedInUser = false
   const [forceExpand, setForceExpand] = useState(false)
 
   // useEffect(() => {

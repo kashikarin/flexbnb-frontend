@@ -174,36 +174,6 @@ function getDemoBookings(
   }
   return bookings
 }
-// const icons = {
-//   filled: {
-//     MdTv,
-//     MdKitchen,
-//     MdWifi,
-//     MdSmokingRooms,
-//     MdPets,
-//     MdRestaurantMenu,
-//     MdLocalParking,
-//     MdAcUnit,
-//     MdThermostat,
-//     MdLocalLaundryService,
-//     MdDryCleaning,
-//     MdPool,
-//     MdHotTub,
-//     MdFitnessCenter,
-//     MdBeachAccess,
-//     MdBalcony,
-//     MdLocalFlorist,
-//     MdOutdoorGrill,
-//     MdFireplace,
-//     MdPiano,
-//     MdSportsEsports,
-//     MdWork,
-//     MdChildCare,
-//     MdChair,
-//     MdSecurity,
-//     MdHome,
-//   }
-// }
 
 console.log('VITE_LOCAL:', VITE_LOCAL)
 

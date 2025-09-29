@@ -1,5 +1,4 @@
 import { legacy_createStore as createStore, combineReducers } from 'redux'
-
 import { homeReducer } from './reducers/home.reducer'
 import { userReducer } from './reducers/user.reducer'
 import { reviewReducer } from './reducers/review.reducer'

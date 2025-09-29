@@ -144,7 +144,6 @@
 
       &.back-btn {
         background-color: $secondary-font-gray;
-        // color: $primary-font-black;
         border: 1px solid #ddd;
 
         &:hover {
@@ -172,8 +171,6 @@
       max-height: 100vh;
       border-radius: 0;
       padding: 1rem;
-      // margin: 1rem;
-      // width: calc(100vw - 2rem);
       justify-content: space-between;
     }
 

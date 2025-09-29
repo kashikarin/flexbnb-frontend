@@ -167,89 +167,6 @@
           }
         }
       }
-
-      // .app-header-mid-section {
-      //   grid-row: 2;
-      //   //align-self: flex-start;
-      //   display: flex;
-      //   justify-content: center;
-      //   align-items: center;
-      //   flex: 1 1 auto;
-      //   min-width: 0;
-      //   position: relative;
-      //   border:5px solid red;
-      //   // padding-block: 1rem;
-
-      //   .hosting-header-nav {
-      //     display: flex;
-      //     align-items: center;
-      //     justify-content: center;
-      //     flex-wrap: nowrap;
-      //     gap: 8px;
-      //     width: 100%;
-      //     flex: 1 1 auto;
-      //     min-width: 0;
-      //     position: relative;
-      //     & > a {
-      //       padding: 12px;
-      //       border-radius: 12px;
-      //       line-height: 1.125rem;
-      //       font-size: 14px;
-      //       color: $secondary-font-gray;
-      //       outline: none;
-      //       width: auto;
-      //       position: relative;
-      //       text-decoration: none;
-      //       white-space: nowrap;
-      //       transition: color;
-      //       font-weight: 500;
-
-      //       &::after {
-      //         content: '';
-      //         position: absolute;
-      //         bottom: -1px;
-      //         left: 5%;
-      //         height: 3px;
-      //         width: 90%;
-      //         transform: scaleX(0);
-      //         transform-origin: right;
-      //         background-color: $primary-font-black;
-      //         transition: transform 0.3s ease;
-      //       }
-      //       &:hover {
-      //         color: $primary-font-black;
-      //       }
-      //       &.active::after {
-      //         transform: scaleX(1);
-      //       }
-
-      //       &:nth-child(1).active::after {
-      //         transform-origin: right;
-      //       }
-
-      //       &:nth-child(2).active::after {
-      //         transform-origin: left;
-      //       }
-
-      //       &.active {
-      //         color: $primary-font-black;
-      //       }
-      //     }
-      //   }
-
-      //   .searchbar-wrapper {
-      //     width: 100%;
-      //     max-width: 850px;
-      //     //margin: 0 auto;
-      //     // position: relative;
-      //     // margin-top: -2.5rem;
-      //     transition: all 0.3s ease;
-
-      //     &.expanded {
-      //       margin-top: 2rem;
-      //     }
-      //   }
-      // }
     }
   }
   .app-header-mid-section {
@@ -263,8 +180,6 @@
     min-width: 0;
     position: relative;
     pointer-events: none;
-    //border:1px solid red;
-    // padding-block: 1rem;
 
     .searchbar-wrapper {
       width: 100%;
@@ -319,12 +234,10 @@
 
       gap: 10px;
       & > a {
-        // align-self: center;
         display: flex;
         flex-wrap: nowrap;
         justify-content: flex-end;
         align-items: center;
-        // border: 3px solid $primary-pink;
         border-radius: 50%;
         padding: 2px;
         width: 40px;
@@ -335,7 +248,6 @@
         img {
           object-fit: cover;
           border-radius: 50%;
-          // padding: 2px;
           width: 100%;
           height: 100%;
         }
@@ -344,26 +256,19 @@
   }
   .app-header-bottom-row {
     grid-row: 2;
-    //grid-column: 2;
     grid-column: 1 / -1;
-    // display: flex;
-    // justify-content: center;
-    // align-items: start;
     display: grid;
     grid-template-columns: minmax(2rem, 1fr) minmax(0, 1400px) minmax(2rem, 1fr);
-
     transition: all 0.4s ease;
     padding-block: 0.75rem;
     row-gap: 0;
     margin: 0;
     padding: 0;
     left: 0;
-
     max-height: 0;
     opacity: 0;
     overflow: hidden;
     transition: max-height 0.3s ease, opacity 0.3s ease;
-    //border:1px solid green;
     background: #ffffff;
     width: 100%;
 
@@ -378,9 +283,6 @@
       display: grid;
       grid-template-columns: 5rem 1fr 5rem;
       width: 100%;
-      // padding-block: 0.5rem;
-      //display: flex;
-      // gap: 1rem;
       overflow-x: auto;
       scrollbar-width: none; // Firefox
       -ms-overflow-style: none; // IE/Edge

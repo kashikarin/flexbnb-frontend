@@ -2,7 +2,6 @@ import { eventBus, showSuccessMsg } from '../services/event-bus.service'
 import { useState, useEffect, useRef } from 'react'
 import {
   socketService,
-  SOCKET_EVENT_REVIEW_ABOUT_YOU,
   SOCKET_EVENT_YOUR_HOME_BOOKED,
   SOCKET_EVENT_ORDER_APPROVED,
   SOCKET_EVENT_ORDER_REJECTED,
@@ -53,14 +52,10 @@ export function UserMsg() {
         `Unfortunately, your booking request for ${order.home.name} was declined.`
       )
     })
-    socketService.on(SOCKET_EVENT_REVIEW_ABOUT_YOU, (review) => {
-      showSuccessMsg(`New review about me ${review.txt}`)
-    })
 
     return () => {
       console.log('❌ UserMsg unmounted, removing listeners')
       unsubscribe()
-      socketService.off(SOCKET_EVENT_REVIEW_ABOUT_YOU)
       socketService.off(SOCKET_EVENT_YOUR_HOME_BOOKED)
       socketService.off(SOCKET_EVENT_ORDER_APPROVED)
       socketService.off(SOCKET_EVENT_ORDER_REJECTED)

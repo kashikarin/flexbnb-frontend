@@ -11,25 +11,6 @@ import {
 import { store } from "../store"
 import { potentialHomeService } from "../../services/potential-home/potential-home.service.local"
 
-// export async function loadPotentialHome(potentialHomeId) {
-//   try {
-//     const potentialHome = await potentialHomeService.getById(potentialHomeId)
-//     store.dispatch(getCmdSetPotentialHome(potentialHome))
-//   } catch (err) {
-//     console.error('Cannot load potential home', err)
-//     throw err
-//   }
-// }
-
-// export async function loadPotentialHomes() {
-//   try {
-//     const potentialHomes = await potentialHomeService.query()
-//     store.dispatch(getCmdSetPotentialHomes(potentialHomes))
-//   } catch (err) {
-//     console.error('Cannot load potential homes', err)
-//     throw err
-//   }
-// }
 export async function setPotentialHome() {
     const potentialHome = potentialHomeService.getEmptyPotentialHome()
     store.dispatch(getCmdSetPotentialHome(potentialHome))

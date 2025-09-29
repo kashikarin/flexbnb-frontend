@@ -6,7 +6,6 @@ import {
   SET_ORDERS,
   SET_ORDER,
   UPDATE_ORDER,
-  //   ADD_ORDER_MSG,
   SET_FILTERORDERSBY,
 } from '../reducers/order.reducer'
 

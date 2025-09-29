@@ -18,7 +18,6 @@ function getById(potentialHomeId) {
 }
 
 async function remove(potentialHomeId) {
-  // throw new Error('Nope')
   await httpService.delete(`user/${potentialHomeId}`, potentialHomeId)
 }
 

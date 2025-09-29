@@ -1,27 +1,16 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router'
-import { userService } from './services/user'
-import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { HomeIndex } from './pages/HomeIndex.jsx'
-import { ReviewIndex } from './pages/ReviewIndex.jsx'
-import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
 import { HomeDetails } from './pages/HomeDetails'
-
-import { AppHeader } from './cmps/AppHeader'
-import { AppFooter } from './cmps/AppFooter'
 import { AppFooterWrapper } from './cmps/AppFooterWrapper'
 import { UserMsg } from './cmps/UserMsg.jsx'
-import { LoginSignup } from './pages/LoginSignup.jsx'
-import { Login } from './pages/Login.jsx'
-import { Signup } from './pages/Signup.jsx'
 import { ScrollToTop } from './cmps/ScrollToTop.jsx'
 import { Hosting } from './pages/Hosting.jsx'
 import { HomeEdit } from './pages/HomeEdit.jsx'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { HomeEditFooter } from './cmps/home-edit/HomeEditFooter.jsx'
 import { Wishlist } from './cmps/Wishlist.jsx'
 import MyTravels from './cmps/MyTravels.jsx'
-import { Book } from 'lucide-react'
 import { BookingDashboard } from './pages/BookingDashboard.jsx'
 import { initUser } from './store/actions/user.actions.js'
 import { BookingPlaceholder } from './cmps/BookingPlaceholder.jsx'
@@ -32,17 +21,11 @@ import { addOrder } from './store/actions/order.actions.js'
 import { closeOrderConfirmationModal } from './store/actions/draft-order.actions.js'
 
 export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded }) {
-  //const mainRef = useRef()
-
   const location = useLocation()
-  const isHomeIndex = location.pathname === '/'
   const isHomeEdit = location.pathname === '/hosting/edit'
   const isHomeDetails = location.pathname.startsWith('/home/')
-  const isBookingDashboard = location.pathname === '/hosting/reservations/'
-  const isHosting = location.pathname === '/hosting'
   const isMobile = useSelector((state) => state.systemModule.isMobile)
   console.log('isMobile', isMobile)
-  // console.log('isBookingDashboard', isBookingDashboard)
   const isOrderConfirmationModalOpen = useSelector(
     (state) => state.draftOrderModule.isOrderConfirmationModalOpen
   )
@@ -57,30 +40,16 @@ export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded }) {
     <>
       <ScrollToTop />
       <div className={isHomeDetails ? 'narrow-layout' : 'wide-layout'}>
-        {/* <AppHeader scrollContainerRef={mainRef} /> */}
-
         <UserMsg />
         <main ref={mainRef}>
-          {/* {isIndex && <LabelsSlider />} */}
           <Routes>
-            {/* <Route path='' element={<HomePage />} /> */}
-            {/* <Route path="" element={<HomeIndex />} /> */}
-            {/* 
-            <Route path="about" element={<AboutUs />}>
-              <Route path="team" element={<AboutTeam />} />
-              <Route path="vision" element={<AboutVision />} />
-            </Route> */}
             <Route
               path=""
               element={<HomeIndex setIsSearchExpanded={setIsSearchExpanded} />}
             />
-            <Route path="home" element={<HomeIndex />} />
             <Route path="home/:homeId" element={<HomeDetails />} />
             <Route path="/wishlists" element={<Wishlist />} />
             <Route path="/my-travels" element={<MyTravels />} />
-
-            <Route path="review" element={<ReviewIndex />} />
-            <Route path="chat" element={<ChatApp />} />
             <Route
               path="admin"
               element={
@@ -89,10 +58,6 @@ export function RootCmp({ mainRef, isSearchExpanded, setIsSearchExpanded }) {
                 </AuthGuard>
               }
             />
-            <Route path="login" element={<LoginSignup />}>
-              <Route index element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-            </Route>
             <Route path="hosting" element={<Hosting />}>
               <Route index element={<BookingPlaceholder />} />
               <Route path="edit" element={<HomeEdit />} />

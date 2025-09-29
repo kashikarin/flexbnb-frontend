@@ -2,15 +2,11 @@
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: minmax(10rem, 1fr) minmax(0, 1120px) minmax(10rem, 1fr);
-  // grid-template-columns:
-  //   minmax(2rem, 1fr)    
-  //   minmax(0, 1120px)   
-  //   minmax(2rem, 1fr);  
   align-items: center;
   width: 100%;
   
   .header-home-details-wrapper {
-    grid-column: 2; // constrained to the center column
+    grid-column: 2; 
     display: grid;
     grid-template-columns: 1fr minmax(280px, 350px);
     align-items: center;
@@ -22,7 +18,7 @@
         align-items: center;
         justify-content: start;
         gap: 1.5em;
-        // width: 25%;
+
         & > div {
           font-weight: 500;
           font-size: 1rem;
@@ -38,10 +34,6 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          // position: absolute;
-          // right: 0px;
-          // top: 50%;
-          // transform: translateY(-50%);
           white-space: nowrap;
 
           .reservation-header-modal-text-container {

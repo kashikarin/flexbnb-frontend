@@ -80,8 +80,5 @@ export function userReducer(state = initialState, action) {
       break
     default:
   }
-  // For debug:
-  // window.userState = newState
-  // console.log('State:', newState)
   return newState
 }

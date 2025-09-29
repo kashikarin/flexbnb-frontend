@@ -167,20 +167,20 @@
 }
 
 .upload-progress-indicator {
-  margin-top: 1.5rem; // רווח מעל הטקסט
-  text-align: start; // יישור יפה לטקסט (אפשר גם center)
+  margin-top: 1.5rem; 
+  text-align: start; 
 
   .progress-bar {
     height: 6px;
     background: #e0e0e0;
     border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 0.5rem; // רווח קטן בין הבר לטקסט
+    margin-bottom: 0.5rem; 
   }
 
   .progress-fill {
     height: 100%;
-    background: $primary-pink; // או כל צבע מותג
+    background: $primary-pink; 
     transition: width 0.3s ease;
   }
 

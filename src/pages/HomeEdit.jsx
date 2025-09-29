@@ -60,31 +60,6 @@ export function HomeEdit() {
 
   const Comp = homeEditComponents[currentStep]?.[currentSubStep]
 
-  // function renderStepComponent(step, subStep) {
-  //     return homeEditComponents[step]?.[subStep] || null
-  // }
-
-  // useEffect(()=>{
-  //     if (currentStep === displayedStep && currentSubStep === displayedSubStep) return //should occur only in step 1
-
-  //     setPrevStep(displayedStep)
-  //     setPrevSubStep(displayedSubStep)
-
-  //     // setIsVisible(false); // start fade-out animation
-
-  //     setDisplayedStep(currentStep)
-  //     setDisplayedSubStep(currentSubStep)
-
-  //     const timeout = setTimeout(() => {
-  //         setPrevStep(null)
-  //         setPrevSubStep(null)
-  //         // setIsVisible(true); //start fade-in animation
-  //         // setIsStepCompleted(false)
-  //     }, 600);
-
-  //     return () => clearTimeout(timeout);
-  // }, [currentStep, currentSubStep])
-
   useEffect(() => {
     if (!potentialHome?.editProgress) goToHomeEditStart()
   }, [])
@@ -115,16 +90,6 @@ export function HomeEdit() {
               clearPotentialHome={clearPotentialHome}
             />
           )}
-          {/* {prevStep && (
-                        <div className="fade-out">
-                        {renderStepComponent(prevStep, prevSubStep)}
-                        </div>
-                    )}
-                    {displayedStep && (
-                        <div className="fade-in">
-                        {renderStepComponent(displayedStep, displayedSubStep)}
-                        </div>
-                    )} */}
         </div>
       </section>
     </div>

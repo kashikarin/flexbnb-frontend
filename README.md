@@ -1,8 +1,52 @@
-# React + Vite
+# 🖥️ Flexbnb Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Flexbnb** is a full-stack web application inspired by Airbnb — a home-rental platform featuring modern design, smooth UX, and advanced functionality including dynamic search, booking flow, host management, real-time notifications, and a persistent wishlist.
 
-Currently, two official plugins are available:
+🌐 **Live Demo:** [https://flexbnb-karin.onrender.com](https://flexbnb-karin.onrender.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
+
+## 🎨 Overview
+
+The **frontend** was built with React, Redux, and SCSS, providing a clean, responsive interface that closely replicates Airbnb’s design system and user experience.
+
+It includes:
+- Smart filtering by **destination, dates, and guests**
+- Interactive **home details pages** with images, reviews, amenities, and integrated **Google Maps**
+- Multi-step **booking flow** with confirmation modals
+- Persistent **wishlist** synced with MongoDB
+- **Real-time notifications** via Socket.io when bookings or approvals occur
+
+🛠️ *Note: Some pages are still being refined for full responsiveness.*
+
+---
+
+## 🧠 Tech Highlights
+
+- **React** & **Redux** – component-based UI and global state management  
+- **SCSS** – modular, responsive styling and advanced layouts  
+- **Google Maps React** – interactive home location mapping  
+- **Socket.io-client** – real-time event handling  
+- **Modern Airbnb-like UI/UX** – animated modals, transitions, and adaptive design  
+
+---
+
+## 👥 Team & Collaboration
+
+Developed as part of a **three-developer team**, following a collaborative Git workflow with:
+- Feature-branch development and pull requests  
+- Regular merges and code reviews  
+- Clear division of responsibilities between frontend and backend  
+
+---
+
+## 🔗 Related Repositories
+
+- 🖥️ **Frontend:** (current repo)  
+- ⚙️ **Backend (main project):** [Flexbnb Backend](https://github.com/kashikarin/flexbnb_backend)
+
+---
+
+## 👩‍💻 About
+
+Built with passion for full-stack development and modern web architecture — combining design, logic, and real-time interactivity into one seamless experience.

@@ -71,7 +71,7 @@ export function HomeEdit() {
           <AnimatePresence mode="wait">
             {!isHomeEditCompletionModalOpen && Comp && (
               <motion.div
-                key={`${currentStep}-${currentSubStep}`} // מזהה ייחודי לכל שלב
+                key={`${currentStep}-${currentSubStep}`} 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}

@@ -4,7 +4,16 @@ import '../assets/styles/cmps/DatesDropdown.scss';
 import { DatesInputs } from './DatesInputs';
 import { formatDate } from '../services/util.service';
 
-export function DatesDropdown({ isOpen, isReservationModalDD = false, openedDropdown, handleWhereClick, checkIn, checkOut, nightsNum, onSetDates, bookings = null}) {
+export function DatesDropdown({ isOpen, 
+                                isReservationModalDD = false, 
+                                openedDropdown, 
+                                handleWhereClick, 
+                                checkIn, 
+                                checkOut, 
+                                nightsNum, 
+                                onSetDates, 
+                                bookings = null
+                              }) {
   
   function handleSelect(dates) {
     const [start, end] = dates

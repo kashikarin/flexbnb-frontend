@@ -35,7 +35,6 @@ export function UserMsg() {
     socketService.on(SOCKET_EVENT_YOUR_HOME_BOOKED, (order) => {
       console.log('📩 got home-booked from server:', order)
       showSuccessMsg(`Your home ${order.home.name} was booked just now`)
-      //   triggerConfetti()
     })
 
     socketService.on(SOCKET_EVENT_ORDER_APPROVED, (order) => {

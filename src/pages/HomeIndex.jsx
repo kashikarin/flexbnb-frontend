@@ -51,15 +51,6 @@ export function HomeIndex() {
     }
   }
 
-  // const noResultsResponse = (
-  //   <div className="no-matches-response-container">
-  //     <h1>No exact matches</h1>
-  //     <p>
-  //       Try changing or removing some of your filters or adjusting your search
-  //       area.
-  //     </p>
-  //   </div>
-  // )
   return (
     <section className="home-index-container">
       {!Array.isArray(homes) || showLoader ? (

@@ -18,7 +18,6 @@ export const orderService = {
   save,
   remove,
   getEmptyOrder,
-  // getInitialOrderDetails,
   getById,
   updateStatus,
   // createOrder,

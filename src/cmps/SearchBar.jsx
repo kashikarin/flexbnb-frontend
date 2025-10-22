@@ -16,7 +16,6 @@ export function SearchBar({
   setShouldCollapse,
 }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  //const [forceExpand, setForceExpand] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [activeButton, setActiveButton] = useState(null)
   const [searchButtonWide, setSearchButtonWide] = useState(false)
@@ -27,7 +26,6 @@ export function SearchBar({
   const whereRef = useRef()
   const datesRef = useRef()
   const capacityRef = useRef()
-  //..for animation active btn
   const checkInRef = useRef(null)
   const checkOutRef = useRef(null)
 
@@ -103,7 +101,6 @@ export function SearchBar({
             capacityRef.current &&
             !capacityRef.current.contains(event.target)))
       ) {
-        // {setOpenedDropdown(null)}
         setOpenedDropdown(null)
         setForceExpand(false)
       }
@@ -112,7 +109,6 @@ export function SearchBar({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
 
-  //const scrolled = shouldCollapse && !forceExpand
   const scrolled = shouldCollapse
 
   const isExpanded = forceExpand
@@ -145,42 +141,12 @@ export function SearchBar({
     }))
   }
 
-  // useEffect(() => {
-  //   if (scrolled) {
-  //     setOpenedDropdown(null)
-  //     setActiveButton(null)
-  //   }
-  // }, [scrolled])
-
   useEffect(() => {
     if (scrolled && !forceExpand) {
       setOpenedDropdown(null)
       setActiveButton(null)
     }
   }, [scrolled, forceExpand])
-
-  // function handleSearchClick(btName) {
-  //   if (shouldCollapse && !isMobile) {
-  //     setForceExpand(true)
-  //   }
-
-  //   if (btName === 'checkIn' || btName === 'checkOut') {
-  //     setOpenedDropdown('dates')
-
-  //     if (activeButton === 'where' && btName === 'checkIn') {
-  //       setActiveButton('checkIn')
-  //     } else if (activeButton === 'checkIn' && btName === 'checkOut') {
-  //       setActiveButton('checkOut')
-  //     } else {
-  //       setActiveButton(btName)
-  //       setIndicatorStyle((prev) => ({ ...prev }))
-  //     }
-  //   } else {
-  //     setOpenedDropdown(btName)
-  //     setActiveButton(btName)
-  //     setIndicatorStyle((prev) => ({ ...prev }))
-  //   }
-  // }
 
   function handleSearchClick(btName) {
     if (shouldCollapse && !isMobile) {
@@ -248,14 +214,11 @@ export function SearchBar({
 
   function getWhereTitleText() {
     let txt
-    // console.log(filterByToEdit.city);
 
     if (scrolled) {
-      //txt = filterByToEdit.city ? `${filterByToEdit.city}` : `Anywhere`
       txt = `Anywhere`
     } else {
       txt = 'Where'
-      // filterByToEdit.city ? `${filterByToEdit.city}, ${homeService.getCountry(filterByToEdit.city)}` : 'Where'
     }
     return txt
   }
@@ -264,37 +227,6 @@ export function SearchBar({
     let txt
     if (scrolled) {
       txt = 'Anytime'
-      // if (filterByToEdit.checkIn) {
-      //   //scroll + there is startdate
-      //   const checkinDate = new Date(filterByToEdit.checkIn)
-      //   const checkoutDate = filterByToEdit.checkOut
-      //     ? new Date(filterByToEdit.checkOut)
-      //     : new Date(filterByToEdit.checkIn + 86400000)
-      //   const options = { month: 'short', day: 'numeric' }
-      //   const shortCheckinDate = new Intl.DateTimeFormat(
-      //     'en-US',
-      //     options
-      //   ).format(checkinDate)
-      //   const shortCheckoutDate =
-      //     checkinDate.getMonth() === checkoutDate.getMonth()
-      //       ? checkoutDate.getDate()
-      //       : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
-      //   txt = shortCheckinDate + ' - ' + shortCheckoutDate
-      // } else if (filterByToEdit.checkOut) {
-      //   //scroll + there is not startdate but there is end date
-      //   const checkoutDate = new Date(filterByToEdit.checkIn)
-      //   const checkinDate = new Date(filterByToEdit.checkOut - 86400000)
-      //   const options = { month: 'short', day: 'numeric' }
-      //   const shortCheckinDate = new Intl.DateTimeFormat(
-      //     'en-US',
-      //     options
-      //   ).format(checkinDate)
-      //   const shortCheckoutDate =
-      //     checkinDate.getMonth() === checkoutDate.getMonth()
-      //       ? checkoutDate.getDate()
-      //       : new Intl.DateTimeFormat('en-US', options).format(checkoutDate)
-      //   txt = shortCheckinDate + ' - ' + shortCheckoutDate
-      // } else txt = 'Anytime' //scroll + no dates
     } else txt = 'Check in'
     return txt
   }
@@ -327,11 +259,10 @@ export function SearchBar({
 
   function formatDate(date) {
     return new Intl.DateTimeFormat('en-US', {
-      month: 'short', // Jul, Aug...
-      day: 'numeric', // 29, 30...
+      month: 'short', 
+      day: 'numeric', 
     }).format(new Date(date))
   }
-  // console.log('city filter:', filterByToEdit.city)
   console.log('searchButtonWide: ', searchButtonWide)
   return (
     <search>
@@ -377,7 +308,6 @@ export function SearchBar({
                 type="search"
                 placeholder="Search destination"
                 value={filterByToEdit.city}
-                // readOnly
               />
             )}
 
@@ -455,11 +385,6 @@ export function SearchBar({
                 if (checkIn && !checkOut) {
                   setActiveButton('checkOut')
                 }
-                // Close dropdown after selecting both dates
-                // if (checkIn && checkOut) {
-                // setOpenedDropdown(null);
-                // setActiveButton(null);
-                // }
               }}
             />
           </div>

@@ -1,15 +1,11 @@
 import { FaStar } from 'react-icons/fa'
 import { useSelector } from "react-redux";
 import { getAvgRating, roundToDecimals } from "../services/util.service";
-// import { BuyingStepOneModal } from "./BuyingStepOneModal";
-import { closeOrderConfirmationModal, openOrderConfirmationModal } from '../store/actions/draft-order.actions';
-// import { addOrder } from '../store/actions/order.actions';
+import { openOrderConfirmationModal } from '../store/actions/draft-order.actions';
 
 export function HeaderHomeDetails() {
     const home = useSelector(state => state.homeModule.home)
     const isHDStickyCardScrolled = useSelector(state => state.scrollModule.isHDStickyCardScrolled)
-    // const draftOrder = useSelector(state => state.draftOrderModule.draftOrder)
-    // const isOrderConfirmationModalOpen = useSelector(state => state.draftOrderModule.isOrderConfirmationModalOpen)
 
     return(
         <header className="home-details-scrolled-header">
@@ -45,19 +41,6 @@ export function HeaderHomeDetails() {
                     </div>
                     <button onClick={openOrderConfirmationModal}>Reserve</button>
                 </div>}
-                
-                {/* {isOrderConfirmationModalOpen && (
-                    <BuyingStepOneModal
-                    draftOrder={draftOrder}
-                    homePrice={home.price}
-                    homeType={home.type}
-                    homeCity={home.loc.city}
-                    homeCountry={home.loc.country}
-                    homeSummary={home.summary}
-                    addOrder={addOrder}
-                    closeOrderConfirmationModal={closeOrderConfirmationModal}
-                    />
-                    )} */}
             </div>
         </header>
     )

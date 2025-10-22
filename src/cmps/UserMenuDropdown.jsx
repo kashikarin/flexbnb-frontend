@@ -11,18 +11,6 @@ export function UserMenuDropdown({loggedInUser, isOpen, onOpen, UserMenuDropdown
                     <span onClick={handleClick}>Log in</span>
                     <span onClick={handleClick}>Sign up</span>
             </div>
-            
-            {/* {!loggedInUser && (
-                <div className="user-menu-content-no-loggedinuser">
-                    <span onClick={handleClick}>Log in</span>
-                    <span onClick={handleClick}>Sign up</span>
-                </div>
-            )}
-            {loggedInUser && (
-                <div className="user-menu-content-with-loggedinuser">
-                    <span onClick={handleClick}>Log out</span>
-                </div>
-            )} */}
           </div>)
     )
 }

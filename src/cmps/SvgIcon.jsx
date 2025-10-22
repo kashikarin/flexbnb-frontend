@@ -13,9 +13,6 @@ export function SvgIcon({ src, className = '' }) {
         svg.style.removeProperty('width')
         svg.style.removeProperty('height')
 
-        // svg.querySelectorAll('[style]').forEach((el) => {
-        //     el.removeAttribute('style')
-        // })
 
         svg.removeAttribute('style')
         svg.querySelectorAll('[style]').forEach((el) => el.removeAttribute('style'))
@@ -24,8 +21,6 @@ export function SvgIcon({ src, className = '' }) {
         const { x, y, width, height } = bbox
 
         svg.setAttribute('viewBox', `${x} ${y} ${width} ${height}`)
-        // svg.querySelectorAll('[style]').forEach((el) => el.removeAttribute('style'))
-        // svg.querySelectorAll('[fill]').forEach((el) => el.removeAttribute('fill'))
       }}
     />
   )

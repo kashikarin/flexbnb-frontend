@@ -36,54 +36,7 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded }) {
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   const [forceExpand, setForceExpand] = useState(false)
 
-  // useEffect(() => {
-  //   const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
-  //   window.addEventListener('resize', handleResize)
-  //   handleResize()
-  //   return () => window.removeEventListener('resize', handleResize)
-  // }, [])
-  //const [isMobile, setIsMobile] = useState(false)
-
-  // useEffect(() => {
-  //   const handleResize = () => setIsSmallScreen(window.innerWidth < 580)
-  //   window.addEventListener('resize', handleResize)
-  //   handleResize()
-  //   return () => window.removeEventListener('resize', handleResize)
-  // }, [])
-
-  // useEffect(() => {
-
-  //   function handleResize() {
-  //     const width = window.innerWidth
-  //     console.log('🔄 resize -> width:', width)
-  //     setIsMobile(width <= 580)
-  //   }
-
-  //   // Set initial state
-  //   handleResize()
-
-  //   window.addEventListener('resize', handleResize)
-  //   return () => window.removeEventListener('resize', handleResize)
-  // }, [])
-
   const isMobile = useIsMobile()
-
-  // useEffect(() => {
-  //   const elMain = scrollContainerRef.current
-  //   if (!elMain) return
-  //   const handleScroll = () => {
-  //     if (elMain.scrollTop > 20) setHomePageScrolled()
-  //     else setHomePageNotScrolled()
-
-  //     // if (location.pathname.startsWith('/home/')) {
-  //     //   if (elMain.scrollTop > 200) setHomeDetailsImgScrolled()
-  //     //   else setHomeDetailsImgNotScrolled()
-  //     // }
-  //   }
-  //   elMain.addEventListener('scroll', handleScroll)
-  //   handleScroll()
-  //   return () => elMain.removeEventListener('scroll', handleScroll)
-  // }, [scrollContainerRef, location.pathname])
 
   useEffect(() => {
     function handleScroll() {
@@ -92,14 +45,13 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded }) {
     }
 
     window.addEventListener('scroll', handleScroll)
-    handleScroll() // להריץ פעם ראשונה
+    handleScroll() 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [location.pathname])
 
   useEffect(() => {
     ;(async function initAndLoadData() {
       try {
-        // await initUsers()
         await loadLoggedInUser()
       } catch (err) {
         console.error('Cannot create or load data', err)
@@ -113,10 +65,7 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded }) {
       dispatch({ type: SET_LOGGEDINUSER, user: loggedInUser })
     }
   }
-  // useEffect(() => {
-  //   if (!isHomeIndex || isSmallScreen) setHomePageScrolled()
-  // }, [isSmallScreen, isHomeIndex])
-
+ 
   useEffect(() => {
     if (!isHomeIndex) {
       setHomePageScrolled()
@@ -131,7 +80,6 @@ export function AppHeader({ scrollContainerRef, setIsSearchExpanded }) {
   }
 
   const shouldCollapse = isHomePageScrolled || !isHomeIndex
-  //  || isSmallScreen || isMobile
 
   return (
     <header

@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SET_FILTERBY } from '../store/reducers/home.reducer.js'
 
 export function SearchBar_mobile({ setIsSearchExpanded }) {
-  //const [openedDropdown, setOpenedDropdown] = useState(null)
   const [activeButton, setActiveButton] = useState(null)
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -22,7 +21,6 @@ export function SearchBar_mobile({ setIsSearchExpanded }) {
   const [infantsNum, setInfantsNum] = useState(filterBy.infants ?? 0)
   const [petsNum, setPetsNum] = useState(filterBy.pets ?? 0)
 
-  //const capacity = (adultsNum ?? 0) + (childrenNum ?? 0) + (infantsNum ?? 0)
 
   const whereRef = useRef()
   const datesRef = useRef()
@@ -46,14 +44,11 @@ export function SearchBar_mobile({ setIsSearchExpanded }) {
 
   function handleSelectCity(city) {
     onUpdateFilterBy({ city })
-    //setOpenedDropdown('dates')
     setActiveButton('dates')
   }
 
   function handleSetDates({ checkIn, checkOut }) {
     onUpdateFilterBy({ checkIn, checkOut })
-    //setOpenedDropdown(null)
-    //setActiveButton(null)
   }
 
   function handleSubmit(ev) {
@@ -65,11 +60,7 @@ export function SearchBar_mobile({ setIsSearchExpanded }) {
   }
 
   function handleNextBtn(){
-    // if (activeButton === 'dates') {
-    //   setActiveButton('who')
-    // }
     setActiveButton('who')
-
   }
 
   function getGuestsNumStr() {
@@ -128,7 +119,6 @@ export function SearchBar_mobile({ setIsSearchExpanded }) {
           className="search-elements"
           onClick={() =>{ 
             setIsExpanded(true)
-            //setOpenedDropdown('where') 
             setIsSearchExpanded(true)
             setActiveButton('where')}
 

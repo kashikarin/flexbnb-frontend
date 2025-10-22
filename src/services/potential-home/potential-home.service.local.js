@@ -93,7 +93,7 @@ function isSubStepCompleted(potentialHome, step, subStep) {
     case "2-2":
       return true
     case "2-3":
-      return Boolean(potentialHome.imageUrls?.length) // production - Boolean(potentialHome.imageUrls?.length >= 5) 
+      return Boolean(potentialHome.imageUrls?.length) 
     case "2-4":
       return Boolean(potentialHome.name)
     case "2-5":

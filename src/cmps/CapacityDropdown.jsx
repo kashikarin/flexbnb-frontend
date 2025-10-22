@@ -17,10 +17,6 @@ export function CapacityDropdown({
   homeCapacity,
   petsAllowed,
 }) {
-  //   console.log('🚀 ~ petsFilter:', petsFilter)
-  //   console.log('🚀 ~ infantsFilter:', infantsFilter)
-  //   console.log('🚀 ~ childrenFilter:', childrenFilter)
-  //   console.log('🚀 ~ adultsFilter:', adultsFilter)
 
   const numbersReady =
     adultsFilter !== null &&

@@ -2,7 +2,6 @@ import { FaStar } from 'react-icons/fa'
 import { useSelector } from "react-redux";
 import { getAvgRating, roundToDecimals } from "../services/util.service";
 import { openOrderConfirmationModal } from '../store/actions/draft-order.actions';
-import { openOrderConfirmationModal } from '../store/actions/draft-order.actions';
 
 export function HeaderHomeDetails() {
     const home = useSelector(state => state.homeModule.home)

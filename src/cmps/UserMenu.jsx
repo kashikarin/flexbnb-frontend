@@ -316,7 +316,7 @@ export function UserMenu() {
                   className="menu-item"
                   onClick={() => setIsDropdownOpen(false)}
                 >
-                  Wishlists
+                  Wishlist
                 </Link>
                 <div className="menu-divider"></div>
                 <button

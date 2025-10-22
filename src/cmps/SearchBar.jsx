@@ -307,7 +307,6 @@ export function SearchBar({
                 type="search"
                 placeholder="Search destination"
                 value={filterByToEdit.city}
-                // readOnly
               />
             )}
 

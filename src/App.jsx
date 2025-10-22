@@ -9,7 +9,7 @@ export function App() {
   return (
     <>
       <AppHeader scrollContainerRef={mainRef} setIsSearchExpanded={setIsSearchExpanded}/>
-      <RootCmp mainRef={mainRef} isSearchExpanded={isSearchExpanded} setIsSearchExpanded={setIsSearchExpanded}/>     
+      <RootCmp mainRef={mainRef} isSearchExpanded={isSearchExpanded} setIsSearchExpanded={setIsSearchExpanded}/>    
     </>
   )
 }

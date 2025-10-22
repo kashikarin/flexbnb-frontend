@@ -214,8 +214,6 @@ export function LabelsSlider() {
   }
 
   function handleLabelClick(labelName) {
-    // let updatedFilter = structuredClone(filterBy)
-    // setFilterBy({ ...filterBy, labels: [labelName] })
     const newSearchParams = new URLSearchParams(searchParams)
     newSearchParams.set('labels', labelName)
     setSearchParams(newSearchParams)
@@ -281,12 +279,6 @@ export function LabelsSlider() {
           </button>
         </div>
       </div>
-      {/* <div
-        className='labels-slider-filter-container'
-        style={{ position: 'relative' }}
-      >
-
-      </div> */}
     </section>
   )
 }

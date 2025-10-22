@@ -18,9 +18,7 @@ export function UserMsg() {
   const confettiTimeoutRef = useRef()
 
   useEffect(() => {
-    console.log('✅ UserMsg mounted')
     const unsubscribe = eventBus.on('show-msg', (msg) => {
-      console.log('📢 UserMsg got eventBus event:', msg)
       setMsg(msg)
       if (msg.type === 'success') {
         triggerConfetti()
@@ -33,12 +31,10 @@ export function UserMsg() {
     })
 
     socketService.on(SOCKET_EVENT_YOUR_HOME_BOOKED, (order) => {
-      console.log('📩 got home-booked from server:', order)
       showSuccessMsg(`Your home ${order.home.name} was booked just now`)
     })
 
     socketService.on(SOCKET_EVENT_ORDER_APPROVED, (order) => {
-      console.log('📩 got order-approved from server:', order)
       showSuccessMsg(
         `Your booking for ${order.home.name} has been approved ! 🎉`
       )
@@ -46,14 +42,12 @@ export function UserMsg() {
     })
 
     socketService.on(SOCKET_EVENT_ORDER_REJECTED, (order) => {
-      console.log('📩 got order-rejected from server:', order)
       showSuccessMsg(
         `Unfortunately, your booking request for ${order.home.name} was declined.`
       )
     })
 
     return () => {
-      console.log('❌ UserMsg unmounted, removing listeners')
       unsubscribe()
       socketService.off(SOCKET_EVENT_YOUR_HOME_BOOKED)
       socketService.off(SOCKET_EVENT_ORDER_APPROVED)

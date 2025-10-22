@@ -205,7 +205,6 @@ export function SearchBar({
       const { adults, children, infants } = filterByToEdit
       const guestsNum =
         Number(adults ?? 0) + Number(children ?? 0) + Number(infants ?? 0)
-      //return capacity ? getGuestsNumStrToDisplay() : 'Add guests'
       return 'Add guests'
     } else {
       return 'Who'

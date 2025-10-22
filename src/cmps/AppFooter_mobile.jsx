@@ -14,7 +14,7 @@ export function AppFooter_mobile() {
         </NavLink>
         <NavLink to="/wishlists" className="nav-btn">
           <ReactSVG src="/svgs/heart-icon.svg" />
-          <span>Wishlists</span>
+          <span>Wishlist</span>
         </NavLink>
         <NavLink to="/hosting/reservations" className="nav-btn">
           <ReactSVG src="/svgs/dashboard-icon.svg" />

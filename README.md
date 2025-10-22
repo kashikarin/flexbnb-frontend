@@ -1,10 +1,3 @@
-# ⚠️ Project Moved
-
-This repository is no longer maintained.
-
-A new, improved version of this project is now available here:  
-👉 [kashikarin/flexbnb-app-frontend](https://github.com/kashikarin/flexbnb-app-frontend)
-
 # 🖥️ Flexbnb Frontend
 
 **Flexbnb** is a full-stack web application inspired by Airbnb — a home-rental platform featuring modern design, smooth UX, and advanced functionality including dynamic search, booking flow, host management, real-time notifications, and a persistent wishlist.

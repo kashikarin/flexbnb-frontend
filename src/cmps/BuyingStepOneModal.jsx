@@ -21,7 +21,6 @@ export function BuyingStepOneModal({
     e.preventDefault()
     try {
       const savedOrder = await addOrder(draftOrder)
-      // removeDraftOrder()
       return savedOrder
     } catch(err) {
       console.error('Failed to add order', err)

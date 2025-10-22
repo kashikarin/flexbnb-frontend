@@ -13,13 +13,9 @@ export function ReservationModal({
   home,
   draftOrder,
   updateDraftOrder,
-  addOrder,
-  isOrderConfirmationModalOpen,
   openOrderConfirmationModal,
-  closeOrderConfirmationModal,
 }) {
   const [openedDropdown, setOpenedDropdown] = useState(null)
-  // const [dropdownWidth, setDropdownWidth] = useState(0)
   const loggedInUser = useSelector((state) => state.userModule.loggedInUser)
   console.log(Boolean(loggedInUser))
 
@@ -44,7 +40,6 @@ export function ReservationModal({
     setInfantsNum(draftOrder.guests.infants ?? 0)
     setPetsNum(draftOrder.guests.pets ?? 0)
   }, [draftOrder?.guests])
-  // check if filterby is needed as a dependency
 
   useEffect(() => {
     onUpdateDatesDetails(home.price * nightsNum * 1.14)
@@ -86,11 +81,6 @@ export function ReservationModal({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openedDropdown])
 
-  // useEffect(() => {
-  //   if (rmSelectionRef.current) {
-  //     setDropdownWidth(rmSelectionRef.current.offsetWidth)
-  //   }
-  // }, [])
 
   function handleWhereClick(e, btName) {
     e.stopPropagation()
@@ -102,7 +92,6 @@ export function ReservationModal({
   }
 
   function handleChange(ev) {
-    // let { name: field, value } = target
   }
   function getGuestsNumStrToDisplay() {
     if (!adultsNum && !childrenNum) return 'Add guests'
@@ -177,24 +166,7 @@ export function ReservationModal({
             />
           </div>
         ) : null}
-        {/* <div className="dates-dropdown-wrapper" ref={rmDatesRef}>
-          <DatesDropdown
-            isOpen={
-              openedDropdown === 'checkIn' || openedDropdown === 'checkOut'
-            }
-            // onClose={() => setOpenedDropdown(null)}
-            // rmDatesRef={rmDatesRef}
-            checkIn={draftOrder.checkIn}
-            checkOut={draftOrder.checkOut}
-            onSetDates={({ checkIn, checkOut }) => {
-              updateDraftOrder({ ...draftOrder, checkIn, checkOut })
-              if (checkIn && checkOut) onCloseDropdown()
-            }}
-          />
-        </div> */}
-
         <div
-          // className='reservation-selection-guest-dropdown-wrapper'
           style={{
             position: 'relative',
             display: 'inline-block',
@@ -296,19 +268,6 @@ export function ReservationModal({
           </div>
         </div>
       </div>
-      {/* {isOrderConfirmationModalOpen && (
-        <BuyingStepOneModal
-          draftOrder={draftOrder}
-          homePrice={home.price}
-          nightsNum={nightsNum}
-          homeType={home.type}
-          homeCity={home.loc.city}
-          homeCountry={home.loc.country}
-          homeSummary={home.summary}
-          addOrder={addOrder}
-          closeOrderConfirmationModal={closeOrderConfirmationModal}
-        />
-      )} */}
     </aside>
   )
 }

@@ -7,7 +7,7 @@ export function MobileProvider({ children }) {
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 740)
-    handleResize() // ריצה ראשונית
+    handleResize() 
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])

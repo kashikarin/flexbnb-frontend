@@ -118,11 +118,6 @@ export function HomeDetails() {
     }
   }
 
-  // function getIsHomeLiked() {
-  //   if (!loggedInUser) return
-  //   return loggedInUser.likedHomes?.includes(homeId)
-  // }
-
   return (
     <>
       {!home && showLoader ? (

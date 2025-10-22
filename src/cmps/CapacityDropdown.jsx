@@ -17,10 +17,6 @@ export function CapacityDropdown({
   homeCapacity,
   petsAllowed,
 }) {
-  //   console.log('🚀 ~ petsFilter:', petsFilter)
-  //   console.log('🚀 ~ infantsFilter:', infantsFilter)
-  //   console.log('🚀 ~ childrenFilter:', childrenFilter)
-  //   console.log('🚀 ~ adultsFilter:', adultsFilter)
 
   const numbersReady =
     adultsFilter !== null &&
@@ -52,7 +48,6 @@ export function CapacityDropdown({
                   <ReactSVG src="/svgs/minus-icon.svg" />
                 </button>
                 <span>{adultsFilter}</span>{' '}
-                {/*reservation modal -> filterByCapacity.adults || 0 */}
                 <button
                   onMouseDown={(ev) => {
                     ev.preventDefault()
@@ -81,7 +76,6 @@ export function CapacityDropdown({
                   <ReactSVG src="/svgs/minus-icon.svg" />
                 </button>
                 <span>{childrenFilter}</span>{' '}
-                {/*reservation modal -> filterByCapacity.children || 0 */}
                 <button
                   onMouseDown={(ev) => {
                     ev.preventDefault()
@@ -110,7 +104,6 @@ export function CapacityDropdown({
                   <ReactSVG src="/svgs/minus-icon.svg" />
                 </button>
                 <span>{infantsFilter}</span>{' '}
-                {/*reservation modal -> filterByCapacity.infants || 0 */}
                 <button
                   onMouseDown={(ev) => {
                     ev.preventDefault()
@@ -139,7 +132,6 @@ export function CapacityDropdown({
                   <ReactSVG src="/svgs/minus-icon.svg" />
                 </button>
                 <span>{petsFilter}</span>{' '}
-                {/*reservation modal -> filterByCapacity.pets || 0 */}
                 <button
                   onMouseDown={(ev) => {
                     ev.preventDefault()

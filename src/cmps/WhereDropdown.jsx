@@ -17,15 +17,10 @@ export function WhereDropdown({
   }, [cityFilterToEdit])
 
     const suggestedPlaces = [
-        // { title: 'Nearby', subtitle: "Find what's around you" },
-        // { title: 'Eilat, Israel', subtitle: 'For a trip abroad' },
         { city: 'Tel Aviv-Yafo', country: 'Israel', subtitle: 'Popular beach destination' },
         { city: 'London', country: 'United Kingdom', subtitle: 'For its stunning architecture'},
         { city: 'Barcelona', country: 'Spain', subtitle: 'Popular beach destination'},
         { city: 'Paris', country: 'France', subtitle: 'For its bustling nightlife'},
-        // { city: 'Rome', country: 'Italy', subtitle: 'Family friendly'},
-        // { city: 'Athens', country: 'Greece', subtitle: 'Family friendly'},
-        // { city: 'Budapest', country: 'Hungary', subtitle: 'For sights like Fisherman'},
     ]
 
     function handleClick(ev, city) {
@@ -46,7 +41,6 @@ export function WhereDropdown({
             <div>Suggested destinations</div>
             <ul>
               {suggestedPlaces.map((place, idx) => (
-                // <li key={idx} onPointerDown={(ev) => handleClick(ev, place.city)}>
                 <li key={idx} onClick={(ev) => handleClick(ev, place.city)}>
                   <div className="where-dropdown-row-content">
                     <img src={`/img/cities/${place.city.toLowerCase().replace(/[^a-z0-9]/g, "")}.png`} alt={place.city} className="where-dropdown-city-image" />

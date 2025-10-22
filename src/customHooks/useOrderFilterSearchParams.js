@@ -8,10 +8,8 @@ export function useOrderFilterSearchParams() {
   const [filterBy, setFilterBy] = useState(getFilterFromSearchParams(searchParams))
 
   useEffect(() => {
-  const parsed = getFilterFromSearchParams(searchParams)
-  console.log('🎯 filterBy from searchParams:', Object.fromEntries(searchParams))
-  console.log('🎯 parsed filterBy:', parsed)
-  setFilterBy(parsed)
+    const parsed = getFilterFromSearchParams(searchParams)
+    setFilterBy(parsed)
 }, [searchParams])
 
   useEffect(() => {

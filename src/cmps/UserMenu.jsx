@@ -312,32 +312,11 @@ export function UserMenu() {
                 </div>
                 <div className="menu-divider"></div>
                 <Link
-                  to={`/user/${loggedInUser._id}`}
-                  className="menu-item"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  My Profile
-                </Link>
-                <Link
                   to="/wishlists"
                   className="menu-item"
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Wishlists
-                </Link>
-                <Link
-                  to="/my-travels"
-                  className="menu-item"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  My Travels
-                </Link>
-                <Link
-                  to="/help"
-                  className="menu-item"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  Help Center
                 </Link>
                 <div className="menu-divider"></div>
                 <button

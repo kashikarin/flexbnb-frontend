@@ -11,7 +11,7 @@ export const utilService = {
   roundToDecimals,
   getCityFromCoordinates,
 }
-// consider use npm for id maker
+
 export function makeId(length = 6) {
   var txt = ''
   var possible =

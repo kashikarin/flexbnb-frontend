@@ -1,5 +1,4 @@
 import { homeService } from '../../services/home'
-// import { homeService } from '@/services/home'
 
 import { store } from '../store'
 import {

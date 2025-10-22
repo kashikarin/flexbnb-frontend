@@ -22,7 +22,7 @@ async function getUsers() {
   let users = storageService.query('user')
 
   if (!users || !users.length) {
-    users = await createUsers()   // call only here
+    users = await createUsers()  
   }
 
   return users
@@ -99,7 +99,6 @@ async function getUserReviews(userId) {
 async function getRandomUserId() {
   try {
     const users = await getUsers()
-    // console.log("🚀 ~ users:", users)
     if (!users || !users?.length) return null
     const randomIdx = Math.floor(Math.random() * users?.length)
     return users[randomIdx]._id
